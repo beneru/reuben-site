@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServicesSection from '../components/ServicesSection.astro';
+---
+
+<BaseLayout 
+  title="Services | Beneru" 
+  description="Intelligent workflow systems for food businesses, powered by Spawntel."
+>
+  <div class="services-page">
+    <ServicesSection />
+    
+    <section class="cta-section">
+      <h2>Ready to streamline your operations?</h2>
+      <p>Let us talk about how automation can solve your biggest bottlenecks.</p>
+      <a href="mailto:hello@spawntel.com" class="button">Get in Touch</a>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .services-page {
+    padding-bottom: 4rem;
+  }
+  .cta-section {
+    margin-top: 4rem;
+    padding: 3rem;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .cta-section h2 {
+    color: var(--paper);
+    margin-bottom: 1rem;
+  }
+  .cta-section p {
+    color: var(--paper-2);
+    margin-bottom: 2rem;
+    font-size: var(--step-1);
+  }
+  .button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    background-color: var(--accent);
+    color: var(--paper);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  .button:hover {
+    background-color: var(--paper);
+    color: var(--accent-ink);
+  }
+</style>

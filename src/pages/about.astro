@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout 
+  title="About Beneru | Founder of Spawntel" 
+  description="Learn about Ben's journey building intelligent workflow systems for the Philippine food industry. Co-founder of Spawntel and Employmo."
+>
+  <script type="application/ld+json" slot="json-ld">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "mainEntity": {
+        "@id": "https://beneru.spawntel.com/#person"
+      }
+    }
+  </script>
+
+  <section class="about-page">
+    <div class="content-wrapper">
+      <h1>Building smarter systems for local businesses</h1>
+      <p class="lead">My name is Reuben Magallanes, but most people call me Ben. I am building Spawntel and Employmo to bring modern workflow automation to food businesses across the Philippines.</p>
+      
+      <p>I noticed that local restaurants and food stalls struggle to handle peak hours. Orders drop, inventory goes missing, and customers wait too long for replies. Big chains have expensive software to handle this, but smaller owners are left using manual processes.</p>
+      
+      <p>That is why I started building intelligent tools specifically for this industry. By connecting messaging platforms and smart workflows directly to the kitchen operations, owners can focus on what they do best: creating great food.</p>
+      
+      <h2>My Philosophy</h2>
+      <p>I believe in clean, invisible technology. The best systems are the ones you do not have to think about. They just work in the background, saving you time and money.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding: 4rem 0;
+  }
+  .content-wrapper {
+    max-width: 65ch;
+  }
+  .lead {
+    font-size: var(--step-1);
+    color: var(--ink-2);
+    margin-bottom: 2rem;
+  }
+  h1 {
+    font-size: var(--step-4);
+    margin-bottom: 1.5rem;
+  }
+  h2 {
+    font-size: var(--step-2);
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  p {
+    font-size: var(--step-0);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+</style>

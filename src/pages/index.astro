@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ServicesSection from '../components/ServicesSection.astro';
+---
+
+<BaseLayout 
+  title="Beneru | AI Systems & Workflow Automation for Food Businesses" 
+  description="I help restaurants, cafes, and food stalls in the Philippines automate orders, inventory, and messaging. Founder of Spawntel."
+>
+  <script type="application/ld+json" slot="json-ld">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://beneru.spawntel.com/#person",
+          "name": "Beneru",
+          "alternateName": "Ben",
+          "additionalName": "Reuben Magallanes",
+          "worksFor": {
+            "@id": "https://beneru.spawntel.com/#organization"
+          },
+          "sameAs": [
+            "https://instagram.com/Beneru.ai"
+          ]
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://beneru.spawntel.com/#organization",
+          "name": "Spawntel",
+          "alternateName": "Employmo"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://beneru.spawntel.com/#website",
+          "url": "https://beneru.spawntel.com",
+          "publisher": {
+            "@id": "https://beneru.spawntel.com/#organization"
+          }
+        }
+      ]
+    }
+  </script>
+
+  <Hero />
+  
+  <section style="max-width: 800px; padding: 4rem 0;">
+    <h2>Recent Articles</h2>
+    <ul style="list-style: none; padding-left: 0; margin-top: 1.5rem;">
+      <li style="margin-bottom: 1rem;">
+        <a href="/articles/facebook-orders-automation" style="font-size: var(--step-1); font-weight: 600; color: var(--accent);">How to Take Orders on Facebook Automatically</a>
+      </li>
+      <li style="margin-bottom: 1rem; color: var(--ink-2);">
+        Beyond the Notebook: Simple Inventory Systems (Coming Soon)
+      </li>
+      <li style="margin-bottom: 1rem; color: var(--ink-2);">
+        POS Alternatives for Small Food Stalls (Coming Soon)
+      </li>
+    </ul>
+  </section>
+
+  <ServicesSection />
+</BaseLayout>

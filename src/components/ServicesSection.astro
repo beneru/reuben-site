@@ -1,0 +1,72 @@
+---
+const services = [
+  {
+    title: "Order Automation",
+    description: "Connect your social media and messaging channels directly to your kitchen. Stop dropping orders during rush hour."
+  },
+  {
+    title: "Inventory Tracking",
+    description: "Know exactly what ingredients you have in stock and get alerted before you run out. Eliminate food waste and unexpected stockouts."
+  },
+  {
+    title: "Customer Messaging",
+    description: "Respond to customer inquiries instantly with smart systems. Answer common questions, share menus, and take reservations 24/7."
+  }
+];
+---
+
+<section class="services">
+  <div class="services-header">
+    <h2 class="services-title">What I Do</h2>
+    <p class="services-subtitle">Specialized systems designed exclusively for the Philippine food industry.</p>
+  </div>
+  
+  <div class="services-grid">
+    {services.map(service => (
+      <article class="service-card">
+        <h3 class="service-card-title">{service.title}</h3>
+        <p class="service-card-text">{service.description}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .services {
+    padding: 4rem 0;
+  }
+  .services-header {
+    margin-bottom: 3rem;
+    max-width: 65ch;
+  }
+  .services-title {
+    font-size: var(--step-3);
+    margin-bottom: 0.5rem;
+  }
+  .services-subtitle {
+    font-size: var(--step-0);
+    color: var(--ink-2);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .service-card {
+    background: var(--paper-2);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+  }
+  .service-card-title {
+    font-size: var(--step-1);
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .service-card-text {
+    font-size: var(--step-0);
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.6;
+  }
+</style>
