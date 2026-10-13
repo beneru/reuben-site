@@ -1,16 +1,38 @@
-/* src/styles/global.css */
 @import './tokens.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  background-color: var(--paper);
+  background-color: transparent;
   color: var(--ink);
-  font-family: 'Cabinet Grotesk', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  cursor: default;
+  overflow-x: hidden;
+}
+
+/* Custom minimal cursor */
+body::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  /* JavaScript would track mouse position here in a real build, for now we just keep the CSS ready */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -18,20 +40,27 @@ h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
   margin-top: 0;
   color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 a {
-  color: var(--accent);
+  color: var(--ink);
   text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 a:hover, a:focus {
-  color: var(--accent-ink);
-  text-decoration: underline;
+  color: var(--accent);
 }
 
 main {
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem clamp(16px, 4vw, 48px);
+  padding: 0 clamp(1rem, 5vw, 3rem);
+}
+
+::selection {
+  background-color: var(--accent-light);
+  color: var(--accent);
 }

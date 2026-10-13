@@ -1,28 +1,31 @@
-/* src/styles/tokens.css */
 :root {
-  /* Warm off-white */
-  --paper: #F3F0E8;
-  --paper-2: #EAE5D9;
+  /* 80% White - The Foundation */
+  --paper: #FFFFFF;
   
-  /* Near-black ink */
-  --ink: #14130F;
-  --ink-2: #55514A;
+  /* 10% Neutral / Supporting */
+  --rule: #ECECEC;
+  --paper-2: #F9FAFB;
   
-  /* Vermilion accent */
-  --accent: #C2371A;
-  --accent-ink: #8F2610;
+  /* 10% Signature AI Violet */
+  --accent: #6700FF;
+  --accent-light: #F7F2FF;
+  --accent-light-2: #EFE5FF;
   
-  /* Rules/borders */
-  --rule: #CFC8B8;
+  /* Typography Colors */
+  --ink: #111111;
+  --ink-2: #666666;
+  --ink-muted: #999999;
   
-  /* Focus */
-  --focus: var(--ink);
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-glow: 0 8px 32px rgba(103, 0, 255, 0.15);
 
   /* Typography scale */
   --step--1: 0.875rem;
-  --step-0: 1.0625rem;
-  --step-1: 1.35rem;
-  --step-2: 1.8rem;
+  --step-0: 1rem;
+  --step-1: 1.125rem;
+  --step-2: 1.5rem;
   --step-3: 2.5rem;
-  --step-4: clamp(3.5rem, 5vw + 1rem, 5rem);
+  --step-4: clamp(3.5rem, 6vw + 1rem, 5rem);
 }

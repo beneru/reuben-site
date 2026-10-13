@@ -5,60 +5,202 @@ import ServicesSection from '../components/ServicesSection.astro';
 ---
 
 <BaseLayout 
-  title="Beneru | AI Systems & Workflow Automation for Food Businesses" 
-  description="I help restaurants, cafes, and food stalls in the Philippines automate orders, inventory, and messaging. Founder of Spawntel."
+  title="Beneru | AI Automation for Food Businesses" 
+  description="Run your food business smarter with AI. Automate bookings, customer messages, inventory, and operations."
 >
-  <script type="application/ld+json" slot="json-ld">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Person",
-          "@id": "https://beneru.spawntel.com/#person",
-          "name": "Beneru",
-          "alternateName": "Ben",
-          "additionalName": "Reuben Magallanes",
-          "worksFor": {
-            "@id": "https://beneru.spawntel.com/#organization"
-          },
-          "sameAs": [
-            "https://instagram.com/Beneru.ai"
-          ]
-        },
-        {
-          "@type": "Organization",
-          "@id": "https://beneru.spawntel.com/#organization",
-          "name": "Spawntel",
-          "alternateName": "Employmo"
-        },
-        {
-          "@type": "WebSite",
-          "@id": "https://beneru.spawntel.com/#website",
-          "url": "https://beneru.spawntel.com",
-          "publisher": {
-            "@id": "https://beneru.spawntel.com/#organization"
-          }
-        }
-      ]
-    }
-  </script>
-
   <Hero />
   
-  <section style="max-width: 800px; padding: 4rem 0;">
-    <h2>Recent Articles</h2>
-    <ul style="list-style: none; padding-left: 0; margin-top: 1.5rem;">
-      <li style="margin-bottom: 1rem;">
-        <a href="/articles/facebook-orders-automation" style="font-size: var(--step-1); font-weight: 600; color: var(--accent);">How to Take Orders on Facebook Automatically</a>
-      </li>
-      <li style="margin-bottom: 1rem; color: var(--ink-2);">
-        Beyond the Notebook: Simple Inventory Systems (Coming Soon)
-      </li>
-      <li style="margin-bottom: 1rem; color: var(--ink-2);">
-        POS Alternatives for Small Food Stalls (Coming Soon)
-      </li>
-    </ul>
+  <!-- Trust Marquee -->
+  <div class="marquee-container">
+    <div class="marquee-eyebrow">Built for businesses that move fast.</div>
+    <div class="marquee">
+      <div class="marquee-content">
+        <span>Restaurants <div class="dot"></div> Cafés <div class="dot"></div> Bakeries <div class="dot"></div> Cloud Kitchens <div class="dot"></div> Food Chains <div class="dot"></div> Catering <div class="dot"></div> Food Delivery <div class="dot"></div></span>
+        <span>Restaurants <div class="dot"></div> Cafés <div class="dot"></div> Bakeries <div class="dot"></div> Cloud Kitchens <div class="dot"></div> Food Chains <div class="dot"></div> Catering <div class="dot"></div> Food Delivery <div class="dot"></div></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Problem Section -->
+  <section class="problem-section">
+    <h2 class="problem-title">Running a food business means managing a hundred things at once.</h2>
+    <div class="chaos-visual">
+      <!-- Chaos cards -->
+      <div class="chaos-card c1">Reply to customer</div>
+      <div class="chaos-card c2">Confirm reservation</div>
+      <div class="chaos-card c3">Update inventory</div>
+      <div class="chaos-card c4">Check delivery order</div>
+    </div>
+    <div class="problem-resolution">
+      <h3 class="resolution-title">Your team shouldn't have to manage everything <span class="highlight-accent">manually</span>.</h3>
+    </div>
   </section>
 
   <ServicesSection />
+  
+  <!-- Final CTA -->
+  <section id="demo" class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Your business is already busy.<br/><span class="highlight-accent">Your systems don't have to be.</span></h2>
+      <p class="cta-subtitle">Let's identify what your food business can automate.</p>
+      <a href="mailto:hello@beneru.spawntel.com" class="btn btn-primary">Book a Free Automation Audit</a>
+    </div>
+  </section>
+
 </BaseLayout>
+
+<style>
+  /* Marquee */
+  .marquee-container {
+    padding: 4rem 0;
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .marquee-eyebrow {
+    font-size: 0.875rem;
+    color: var(--ink-2);
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+  .marquee {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+  }
+  .marquee-content {
+    display: flex;
+    width: fit-content;
+    animation: scroll 30s linear infinite;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .marquee-content span {
+    display: flex;
+    align-items: center;
+    padding-right: 2rem;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    margin: 0 2rem;
+  }
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Problem Section */
+  .problem-section {
+    padding: 8rem 0;
+    text-align: center;
+  }
+  .problem-title {
+    font-size: var(--step-3);
+    max-width: 25ch;
+    margin: 0 auto 4rem;
+  }
+  .chaos-visual {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto 4rem;
+  }
+  .chaos-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    color: var(--ink-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .chaos-card:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+    color: var(--accent);
+    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
+  }
+  
+  .resolution-title {
+    font-size: var(--step-2);
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 12rem 0;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    margin: 4rem 0;
+    overflow: hidden;
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta-title {
+    font-size: var(--step-4);
+    margin-bottom: 1.5rem;
+  }
+  .cta-subtitle {
+    font-size: var(--step-1);
+    color: var(--ink-2);
+    margin-bottom: 3rem;
+  }
+  .btn {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-radius: 99px;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    color: var(--ink);
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    transform: scale(1.02);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
+  }
+  .highlight-accent {
+    display: inline-block;
+    color: rgba(103, 0, 255, 0.65);
+    filter: drop-shadow(0 -1px 1px rgba(255,255,255,0.9)) drop-shadow(0 8px 16px rgba(103,0,255,0.3));
+  }
+</style>

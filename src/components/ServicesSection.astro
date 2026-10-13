@@ -1,72 +1,234 @@
 ---
 const services = [
   {
-    title: "Order Automation",
-    description: "Connect your social media and messaging channels directly to your kitchen. Stop dropping orders during rush hour."
+    id: "01",
+    title: "AI Customer Service",
+    description: "Automate Messenger, Instagram DMs, FAQs, and opening hours. Never leave a customer waiting.",
+    icon: "💬",
+    image: "/assets/customer_service.jpg"
   },
   {
-    title: "Inventory Tracking",
-    description: "Know exactly what ingredients you have in stock and get alerted before you run out. Eliminate food waste and unexpected stockouts."
+    id: "02",
+    title: "Smart Reservations",
+    description: "AI understands requests, checks availability, reserves tables, and sends confirmations automatically.",
+    icon: "📅",
+    image: "/assets/kitchen.jpg"
   },
   {
-    title: "Customer Messaging",
-    description: "Respond to customer inquiries instantly with smart systems. Answer common questions, share menus, and take reservations 24/7."
+    id: "03",
+    title: "AI Marketing",
+    description: "Analyze sales, identify slow hours, and generate targeted campaigns with one click.",
+    icon: "📈",
+    image: "/assets/ai_marketing.jpg"
+  },
+  {
+    id: "04",
+    title: "Inventory Intelligence",
+    description: "Know what you're running out of before you run out of it. Get low stock alerts instantly.",
+    icon: "📦",
+    image: "/assets/inventory.jpg"
+  },
+  {
+    id: "05",
+    title: "Review Automation",
+    description: "Turn every customer interaction into useful feedback. Automatic thank yous and manager alerts.",
+    icon: "⭐",
+    image: "/assets/review_automation.jpg"
+  },
+  {
+    id: "06",
+    title: "Business Intelligence",
+    description: "Your business shouldn't just collect data. It should know what to do with it.",
+    icon: "🧠",
+    image: "/assets/pos.jpg"
   }
 ];
 ---
 
-<section class="services">
-  <div class="services-header">
-    <h2 class="services-title">What I Do</h2>
-    <p class="services-subtitle">Specialized systems designed exclusively for the Philippine food industry.</p>
+<section id="solutions" class="solutions">
+  <div class="section-header">
+    <h2 class="title">We automate the work behind the food.</h2>
+    <p class="subtitle">AI systems built around the way your business actually operates.</p>
   </div>
   
-  <div class="services-grid">
+  <div class="bento-grid">
     {services.map(service => (
-      <article class="service-card">
-        <h3 class="service-card-title">{service.title}</h3>
-        <p class="service-card-text">{service.description}</p>
+      <article class={`solution-card ${service.image ? 'has-image' : ''}`}>
+        {service.image && (
+          <div class="card-image-bg" style={`background-image: url('${service.image}')`}>
+            <div class="image-overlay"></div>
+          </div>
+        )}
+        <div class="card-content">
+          <div class="card-header">
+            <span class="card-id">{service.id}</span>
+            <div class="card-icon">{service.icon}</div>
+          </div>
+          <div class="card-bottom">
+            <h3 class="card-title">{service.title}</h3>
+            <p class="card-text">{service.description}</p>
+          </div>
+        </div>
       </article>
     ))}
   </div>
 </section>
 
 <style>
-  .services {
-    padding: 4rem 0;
+  .solutions {
+    padding: 8rem 0;
   }
-  .services-header {
-    margin-bottom: 3rem;
-    max-width: 65ch;
+  
+  .section-header {
+    margin-bottom: 5rem;
   }
-  .services-title {
+
+  .title {
     font-size: var(--step-3);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    max-width: 25ch;
   }
-  .services-subtitle {
-    font-size: var(--step-0);
+
+  .subtitle {
+    font-size: var(--step-1);
     color: var(--ink-2);
   }
-  .services-grid {
+
+  .bento-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    grid-auto-rows: minmax(350px, auto);
   }
-  .service-card {
-    background: var(--paper-2);
-    padding: 2rem;
-    border-radius: 8px;
-    border: 1px solid var(--rule);
+
+  .solution-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    position: relative;
+    transition: all 0.4s ease;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
-  .service-card-title {
-    font-size: var(--step-1);
+
+  .solution-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
+  }
+
+  .has-image {
+    color: var(--paper);
+    border: none;
+  }
+  
+  .has-image:hover {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .card-image-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transition: transform 0.6s ease;
+  }
+
+  .solution-card:hover .card-image-bg {
+    transform: scale(1.05);
+  }
+
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(17,17,17,0.1) 0%, rgba(17,17,17,0.9) 100%);
+  }
+
+  .card-content {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .card-id {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    font-family: monospace;
+  }
+  
+  .solution-card:not(.has-image):hover .card-id {
     color: var(--accent);
+  }
+
+  .has-image .card-id {
+    color: rgba(255,255,255,0.7);
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    filter: grayscale(1);
+    opacity: 0.6;
+    transition: all 0.4s ease;
+  }
+
+  .solution-card:hover .card-icon {
+    filter: grayscale(0);
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  .has-image .card-icon {
+    opacity: 1;
+    filter: none;
+  }
+
+  .card-title {
+    font-size: var(--step-1);
+    font-weight: 700;
     margin-bottom: 1rem;
   }
-  .service-card-text {
-    font-size: var(--step-0);
-    color: var(--ink);
-    margin: 0;
+
+  .card-text {
+    color: var(--ink-2);
     line-height: 1.6;
+    margin: 0;
+  }
+
+  .solution-card:not(.has-image):hover .card-text {
+    color: var(--ink);
+  }
+
+  .has-image .card-title, .has-image .card-text {
+    color: var(--paper);
+  }
+  
+  .has-image .card-text {
+    opacity: 0.9;
   }
 </style>

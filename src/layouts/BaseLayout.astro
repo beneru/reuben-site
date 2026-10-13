@@ -20,19 +20,330 @@ const { title, description } = Astro.props;
     <slot name="json-ld" />
   </head>
   <body>
-    <header>
-      <nav aria-label="Primary">
-        <a href="/">Beneru</a>
-        <a href="/about">About</a>
-        <a href="/services">Services</a>
-        <a href="/articles">Articles</a>
-      </nav>
+    <header class="glass-header">
+      <div class="header-container">
+        <a href="/" class="brand-logo">
+          <span class="logo-dot"></span> Beneru
+        </a>
+        <nav aria-label="Primary" class="nav-links">
+          <a href="/about">About</a>
+          <a href="/services">Services</a>
+          <a href="/articles">Articles</a>
+        </nav>
+        <a href="mailto:hello@beneru.spawntel.com" class="button-small">Contact</a>
+      </div>
     </header>
-    <main id="main">
+    
+    <!-- Light Mode SaaS Background (Grid + Canvas Trail) -->
+    <canvas id="trailCanvas"></canvas>
+    <div class="bg-grid"></div>
+
+    <main id="main" class="fade-in-up">
       <slot />
     </main>
-    <footer>
-      <p>&copy; {new Date().getFullYear()} Beneru. All rights reserved.</p>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.getElementById('trailCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+          const width = window.innerWidth;
+          const height = window.innerHeight;
+          const dpr = window.devicePixelRatio || 1;
+          
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
+          canvas.style.width = `${width}px`;
+          canvas.style.height = `${height}px`;
+          
+          ctx.scale(dpr, dpr);
+        }
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        const points = [];
+        const maxAge = 5000; // 5 seconds decay time for a much longer tail
+        const maxRadius = 500; // 5 times bigger (huge ambient blob)
+        
+        document.addEventListener('mousemove', (e) => {
+          const last = points[points.length - 1];
+          // Prevent adding duplicate points if the mouse didn't actually move
+          if (last && last.x === e.clientX && last.y === e.clientY) return;
+          points.push({ x: e.clientX, y: e.clientY, time: Date.now() });
+        });
+        
+        function animate() {
+          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+          const currentTime = Date.now();
+          
+          // Clean up old points
+          while (points.length > 0 && currentTime - points[0].time > maxAge) {
+            points.shift();
+          }
+          
+          if (points.length > 1) {
+            for (let i = 1; i < points.length; i++) {
+              const p0 = points[i - 1];
+              const p1 = points[i];
+              const age = currentTime - p1.time;
+              
+              if (age > maxAge) continue;
+              
+              // Progress goes from 1 (new) to 0 (old)
+              const progress = 1 - (age / maxAge);
+              
+              // Easing for smoother fade out
+              const easeProgress = Math.pow(progress, 1.5);
+              
+              const radius = maxRadius * easeProgress;
+              
+              const mid1x = (p0.x + p1.x) / 2;
+              const mid1y = (p0.y + p1.y) / 2;
+              
+              let mid2x = p1.x;
+              let mid2y = p1.y;
+              
+              if (i < points.length - 1) {
+                const p2 = points[i + 1];
+                mid2x = (p1.x + p2.x) / 2;
+                mid2y = (p1.y + p2.y) / 2;
+              }
+
+              ctx.beginPath();
+              ctx.moveTo(mid1x, mid1y);
+              if (i < points.length - 1) {
+                ctx.quadraticCurveTo(p1.x, p1.y, mid2x, mid2y);
+              } else {
+                ctx.lineTo(p1.x, p1.y);
+              }
+              
+              ctx.lineCap = 'butt';
+              ctx.lineJoin = 'round';
+
+              // Draw a single thick stroke - the CSS blur will turn this into a smooth gradient blob!
+              const opacity = easeProgress * 0.08; // Lower intensity
+              ctx.strokeStyle = `rgba(103, 0, 255, ${opacity})`;
+              ctx.lineWidth = radius;
+              ctx.stroke();
+
+              // Round off the very head of the trail
+              if (i === points.length - 1) {
+                ctx.beginPath();
+                ctx.arc(p1.x, p1.y, radius / 2, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(103, 0, 255, ${opacity})`;
+                ctx.fill();
+              }
+            }
+          }
+          
+          requestAnimationFrame(animate);
+        }
+        
+        animate();
+      });
+    </script>
+    
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <strong>Beneru</strong>
+          <p>Intelligent workflows for the Philippine food industry.</p>
+        </div>
+        <div class="footer-links">
+          <a href="https://instagram.com/Beneru.ai" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://spawntel.com" target="_blank" rel="noopener noreferrer">Spawntel</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; {new Date().getFullYear()} Beneru (Reuben Magallanes). All rights reserved.</p>
+      </div>
     </footer>
   </body>
 </html>
+
+<style>
+  /* SaaS Light Mode Background */
+  #trailCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -3; /* behind grid */
+    pointer-events: none;
+    filter: blur(100px);
+  }
+
+  .bg-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    background-image: 
+      linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at 50% 0%, black 10%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 10%, transparent 80%);
+    pointer-events: none;
+  }
+
+  /* Glassmorphism Header */
+  .glass-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+  }
+
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem clamp(1rem, 5vw, 3rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .brand-logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  
+  .brand-logo:hover {
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .logo-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  
+  .nav-links a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .button-small {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    color: var(--ink);
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+  }
+
+  .button-small:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+    transform: translateY(-1px);
+    text-decoration: none;
+    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none; /* In a full build, add a hamburger menu here */
+    }
+  }
+
+  /* Footer */
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    background-color: var(--paper-2);
+    padding: 4rem 0 2rem;
+    margin-top: 6rem;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 3rem);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand p {
+    color: var(--ink-2);
+    margin-top: 0.5rem;
+    max-width: 30ch;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-links a {
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  
+  .footer-links a:hover {
+    color: var(--accent);
+  }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem clamp(1rem, 5vw, 3rem) 0;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    text-align: center;
+    color: var(--ink-2);
+    font-size: 0.875rem;
+  }
+
+  /* Global Animations */
+  .fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

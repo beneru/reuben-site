@@ -1,69 +1,329 @@
 ---
 ---
-<section class="hero">
-  <div class="hero-content">
-    <h1 class="hero-title">Automate your food business.</h1>
-    <p class="hero-subtitle">
-      I help restaurants, cafes, and food stalls in the Philippines streamline orders, manage inventory, and handle customer messaging. Less chaos, more profit.
+<section class="hero-premium">
+  <div class="hero-text-content">
+    <div class="eyebrow">AI AUTOMATION FOR FOOD BUSINESSES</div>
+    <h1 class="headline">
+      Your food business shouldn't run on repetitive work. <br/>
+      <span class="animated-text">Let AI handle it.</span>
+    </h1>
+    <p class="subtitle">
+      Automate bookings, customer messages, marketing, operations and everyday tasks — so your team can focus on creating great customer experiences.
     </p>
     <div class="hero-actions">
-      <a href="/services" class="button primary">See What I Do</a>
-      <a href="/about" class="button secondary">Read My Story</a>
+      <a href="#solutions" class="btn btn-primary">See What We Automate</a>
+      <a href="#demo" class="btn btn-secondary">Book a Demo</a>
     </div>
+  </div>
+
+  <div class="hero-visual">
+    
+    <!-- Central Glass Frame with Profile and Glow -->
+    <div class="profile-center">
+      <div class="profile-glow"></div>
+      <div class="glass-frame">
+        <img src="/PFP.png" alt="Ben" class="profile-img" />
+      </div>
+      <div class="ai-node">
+        <div class="pulse-ring"></div>
+        <div class="node-core">AI Operations</div>
+      </div>
+    </div>
+    
+    <!-- Floating Tasks -->
+    <div class="task-card task-1">New Reservation</div>
+    <div class="task-card task-2">Instagram Message</div>
+    <div class="task-card task-3">Low Stock Alert</div>
+    <div class="task-card task-4">New Delivery Order</div>
+    <div class="task-card task-5">Daily Sales Report</div>
+    
+    <!-- SVG Connection Lines -->
+    <svg class="connection-lines" viewBox="0 0 500 500" preserveAspectRatio="none">
+      <path class="line" vector-effect="non-scaling-stroke" d="M 120,100 Q 250,100 250,160" />
+      <path class="line" vector-effect="non-scaling-stroke" d="M 380,100 Q 250,100 250,160" />
+      <path class="line" vector-effect="non-scaling-stroke" d="M 120,400 Q 250,400 250,340" />
+      <path class="line" vector-effect="non-scaling-stroke" d="M 380,400 Q 250,400 250,340" />
+      <path class="line" vector-effect="non-scaling-stroke" d="M 250,75 Q 250,117.5 250,160" />
+    </svg>
   </div>
 </section>
 
 <style>
-  .hero {
+  .hero-premium {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     padding: 6rem 0;
-    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
   }
-  .hero-content {
-    max-width: 800px;
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
   }
-  .hero-title {
+
+  .headline {
     font-size: var(--step-4);
     font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
+    color: var(--ink);
+    max-width: 22ch;
+    margin: 0 auto 2rem;
   }
-  .hero-subtitle {
+
+  .animated-text {
+    display: inline-block;
+    color: rgba(103, 0, 255, 0.65);
+    filter: drop-shadow(0 -1px 1px rgba(255,255,255,0.9)) drop-shadow(0 8px 16px rgba(103,0,255,0.3));
+    animation: revealText 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(10px);
+    animation-delay: 0.5s;
+  }
+
+  .subtitle {
     font-size: var(--step-1);
     color: var(--ink-2);
-    margin-bottom: 2.5rem;
     max-width: 65ch;
+    margin: 0 auto 3rem;
   }
+
   .hero-actions {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    position: relative;
+    z-index: 20;
   }
-  .button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
+
+  .btn {
+    padding: 1rem 2rem;
     font-weight: 600;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    border-radius: 99px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
   }
-  .button.primary {
-    background-color: var(--accent);
-    color: var(--paper);
-    border: 2px solid var(--accent);
-  }
-  .button.primary:hover {
-    background-color: var(--accent-ink);
-    border-color: var(--accent-ink);
-    color: var(--paper);
-    text-decoration: none;
-  }
-  .button.secondary {
-    background-color: transparent;
+
+  .btn-primary {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
     color: var(--ink);
-    border: 2px solid var(--ink);
   }
-  .button.secondary:hover {
-    background-color: var(--ink);
-    color: var(--paper);
-    text-decoration: none;
+
+  .btn-primary:hover {
+    transform: scale(1.02);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
+  }
+
+  .btn-secondary {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    color: var(--ink);
+  }
+
+  .btn-secondary:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-color: rgba(17, 17, 17, 0.2);
+  }
+
+  /* Interactive Visual System */
+  .hero-visual {
+    margin-top: 6rem;
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+  }
+
+  /* Profile and Glass Frame */
+  .profile-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.3;
+    border-radius: 50%;
+    filter: blur(20px);
+    z-index: 1;
+    animation: glowPulse 4s infinite alternate;
+  }
+
+  .glass-frame {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(103, 0, 255, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+
+  .profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 2;
+  }
+
+  .ai-node {
+    margin-top: -15px; /* Overlap slightly with the glass frame */
+    position: relative;
+    z-index: 3;
+  }
+
+  .node-core {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 1.5rem;
+    border-radius: 99px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent);
+    position: relative;
+    z-index: 2;
+  }
+
+  .pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 99px;
+    border: 1px solid var(--accent);
+    animation: pulse 3s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+    z-index: 1;
+  }
+
+  /* Floating Tasks */
+  .task-card {
+    position: absolute;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent);
+    z-index: 10;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .task-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
+    color: var(--accent);
+    cursor: pointer;
+  }
+
+  .task-1 { top: 20%; left: 10%; animation-delay: 0s; }
+  .task-2 { top: 20%; left: 90%; animation-delay: -1s; }
+  .task-3 { top: 80%; left: 10%; animation-delay: -2s; }
+  .task-4 { top: 80%; left: 90%; animation-delay: -3s; }
+  .task-5 { top: 10%; left: 50%; animation-delay: -4s; }
+
+  /* SVG Lines */
+  .connection-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .line {
+    fill: none;
+    stroke: var(--rule);
+    stroke-width: 1.5px;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLine 2s forwards 1s, energyFlow 3s linear infinite 3s;
+  }
+
+  @keyframes glowPulse {
+    0% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); }
+    100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
+  }
+
+  @keyframes revealText {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(-50%, -50%); }
+    50% { transform: translate(-50%, calc(-50% - 10px)); }
+  }
+
+  @keyframes drawLine {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes energyFlow {
+    0% { stroke: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); opacity: 0.2; stroke-width: 1.5px; }
+    50% { stroke: var(--accent); filter: drop-shadow(0 0 8px var(--accent)); opacity: 0.8; stroke-width: 2px; }
+    100% { stroke: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); opacity: 0.2; stroke-width: 1.5px; }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-visual { display: none; }
   }
 </style>
