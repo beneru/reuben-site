@@ -43,9 +43,108 @@ import ServicesSection from '../components/ServicesSection.astro';
     <div class="cta-content">
       <h2 class="cta-title">Your business is already busy.<br/><span class="highlight-accent">Your systems don't have to be.</span></h2>
       <p class="cta-subtitle">Let's identify what your food business can automate.</p>
-      <a href="mailto:hello@beneru.spawntel.com" class="btn btn-primary">Book a Free Automation Audit</a>
+      <div class="cta-actions">
+        <button id="openAuditBtn" class="btn btn-primary">Book a Free Automation Audit</button>
+        <a href="https://instagram.com/Beneru.ai" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Chat on Instagram</a>
+      </div>
     </div>
   </section>
+
+  <!-- Interactive Audit Modal -->
+  <dialog id="auditModal" class="audit-modal">
+    <div class="modal-card">
+      <button id="closeModalBtn" class="close-btn" aria-label="Close modal">&times;</button>
+      <div class="modal-header">
+        <span class="modal-badge">Free 15-Minute Audit</span>
+        <h3>What would you like to automate?</h3>
+        <p>Tell us a bit about your food business and we will send you a tailored roadmap.</p>
+      </div>
+
+      <form id="auditForm" class="audit-form" action="https://formspree.io/f/xvgzrpkq" method="POST">
+        <div class="form-group">
+          <label for="bizName">Business / Brand Name</label>
+          <input type="text" id="bizName" name="business_name" required placeholder="e.g. Cafe Luna / Burger Garage" />
+        </div>
+
+        <div class="form-group">
+          <label for="contactInfo">Email or Phone / WhatsApp</label>
+          <input type="text" id="contactInfo" name="contact" required placeholder="e.g. hello@cafeluna.ph or 0917-xxx-xxxx" />
+        </div>
+
+        <div class="form-group">
+          <label for="primaryGoal">Main Pain Point</label>
+          <select id="primaryGoal" name="automation_goal">
+            <option value="customer_service">Replying to customer DMs & inquiries</option>
+            <option value="reservations">Table bookings & confirmations</option>
+            <option value="inventory">Inventory tracking & stock alerts</option>
+            <option value="marketing">Automated promos & customer retention</option>
+            <option value="all">Full restaurant automation audit</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary submit-btn">Submit Request</button>
+      </form>
+
+      <div id="formSuccess" class="form-success" style="display: none;">
+        <span class="success-icon">✓</span>
+        <h4>Audit Request Sent!</h4>
+        <p>We'll review your details and reach out within 24 hours.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('auditModal') as HTMLDialogElement;
+      const openBtn = document.getElementById('openAuditBtn');
+      const closeBtn = document.getElementById('closeModalBtn');
+      const form = document.getElementById('auditForm') as HTMLFormElement;
+      const successMsg = document.getElementById('formSuccess');
+
+      if (openBtn && modal) {
+        openBtn.addEventListener('click', () => modal.showModal());
+      }
+
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => modal.close());
+      }
+
+      // Close when clicking modal backdrop
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          const rect = modal.getBoundingClientRect();
+          const isInDialog = (
+            rect.top <= e.clientY &&
+            e.clientY <= rect.top + rect.height &&
+            rect.left <= e.clientX &&
+            e.clientX <= rect.left + rect.width
+          );
+          if (!isInDialog) {
+            modal.close();
+          }
+        });
+      }
+
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const formData = new FormData(form);
+          const biz = formData.get('business_name');
+          const contact = formData.get('contact');
+          const goal = formData.get('automation_goal');
+
+          // Fallback direct mailto trigger with pre-filled details
+          const subject = encodeURIComponent(`Automation Audit Request - ${biz}`);
+          const body = encodeURIComponent(`Hi Ben,\n\nI'd like to book a free automation audit for my business.\n\nBusiness: ${biz}\nContact: ${contact}\nFocus: ${goal}\n\nLooking forward to speaking with you!`);
+          
+          window.location.href = `mailto:hello@beneru.spawntel.com?subject=${subject}&body=${body}`;
+
+          form.style.display = 'none';
+          if (successMsg) successMsg.style.display = 'block';
+        });
+      }
+    });
+  </script>
 
 </BaseLayout>
 
@@ -202,5 +301,175 @@ import ServicesSection from '../components/ServicesSection.astro';
     display: inline-block;
     color: rgba(103, 0, 255, 0.65);
     filter: drop-shadow(0 -1px 1px rgba(255,255,255,0.9)) drop-shadow(0 8px 16px rgba(103,0,255,0.3));
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-secondary {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    color: var(--ink);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-color: rgba(17, 17, 17, 0.2);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  /* Modal Dialog */
+  .audit-modal {
+    border: none;
+    border-radius: 24px;
+    background: transparent;
+    padding: 0;
+    max-width: 520px;
+    width: 90%;
+  }
+
+  .audit-modal::backdrop {
+    background: rgba(10, 10, 15, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .modal-card {
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    position: relative;
+    text-align: left;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: transparent;
+    border: none;
+    font-size: 1.75rem;
+    color: var(--ink-2);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .close-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--ink);
+  }
+
+  .modal-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .modal-header h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-header p {
+    font-size: 0.875rem;
+    color: var(--ink-2);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .audit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .form-group label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    font-size: 0.9375rem;
+    color: var(--ink);
+    background: #fdfdfd;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(103, 0, 255, 0.15);
+  }
+
+  .submit-btn {
+    margin-top: 1rem;
+    width: 100%;
+    cursor: pointer;
+    border: none;
+  }
+
+  .form-success {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: #eefdf3;
+    color: #16a34a;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .form-success h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+
+  .form-success p {
+    color: var(--ink-2);
+    font-size: 0.875rem;
   }
 </style>
