@@ -83,12 +83,21 @@ const { title, description } = Astro.props;
         const maxAge = 5000; // 5 seconds decay time for a much longer tail
         const maxRadius = 500; // 5 times bigger (huge ambient blob)
         
-        document.addEventListener('mousemove', (e) => {
+        const addTrailPoint = (x, y) => {
           const last = points[points.length - 1];
-          // Prevent adding duplicate points if the mouse didn't actually move
-          if (last && last.x === e.clientX && last.y === e.clientY) return;
-          points.push({ x: e.clientX, y: e.clientY, time: Date.now() });
+          if (last && last.x === x && last.y === y) return;
+          points.push({ x, y, time: Date.now() });
+        };
+
+        document.addEventListener('mousemove', (e) => {
+          addTrailPoint(e.clientX, e.clientY);
         });
+
+        document.addEventListener('touchmove', (e) => {
+          if (e.touches && e.touches.length > 0) {
+            addTrailPoint(e.touches[0].clientX, e.touches[0].clientY);
+          }
+        }, { passive: true });
         
         function animate() {
           ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);

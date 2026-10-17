@@ -472,4 +472,62 @@ import ServicesSection from '../components/ServicesSection.astro';
     color: var(--ink-2);
     font-size: 0.875rem;
   }
+
+  @media (max-width: 640px) {
+    .marquee-container {
+      padding: 2.5rem 0;
+    }
+    .marquee-content {
+      font-size: 1.125rem;
+    }
+    .problem-section {
+      padding: 4rem 1rem;
+    }
+    .problem-title {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .chaos-visual {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .chaos-card {
+      padding: 1rem 1.25rem;
+      font-size: 0.875rem;
+    }
+    .resolution-title {
+      font-size: 1.25rem;
+    }
+    .cta-section {
+      padding: 4.5rem 1.25rem;
+      margin: 3rem 0;
+      border-radius: 20px;
+    }
+    .cta-title {
+      font-size: clamp(1.75rem, 6vw, 2.25rem);
+    }
+    .cta-subtitle {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+    .cta-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .cta-actions .btn {
+      width: 100%;
+      max-width: 300px;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      text-align: center;
+    }
+    .modal-card {
+      padding: 1.75rem 1.25rem;
+      border-radius: 20px;
+    }
+    .modal-header h3 {
+      font-size: 1.25rem;
+    }
+  }
 </style>
