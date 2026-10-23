@@ -56,39 +56,82 @@ import ServicesSection from '../components/ServicesSection.astro';
       <button id="closeModalBtn" class="close-btn" aria-label="Close modal">&times;</button>
       <div class="modal-header">
         <span class="modal-badge">Free 15-Minute Audit</span>
-        <h3>What would you like to automate?</h3>
-        <p>Tell us a bit about your food business and we will send you a tailored roadmap.</p>
+        <h3>Book Your Automation Audit</h3>
+        <p>Pick a day and time that works for you, and tell us specifically what you want to automate.</p>
       </div>
 
-      <form id="auditForm" class="audit-form" action="https://formspree.io/f/xvgzrpkq" method="POST">
-        <div class="form-group">
-          <label for="bizName">Business / Brand Name</label>
-          <input type="text" id="bizName" name="business_name" required placeholder="e.g. Cafe Luna / Burger Garage" />
+      <form id="auditForm" class="audit-form" action="https://formsubmit.co/ajax/reubenmagallanes91@gmail.com" method="POST">
+        <input type="hidden" name="_subject" id="formSubject" value="New Automation Audit Booking" />
+        <input type="hidden" name="_template" value="table" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bizName">Business / Brand Name</label>
+            <input type="text" id="bizName" name="business_name" required placeholder="e.g. Cafe Luna / Burger Garage" />
+          </div>
+
+          <div class="form-group">
+            <label for="contactInfo">Email or Phone / WhatsApp</label>
+            <input type="text" id="contactInfo" name="contact" required placeholder="e.g. hello@cafeluna.ph or 0917-xxx-xxxx" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bookingDate">Preferred Day</label>
+            <input type="date" id="bookingDate" name="preferred_date" required />
+          </div>
+
+          <div class="form-group">
+            <label for="bookingTime">Preferred Time (PHT)</label>
+            <select id="bookingTime" name="preferred_time" required>
+              <option value="" disabled selected>Select a time slot</option>
+              <option value="09:00 AM - 09:30 AM">09:00 AM - 09:30 AM</option>
+              <option value="10:00 AM - 10:30 AM">10:00 AM - 10:30 AM</option>
+              <option value="11:00 AM - 11:30 AM">11:00 AM - 11:30 AM</option>
+              <option value="01:00 PM - 01:30 PM">01:00 PM - 01:30 PM</option>
+              <option value="02:00 PM - 02:30 PM">02:00 PM - 02:30 PM</option>
+              <option value="03:00 PM - 03:30 PM">03:00 PM - 03:30 PM</option>
+              <option value="04:00 PM - 04:30 PM">04:00 PM - 04:30 PM</option>
+              <option value="07:00 PM - 07:30 PM">07:00 PM - 07:30 PM</option>
+              <option value="08:00 PM - 08:30 PM">08:00 PM - 08:30 PM</option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="contactInfo">Email or Phone / WhatsApp</label>
-          <input type="text" id="contactInfo" name="contact" required placeholder="e.g. hello@cafeluna.ph or 0917-xxx-xxxx" />
-        </div>
-
-        <div class="form-group">
-          <label for="primaryGoal">Main Pain Point</label>
+          <label for="primaryGoal">Primary Area</label>
           <select id="primaryGoal" name="automation_goal">
-            <option value="customer_service">Replying to customer DMs & inquiries</option>
-            <option value="reservations">Table bookings & confirmations</option>
-            <option value="inventory">Inventory tracking & stock alerts</option>
-            <option value="marketing">Automated promos & customer retention</option>
-            <option value="all">Full restaurant automation audit</option>
+            <option value="Customer DMs & Inquiries">Replying to customer DMs & inquiries</option>
+            <option value="Bookings & Confirmations">Table bookings & confirmations</option>
+            <option value="Inventory & Stock Alerts">Inventory tracking & stock alerts</option>
+            <option value="Marketing & Retention">Automated promos & customer retention</option>
+            <option value="Full Business Automation">Full business automation audit</option>
+            <option value="Custom Workflow">Other / Custom workflow</option>
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary submit-btn">Submit Request</button>
+        <div class="form-group">
+          <label for="customAutomation">What specifically do you want to automate? <span class="label-hint">(Custom details)</span></label>
+          <textarea
+            id="customAutomation"
+            name="custom_automation_details"
+            rows="3"
+            required
+            placeholder="Describe the exact tasks, bottlenecks, or tools (e.g. Messenger orders, Google Sheets, POS, staff handoffs) you want automated..."
+          ></textarea>
+        </div>
+
+        <button type="submit" id="submitAuditBtn" class="btn btn-primary submit-btn">Confirm Booking Slot</button>
       </form>
 
       <div id="formSuccess" class="form-success" style="display: none;">
-        <span class="success-icon">✓</span>
-        <h4>Audit Request Sent!</h4>
-        <p>We'll review your details and reach out within 24 hours.</p>
+        <span class="success-icon">&#10003;</span>
+        <h4>Booking Request Confirmed!</h4>
+        <p id="bookingSummaryText">We received your slot and automation details and will reach out to confirm shortly.</p>
+        <div class="success-actions">
+          <a id="gcalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary gcal-btn">Add to Google Calendar</a>
+        </div>
       </div>
     </div>
   </dialog>
@@ -100,6 +143,17 @@ import ServicesSection from '../components/ServicesSection.astro';
       const closeBtn = document.getElementById('closeModalBtn');
       const form = document.getElementById('auditForm') as HTMLFormElement;
       const successMsg = document.getElementById('formSuccess');
+      const submitBtn = document.getElementById('submitAuditBtn') as HTMLButtonElement;
+      const dateInput = document.getElementById('bookingDate') as HTMLInputElement;
+      const gcalLink = document.getElementById('gcalLink') as HTMLAnchorElement;
+      const summaryText = document.getElementById('bookingSummaryText');
+
+      // Prevent booking past dates
+      if (dateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+        dateInput.value = today;
+      }
 
       if (openBtn && modal) {
         openBtn.addEventListener('click', () => modal.showModal());
@@ -126,18 +180,55 @@ import ServicesSection from '../components/ServicesSection.astro';
       }
 
       if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
           e.preventDefault();
           const formData = new FormData(form);
-          const biz = formData.get('business_name');
-          const contact = formData.get('contact');
-          const goal = formData.get('automation_goal');
+          const biz = String(formData.get('business_name') || '');
+          const contact = String(formData.get('contact') || '');
+          const date = String(formData.get('preferred_date') || '');
+          const time = String(formData.get('preferred_time') || '');
+          const goal = String(formData.get('automation_goal') || '');
+          const customDetails = String(formData.get('custom_automation_details') || '');
 
-          // Fallback direct mailto trigger with pre-filled details
-          const subject = encodeURIComponent(`Automation Audit Request - ${biz}`);
-          const body = encodeURIComponent(`Hi Ben,\n\nI'd like to book a free automation audit for my business.\n\nBusiness: ${biz}\nContact: ${contact}\nFocus: ${goal}\n\nLooking forward to speaking with you!`);
-          
-          window.location.href = `mailto:hello@beneru.spawntel.com?subject=${subject}&body=${body}`;
+          const subjectField = document.getElementById('formSubject') as HTMLInputElement;
+          if (subjectField) {
+            subjectField.value = `[Audit Booking] ${biz} on ${date} (${time})`;
+          }
+
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Locking in your slot...';
+          }
+
+          // Build Google Calendar quick link for the visitor/owner
+          const cleanDate = date.replace(/-/g, '');
+          const calTitle = encodeURIComponent(`Automation Audit: ${biz} x Beneru`);
+          const calDetails = encodeURIComponent(
+            `Business: ${biz}\nContact: ${contact}\nPreferred Slot: ${date} (${time} PHT)\nPrimary Area: ${goal}\nCustom Automation Request:\n${customDetails}`
+          );
+          if (gcalLink && cleanDate) {
+            gcalLink.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${calTitle}&dates=${cleanDate}/${cleanDate}&details=${calDetails}`;
+          }
+
+          if (summaryText) {
+            summaryText.textContent = `Booked for ${date} at ${time} (PHT). We'll review your custom workflow request and reach out within 24 hours.`;
+          }
+
+          try {
+            const response = await fetch(form.action, {
+              method: 'POST',
+              body: formData,
+              headers: { 'Accept': 'application/json' }
+            });
+            if (!response.ok) throw new Error('Network submission fallback');
+          } catch {
+            // Fallback mailto if offline or blocked
+            const subject = encodeURIComponent(`[Audit Booking] ${biz} - ${date} (${time})`);
+            const body = encodeURIComponent(
+              `Hi Ben,\n\nI'd like to book a free automation audit.\n\nBusiness: ${biz}\nContact: ${contact}\nPreferred Date: ${date}\nPreferred Time: ${time} (PHT)\nPrimary Area: ${goal}\n\nWhat I want to automate:\n${customDetails}`
+            );
+            window.location.href = `mailto:reubenmagallanes91@gmail.com?subject=${subject}&body=${body}`;
+          }
 
           form.style.display = 'none';
           if (successMsg) successMsg.style.display = 'block';
@@ -403,7 +494,13 @@ import ServicesSection from '../components/ServicesSection.astro';
   .audit-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.1rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
   .form-group {
@@ -418,29 +515,51 @@ import ServicesSection from '../components/ServicesSection.astro';
     color: var(--ink);
   }
 
+  .label-hint {
+    font-weight: 400;
+    color: var(--ink-2);
+    font-size: 0.75rem;
+  }
+
   .form-group input,
-  .form-group select {
+  .form-group select,
+  .form-group textarea {
     padding: 0.75rem 1rem;
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.12);
     font-size: 0.9375rem;
+    font-family: inherit;
     color: var(--ink);
     background: #fdfdfd;
     outline: none;
     transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 88px;
+    line-height: 1.45;
   }
 
   .form-group input:focus,
-  .form-group select:focus {
+  .form-group select:focus,
+  .form-group textarea:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(103, 0, 255, 0.15);
   }
 
   .submit-btn {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     width: 100%;
     cursor: pointer;
     border: none;
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.7;
+    cursor: wait;
   }
 
   .form-success {
@@ -471,6 +590,18 @@ import ServicesSection from '../components/ServicesSection.astro';
   .form-success p {
     color: var(--ink-2);
     font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .success-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  .gcal-btn {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.875rem;
+    border-radius: 10px;
   }
 
   @media (max-width: 640px) {
@@ -525,9 +656,15 @@ import ServicesSection from '../components/ServicesSection.astro';
     .modal-card {
       padding: 1.75rem 1.25rem;
       border-radius: 20px;
+      max-height: 88vh;
+      overflow-y: auto;
     }
     .modal-header h3 {
       font-size: 1.25rem;
+    }
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 0.875rem;
     }
   }
 </style>
