@@ -406,7 +406,7 @@ async function sendBookingEmails(env: Env, b: BookingRow): Promise<void> {
   const when = `${formatDateLabel(b.date)}, ${formatSlotLabel(b.time)}`;
   const goal = GOALS[b.goal] ?? b.goal;
   const meetingLabel = MEETING_TYPES[b.meeting_type] ?? 'Google Meet (Online video call)';
-  const ics = toBase64(buildIcs(env, b));
+  const ics = buildIcs(env, b);
   const cancelUrl = `${env.SITE_URL}/api/cancel?id=${b.id}&token=${b.cancel_token}`;
 
   const ownerHtml = emailShell(
@@ -506,7 +506,7 @@ async function sendCancellationEmail(env: Env, b: BookingRow): Promise<void> {
       text: `${b.name} (${b.email}) cancelled the audit on ${when}. The slot is open again.`,
       attachments: [
         {
-          content: toBase64(buildIcs(env, b, 'CANCEL')),
+          content: buildIcs(env, b, 'CANCEL'),
           filename: 'cancel.ics',
           type: 'text/calendar',
           disposition: 'attachment',
@@ -625,8 +625,8 @@ async function sendNtfyNotification(env: Env, b: BookingRow, isCancelled = false
 
   const when = `${formatDateLabel(b.date)} at ${formatSlotLabel(b.time)}`;
   const title = isCancelled
-    ? `❌ Cancelled: ${b.business}`
-    : `🎉 New Audit: ${b.business}`;
+    ? `Cancelled: ${b.business}`
+    : `New Audit: ${b.business}`;
   const body = isCancelled
     ? `${b.name} cancelled for ${when}. Slot is reopened.`
     : `${b.name} booked for ${when} via ${MEETING_TYPES[b.meeting_type] || 'Google Meet'}. Phone: ${b.phone || 'N/A'}`;
