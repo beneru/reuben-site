@@ -185,7 +185,21 @@ import BookingModal from '../components/BookingModal.astro';
     font-size: 1.125rem;
     font-weight: 600;
     border-radius: 99px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .btn:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 3px;
+  }
+  .btn:active {
+    transform: scale(0.98);
   }
   .btn-primary {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
@@ -236,5 +250,14 @@ import BookingModal from '../components/BookingModal.astro';
     border-color: rgba(17, 17, 17, 0.2);
     transform: translateY(-2px);
     text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-content {
+      animation: none !important;
+    }
+    .btn, .chaos-card {
+      transition: none !important;
+    }
   }
 </style>

@@ -120,6 +120,15 @@
     transition: all 0.3s ease;
   }
 
+  .btn:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 3px;
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
   .btn-primary {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
     backdrop-filter: blur(12px);
@@ -334,5 +343,27 @@
   
   @media (max-width: 768px) {
     .hero-visual { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animated-text,
+    .pulse-ring,
+    .task-card,
+    .line {
+      animation: none !important;
+      transition: none !important;
+    }
+    .animated-text {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .line {
+      stroke-dashoffset: 0 !important;
+      stroke: var(--accent) !important;
+      opacity: 0.4 !important;
+    }
+    .task-card {
+      transform: translate(-50%, -50%) !important;
+    }
   }
 </style>

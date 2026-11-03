@@ -40,14 +40,20 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
         <div class="bm-slots">
           <div class="bm-slots-header">
             <p class="bm-slots-title" data-bm-slots-title>Available times</p>
-            <p class="bm-tz">⚡ {BOOKING.slotMinutes}-min call &bull; {BOOKING.timezoneLabel}</p>
+            <p class="bm-tz">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              {BOOKING.slotMinutes}-min call &bull; {BOOKING.timezoneLabel}
+            </p>
           </div>
 
           <div class="bm-slot-container" data-bm-slots-container>
             <!-- Morning group -->
             <div class="bm-slot-section">
               <div class="bm-slot-section-title">
-                <span>☀️ Morning</span>
+                <span class="bm-slot-time-badge">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                  Morning
+                </span>
                 <small>9:00 AM – 11:30 AM</small>
               </div>
               <div class="bm-slot-grid" data-bm-slots-morning>
@@ -58,7 +64,10 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
             <!-- Afternoon group -->
             <div class="bm-slot-section">
               <div class="bm-slot-section-title">
-                <span>🌤️ Afternoon</span>
+                <span class="bm-slot-time-badge">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 10V2"/><path d="m4.93 10.93 1.41-1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41-1.41"/><path d="M22 22H2"/><path d="m16 6-4-4-4 4"/><path d="M16 18a4 4 0 0 0-8 0"/></svg>
+                  Afternoon
+                </span>
                 <small>1:00 PM – 5:30 PM</small>
               </div>
               <div class="bm-slot-grid" data-bm-slots-afternoon>
@@ -78,7 +87,9 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
     <section data-bm-step="2" hidden>
       <div class="bm-picked">
         <div class="bm-picked-info">
-          <span class="bm-picked-icon">📅</span>
+          <span class="bm-picked-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </span>
           <span data-bm-picked></span>
         </div>
         <button type="button" class="bm-link" data-bm-back>Change date or time</button>
@@ -145,28 +156,36 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
 
         <div class="bm-done-details">
           <div class="bm-done-item">
-            <span class="bm-done-icon">📅</span>
+            <span class="bm-done-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m9 16 2 2 4-4"/></svg>
+            </span>
             <div>
               <strong data-bm-done-datetime>Loading schedule...</strong>
               <small>Philippine Time (PHT, UTC+8)</small>
             </div>
           </div>
           <div class="bm-done-item">
-            <span class="bm-done-icon">📹</span>
+            <span class="bm-done-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            </span>
             <div>
               <strong data-bm-done-meeting>Google Meet</strong>
               <small>Meeting link or call details will be provided before our session</small>
             </div>
           </div>
           <div class="bm-done-item">
-            <span class="bm-done-icon">⏱️</span>
+            <span class="bm-done-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </span>
             <div>
               <strong>{BOOKING.slotMinutes} minutes</strong>
               <small>Live 1-on-1 audit and walk-through</small>
             </div>
           </div>
           <div class="bm-done-item">
-            <span class="bm-done-icon">✉️</span>
+            <span class="bm-done-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </span>
             <div>
               <strong>Confirmation sent</strong>
               <small data-bm-done-email-note>Details recorded for reubenmagallanes91@gmail.com</small>
@@ -637,7 +656,16 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
   /* Slots section */
   .bm-slots-header { margin-bottom: 0.85rem; }
   .bm-slots-title { font-weight: 800; font-size: 1.05rem; margin: 0 0 0.2rem; color: var(--ink); letter-spacing: -0.01em; }
-  .bm-tz { font-size: 0.78rem; color: var(--ink-muted); margin: 0; font-weight: 500; }
+  .bm-tz {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    margin: 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .bm-tz svg { color: var(--accent); flex-shrink: 0; }
 
   .bm-slot-container {
     max-height: 330px;
@@ -662,6 +690,17 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
     font-weight: 700;
     color: var(--ink);
     margin-bottom: 0.65rem;
+  }
+  .bm-slot-time-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .bm-slot-time-badge svg {
+    color: var(--accent);
+    flex-shrink: 0;
   }
   .bm-slot-section-title small { font-size: 0.72rem; color: var(--ink-muted); font-weight: 500; }
 
@@ -831,14 +870,24 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
   }
   .bm-done-item {
     display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
+    align-items: center;
+    gap: 0.85rem;
     background: #fff;
     border: 1px solid #ede8f5;
     border-radius: 12px;
     padding: 0.85rem 1rem;
   }
-  .bm-done-icon { font-size: 1.25rem; line-height: 1.2; }
+  .bm-done-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #f4efff;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
   .bm-done-item strong { display: block; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.15rem; }
   .bm-done-item small { display: block; font-size: 0.75rem; color: var(--ink-muted); line-height: 1.3; }
 
@@ -855,5 +904,12 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
     .bm-done-actions { flex-direction: column; }
     .bm-done-actions .bm-btn { width: 100%; }
     .bm-steps { font-size: 0.72rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bm-card, .bm-btn, .bm-slot, .bm-day, .bm-close {
+      transition: none !important;
+      transform: none !important;
+    }
   }
 </style>
