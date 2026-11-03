@@ -1,0 +1,859 @@
+---
+/**
+ * Booking modal: calendar -> time slot -> details -> confirmation.
+ * Open it from any element with the attribute `data-open-booking`,
+ * or by visiting the page with #book in the URL.
+ * Talks to the Worker API: GET /api/slots, POST /api/book.
+ */
+import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
+---
+
+<dialog id="bookingModal" class="bm" aria-labelledby="bmTitle">
+  <div class="bm-card">
+    <button type="button" class="bm-close" data-bm-close aria-label="Close booking">&times;</button>
+
+    <header class="bm-header">
+      <span class="bm-badge">Free {BOOKING.slotMinutes}-minute audit</span>
+      <h3 id="bmTitle">Book your automation audit</h3>
+      <ol class="bm-steps" aria-label="Booking steps">
+        <li data-bm-ind="1" class="is-active">Date &amp; time</li>
+        <li data-bm-ind="2">Your details</li>
+        <li data-bm-ind="3">Confirmed</li>
+      </ol>
+    </header>
+
+    <!-- Step 1: date + time -->
+    <section data-bm-step="1">
+      <div class="bm-grid">
+        <div class="bm-cal">
+          <div class="bm-cal-head">
+            <button type="button" class="bm-nav" data-bm-prev aria-label="Previous month">&#8249;</button>
+            <strong data-bm-month aria-live="polite"></strong>
+            <button type="button" class="bm-nav" data-bm-next aria-label="Next month">&#8250;</button>
+          </div>
+          <div class="bm-weekdays" aria-hidden="true">
+            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+          </div>
+          <div class="bm-days" data-bm-days></div>
+        </div>
+
+        <div class="bm-slots">
+          <div class="bm-slots-header">
+            <p class="bm-slots-title" data-bm-slots-title>Available times</p>
+            <p class="bm-tz">⚡ {BOOKING.slotMinutes}-min call &bull; {BOOKING.timezoneLabel}</p>
+          </div>
+
+          <div class="bm-slot-container" data-bm-slots-container>
+            <!-- Morning group -->
+            <div class="bm-slot-section">
+              <div class="bm-slot-section-title">
+                <span>☀️ Morning</span>
+                <small>9:00 AM – 11:30 AM</small>
+              </div>
+              <div class="bm-slot-grid" data-bm-slots-morning>
+                <p class="bm-hint">Loading times...</p>
+              </div>
+            </div>
+
+            <!-- Afternoon group -->
+            <div class="bm-slot-section">
+              <div class="bm-slot-section-title">
+                <span>🌤️ Afternoon</span>
+                <small>1:00 PM – 5:30 PM</small>
+              </div>
+              <div class="bm-slot-grid" data-bm-slots-afternoon>
+                <p class="bm-hint">Loading times...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="bm-error" data-bm-error1 role="alert" hidden></p>
+      <div class="bm-actions">
+        <button type="button" class="bm-btn bm-btn-primary" data-bm-continue disabled>Select a time above</button>
+      </div>
+    </section>
+
+    <!-- Step 2: details -->
+    <section data-bm-step="2" hidden>
+      <div class="bm-picked">
+        <div class="bm-picked-info">
+          <span class="bm-picked-icon">📅</span>
+          <span data-bm-picked></span>
+        </div>
+        <button type="button" class="bm-link" data-bm-back>Change date or time</button>
+      </div>
+
+      <form class="bm-form" data-bm-form novalidate>
+        <div class="bm-row">
+          <label class="bm-field">
+            <span>Your name</span>
+            <input name="name" type="text" autocomplete="name" required maxlength="120" placeholder="Juan Dela Cruz" />
+          </label>
+          <label class="bm-field">
+            <span>Business name</span>
+            <input name="business" type="text" autocomplete="organization" required maxlength="160" placeholder="Cafe Luna" />
+          </label>
+        </div>
+        <div class="bm-row">
+          <label class="bm-field">
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" required maxlength="200" placeholder="you@business.ph" />
+          </label>
+          <label class="bm-field">
+            <span>Phone / Viber <em>(optional)</em></span>
+            <input name="phone" type="tel" autocomplete="tel" maxlength="40" placeholder="0917 123 4567" />
+          </label>
+        </div>
+        <div class="bm-row">
+          <label class="bm-field">
+            <span>What do you want to automate first?</span>
+            <select name="goal" required>
+              {Object.entries(GOALS).map(([value, label]) => <option value={value}>{label}</option>)}
+            </select>
+          </label>
+          <label class="bm-field">
+            <span>Meeting Format</span>
+            <select name="meeting_type" required>
+              {Object.entries(MEETING_TYPES).map(([value, label]) => (
+                <option value={value} selected={value === 'google_meet'}>{label}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <label class="bm-field">
+          <span>Anything I should know? <em>(optional)</em></span>
+          <textarea name="notes" rows="3" maxlength="2000" placeholder="e.g. We get 80+ Messenger orders a day and miss a lot during lunch rush."></textarea>
+        </label>
+
+        <!-- Honeypot. Hidden from people, bots fill it. -->
+        <label class="bm-hp" aria-hidden="true">
+          Website <input name="website" type="text" tabindex="-1" autocomplete="off" />
+        </label>
+
+        <p class="bm-error" data-bm-error2 role="alert" hidden></p>
+        <button type="submit" class="bm-btn bm-btn-primary bm-submit" data-bm-submit>Confirm booking &rarr;</button>
+      </form>
+    </section>
+
+    <!-- Step 3: done -->
+    <section data-bm-step="3" hidden class="bm-done">
+      <div class="bm-done-card">
+        <span class="bm-check" aria-hidden="true">&#10003;</span>
+        <h4>You're all booked!</h4>
+        <p class="bm-done-intro">Your free automation audit has been scheduled with Ben.</p>
+
+        <div class="bm-done-details">
+          <div class="bm-done-item">
+            <span class="bm-done-icon">📅</span>
+            <div>
+              <strong data-bm-done-datetime>Loading schedule...</strong>
+              <small>Philippine Time (PHT, UTC+8)</small>
+            </div>
+          </div>
+          <div class="bm-done-item">
+            <span class="bm-done-icon">📹</span>
+            <div>
+              <strong data-bm-done-meeting>Google Meet</strong>
+              <small>Meeting link or call details will be provided before our session</small>
+            </div>
+          </div>
+          <div class="bm-done-item">
+            <span class="bm-done-icon">⏱️</span>
+            <div>
+              <strong>{BOOKING.slotMinutes} minutes</strong>
+              <small>Live 1-on-1 audit and walk-through</small>
+            </div>
+          </div>
+          <div class="bm-done-item">
+            <span class="bm-done-icon">✉️</span>
+            <div>
+              <strong>Confirmation sent</strong>
+              <small data-bm-done-email-note>Details recorded for reubenmagallanes91@gmail.com</small>
+            </div>
+          </div>
+        </div>
+
+        <p class="bm-muted">Add this to your calendar so you don't miss our audit:</p>
+
+        <div class="bm-done-actions">
+          <a class="bm-btn bm-btn-primary" data-bm-gcal href="#" target="_blank" rel="noopener noreferrer">
+            Add to Google Calendar
+          </a>
+          <a class="bm-btn bm-btn-ghost" data-bm-ics href="#" download="beneru-automation-audit.ics">
+            Download .ics Calendar
+          </a>
+        </div>
+
+        <div class="bm-done-footer">
+          <button type="button" class="bm-btn bm-btn-close" data-bm-close>Done &amp; Close</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</dialog>
+
+<script>
+  import {
+    BOOKING,
+    addDays,
+    findFirstOpenDate,
+    formatDateLabel,
+    formatSlotLabel,
+    isBookableDate,
+    manilaNow,
+  } from '../../shared/booking';
+
+  type Slot = { time: string; label: string; available: boolean };
+
+  const modal = document.getElementById('bookingModal') as HTMLDialogElement | null;
+
+  if (modal) {
+    const $ = <T extends Element>(sel: string) => modal.querySelector(sel) as T;
+
+    const monthLabel = $<HTMLElement>('[data-bm-month]');
+    const daysEl = $<HTMLElement>('[data-bm-days]');
+    const prevBtn = $<HTMLButtonElement>('[data-bm-prev]');
+    const nextBtn = $<HTMLButtonElement>('[data-bm-next]');
+    const slotsTitle = $<HTMLElement>('[data-bm-slots-title]');
+    const morningGrid = $<HTMLElement>('[data-bm-slots-morning]');
+    const afternoonGrid = $<HTMLElement>('[data-bm-slots-afternoon]');
+    const continueBtn = $<HTMLButtonElement>('[data-bm-continue]');
+    const backBtn = $<HTMLButtonElement>('[data-bm-back]');
+    const pickedEl = $<HTMLElement>('[data-bm-picked]');
+    const form = $<HTMLFormElement>('[data-bm-form]');
+    const submitBtn = $<HTMLButtonElement>('[data-bm-submit]');
+    const error1 = $<HTMLElement>('[data-bm-error1]');
+    const error2 = $<HTMLElement>('[data-bm-error2]');
+    const doneDatetime = $<HTMLElement>('[data-bm-done-datetime]');
+    const doneMeeting = $<HTMLElement>('[data-bm-done-meeting]');
+    const doneEmailNote = $<HTMLElement>('[data-bm-done-email-note]');
+    const gcalLink = $<HTMLAnchorElement>('[data-bm-gcal]');
+    const icsLink = $<HTMLAnchorElement>('[data-bm-ics]');
+
+    const today = manilaNow().date;
+    const lastDay = addDays(today, BOOKING.maxDaysAhead);
+    const minMonth = today.slice(0, 7);
+    const maxMonth = lastDay.slice(0, 7);
+
+    let viewMonth = minMonth; // YYYY-MM
+    let selectedDate: string | null = null;
+    let selectedTime: string | null = null;
+    let slotRequest = 0;
+
+    const showError = (el: HTMLElement, msg: string | null) => {
+      el.textContent = msg ?? '';
+      el.hidden = !msg;
+    };
+
+    const goToStep = (step: 1 | 2 | 3) => {
+      modal.querySelectorAll<HTMLElement>('[data-bm-step]').forEach((s) => {
+        s.hidden = s.dataset.bmStep !== String(step);
+      });
+      modal.querySelectorAll<HTMLElement>('[data-bm-ind]').forEach((li) => {
+        const n = Number(li.dataset.bmInd);
+        li.classList.toggle('is-active', n === step);
+        li.classList.toggle('is-done', n < step);
+      });
+    };
+
+    const shiftMonth = (ym: string, delta: number) => {
+      const [y, m] = ym.split('-').map(Number);
+      const d = new Date(Date.UTC(y, m - 1 + delta, 1));
+      return d.toISOString().slice(0, 7);
+    };
+
+    function renderCalendar() {
+      const [y, m] = viewMonth.split('-').map(Number);
+      const first = new Date(Date.UTC(y, m - 1, 1));
+      const daysInMonth = new Date(Date.UTC(y, m, 0)).getUTCDate();
+      monthLabel.textContent = first.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+      prevBtn.disabled = viewMonth <= minMonth;
+      nextBtn.disabled = viewMonth >= maxMonth;
+
+      daysEl.innerHTML = '';
+      for (let i = 0; i < first.getUTCDay(); i++) {
+        daysEl.appendChild(document.createElement('span'));
+      }
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = `${viewMonth}-${String(day).padStart(2, '0')}`;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'bm-day';
+        btn.textContent = String(day);
+        btn.dataset.date = date;
+        const open = isBookableDate(date);
+        btn.disabled = !open;
+        if (open) btn.classList.add('is-open');
+        if (date === today) btn.classList.add('is-today');
+        if (date === selectedDate) btn.classList.add('is-selected');
+        btn.setAttribute('aria-label', `${formatDateLabel(date)}${open ? '' : ', unavailable'}`);
+        btn.setAttribute('aria-pressed', String(date === selectedDate));
+        btn.addEventListener('click', () => selectDate(date));
+        daysEl.appendChild(btn);
+      }
+    }
+
+    function createSlotButton(slot: Slot): HTMLElement {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'bm-slot';
+      btn.textContent = slot.label;
+      btn.disabled = !slot.available;
+      if (!slot.available) {
+        btn.classList.add('is-taken');
+        btn.setAttribute('aria-label', `${slot.label}, booked`);
+        btn.title = 'Already booked';
+      }
+      if (slot.time === selectedTime) {
+        btn.classList.add('is-selected');
+        btn.textContent = `✓ ${slot.label}`;
+      }
+      btn.setAttribute('aria-pressed', String(slot.time === selectedTime));
+
+      btn.addEventListener('click', () => {
+        selectedTime = slot.time;
+        continueBtn.disabled = false;
+        continueBtn.textContent = `Continue with ${slot.label} →`;
+
+        modal.querySelectorAll('.bm-slot').forEach((b) => {
+          const isTarget = b === btn;
+          b.classList.toggle('is-selected', isTarget);
+          b.setAttribute('aria-pressed', String(isTarget));
+          const labelText = b.textContent?.replace(/^✓\s*/, '') || '';
+          b.textContent = isTarget ? `✓ ${labelText}` : labelText;
+        });
+      });
+      return btn;
+    }
+
+    function renderSlots(slots: Slot[]) {
+      morningGrid.innerHTML = '';
+      afternoonGrid.innerHTML = '';
+
+      const available = slots.filter((s) => s.available);
+      if (!slots.length || !available.length) {
+        morningGrid.innerHTML = '<p class="bm-hint">No open morning slots on this day.</p>';
+        afternoonGrid.innerHTML = '<p class="bm-hint">No open afternoon slots on this day. Try selecting another date on the calendar.</p>';
+        return;
+      }
+
+      const morningSlots = slots.filter((s) => {
+        const [h] = s.time.split(':').map(Number);
+        return h < 12;
+      });
+
+      const afternoonSlots = slots.filter((s) => {
+        const [h] = s.time.split(':').map(Number);
+        return h >= 12;
+      });
+
+      if (morningSlots.length > 0) {
+        morningSlots.forEach((s) => morningGrid.appendChild(createSlotButton(s)));
+      } else {
+        morningGrid.innerHTML = '<p class="bm-hint">No morning slots available today.</p>';
+      }
+
+      if (afternoonSlots.length > 0) {
+        afternoonSlots.forEach((s) => afternoonGrid.appendChild(createSlotButton(s)));
+      } else {
+        afternoonGrid.innerHTML = '<p class="bm-hint">No afternoon slots available today.</p>';
+      }
+    }
+
+    async function loadSlots(date: string) {
+      const req = ++slotRequest;
+      morningGrid.innerHTML = '<p class="bm-hint">Checking availability...</p>';
+      afternoonGrid.innerHTML = '';
+      showError(error1, null);
+      try {
+        const res = await fetch(`/api/slots?date=${date}`, { headers: { Accept: 'application/json' } });
+        const data = await res.json();
+        if (req !== slotRequest) return; // a newer date was clicked
+        if (!res.ok || !data.ok) throw new Error(data.error || 'Could not load times.');
+        renderSlots(data.slots as Slot[]);
+      } catch (err) {
+        if (req !== slotRequest) return;
+        morningGrid.innerHTML = '';
+        afternoonGrid.innerHTML = '';
+        showError(error1, 'Could not load available times. Please check your internet connection.');
+        console.error(err);
+      }
+    }
+
+    function selectDate(date: string) {
+      selectedDate = date;
+      selectedTime = null;
+      continueBtn.disabled = true;
+      continueBtn.textContent = 'Select a time above';
+      slotsTitle.textContent = formatDateLabel(date);
+      renderCalendar();
+      loadSlots(date);
+    }
+
+    prevBtn.addEventListener('click', () => {
+      viewMonth = shiftMonth(viewMonth, -1);
+      renderCalendar();
+    });
+    nextBtn.addEventListener('click', () => {
+      viewMonth = shiftMonth(viewMonth, 1);
+      renderCalendar();
+    });
+
+    continueBtn.addEventListener('click', () => {
+      if (!selectedDate || !selectedTime) return;
+      pickedEl.textContent = `${formatDateLabel(selectedDate)} at ${formatSlotLabel(selectedTime)} (PHT)`;
+      showError(error2, null);
+      goToStep(2);
+      (form.elements.namedItem('name') as HTMLInputElement).focus();
+    });
+
+    backBtn.addEventListener('click', () => goToStep(1));
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!selectedDate || !selectedTime) return goToStep(1);
+      if (!form.reportValidity()) return;
+
+      const fd = new FormData(form);
+      const payload = {
+        date: selectedDate,
+        time: selectedTime,
+        name: fd.get('name'),
+        business: fd.get('business'),
+        email: fd.get('email'),
+        phone: fd.get('phone'),
+        goal: fd.get('goal'),
+        meeting_type: fd.get('meeting_type'),
+        notes: fd.get('notes'),
+        website: fd.get('website'),
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Securing your slot...';
+      showError(error2, null);
+
+      try {
+        const res = await fetch('/api/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+
+        if (res.status === 409) {
+          // Slot was just taken or expired.
+          selectedTime = null;
+          continueBtn.disabled = true;
+          continueBtn.textContent = 'Select a time above';
+          goToStep(1);
+          if (Array.isArray(data.slots)) renderSlots(data.slots);
+          showError(error1, data.error || 'That slot was just booked by someone else. Please choose another time.');
+          return;
+        }
+        if (!res.ok || !data.ok) {
+          showError(error2, data.error || 'Could not complete the booking. Please try again.');
+          return;
+        }
+
+        const b = data.booking;
+        doneDatetime.textContent = `${b.dateLabel} at ${b.timeLabel}`;
+        doneMeeting.textContent = b.meetingLabel;
+        if (payload.email) {
+          doneEmailNote.textContent = `Notification sent to Ben (reubenmagallanes91@gmail.com) and ${payload.email}`;
+        }
+        gcalLink.href = b.googleCalendarUrl;
+        icsLink.href = b.icsUrl;
+        icsLink.setAttribute('download', 'beneru-automation-audit.ics');
+        goToStep(3);
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        showError(error2, 'Network error. Your booking was not sent. Please try again.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirm booking \u2192';
+      }
+    });
+
+    const resetFlow = () => {
+      selectedTime = null;
+      continueBtn.disabled = true;
+      continueBtn.textContent = 'Select a time above';
+      showError(error1, null);
+      showError(error2, null);
+      goToStep(1);
+      // Auto-select the first available open date
+      const initialDate = findFirstOpenDate();
+      viewMonth = initialDate.slice(0, 7);
+      selectDate(initialDate);
+    };
+
+    const open = () => {
+      // If previous booking was completed or nothing selected yet, start fresh with auto-picked date
+      if (!modal.querySelector<HTMLElement>('[data-bm-step="3"]')!.hidden || !selectedDate) {
+        resetFlow();
+      }
+      modal.showModal();
+    };
+
+    document.querySelectorAll<HTMLElement>('[data-open-booking]').forEach((el) =>
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        open();
+      }),
+    );
+    modal.querySelectorAll('[data-bm-close]').forEach((el) => el.addEventListener('click', () => modal.close()));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.close();
+    });
+
+    // Auto-select the first bookable date initially
+    const initialDate = findFirstOpenDate();
+    viewMonth = initialDate.slice(0, 7);
+    selectDate(initialDate);
+
+    if (location.hash === '#book') open();
+  }
+</script>
+
+<style is:global>
+  .bm {
+    border: none;
+    padding: 0;
+    background: transparent;
+    width: min(780px, 95vw);
+    max-width: none;
+    max-height: 92vh;
+    overflow: visible;
+  }
+  .bm::backdrop {
+    background: rgba(10, 10, 15, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .bm-card {
+    position: relative;
+    background: #fff;
+    border-radius: 24px;
+    padding: 2.2rem 2.4rem;
+    max-height: 92vh;
+    overflow-y: auto;
+    text-align: left;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    color: var(--ink);
+  }
+  .bm-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    border: none;
+    background: transparent;
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--ink-2);
+    cursor: pointer;
+    padding: 0.25rem 0.6rem;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+  }
+  .bm-close:hover { background: rgba(0, 0, 0, 0.06); color: var(--ink); }
+
+  .bm-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+  .bm-header h3 { font-size: 1.55rem; font-weight: 800; margin: 0 0 1rem; letter-spacing: -0.02em; }
+  .bm-steps {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+  }
+  .bm-steps li {
+    flex: 1;
+    padding-top: 0.5rem;
+    border-top: 3px solid var(--rule);
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  .bm-steps li.is-active { color: var(--accent); border-color: var(--accent); }
+  .bm-steps li.is-done { color: var(--ink-2); border-color: #c9aaff; }
+
+  /* Calendar and Time grid */
+  .bm-grid { display: grid; grid-template-columns: 1.05fr 1.25fr; gap: 1.75rem; align-items: start; }
+
+  .bm-cal {
+    background: #faf9fd;
+    border: 1px solid #ede8f5;
+    border-radius: 16px;
+    padding: 1.1rem;
+  }
+  .bm-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; }
+  .bm-cal-head strong { font-size: 0.95rem; font-weight: 700; color: var(--ink); }
+  .bm-nav {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    background: #fff;
+    font-size: 1.15rem;
+    cursor: pointer;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .bm-nav:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .bm-nav:disabled { opacity: 0.25; cursor: default; }
+
+  .bm-weekdays, .bm-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .bm-weekdays span { text-align: center; font-size: 0.72rem; color: var(--ink-muted); font-weight: 600; padding: 4px 0; }
+  .bm-day {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: #c8c8cf;
+    cursor: default;
+    transition: all 0.15s ease;
+  }
+  .bm-day.is-open { color: var(--ink); background: #f0eaff; font-weight: 600; cursor: pointer; }
+  .bm-day.is-open:hover { background: #e4d8ff; color: var(--accent); transform: scale(1.05); }
+  .bm-day.is-today { outline: 2px dashed var(--accent); outline-offset: -3px; }
+  .bm-day.is-selected, .bm-day.is-selected:hover { background: var(--accent); color: #fff; font-weight: 700; }
+  .bm-day:focus-visible, .bm-slot:focus-visible, .bm-nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Slots section */
+  .bm-slots-header { margin-bottom: 0.85rem; }
+  .bm-slots-title { font-weight: 800; font-size: 1.05rem; margin: 0 0 0.2rem; color: var(--ink); letter-spacing: -0.01em; }
+  .bm-tz { font-size: 0.78rem; color: var(--ink-muted); margin: 0; font-weight: 500; }
+
+  .bm-slot-container {
+    max-height: 330px;
+    overflow-y: auto;
+    padding-right: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .bm-slot-section {
+    background: #faf9fd;
+    border: 1px solid #ede8f5;
+    border-radius: 14px;
+    padding: 0.85rem 1rem 1rem;
+  }
+  .bm-slot-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.65rem;
+  }
+  .bm-slot-section-title small { font-size: 0.72rem; color: var(--ink-muted); font-weight: 500; }
+
+  .bm-slot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.45rem;
+  }
+
+  .bm-slot {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.4rem;
+    border-radius: 10px;
+    border: 1.5px solid #ded5fa;
+    background: #fff;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.84rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+  }
+  .bm-slot:hover { border-color: var(--accent); background: #f3edff; color: var(--accent); transform: translateY(-1px); }
+  .bm-slot.is-selected, .bm-slot.is-selected:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 4px 14px rgba(103, 0, 255, 0.28);
+    font-weight: 700;
+    transform: none;
+  }
+  .bm-slot.is-taken {
+    opacity: 0.35;
+    background: #f1f1f4;
+    border-color: #e5e5ea;
+    color: #999;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .bm-hint { grid-column: 1 / -1; font-size: 0.8125rem; color: var(--ink-2); margin: 0.25rem 0; font-style: italic; }
+
+  /* Actions */
+  .bm-actions { display: flex; justify-content: flex-end; margin-top: 1.5rem; }
+  .bm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .bm-btn-primary { background: var(--accent); color: #fff; box-shadow: 0 8px 24px rgba(103, 0, 255, 0.25); }
+  .bm-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(103, 0, 255, 0.3); text-decoration: none; }
+  .bm-btn-primary:disabled { background: #dcd7e6; color: #8e879e; box-shadow: none; transform: none; cursor: not-allowed; }
+  .bm-btn-ghost { background: #fff; color: var(--accent); border-color: #d9c7ff; font-weight: 600; }
+  .bm-btn-ghost:hover { background: var(--accent-light); text-decoration: none; }
+  .bm-btn-close { background: #f0ecf8; color: var(--ink); border: 1px solid #ded5fa; padding: 0.65rem 1.4rem; font-size: 0.875rem; }
+  .bm-btn-close:hover { background: #e4ddf4; }
+
+  .bm-link {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    text-decoration: underline;
+  }
+  .bm-link:hover { background: rgba(103, 0, 255, 0.08); }
+
+  /* Step 2 */
+  .bm-picked {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: #f4efff;
+    border: 1.5px solid #ded3fa;
+    border-radius: 14px;
+    padding: 0.85rem 1.1rem;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--accent);
+    margin-bottom: 1.4rem;
+  }
+  .bm-picked-info { display: flex; align-items: center; gap: 0.5rem; }
+  .bm-picked-icon { font-size: 1.1rem; }
+
+  .bm-form { display: flex; flex-direction: column; gap: 1.05rem; }
+  .bm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .bm-field { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8125rem; font-weight: 600; }
+  .bm-field em { font-weight: 400; color: var(--ink-muted); font-style: normal; }
+  .bm-field input, .bm-field select, .bm-field textarea {
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    font-size: 0.9375rem;
+    font-family: inherit;
+    color: var(--ink);
+    background: #fdfdfd;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .bm-field textarea { resize: vertical; min-height: 80px; }
+  .bm-field input:focus, .bm-field select:focus, .bm-field textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(103, 0, 255, 0.15);
+  }
+  .bm-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .bm-submit { width: 100%; margin-top: 0.5rem; font-size: 1rem; padding: 0.95rem; }
+
+  .bm-error {
+    background: #fff1f2;
+    color: #be123c;
+    border: 1px solid #fecdd3;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    margin: 1rem 0 0;
+  }
+
+  /* Step 3 (Confirmed) */
+  .bm-done { padding: 0.5rem 0; }
+  .bm-done-card {
+    text-align: center;
+    background: #faf8ff;
+    border: 1px solid #ebe4f7;
+    border-radius: 20px;
+    padding: 2rem 1.75rem;
+  }
+  .bm-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: #eefdf3;
+    color: #16a34a;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 0.85rem;
+    box-shadow: 0 6px 18px rgba(22, 163, 74, 0.18);
+  }
+  .bm-done h4 { font-size: 1.55rem; font-weight: 800; margin: 0 0 0.35rem; letter-spacing: -0.02em; }
+  .bm-done-intro { color: var(--ink-2); font-size: 0.95rem; margin: 0 0 1.5rem; }
+
+  .bm-done-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    text-align: left;
+    margin-bottom: 1.5rem;
+  }
+  .bm-done-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background: #fff;
+    border: 1px solid #ede8f5;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+  }
+  .bm-done-icon { font-size: 1.25rem; line-height: 1.2; }
+  .bm-done-item strong { display: block; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.15rem; }
+  .bm-done-item small { display: block; font-size: 0.75rem; color: var(--ink-muted); line-height: 1.3; }
+
+  .bm-muted { color: var(--ink-2); font-size: 0.875rem; margin: 0 0 1rem; }
+  .bm-done-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .bm-done-footer { margin-top: 0.5rem; }
+
+  @media (max-width: 680px) {
+    .bm-card { padding: 1.6rem 1.25rem; border-radius: 20px; }
+    .bm-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .bm-row { grid-template-columns: 1fr; gap: 0.85rem; }
+    .bm-slot-grid { grid-template-columns: repeat(3, 1fr); }
+    .bm-done-details { grid-template-columns: 1fr; }
+    .bm-done-actions { flex-direction: column; }
+    .bm-done-actions .bm-btn { width: 100%; }
+    .bm-steps { font-size: 0.72rem; }
+  }
+</style>

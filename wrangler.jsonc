@@ -1,0 +1,51 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "beneru",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  "observability": { "enabled": true },
+
+  // Astro builds static pages into ./dist. The Worker only runs for /api/*.
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // Bookings live here. Unique index on (date, time) = no double bookings.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "beneru-bookings",
+      "database_id": "17eaa123-7290-4ec9-a882-dcbefef2aae9",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Cloudflare Email Service. Sending to a verified destination (Reuben's
+  // Gmail) is free. Sending to customers needs Email Sending (Workers Paid);
+  // flip SEND_CUSTOMER_CONFIRMATION to "true" once that's enabled.
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "allowed_destination_addresses": ["reubenmagallanes91@gmail.com"]
+    }
+  ],
+
+  "routes": [
+    {
+      "pattern": "beneru.spawntel.com/*",
+      "zone_name": "spawntel.com"
+    }
+  ],
+
+  "vars": {
+    "OWNER_EMAIL": "reubenmagallanes91@gmail.com",
+    "OWNER_NAME": "Ben (Beneru)",
+    "FROM_EMAIL": "bookings@spawntel.com",
+    "SITE_URL": "https://beneru.spawntel.com",
+    "SEND_CUSTOMER_CONFIRMATION": "false"
+  }
+}

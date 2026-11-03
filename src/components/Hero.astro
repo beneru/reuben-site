@@ -12,7 +12,7 @@
     </p>
     <div class="hero-actions">
       <a href="#solutions" class="btn btn-primary">See What We Automate</a>
-      <a href="#demo" class="btn btn-secondary">Book a Demo</a>
+      <button id="heroDemoBtn" type="button" class="btn btn-secondary" data-open-booking>Book a Demo</button>
     </div>
   </div>
 
@@ -22,7 +22,10 @@
     <div class="profile-center">
       <div class="profile-glow"></div>
       <div class="glass-frame">
-        <img src="/PFP.png" alt="Ben" class="profile-img" />
+        <picture>
+          <source srcset="/PFP.webp" type="image/webp" />
+          <img src="/PFP.png" alt="Ben" width="400" height="400" loading="eager" decoding="async" class="profile-img" />
+        </picture>
       </div>
       <div class="ai-node">
         <div class="pulse-ring"></div>
@@ -108,6 +111,12 @@
     font-weight: 600;
     border-radius: 99px;
     font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
   }
 

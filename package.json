@@ -1,5 +1,5 @@
 {
-  "name": "agreeable-asteroid",
+  "name": "beneru-site",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -9,12 +9,20 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "worker:dev": "npm run build && wrangler dev",
+    "worker:deploy": "npm run build && wrangler deploy",
+    "db:migrate:local": "wrangler d1 execute beneru-bookings --local --file=migrations/0001_bookings.sql",
+    "db:migrate:remote": "wrangler d1 execute beneru-bookings --remote --file=migrations/0001_bookings.sql --yes"
   },
   "dependencies": {
     "astro": "^7.3.5"
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261103.1",
+    "wrangler": "^4.156.2"
   }
 }
