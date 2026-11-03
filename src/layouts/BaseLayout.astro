@@ -19,10 +19,15 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Beneru (Reuben Magallanes)" />
+    <meta name="publisher" content="Beneru" />
+    <meta name="keywords" content="Beneru, Reuben Magallanes, Ben Magallanes, Beneru AI, Spawntel, Employmo, AI automation, workflow automation, Philippines" />
+    <meta name="robots" content="index, follow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
     
     <!-- Open Graph / Social Media -->
+    <meta property="og:site_name" content="Beneru" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={currentUrl} />
     <meta property="og:title" content={title} />
@@ -36,6 +41,44 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
     <meta name="twitter:image" content={ogImage} />
     
     <title>{title}</title>
+
+    <!-- Schema.org Structured Data for Beneru & Reuben Magallanes -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://beneru.spawntel.com/#person",
+            "name": "Beneru",
+            "alternateName": ["Reuben Magallanes", "Ben Magallanes", "Beneru AI"],
+            "url": "https://beneru.spawntel.com",
+            "image": "https://beneru.spawntel.com/PFP.png",
+            "jobTitle": "Founder & AI Automation Specialist",
+            "worksFor": {
+              "@type": "Organization",
+              "name": "Spawntel",
+              "url": "https://spawntel.com"
+            },
+            "sameAs": [
+              "https://instagram.com/Beneru.ai",
+              "https://spawntel.com"
+            ],
+            "description": "Founder of Spawntel and builder of Beneru, providing intelligent AI workflows and automation systems."
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://beneru.spawntel.com/#website",
+            "url": "https://beneru.spawntel.com",
+            "name": "Beneru",
+            "alternateName": "Beneru AI",
+            "publisher": {
+              "@id": "https://beneru.spawntel.com/#person"
+            }
+          }
+        ]
+      }
+    </script>
     <slot name="json-ld" />
   </head>
   <body>

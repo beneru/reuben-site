@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://beneru.spawntel.com/sitemap.xml
