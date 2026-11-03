@@ -59,6 +59,11 @@ export interface Env {
   SITE_URL: string;
   /** "true" once Email Sending (Workers Paid) is enabled for the domain. */
   SEND_CUSTOMER_CONFIRMATION?: string;
+  /** Optional instant webhook / push notification endpoints (0 tokens) */
+  DISCORD_WEBHOOK_URL?: string;
+  TELEGRAM_BOT_TOKEN?: string;
+  TELEGRAM_CHAT_ID?: string;
+  NTFY_TOPIC?: string;
 }
 
 interface BookingRow {
@@ -275,7 +280,7 @@ async function handleBook(request: Request, env: Env, ctx: ExecutionContext): Pr
     return json({ ok: false, error: 'Could not save your booking. Please try again.' }, 500);
   }
 
-  ctx.waitUntil(sendBookingEmails(env, booking));
+  ctx.waitUntil(dispatchBookingNotifications(env, booking));
 
   return json({
     ok: true,
@@ -515,6 +520,151 @@ async function sendCancellationEmail(env: Env, b: BookingRow): Promise<void> {
 }
 
 /* ------------------------------------------------------------------ */
+/* Zero-token instant notifications: Discord, Telegram, ntfy.sh       */
+/* ------------------------------------------------------------------ */
+
+async function sendDiscordNotification(env: Env, b: BookingRow, isCancelled = false): Promise<void> {
+  const webhookUrl = env.DISCORD_WEBHOOK_URL;
+  if (!webhookUrl) return;
+
+  const when = `${formatDateLabel(b.date)} at ${formatSlotLabel(b.time)} (PHT)`;
+  const goal = GOALS[b.goal] ?? b.goal;
+  const meetingLabel = MEETING_TYPES[b.meeting_type] ?? 'Google Meet (Online video call)';
+  const gcalUrl = googleCalendarUrl(env, b, 'owner');
+
+  const title = isCancelled
+    ? `❌ Booking Cancelled: ${b.business}`
+    : `🎉 New Automation Audit: ${b.business}`;
+
+  const description = isCancelled
+    ? `**${b.name}** cancelled their audit scheduled for **${when}**. That slot is now available again on the site.`
+    : `A client just booked an automation audit on **${env.SITE_URL || 'beneru.spawntel.com'}**.`;
+
+  const color = isCancelled ? 0xef4444 : 0x6700ff;
+
+  const fields = isCancelled
+    ? [
+        { name: 'Client', value: `${b.name} (<${b.email}>)`, inline: true },
+        { name: 'Freed Slot', value: when, inline: true },
+      ]
+    : [
+        { name: 'Client Name', value: b.name, inline: true },
+        { name: 'Business Name', value: b.business, inline: true },
+        { name: 'Email', value: `[${b.email}](mailto:${b.email})`, inline: true },
+        { name: 'Phone / Viber', value: b.phone || 'Not provided', inline: true },
+        { name: 'Date & Time', value: `**${when}**`, inline: true },
+        { name: 'Meeting Format', value: meetingLabel, inline: true },
+        { name: 'Primary Focus', value: goal, inline: false },
+        { name: 'Notes', value: b.notes ? b.notes.slice(0, 500) : 'None provided', inline: false },
+        { name: 'Calendar Link', value: `[Add to Google Calendar](${gcalUrl})`, inline: false },
+      ];
+
+  const payload = {
+    username: 'Beneru Bookings',
+    avatar_url: 'https://beneru.spawntel.com/PFP.webp',
+    embeds: [
+      {
+        title,
+        description,
+        color,
+        fields,
+        footer: { text: 'Beneru Booking Engine • Zero-token real-time alert' },
+        timestamp: new Date().toISOString(),
+      },
+    ],
+  };
+
+  try {
+    const res = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      console.error('discord webhook failed', res.status, await res.text());
+    }
+  } catch (err) {
+    console.error('discord notification error', err);
+  }
+}
+
+async function sendTelegramNotification(env: Env, b: BookingRow, isCancelled = false): Promise<void> {
+  const token = env.TELEGRAM_BOT_TOKEN;
+  const chatId = env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+
+  const when = `${formatDateLabel(b.date)} at ${formatSlotLabel(b.time)} (PHT)`;
+  const goal = GOALS[b.goal] ?? b.goal;
+  const meetingLabel = MEETING_TYPES[b.meeting_type] ?? 'Google Meet';
+
+  const text = isCancelled
+    ? `❌ *Booking Cancelled*\n\n*Business:* ${b.business}\n*Client:* ${b.name} (${b.email})\n*Slot:* ${when}\nSlot is now available.`
+    : `🎉 *New Automation Audit Booked!*\n\n*Business:* ${b.business}\n*Client:* ${b.name}\n*Email:* ${b.email}\n*Phone:* ${b.phone || 'N/A'}\n*Schedule:* ${when}\n*Format:* ${meetingLabel}\n*Focus:* ${goal}\n*Notes:* ${b.notes || 'None'}`;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: 'Markdown',
+      }),
+    });
+    if (!res.ok) {
+      console.error('telegram notification failed', res.status, await res.text());
+    }
+  } catch (err) {
+    console.error('telegram notification error', err);
+  }
+}
+
+async function sendNtfyNotification(env: Env, b: BookingRow, isCancelled = false): Promise<void> {
+  const topic = env.NTFY_TOPIC;
+  if (!topic) return;
+
+  const when = `${formatDateLabel(b.date)} at ${formatSlotLabel(b.time)}`;
+  const title = isCancelled
+    ? `❌ Cancelled: ${b.business}`
+    : `🎉 New Audit: ${b.business}`;
+  const body = isCancelled
+    ? `${b.name} cancelled for ${when}. Slot is reopened.`
+    : `${b.name} booked for ${when} via ${MEETING_TYPES[b.meeting_type] || 'Google Meet'}. Phone: ${b.phone || 'N/A'}`;
+
+  try {
+    await fetch(`https://ntfy.sh/${topic}`, {
+      method: 'POST',
+      headers: {
+        Title: title,
+        Tags: isCancelled ? 'x,warning' : 'tada,calendar',
+        Priority: isCancelled ? 'default' : 'high',
+      },
+      body,
+    });
+  } catch (err) {
+    console.error('ntfy notification error', err);
+  }
+}
+
+async function dispatchBookingNotifications(env: Env, b: BookingRow): Promise<void> {
+  await Promise.allSettled([
+    sendBookingEmails(env, b),
+    sendDiscordNotification(env, b, false),
+    sendTelegramNotification(env, b, false),
+    sendNtfyNotification(env, b, false),
+  ]);
+}
+
+async function dispatchCancellationNotifications(env: Env, b: BookingRow): Promise<void> {
+  await Promise.allSettled([
+    sendCancellationEmail(env, b),
+    sendDiscordNotification(env, b, true),
+    sendTelegramNotification(env, b, true),
+    sendNtfyNotification(env, b, true),
+  ]);
+}
+
+/* ------------------------------------------------------------------ */
 /* Cancel + ICS download                                               */
 /* ------------------------------------------------------------------ */
 
@@ -576,7 +726,7 @@ async function handleCancelPost(request: Request, env: Env, ctx: ExecutionContex
     )
       .bind(b.id)
       .run();
-    ctx.waitUntil(sendCancellationEmail(env, b));
+    ctx.waitUntil(dispatchCancellationNotifications(env, b));
   }
   return htmlPage(
     'Cancelled',

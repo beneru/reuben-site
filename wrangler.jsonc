@@ -46,6 +46,7 @@
     "OWNER_NAME": "Ben (Beneru)",
     "FROM_EMAIL": "bookings@spawntel.com",
     "SITE_URL": "https://beneru.spawntel.com",
-    "SEND_CUSTOMER_CONFIRMATION": "false"
+    "SEND_CUSTOMER_CONFIRMATION": "false",
+    "NTFY_TOPIC": "beneru-bookings-reuben"
   }
 }
