@@ -25,6 +25,8 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
     <meta name="keywords" content="Beneru, AI Marketing Direction, Reuben Magallanes, Ben Magallanes, Beneru AI, Spawntel, Employmo, AI automation, marketing automation Philippines, content multiplication, inbound lead capture" />
     <meta name="robots" content="index, follow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/PFP.png" />
+    <link rel="apple-touch-icon" href="/PFP.png" />
     <link rel="canonical" href={canonical} />
     
     <!-- Open Graph / Social Media -->
@@ -86,8 +88,12 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
     <a href="#main" class="skip-to-content">Skip to content</a>
     <header class="glass-header">
       <div class="header-container">
-        <a href="/" class="brand-logo">
-          <span class="logo-dot"></span> Beneru
+        <a href="/" class="brand-logo" aria-label="Beneru Home">
+          <picture class="brand-avatar-frame">
+            <source srcset="/PFP.webp" type="image/webp" />
+            <img src="/PFP.png" alt="Beneru" width="34" height="34" class="brand-avatar" loading="eager" />
+          </picture>
+          <span>Beneru</span>
         </a>
         <nav aria-label="Primary" class="nav-links">
           <a href="/about">About</a>
@@ -218,7 +224,13 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
     <footer class="site-footer">
       <div class="footer-container">
         <div class="footer-brand">
-          <strong>Beneru</strong>
+          <div class="footer-brand-title">
+            <picture class="footer-avatar-frame">
+              <source srcset="/PFP.webp" type="image/webp" />
+              <img src="/PFP.png" alt="Beneru" width="28" height="28" class="footer-avatar" loading="lazy" />
+            </picture>
+            <strong>Beneru</strong>
+          </div>
           <p>AI marketing direction and automated growth workflows for modern businesses.</p>
         </div>
         <div class="footer-links">
@@ -300,12 +312,57 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
     color: var(--ink);
   }
 
-  .logo-dot {
-    width: 10px;
-    height: 10px;
-    background-color: var(--accent);
+  .brand-avatar-frame {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    display: inline-block;
+    overflow: hidden;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 10px rgba(103, 0, 255, 0.25);
+    flex-shrink: 0;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  }
+
+  .brand-logo:hover .brand-avatar-frame {
+    transform: scale(1.08);
+    box-shadow: 0 0 16px rgba(103, 0, 255, 0.45);
+  }
+
+  .brand-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .footer-brand-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 1.15rem;
+  }
+
+  .footer-avatar-frame {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1.5px solid var(--accent);
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(103, 0, 255, 0.2);
+  }
+
+  .footer-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .nav-links {
