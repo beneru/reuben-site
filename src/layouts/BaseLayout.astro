@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
   title: string;
@@ -229,6 +230,9 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
         <p>&copy; {new Date().getFullYear()} Beneru (Reuben Magallanes). All rights reserved.</p>
       </div>
     </footer>
+
+    <!-- Cookie & Privacy Consent Notice (DPA 2012 / GDPR compliance) -->
+    <CookieConsent />
   </body>
 </html>
 

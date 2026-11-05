@@ -1,0 +1,205 @@
+---
+/**
+ * Cookie consent banner for compliance (DPA 2012, GDPR, ePrivacy).
+ * Stores user choice in localStorage ('beneru_cookie_consent').
+ */
+---
+
+<aside id="cookieConsent" class="cookie-banner" role="dialog" aria-labelledby="cookieTitle" aria-describedby="cookieDesc" hidden>
+  <div class="cookie-content">
+    <div class="cookie-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
+        <path d="M8.5 8.5v.01"/>
+        <path d="M7.5 15.5v.01"/>
+        <path d="M15.5 15.5v.01"/>
+        <path d="M11.5 12.5v.01"/>
+      </svg>
+    </div>
+    <div class="cookie-text">
+      <h4 id="cookieTitle" class="cookie-title">Cookie &amp; Privacy Notice</h4>
+      <p id="cookieDesc" class="cookie-desc">
+        We use essential cookies to maintain site security, remember your booking selections, and analyze anonymous traffic in accordance with the Philippine Data Privacy Act of 2012.
+      </p>
+    </div>
+  </div>
+  <div class="cookie-actions">
+    <button type="button" id="cookieDecline" class="cookie-btn cookie-btn-ghost">Essential Only</button>
+    <button type="button" id="cookieAccept" class="cookie-btn cookie-btn-primary">Accept All</button>
+  </div>
+</aside>
+
+<script>
+  (() => {
+    const banner = document.getElementById('cookieConsent');
+    if (!banner) return;
+
+    const STORAGE_KEY = 'beneru_cookie_consent';
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if (!saved) {
+      // Small delay for smooth entry after initial page paint
+      setTimeout(() => {
+        banner.removeAttribute('hidden');
+        banner.classList.add('is-visible');
+      }, 700);
+    }
+
+    const acceptBtn = document.getElementById('cookieAccept');
+    const declineBtn = document.getElementById('cookieDecline');
+
+    const dismiss = (consentValue: 'accepted' | 'essential') => {
+      localStorage.setItem(STORAGE_KEY, consentValue);
+      banner.classList.remove('is-visible');
+      banner.classList.add('is-leaving');
+      setTimeout(() => {
+        banner.setAttribute('hidden', '');
+      }, 300);
+    };
+
+    acceptBtn?.addEventListener('click', () => dismiss('accepted'));
+    declineBtn?.addEventListener('click', () => dismiss('essential'));
+  })();
+</script>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    max-width: 440px;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 18px;
+    padding: 1.25rem 1.4rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(103, 0, 255, 0.06);
+    color: var(--ink);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cookie-banner.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .cookie-banner.is-leaving {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .cookie-content {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .cookie-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--accent-light, #f7f2ff);
+    color: var(--accent, #6700ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--accent-light-2, #efe5ff);
+  }
+
+  .cookie-text {
+    flex: 1;
+  }
+
+  .cookie-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .cookie-desc {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  .cookie-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.65rem;
+  }
+
+  .cookie-btn {
+    padding: 0.55rem 1.15rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-family: inherit;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .cookie-btn-primary {
+    background: var(--accent, #6700ff);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(103, 0, 255, 0.25);
+  }
+
+  .cookie-btn-primary:hover {
+    background: var(--accent-hover, #5800dc);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(103, 0, 255, 0.32);
+  }
+
+  .cookie-btn-ghost {
+    background: transparent;
+    color: var(--ink-2);
+    border-color: rgba(0, 0, 0, 0.12);
+  }
+
+  .cookie-btn-ghost:hover {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--ink);
+  }
+
+  .cookie-btn:focus-visible {
+    outline: 2px solid var(--color-focus-ring, #6700ff);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .cookie-banner {
+      bottom: 1rem;
+      left: 1rem;
+      right: 1rem;
+      max-width: none;
+      padding: 1.1rem 1.15rem;
+      border-radius: 16px;
+    }
+    .cookie-actions {
+      flex-direction: column-reverse;
+      gap: 0.5rem;
+    }
+    .cookie-btn {
+      width: 100%;
+      text-align: center;
+      padding: 0.7rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cookie-banner {
+      transition: none !important;
+    }
+  }
+</style>
