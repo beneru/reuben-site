@@ -31,11 +31,11 @@ export const BOOKING = {
 } as const;
 
 export const GOALS: Record<string, string> = {
-  customer_service: 'Replying to customer DMs & inquiries',
-  reservations: 'Table bookings & confirmations',
-  inventory: 'Inventory tracking & stock alerts',
-  marketing: 'Automated promos & customer retention',
-  all: 'Full automation audit',
+  content_multiplication: 'AI Content Multiplication & Distribution',
+  lead_capture: 'Inbound DM & Lead Capture Automation',
+  ad_direction: 'Paid Ad Creative & Angle Direction',
+  funnel_automation: 'End-to-End Conversion Funnel Automation',
+  all: 'Full AI Marketing Direction Audit',
 };
 
 export const MEETING_TYPES: Record<string, string> = {

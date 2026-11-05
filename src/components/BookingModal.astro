@@ -13,8 +13,8 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
     <button type="button" class="bm-close" data-bm-close aria-label="Close booking">&times;</button>
 
     <header class="bm-header">
-      <span class="bm-badge">Free {BOOKING.slotMinutes}-minute audit</span>
-      <h3 id="bmTitle">Book your automation audit</h3>
+      <span class="bm-badge">Free {BOOKING.slotMinutes}-minute AI marketing audit</span>
+      <h3 id="bmTitle">Book your AI marketing audit</h3>
       <ol class="bm-steps" aria-label="Booking steps">
         <li data-bm-ind="1" class="is-active">Date &amp; time</li>
         <li data-bm-ind="2">Your details</li>
@@ -118,7 +118,7 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
         </div>
         <div class="bm-row">
           <label class="bm-field">
-            <span>What do you want to automate first?</span>
+            <span>What do you want to direct with AI first?</span>
             <select name="goal" required>
               {Object.entries(GOALS).map(([value, label]) => <option value={value}>{label}</option>)}
             </select>
@@ -134,7 +134,7 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
         </div>
         <label class="bm-field">
           <span>Anything I should know? <em>(optional)</em></span>
-          <textarea name="notes" rows="3" maxlength="2000" placeholder="e.g. We get 80+ Messenger orders a day and miss a lot during lunch rush."></textarea>
+          <textarea name="notes" rows="3" maxlength="2000" placeholder="e.g. We want to repurpose founder video to IG/LinkedIn and qualify inbound leads automatically in DMs."></textarea>
         </label>
 
         <!-- Honeypot. Hidden from people, bots fill it. -->
@@ -152,7 +152,7 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
       <div class="bm-done-card">
         <span class="bm-check" aria-hidden="true">&#10003;</span>
         <h4>You're all booked!</h4>
-        <p class="bm-done-intro">Your free automation audit has been scheduled with Ben.</p>
+        <p class="bm-done-intro">Your free AI marketing audit has been scheduled with Ben.</p>
 
         <div class="bm-done-details">
           <div class="bm-done-item">
@@ -179,7 +179,7 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
             </span>
             <div>
               <strong>{BOOKING.slotMinutes} minutes</strong>
-              <small>Live 1-on-1 audit and walk-through</small>
+              <small>Live 1-on-1 marketing direction audit</small>
             </div>
           </div>
           <div class="bm-done-item">
@@ -199,7 +199,7 @@ import { BOOKING, GOALS, MEETING_TYPES } from '../../shared/booking';
           <a class="bm-btn bm-btn-primary" data-bm-gcal href="#" target="_blank" rel="noopener noreferrer">
             Add to Google Calendar
           </a>
-          <a class="bm-btn bm-btn-ghost" data-bm-ics href="#" download="beneru-automation-audit.ics">
+          <a class="bm-btn bm-btn-ghost" data-bm-ics href="#" download="beneru-ai-marketing-audit.ics">
             Download .ics Calendar
           </a>
         </div>
