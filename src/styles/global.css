@@ -1,5 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&display=swap');
 @import './tokens.css';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -14,51 +14,37 @@ body {
   margin: 0;
   background-color: var(--paper);
   color: var(--ink);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  cursor: default;
   overflow-x: hidden;
 }
 
-/* Custom minimal cursor */
-body::after {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background-color: var(--accent);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  /* JavaScript would track mouse position here in a real build, for now we just keep the CSS ready */
-}
-
 h1, h2, h3, h4, h5, h6 {
-  line-height: 1.1;
+  line-height: 1.08;
   text-wrap: balance;
   margin-top: 0;
   color: var(--ink);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  letter-spacing: -0.035em;
 }
+
+p { text-wrap: pretty; }
 
 a {
   color: var(--ink);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease;
 }
 
-a:hover {
-  color: var(--accent);
-}
+a:hover { color: var(--accent-ink); }
 
 button {
   font-family: inherit;
   cursor: pointer;
 }
+
+img { max-width: 100%; display: block; }
 
 /* Accessibility: Universal Focus Ring (WCAG 2.4.7 Focus Visible) */
 :focus-visible {
@@ -66,20 +52,93 @@ button {
   outline-offset: 3px;
 }
 
-button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 2px;
-}
-
 main {
-  max-width: 1200px;
+  max-width: var(--max-w);
   margin: 0 auto;
-  padding: 0 clamp(1rem, 5vw, 3rem);
+  padding: 0 var(--gutter);
 }
 
 ::selection {
-  background-color: var(--accent-light);
-  color: var(--accent);
+  background-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ---------- Buttons (one system, used site-wide) ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--radius-full);
+  font: 600 0.975rem/1 var(--font-sans);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-out), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.25s var(--ease-out), color 0.2s ease;
+}
+
+.btn:active { transform: translateY(1px) scale(0.98); }
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  color: var(--on-accent);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--rule);
+}
+
+.btn-ghost:hover {
+  color: var(--ink);
+  border-color: var(--ink-muted);
+  background: var(--paper-2);
+}
+
+.btn .arrow { transition: transform 0.25s var(--ease-out); }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ---------- Section rhythm ---------- */
+.section {
+  padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+}
+
+.section-title {
+  font-size: var(--step-3);
+  max-width: 20ch;
+  margin-bottom: 1rem;
+}
+
+.section-lead {
+  font-size: var(--step-1);
+  color: var(--ink-2);
+  max-width: 56ch;
+  margin: 0;
+}
+
+/* ---------- Scroll reveal (progressive: content stays visible without JS) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Reduced motion preference (WCAG 2.3.3 Animation from Interactions) */

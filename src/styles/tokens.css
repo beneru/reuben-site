@@ -1,34 +1,42 @@
+/*
+ * Beneru design tokens.
+ * One accent (Beneru violet #6700FF), cool zinc neutrals, light + dark.
+ * Shape rule: interactive controls are full-pill, surfaces/cards are 20px, small media 12px.
+ */
 :root {
-  /* 80% White - The Foundation */
-  --paper: #FFFFFF;
-  
-  /* 10% Neutral / Supporting */
-  --rule: #ECECEC;
-  --paper-2: #F9FAFB;
-  
-  /* 10% Signature AI Violet */
+  color-scheme: light;
+
+  /* Surfaces */
+  --paper: #FCFCFD;
+  --paper-2: #F4F4F6;
+  --paper-3: #ECECF0;
+  --rule: #E3E3E8;
+
+  /* Text (all AA 4.5:1+ on --paper) */
+  --ink: #131316;
+  --ink-2: #4A4A55;
+  --ink-muted: #63636F;
+
+  /* Brand accent */
   --accent: #6700FF;
   --accent-hover: #5800DC;
-  --accent-light: #F7F2FF;
-  --accent-light-2: #EFE5FF;
-  
-  /* Accessible Typography Colors (WCAG AA 4.5:1+ against #FFFFFF) */
-  --ink: #111111;
-  --ink-2: #4B5563;
-  --ink-muted: #64748B;
-  
-  /* Status Colors */
+  --accent-ink: #5A00E0;        /* accent used as text on light surfaces */
+  --accent-light: #F4EEFF;
+  --accent-light-2: #E9DEFF;
+  --on-accent: #FFFFFF;
+
+  /* Status */
   --color-success: #16A34A;
   --color-success-bg: #EEFDF3;
   --color-error: #DC2626;
   --color-error-bg: #FEF2F2;
   --color-warning: #D97706;
   --color-focus-ring: #6700FF;
-  
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
-  --shadow-glow: 0 8px 32px rgba(103, 0, 255, 0.15);
+
+  /* Shadows (tinted, never pure black) */
+  --shadow-sm: 0 1px 2px rgba(19, 19, 40, 0.05);
+  --shadow-md: 0 12px 32px -12px rgba(30, 10, 70, 0.18);
+  --shadow-glow: 0 10px 30px -10px rgba(103, 0, 255, 0.45);
 
   /* Radius */
   --radius-sm: 8px;
@@ -36,11 +44,57 @@
   --radius-lg: 20px;
   --radius-full: 9999px;
 
-  /* Typography scale */
+  /* Type */
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --step--1: 0.875rem;
   --step-0: 1rem;
   --step-1: 1.125rem;
-  --step-2: 1.5rem;
-  --step-3: 2.5rem;
-  --step-4: clamp(3.5rem, 6vw + 1rem, 5rem);
+  --step-2: clamp(1.375rem, 1rem + 1vw, 1.625rem);
+  --step-3: clamp(2rem, 1.4rem + 2.2vw, 2.875rem);
+  --step-4: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --max-w: 1200px;
+  --gutter: clamp(1rem, 5vw, 3rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0E0B14;
+    --paper-2: #16121F;
+    --paper-3: #1E1929;
+    --rule: #2A2436;
+    --ink: #F2F0F7;
+    --ink-2: #B9B4C6;
+    --ink-muted: #9A94A8;
+    --accent-ink: #B38CFF;
+    --accent-light: #1D1430;
+    --accent-light-2: #2A1C47;
+    --color-focus-ring: #B38CFF;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 16px 40px -16px rgba(0, 0, 0, 0.7);
+  }
+}
+
+/*
+ * The booking modal and cookie banner were built light-only with hard-coded whites.
+ * Keep them on light tokens in both themes so text never lands light-on-white.
+ */
+.force-light {
+  color-scheme: light;
+  --paper: #FFFFFF;
+  --paper-2: #F9FAFB;
+  --rule: #ECECEC;
+  --ink: #111111;
+  --ink-2: #4B5563;
+  --ink-muted: #64748B;
+  --accent-ink: #5A00E0;
+  --accent-light: #F7F2FF;
+  --accent-light-2: #EFE5FF;
+  --color-focus-ring: #6700FF;
 }

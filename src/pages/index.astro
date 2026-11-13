@@ -2,262 +2,167 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import ServicesSection from '../components/ServicesSection.astro';
-import BookingModal from '../components/BookingModal.astro';
+import PortfolioGrid from '../components/PortfolioGrid.astro';
+import CtaPanel from '../components/CtaPanel.astro';
+
+const audiences = ['E-commerce brands', 'B2B services', 'High-growth startups', 'Creators & founders', 'Digital agencies', 'Modern SMBs'];
+
+const shifts = [
+  { manual: 'Repurposing one video for five platforms', directed: 'One video becomes 20+ native posts, already scheduled' },
+  { manual: 'Qualifying cold leads in your DMs', directed: 'AI qualifies intent and books the call, 24/7' },
+  { manual: 'Testing 20 ad variations by hand', directed: 'Hooks generated and tested before spend leaks' },
+  { manual: 'Chasing leads before they go cold', directed: 'Every lead lands in your CRM with a follow-up queued' },
+];
 ---
 
-<BaseLayout 
-  title="Beneru | AI Marketing Direction & Growth Systems" 
+<BaseLayout
+  title="Beneru | AI Marketing Direction & Growth Systems"
   description="Direct your marketing with AI. Automate multi-platform content distribution, 24/7 inbound DM lead qualification, ad creative testing, and customer acquisition."
 >
   <Hero />
-  
-  <!-- Trust Marquee -->
-  <div class="marquee-container">
-    <div class="marquee-eyebrow">Engineered for brands and founders who want real leverage.</div>
-    <div class="marquee">
-      <div class="marquee-content">
-        <span>E-Commerce Brands <div class="dot"></div> B2B Services <div class="dot"></div> High-Growth Startups <div class="dot"></div> Creators & Founders <div class="dot"></div> Digital Agencies <div class="dot"></div> Modern SMBs <div class="dot"></div></span>
-        <span>E-Commerce Brands <div class="dot"></div> B2B Services <div class="dot"></div> High-Growth Startups <div class="dot"></div> Creators & Founders <div class="dot"></div> Digital Agencies <div class="dot"></div> Modern SMBs <div class="dot"></div></span>
-      </div>
-    </div>
-  </div>
 
-  <!-- Problem Section -->
-  <section class="problem-section">
-    <h2 class="problem-title">Scaling modern marketing shouldn't mean drowning in manual grind.</h2>
-    <div class="chaos-visual">
-      <!-- Chaos cards -->
-      <div class="chaos-card c1">Repurposing 1 video to 5 platforms</div>
-      <div class="chaos-card c2">Qualifying cold leads in DMs</div>
-      <div class="chaos-card c3">Testing 20 new ad variations</div>
-      <div class="chaos-card c4">Chasing leads before they drop</div>
-    </div>
-    <div class="problem-resolution">
-      <h3 class="resolution-title">Your team shouldn't have to run customer acquisition <span class="highlight-accent">manually</span>.</h3>
+  <section class="audience" aria-label="Who this is for" data-reveal>
+    <p class="audience-label">Built for</p>
+    <ul>
+      {audiences.map((a) => <li>{a}</li>)}
+    </ul>
+  </section>
+
+  <section class="shift section" aria-labelledby="shift-heading">
+    <h2 id="shift-heading" class="section-title" data-reveal>Scaling marketing shouldn't mean drowning in manual grind.</h2>
+    <div class="shift-grid">
+      <div class="shift-col before" data-reveal style="--i:0">
+        <h3>Running it by hand</h3>
+        <ul>
+          {shifts.map((s) => <li>{s.manual}</li>)}
+        </ul>
+      </div>
+      <div class="shift-col after" data-reveal style="--i:1">
+        <h3>Directed by AI</h3>
+        <ul>
+          {shifts.map((s) => <li>{s.directed}</li>)}
+        </ul>
+      </div>
     </div>
   </section>
 
   <ServicesSection />
-  
-  <!-- Final CTA -->
-  <section id="demo" class="cta-section">
-    <div class="cta-content">
-      <h2 class="cta-title">Your market moves fast.<br/><span class="highlight-accent">Your marketing systems should lead it.</span></h2>
-      <p class="cta-subtitle">Let's audit where AI direction can 5x your content distribution and inbound lead capture.</p>
-      <div class="cta-actions">
-        <button id="openAuditBtn" class="btn btn-primary" data-open-booking>Book a Free Marketing Audit</button>
-        <a href="https://instagram.com/Beneru.ai" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Chat on Instagram</a>
-      </div>
+
+  <section id="work" class="work section" aria-labelledby="work-heading">
+    <div class="work-head" data-reveal>
+      <h2 id="work-heading" class="section-title">Selected work</h2>
+      <p class="section-lead">Real systems for real businesses, with the numbers behind them.</p>
     </div>
+    <PortfolioGrid limit={4} />
   </section>
 
-  <!-- Interactive Booking Calendar Modal -->
-  <BookingModal />
-
+  <CtaPanel />
 </BaseLayout>
 
 <style>
-  /* Marquee */
-  .marquee-container {
-    padding: 4rem 0;
-    text-align: center;
-    border-bottom: 1px solid var(--rule);
-    overflow: hidden;
-  }
-  .marquee-eyebrow {
-    font-size: 0.875rem;
-    color: var(--ink-2);
-    font-weight: 500;
-    margin-bottom: 2rem;
-  }
-  .marquee {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    overflow: hidden;
-  }
-  .marquee-content {
-    display: flex;
-    width: fit-content;
-    animation: scroll 30s linear infinite;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .marquee-content span {
+  /* Audience strip */
+  .audience {
     display: flex;
     align-items: center;
-    padding-right: 2rem;
-  }
-  .dot {
-    width: 8px;
-    height: 8px;
-    background-color: var(--accent);
-    border-radius: 50%;
-    margin: 0 2rem;
-  }
-  @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* Problem Section */
-  .problem-section {
-    padding: 8rem 0;
-    text-align: center;
-  }
-  .problem-title {
-    font-size: var(--step-3);
-    max-width: 25ch;
-    margin: 0 auto 4rem;
-  }
-  .chaos-visual {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    max-width: 600px;
-    margin: 0 auto 4rem;
-  }
-  .chaos-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    padding: 1.5rem;
-    border-radius: 12px;
-    font-weight: 600;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-    color: var(--ink-2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-  .chaos-card:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-    color: var(--accent);
-    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
-  }
-  
-  .resolution-title {
-    font-size: var(--step-2);
-  }
-
-  /* CTA */
-  .cta-section {
-    padding: 12rem 0;
-    text-align: center;
-    position: relative;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-    border-radius: 24px;
-    margin: 4rem 0;
-    overflow: hidden;
-  }
-
-  .cta-content {
-    position: relative;
-    z-index: 2;
-  }
-
-  .cta-title {
-    font-size: var(--step-4);
-    margin-bottom: 1.5rem;
-  }
-  .cta-subtitle {
-    font-size: var(--step-1);
-    color: var(--ink-2);
-    margin-bottom: 3rem;
-  }
-  .btn {
-    padding: 1.25rem 2.5rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-    border-radius: 99px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: inherit;
-    cursor: pointer;
-    border: none;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  .btn:focus-visible {
-    outline: 2px solid var(--color-focus-ring);
-    outline-offset: 3px;
-  }
-  .btn:active {
-    transform: scale(0.98);
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-    color: var(--ink);
-    position: relative;
-    z-index: 2;
-    transition: all 0.3s ease;
-  }
-  .btn-primary:hover {
-    transform: scale(1.02);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
-  }
-  .highlight-accent {
-    display: inline-block;
-    color: rgba(103, 0, 255, 0.65);
-    filter: drop-shadow(0 -1px 1px rgba(255,255,255,0.9)) drop-shadow(0 8px 16px rgba(103,0,255,0.3));
-  }
-
-  .cta-actions {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    align-items: center;
+    gap: 1rem 1.5rem;
     flex-wrap: wrap;
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
   }
 
-  .btn-secondary {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(17, 17, 17, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02), inset 0 1px 2px rgba(255, 255, 255, 0.5);
-    color: var(--ink);
-    text-decoration: none;
-    transition: all 0.3s ease;
+  .audience-label {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ink-muted);
   }
 
-  .btn-secondary:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    border-color: rgba(17, 17, 17, 0.2);
-    transform: translateY(-2px);
-    text-decoration: none;
+  .audience ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-content {
-      animation: none !important;
-    }
-    .btn, .chaos-card {
-      transition: none !important;
-    }
+  .audience li {
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-full);
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+
+  /* Before / after */
+  .shift .section-title { max-width: 22ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
+
+  .shift-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .shift-col {
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .shift-col h3 {
+    font-size: var(--step-1);
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  .shift-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .shift-col li {
+    position: relative;
+    padding-left: 1.75rem;
+    line-height: 1.45;
+  }
+
+  .shift-col li::before {
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-weight: 600;
+  }
+
+  .before {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+  }
+
+  .before h3 { color: var(--ink-2); }
+  .before li { text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--ink-muted) 55%, transparent); }
+  .before li::before { content: '\00D7'; color: var(--ink-muted); }
+
+  .after {
+    background: var(--accent);
+    color: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 24px 50px -28px rgba(103, 0, 255, 0.7);
+  }
+
+  .after h3 { color: #FFFFFF; }
+  .after li { color: #FFFFFF; }
+  .after li::before { content: '\2192'; color: #FFFFFF; }
+
+  /* Work */
+  .work { padding-top: 0; }
+  .work-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+
+  @media (max-width: 760px) {
+    .shift-grid { grid-template-columns: 1fr; }
   }
 </style>

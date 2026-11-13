@@ -1,369 +1,169 @@
 ---
 ---
-<section class="hero-premium">
-  <div class="hero-text-content">
-    <div class="eyebrow">AI DIRECTION &amp; MARKETING SYSTEMS</div>
-    <h1 class="headline">
-      Your marketing shouldn't run on manual hustle. <br/>
-      <span class="animated-text">Let AI direct it.</span>
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-copy">
+    <p class="eyebrow hero-in" style="--d:0">AI Direction &amp; Marketing Systems</p>
+    <h1 id="hero-heading" class="headline hero-in" style="--d:1">
+      Marketing shouldn't run on <span class="accent">manual hustle.</span>
     </h1>
-    <p class="subtitle">
-      Automate multi-platform content distribution, 24/7 inbound DM lead qualification, and rapid ad creative testing, so you scale customer acquisition without burning out your team.
+    <p class="subtitle hero-in" style="--d:2">
+      I build AI systems that repurpose content, qualify DMs and test ads, so your team stops doing it by hand.
     </p>
-    <div class="hero-actions">
-      <a href="#solutions" class="btn btn-primary">Explore Marketing Systems</a>
-      <button id="heroDemoBtn" type="button" class="btn btn-secondary" data-open-booking>Book an AI Audit</button>
+    <div class="hero-actions hero-in" style="--d:3">
+      <a href="#demo" class="btn btn-primary" data-open-booking>
+        Book an audit <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+      <a href="#work" class="btn btn-ghost">See the work</a>
     </div>
   </div>
 
-  <div class="hero-visual">
-    
-    <!-- Central Glass Frame with Profile and Glow -->
-    <div class="profile-center">
-      <div class="profile-glow"></div>
-      <div class="glass-frame">
-        <picture>
-          <source srcset="/PFP.webp" type="image/webp" />
-          <img src="/PFP.png" alt="Ben" width="400" height="400" loading="eager" decoding="async" class="profile-img" />
-        </picture>
-      </div>
-      <div class="ai-node">
-        <div class="pulse-ring"></div>
-        <div class="node-core">AI Marketing Engine</div>
-      </div>
+  <figure class="hero-portrait">
+    <div class="portrait-frame">
+      <picture>
+        <source srcset="/PFP-hero.webp" type="image/webp" />
+        <img
+          src="/PFP.png"
+          alt="Reuben (Ben) Magallanes, founder of Beneru"
+          width="880"
+          height="880"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
     </div>
-    
-    <!-- Floating Tasks -->
-    <div class="task-card task-1">10x Content Repurposed</div>
-    <div class="task-card task-2">Lead Qualified in DMs</div>
-    <div class="task-card task-3">Ad Creative Angle Tested</div>
-    <div class="task-card task-4">Inbound Call Booked</div>
-    <div class="task-card task-5">Weekly ROI Report Ready</div>
-    
-    <!-- SVG Connection Lines -->
-    <svg class="connection-lines" viewBox="0 0 500 500" preserveAspectRatio="none">
-      <path class="line" vector-effect="non-scaling-stroke" d="M 120,100 Q 250,100 250,160" />
-      <path class="line" vector-effect="non-scaling-stroke" d="M 380,100 Q 250,100 250,160" />
-      <path class="line" vector-effect="non-scaling-stroke" d="M 120,400 Q 250,400 250,340" />
-      <path class="line" vector-effect="non-scaling-stroke" d="M 380,400 Q 250,400 250,340" />
-      <path class="line" vector-effect="non-scaling-stroke" d="M 250,75 Q 250,117.5 250,160" />
-    </svg>
-  </div>
+    <figcaption>
+      <strong>Reuben Magallanes</strong>
+      <span>Marketing Head &amp; Co-Founder, Spawntel</span>
+    </figcaption>
+  </figure>
 </section>
 
 <style>
-  .hero-premium {
-    min-height: 90vh;
-    display: flex;
-    flex-direction: column;
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 6rem 0;
-    position: relative;
-    overflow: hidden;
+    gap: clamp(2rem, 5vw, 5rem);
+    min-height: calc(100dvh - 68px);
+    padding: clamp(2.5rem, 6vw, 5rem) 0;
   }
 
   .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    margin-bottom: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--accent-ink);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
+    margin: 0 0 1.5rem;
   }
 
   .headline {
-    font-size: var(--step-4);
-    font-weight: 800;
-    color: var(--ink);
-    max-width: 22ch;
-    margin: 0 auto 2rem;
+    font-size: clamp(2.5rem, 1.5rem + 3.4vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+    max-width: 16ch;
+    margin: 0 0 1.5rem;
   }
 
-  .animated-text {
-    display: inline-block;
-    color: rgba(103, 0, 255, 0.65);
-    filter: drop-shadow(0 -1px 1px rgba(255,255,255,0.9)) drop-shadow(0 8px 16px rgba(103,0,255,0.3));
-    animation: revealText 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-    transform: translateY(10px);
-    animation-delay: 0.5s;
-  }
+  .headline .accent { color: var(--accent-ink); }
 
   .subtitle {
     font-size: var(--step-1);
     color: var(--ink-2);
-    max-width: 65ch;
-    margin: 0 auto 3rem;
+    max-width: 44ch;
+    margin: 0 0 2.25rem;
   }
 
   .hero-actions {
     display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    position: relative;
-    z-index: 20;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 
-  .btn {
-    padding: 1rem 2rem;
-    font-weight: 600;
-    border-radius: 99px;
-    font-size: 1rem;
-    font-family: inherit;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-
-  .btn:focus-visible {
-    outline: 2px solid var(--color-focus-ring);
-    outline-offset: 3px;
-  }
-
-  .btn:active {
-    transform: scale(0.98);
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-    color: var(--ink);
-  }
-
-  .btn-primary:hover {
-    transform: scale(1.02);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
-  }
-
-  .btn-secondary {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(17, 17, 17, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02), inset 0 1px 2px rgba(255, 255, 255, 0.5);
-    color: var(--ink);
-  }
-
-  .btn-secondary:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    border-color: rgba(17, 17, 17, 0.2);
-  }
-
-  /* Interactive Visual System */
-  .hero-visual {
-    margin-top: 6rem;
-    position: relative;
+  /* Portrait */
+  .hero-portrait {
+    margin: 0;
+    justify-self: end;
     width: 100%;
-    max-width: 800px;
-    height: 450px;
+    max-width: 420px;
   }
 
-  /* Profile and Glass Frame */
-  .profile-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .profile-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-    opacity: 0.3;
-    border-radius: 50%;
-    filter: blur(20px);
-    z-index: 1;
-    animation: glowPulse 4s infinite alternate;
-  }
-
-  .glass-frame {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px rgba(103, 0, 255, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+  .portrait-frame {
     position: relative;
-    z-index: 2;
+    aspect-ratio: 4 / 5;
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--accent);
+    box-shadow: 0 30px 60px -30px rgba(103, 0, 255, 0.55);
   }
 
-  .profile-img {
+  .portrait-frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-    z-index: 2;
+    object-position: 50% 30%;
+    transform: scale(1.02);
+    transition: transform 1.2s var(--ease-out);
   }
 
-  .ai-node {
-    margin-top: -15px; /* Overlap slightly with the glass frame */
-    position: relative;
-    z-index: 3;
+  .hero-portrait:hover .portrait-frame img { transform: scale(1.05); }
+
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 1rem 0.25rem 0;
+    font-size: 0.9rem;
   }
 
-  .node-core {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-    padding: 0.5rem 1.5rem;
-    border-radius: 99px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--accent);
-    position: relative;
-    z-index: 2;
-  }
+  figcaption strong { font-weight: 600; letter-spacing: -0.01em; }
+  figcaption span { color: var(--ink-muted); }
 
-  .pulse-ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    border-radius: 99px;
-    border: 1px solid var(--accent);
-    animation: pulse 3s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
-    z-index: 1;
-  }
-
-  /* Floating Tasks */
-  .task-card {
-    position: absolute;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-    padding: 0.75rem 1.25rem;
-    border-radius: 12px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--accent);
-    z-index: 10;
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .task-card:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.15), inset 0 2px 6px rgba(255, 255, 255, 1);
-    color: var(--accent);
-    cursor: pointer;
-  }
-
-  .task-1 { top: 20%; left: 10%; animation-delay: 0s; }
-  .task-2 { top: 20%; left: 90%; animation-delay: -1s; }
-  .task-3 { top: 80%; left: 10%; animation-delay: -2s; }
-  .task-4 { top: 80%; left: 90%; animation-delay: -3s; }
-  .task-5 { top: 10%; left: 50%; animation-delay: -4s; }
-
-  /* SVG Lines */
-  .connection-lines {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .line {
-    fill: none;
-    stroke: var(--rule);
-    stroke-width: 1.5px;
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: drawLine 2s forwards 1s, energyFlow 3s linear infinite 3s;
-  }
-
-  @keyframes glowPulse {
-    0% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); }
-    100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
-  }
-
-  @keyframes revealText {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes pulse {
-    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translate(-50%, -50%); }
-    50% { transform: translate(-50%, calc(-50% - 10px)); }
-  }
-
-  @keyframes drawLine {
-    to { stroke-dashoffset: 0; }
-  }
-
-  @keyframes energyFlow {
-    0% { stroke: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); opacity: 0.2; stroke-width: 1.5px; }
-    50% { stroke: var(--accent); filter: drop-shadow(0 0 8px var(--accent)); opacity: 0.8; stroke-width: 2px; }
-    100% { stroke: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); opacity: 0.2; stroke-width: 1.5px; }
-  }
-  
-  @media (max-width: 768px) {
-    .hero-visual { display: none; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .animated-text,
-    .pulse-ring,
-    .task-card,
-    .line {
-      animation: none !important;
-      transition: none !important;
+  /* Load-in: draws the eye top to bottom, then to the portrait */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-in {
+      opacity: 0;
+      transform: translateY(14px);
+      animation: heroIn 0.8s var(--ease-out) forwards;
+      animation-delay: calc(var(--d) * 90ms + 80ms);
     }
-    .animated-text {
-      opacity: 1 !important;
-      transform: none !important;
+    .portrait-frame {
+      clip-path: inset(8% 8% 8% 8% round 28px);
+      animation: portraitIn 1.1s var(--ease-out) 0.15s forwards;
     }
-    .line {
-      stroke-dashoffset: 0 !important;
-      stroke: var(--accent) !important;
-      opacity: 0.4 !important;
+  }
+
+  @keyframes heroIn { to { opacity: 1; transform: none; } }
+  @keyframes portraitIn { to { clip-path: inset(0 0 0 0 round 28px); } }
+
+  @media (max-width: 860px) {
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: 0;
+      padding-top: 2rem;
+      gap: 2.5rem;
     }
-    .task-card {
-      transform: translate(-50%, -50%) !important;
+    .hero-portrait {
+      justify-self: start;
+      max-width: 100%;
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      align-items: center;
+      gap: 1rem;
+      order: -1;
     }
+    .portrait-frame {
+      aspect-ratio: 1;
+      border-radius: 20px;
+      box-shadow: none;
+    }
+    figcaption { padding: 0; }
+    .eyebrow { margin-bottom: 1rem; }
+  }
+
+  @media (max-width: 420px) {
+    .hero-actions .btn { flex: 1 1 100%; }
   }
 </style>

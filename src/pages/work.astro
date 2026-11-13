@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PortfolioGrid from '../components/PortfolioGrid.astro';
+import CtaPanel from '../components/CtaPanel.astro';
+---
+
+<BaseLayout
+  title="Work | Beneru AI Marketing Direction"
+  description="Case studies of AI marketing systems built by Reuben (Ben) Magallanes: content multiplication, DM lead capture, ad direction and funnel automation."
+>
+  <section class="work-page">
+    <header class="work-intro" data-reveal>
+      <h1>Work</h1>
+      <p>Marketing systems I've built for founders and growing brands. Each case study covers the problem, the build and what changed.</p>
+    </header>
+    <PortfolioGrid />
+  </section>
+
+  <CtaPanel />
+</BaseLayout>
+
+<style>
+  .work-page { padding: clamp(3rem, 7vw, 5rem) 0 0; }
+
+  .work-intro { margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+
+  h1 {
+    font-size: var(--step-4);
+    letter-spacing: -0.045em;
+    margin-bottom: 1rem;
+  }
+
+  .work-intro p {
+    font-size: var(--step-1);
+    color: var(--ink-2);
+    max-width: 52ch;
+    margin: 0;
+  }
+</style>

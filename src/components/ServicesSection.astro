@@ -1,72 +1,65 @@
 ---
 const services = [
   {
-    id: "01",
     title: "AI Content Multiplication",
     description: "Turn one founder video, article, or insight into 20+ platform-native posts across Instagram, LinkedIn, X, and Facebook with automated scheduling.",
-    iconSvg: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="18" x="3" y="3" rx="1"/><rect width="8" height="10" x="13" y="11" rx="1"/><rect width="8" height="5" x="13" y="3" rx="1"/></svg>`,
-    image: "/assets/marketing/content_multiplication.jpg"
+    iconSvg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="18" x="3" y="3" rx="1"/><rect width="8" height="10" x="13" y="11" rx="1"/><rect width="8" height="5" x="13" y="3" rx="1"/></svg>`,
+    image: "/assets/marketing/content_multiplication.jpg",
+    size: "wide"
   },
   {
-    id: "02",
     title: "Inbound DM Lead Capture",
     description: "Never let a warm prospect wait in chat. Custom AI qualifies buyer intent, captures contact details, and books calls directly to your calendar 24/7.",
-    iconSvg: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="m9 10 2 2 4-4"/></svg>`,
-    image: "/assets/marketing/lead_capture.jpg"
+    iconSvg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="m9 10 2 2 4-4"/></svg>`,
+    image: "/assets/marketing/lead_capture.jpg",
+    size: "tall"
   },
   {
-    id: "03",
     title: "Automated Ad Direction",
-    description: "Rapidly test Meta ad creative hooks, generate high-converting direct response angles, and spot creative fatigue before ad spend leaks.",
-    iconSvg: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`,
-    image: "/assets/marketing/ad_direction.jpg"
+    description: "Rapidly test Meta ad creative hooks, generate direct response angles, and spot creative fatigue before ad spend leaks.",
+    iconSvg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`,
+    image: "/assets/marketing/ad_direction.jpg",
+    size: ""
   },
   {
-    id: "04",
     title: "Audience & Market Intel",
-    description: "Automated research agents monitor competitor messaging, industry narratives, and viral formats so you always know what angle to take next.",
-    iconSvg: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>`,
-    image: "/assets/marketing/market_intel.jpg"
+    description: "Research agents monitor competitor messaging, industry narratives, and viral formats so you always know what angle to take next.",
+    iconSvg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>`,
+    image: "/assets/marketing/market_intel.jpg",
+    size: ""
   },
   {
-    id: "05",
     title: "Funnel & CRM Automation",
-    description: "Bridge your social accounts, landing pages, email nurture flows, and CRM into one seamless pipeline with zero manual data entry.",
-    iconSvg: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-    image: "/assets/marketing/funnel_automation.jpg"
+    description: "Connect your social accounts, landing pages, email nurture flows, and CRM into one pipeline with zero manual data entry.",
+    iconSvg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    image: "/assets/marketing/funnel_automation.jpg",
+    size: ""
   },
   {
-    id: "06",
     title: "Growth Intelligence",
     description: "Track customer acquisition cost, organic distribution velocity, and real conversion attribution in one executive view.",
-    iconSvg: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>`,
-    image: "/assets/marketing/growth_intelligence.jpg"
+    iconSvg: `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>`,
+    image: "/assets/marketing/growth_intelligence.jpg",
+    size: "banner"
   }
 ];
 ---
 
-<section id="solutions" class="solutions" aria-labelledby="solutions-heading">
-  <div class="section-header">
-    <h2 id="solutions-heading" class="title">We direct the systems behind your marketing.</h2>
-    <p class="subtitle">Intelligent workflows built around how high-growth brands acquire customers.</p>
+<section id="solutions" class="solutions section" aria-labelledby="solutions-heading">
+  <div class="section-head" data-reveal>
+    <h2 id="solutions-heading" class="section-title">The systems behind your marketing.</h2>
+    <p class="section-lead">Six workflows, built around how growing brands actually win customers.</p>
   </div>
-  
-  <div class="bento-grid">
-    {services.map(service => (
-      <article class={`solution-card ${service.image ? 'has-image' : ''}`} tabindex="0">
-        {service.image && (
-          <div class="card-image-bg" style={`background-image: url('${service.image}')`}>
-            <div class="image-overlay"></div>
-          </div>
-        )}
-        <div class="card-content">
-          <div class="card-header">
-            <span class="card-id">{service.id}</span>
-            <div class="card-icon" set:html={service.iconSvg}></div>
-          </div>
-          <div class="card-bottom">
-            <h3 class="card-title">{service.title}</h3>
-            <p class="card-text">{service.description}</p>
+
+  <div class="bento">
+    {services.map((service, i) => (
+      <article class:list={['tile', service.size]} data-reveal style={`--i:${i % 3}`}>
+        <div class="tile-media" style={`background-image: url('${service.image}')`}></div>
+        <div class="tile-content">
+          <span class="tile-icon" set:html={service.iconSvg}></span>
+          <div>
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
           </div>
         </div>
       </article>
@@ -75,197 +68,107 @@ const services = [
 </section>
 
 <style>
-  .solutions {
-    padding: 8rem 0;
-  }
-  
-  .section-header {
-    margin-bottom: 5rem;
-  }
+  .section-head { margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
 
-  .title {
-    font-size: var(--step-3);
-    margin-bottom: 1rem;
-    max-width: 25ch;
-  }
-
-  .subtitle {
-    font-size: var(--step-1);
-    color: var(--ink-2);
-  }
-
-  .bento-grid {
+  /* 3-col bento, 6 cells, no gaps:
+     row 1: wide(2) + tall(1, spans 2 rows) / row 2: two singles / row 3: single + banner(2) */
+  .bento {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 1.5rem;
-    grid-auto-rows: minmax(350px, auto);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: minmax(260px, auto);
+    gap: 1rem;
   }
 
-  .solution-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: var(--radius-lg, 20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+  .tile.wide { grid-column: span 2; }
+  .tile.tall { grid-row: span 2; }
+  .tile.banner { grid-column: span 2; min-height: 260px; }
+
+  .tile {
     position: relative;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
-    cursor: default;
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
-    outline: none;
+    border-radius: var(--radius-lg);
+    background: #15121C;
+    color: #FFFFFF;
+    isolation: isolate;
   }
 
-  .solution-card:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(103, 0, 255, 0.16), inset 0 2px 6px rgba(255, 255, 255, 1);
-  }
-
-  .solution-card:focus-visible {
-    outline: 2px solid var(--color-focus-ring);
-    outline-offset: 3px;
-    box-shadow: 0 12px 40px rgba(103, 0, 255, 0.22);
-  }
-
-  .has-image {
-    color: var(--paper);
-    border: none;
-  }
-  
-  .has-image:hover {
-    background: transparent;
-    border-color: transparent;
-  }
-
-  .card-image-bg {
+  .tile-media {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
+    z-index: -2;
     background-size: cover;
     background-position: center;
-    z-index: 0;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.9s var(--ease-out);
   }
 
-  .solution-card:hover .card-image-bg {
-    transform: scale(1.05);
-  }
-
-  .image-overlay {
+  .tile::after {
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(17,17,17,0.2) 0%, rgba(17,17,17,0.92) 100%);
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(14, 11, 20, 0.15) 0%, rgba(14, 11, 20, 0.55) 45%, rgba(14, 11, 20, 0.94) 100%);
   }
 
-  .card-content {
-    padding: 2.75rem 2.5rem;
+  .tile.banner::after {
+    background: linear-gradient(90deg, rgba(14, 11, 20, 0.95) 0%, rgba(14, 11, 20, 0.75) 45%, rgba(14, 11, 20, 0.2) 100%);
+  }
+
+  .tile:hover .tile-media { transform: scale(1.04); }
+
+  .tile-content {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
-    position: relative;
-    z-index: 2;
+    gap: 2rem;
+    padding: clamp(1.4rem, 2.5vw, 2rem);
   }
 
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
+  .banner .tile-content { max-width: 52ch; justify-content: center; gap: 1.25rem; }
 
-  .card-id {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--ink-muted);
-    font-family: monospace;
-    letter-spacing: 0.05em;
-  }
-  
-  .solution-card:not(.has-image):hover .card-id {
-    color: var(--accent);
-  }
-
-  .has-image .card-id {
-    color: rgba(255,255,255,0.75);
-  }
-
-  /* Refined SVG icon container - anti-slop, no raw emojis */
-  .card-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-md, 12px);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    color: var(--accent);
-    box-shadow: 0 4px 12px rgba(103, 0, 255, 0.08);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .solution-card:not(.has-image):hover .card-icon {
-    background: var(--accent);
-    color: #FFFFFF;
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 24px rgba(103, 0, 255, 0.3);
-  }
-
-  .has-image .card-icon {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
+  .tile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: inline-grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     color: #FFFFFF;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
-  .has-image:hover .card-icon {
-    background: rgba(255, 255, 255, 0.3);
+  .tile:hover .tile-icon { background: var(--accent); border-color: var(--accent); }
+
+  h3 {
     color: #FFFFFF;
-    transform: scale(1.05);
+    font-size: var(--step-2);
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
   }
 
-  .card-title {
-    font-size: var(--step-1);
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    letter-spacing: -0.01em;
-  }
-
-  .card-text {
-    color: var(--ink-2);
-    line-height: 1.6;
+  .tile p {
     margin: 0;
+    color: rgba(255, 255, 255, 0.82);
     font-size: 0.95rem;
+    line-height: 1.55;
+    max-width: 46ch;
   }
 
-  .solution-card:not(.has-image):hover .card-text {
-    color: var(--ink);
+  @media (max-width: 960px) {
+    .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile.wide { grid-column: 1 / -1; }
+    .tile.tall { grid-row: auto; }
   }
 
-  .has-image .card-title, .has-image .card-text {
-    color: var(--paper);
-  }
-  
-  .has-image .card-text {
-    opacity: 0.95;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .solution-card,
-    .card-icon,
-    .card-image-bg {
-      transition: none !important;
-      transform: none !important;
+  @media (max-width: 640px) {
+    .bento { grid-template-columns: 1fr; grid-auto-rows: minmax(280px, auto); }
+    .tile.wide, .tile.banner { grid-column: auto; }
+    .tile.banner::after {
+      background: linear-gradient(180deg, rgba(14, 11, 20, 0.2) 0%, rgba(14, 11, 20, 0.94) 100%);
     }
+    .banner .tile-content { justify-content: space-between; }
   }
 </style>
