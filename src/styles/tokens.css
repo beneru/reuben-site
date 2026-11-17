@@ -56,10 +56,18 @@
 
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
+  --spring-ios: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Layout */
   --max-w: 1200px;
   --gutter: clamp(1rem, 5vw, 3rem);
+}
+
+@supports (animation-timing-function: linear(0, 1)) {
+  :root {
+    --spring-ios: linear(0, 0.1533 6.2%, 0.4326 12.5%, 0.6848 18.8%, 0.8607 25%, 0.9623 31.2%, 1.0096 37.5%, 1.0246 43.8%, 1.0236 50%, 1.017 56.2%, 1.0101 62.5%, 1.0049 68.8%, 1.0017 75%, 1.0001 81.2%, 0.9994 87.5%, 0.9994 93.8%, 1);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
