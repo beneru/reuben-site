@@ -240,7 +240,7 @@ import { SOCIAL_LINKS } from '../../shared/socials';
 
   @media (max-width: 860px) {
     .founder-layout {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .founder-gallery {
@@ -249,8 +249,18 @@ import { SOCIAL_LINKS } from '../../shared/socials';
   }
 
   @media (max-width: 560px) {
+    .founder-contact {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .contact-pill {
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
     .founder-gallery {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 </style>

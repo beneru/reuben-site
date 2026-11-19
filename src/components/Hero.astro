@@ -482,30 +482,60 @@ import { HERO_COPY } from '../data/site';
 
   @media (max-width: 860px) {
     .hero {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       min-height: 0;
-      padding-top: 2rem;
-      gap: 2.5rem;
+      padding: 1.75rem 0 2.75rem;
+      gap: 2rem;
     }
     .hero-portrait {
-      justify-self: start;
+      justify-self: stretch;
       max-width: 100%;
       display: grid;
-      grid-template-columns: 96px 1fr;
+      grid-template-columns: 76px minmax(0, 1fr);
       align-items: center;
-      gap: 1rem;
+      gap: 0.9rem 1rem;
       order: -1;
     }
     .portrait-frame {
       aspect-ratio: 1;
-      border-radius: 20px;
+      border-radius: 18px;
       box-shadow: none;
     }
-    figcaption { padding: 0; }
-    .eyebrow { margin-bottom: 1rem; }
+    figcaption {
+      display: contents;
+      padding: 0;
+    }
+    .portrait-id {
+      min-width: 0;
+      gap: 0.1rem;
+    }
+    .portrait-id strong {
+      font-size: 1rem;
+      line-height: 1.25;
+    }
+    .portrait-id span {
+      font-size: 0.875rem;
+      line-height: 1.35;
+    }
+    .portrait-socials {
+      grid-column: 1 / -1;
+      gap: 0.55rem;
+    }
+    .eyebrow {
+      margin-bottom: 1rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+    }
   }
 
-  @media (max-width: 420px) {
-    .hero-actions .btn { flex: 1 1 100%; }
+  @media (max-width: 480px) {
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .hero-actions .btn {
+      width: 100%;
+      flex: none;
+    }
   }
 </style>

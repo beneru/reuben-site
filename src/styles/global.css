@@ -88,6 +88,7 @@ main {
   border-radius: var(--radius-full);
   font: 600 0.975rem/1 var(--font-sans);
   letter-spacing: -0.01em;
+  max-width: 100%;
   white-space: nowrap;
   text-decoration: none;
   border: 1px solid transparent;
@@ -136,7 +137,7 @@ main {
 
 /* ---------- Section rhythm ---------- */
 .section {
-  padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+  padding: clamp(3.5rem, 8vw, 7rem) 0;
 }
 
 .section-title {

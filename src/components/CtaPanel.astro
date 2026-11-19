@@ -64,11 +64,34 @@ import { CTA_COPY } from '../data/site';
   .btn-ghost { background: var(--glass-bg); }
 
   @media (max-width: 860px) {
-    .cta { grid-template-columns: 1fr; align-items: start; }
-    .cta-actions { justify-content: flex-start; }
+    .cta {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+      gap: 1.5rem;
+    }
+    .cta-actions {
+      width: 100%;
+      min-width: 0;
+      justify-content: flex-start;
+    }
   }
 
-  @media (max-width: 420px) {
-    .cta-actions .btn { flex: 1 1 100%; }
+  @media (max-width: 520px) {
+    .cta {
+      padding: 1.65rem 1.25rem;
+      border-radius: 22px;
+    }
+    .cta-actions {
+      flex-direction: column;
+    }
+    .cta-actions .btn {
+      width: 100%;
+      max-width: 100%;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.25;
+      padding: 0.875rem 1.15rem;
+      font-size: 0.92rem;
+    }
   }
 </style>

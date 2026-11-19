@@ -470,13 +470,16 @@ const structuredData = {
   }
 
   @media (max-width: 860px) {
-    .header-container { grid-template-columns: 1fr auto; }
+    .header-container { grid-template-columns: minmax(0, 1fr) auto; gap: 0.65rem; }
     .nav-links { display: none; }
     .mobile-menu { display: block; }
   }
 
-  @media (max-width: 380px) {
-    .header-cta { padding: 0.55rem 0.85rem; }
+  @media (max-width: 420px) {
+    .header-cta {
+      padding: 0.55rem 0.9rem;
+      font-size: 0.82rem;
+    }
   }
 
   /* Footer */
