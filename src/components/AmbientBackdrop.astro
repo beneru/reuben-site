@@ -1,112 +1,302 @@
 ---
 /**
- * Scroll-animated light gradient background.
- * Pre-feathered multi-stop radial gradients (zero runtime CSS filter blur cost)
- * swept across opposing paths by native CSS scroll(root block) timelines,
- * with a converging rAF fallback only for browsers without scroll-driven animations.
+ * Giant organic shape-shifting gradient blob background.
+ * Renders a single large multi-layered fluid Fourier blob onto a low-resolution
+ * GPU-upscaled canvas (~1/4 viewport scale) so its silhouette smoothly and constantly
+ * morphs at 60/120fps with minimal fill-rate cost, while gliding and warping on scroll.
+ * Zero cursor tracking; pauses when tab is hidden; static single-frame under reduced motion.
  */
 ---
 
 <div class="ambient-bg" aria-hidden="true" data-ambient-bg>
-  <div class="ambient-wash"></div>
-  <div class="ambient-layer ambient-layer-1" data-scroll-orb="1">
-    <div class="orb orb-1"></div>
-  </div>
-  <div class="ambient-layer ambient-layer-2" data-scroll-orb="2">
-    <div class="orb orb-2"></div>
-  </div>
-  <div class="ambient-layer ambient-layer-3" data-scroll-orb="3">
-    <div class="orb orb-3"></div>
-  </div>
+  <canvas class="ambient-canvas" data-ambient-canvas></canvas>
 </div>
 
 <script>
-  const root = document.querySelector<HTMLElement>('[data-ambient-bg]');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const nativeScrollTimeline =
-    typeof CSS !== 'undefined' && CSS.supports && CSS.supports('animation-timeline: scroll()');
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-ambient-canvas]');
+  if (canvas) {
+    const ctx = canvas.getContext('2d', { alpha: true });
+    const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-  if (root && !reduceMotion && !nativeScrollTimeline) {
-    type Stop = { p: number; x: number; y: number; s: number };
-    const paths: Record<string, Stop[]> = {
-      '1': [
-        { p: 0, x: 0, y: 0, s: 1 },
-        { p: 0.35, x: -24, y: 22, s: 1.16 },
-        { p: 0.7, x: -42, y: 32, s: 0.96 },
-        { p: 1, x: -10, y: 12, s: 1.12 },
-      ],
-      '2': [
-        { p: 0, x: 0, y: 0, s: 1 },
-        { p: 0.35, x: 28, y: -16, s: 1.14 },
-        { p: 0.7, x: 44, y: 14, s: 1.04 },
-        { p: 1, x: 12, y: 24, s: 1.16 },
-      ],
-      '3': [
-        { p: 0, x: 0, y: 0, s: 1 },
-        { p: 0.35, x: -22, y: -28, s: 1.16 },
-        { p: 0.7, x: 18, y: -42, s: 1.06 },
-        { p: 1, x: -4, y: -14, s: 1.2 },
-      ],
-    };
+    if (ctx) {
+      const hasCtxFilter = 'filter' in ctx;
+      if (!hasCtxFilter) canvas.classList.add('fallback-blur');
 
-    const layers = Array.from(root.querySelectorAll<HTMLElement>('[data-scroll-orb]')).map((el) => ({
-      el,
-      stops: paths[el.dataset.scrollOrb || '1'],
-    }));
+      let cw = 360;
+      let ch = 225;
+      let rafId = 0;
+      let lastTs = 0;
+      let elapsed = 0.8;
 
-    const sample = (stops: Stop[], p: number) => {
-      for (let i = 0; i < stops.length - 1; i++) {
-        const a = stops[i];
-        const b = stops[i + 1];
-        if (p <= b.p) {
-          const t = (p - a.p) / Math.max(0.0001, b.p - a.p);
-          return {
-            x: a.x + (b.x - a.x) * t,
-            y: a.y + (b.y - a.y) * t,
-            s: a.s + (b.s - a.s) * t,
-          };
+      const readScroll = () => {
+        const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        return Math.min(1, Math.max(0, window.scrollY / max));
+      };
+
+      let targetScroll = readScroll();
+      let curScroll = targetScroll;
+
+      const resize = () => {
+        const vw = window.innerWidth || 1440;
+        const vh = window.innerHeight || 900;
+        const scale = Math.min(1, 360 / Math.max(vw, vh));
+        cw = Math.max(160, Math.round(vw * scale));
+        ch = Math.max(160, Math.round(vh * scale));
+        canvas.width = cw;
+        canvas.height = ch;
+        targetScroll = readScroll();
+      };
+
+      interface BlobShape {
+        cx: number;
+        cy: number;
+        radius: number;
+        aspectX: number;
+        aspectY: number;
+        rot: number;
+        phase: number;
+        morphT: number;
+        amps: [number, number, number, number, number];
+        blurPx: number;
+        gradAngle: number;
+        stops: [number, string][];
+      }
+
+      const drawFluidBlob = (cfg: BlobShape) => {
+        const points = 32;
+        const pts: [number, number][] = new Array(points);
+        const cosR = Math.cos(cfg.rot);
+        const sinR = Math.sin(cfg.rot);
+        const [a1, a2, a3, a4, a5] = cfg.amps;
+        const t = cfg.morphT;
+        const p = cfg.phase;
+
+        for (let i = 0; i < points; i++) {
+          const a = (i / points) * Math.PI * 2;
+          const deform =
+            1 +
+            a1 * Math.sin(2 * a + t * 0.83 + p) +
+            a2 * Math.cos(3 * a - t * 0.61 + p * 1.41) +
+            a3 * Math.sin(4 * a + t * 0.97 - p * 0.77) +
+            a4 * Math.cos(5 * a - t * 0.49 + p * 2.17) +
+            a5 * Math.sin(6 * a + t * 0.71 + p * 0.53);
+
+          const rx = cfg.radius * deform * cfg.aspectX;
+          const ry = cfg.radius * deform * cfg.aspectY;
+          const lx = Math.cos(a) * rx;
+          const ly = Math.sin(a) * ry;
+
+          pts[i] = [
+            cfg.cx + lx * cosR - ly * sinR,
+            cfg.cy + lx * sinR + ly * cosR,
+          ];
         }
-      }
-      const last = stops[stops.length - 1];
-      return { x: last.x, y: last.y, s: last.s };
-    };
 
-    const readProgress = () => {
-      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      return Math.min(1, Math.max(0, window.scrollY / max));
-    };
+        ctx.save();
+        if (hasCtxFilter) {
+          ctx.filter = `blur(${cfg.blurPx}px)`;
+        }
 
-    let target = readProgress();
-    let current = target;
-    let rafId = 0;
+        ctx.beginPath();
+        const last = pts[points - 1];
+        const first = pts[0];
+        ctx.moveTo((last[0] + first[0]) * 0.5, (last[1] + first[1]) * 0.5);
 
-    const apply = (p: number) => {
-      for (const layer of layers) {
-        const v = sample(layer.stops, p);
-        layer.el.style.transform = `translate3d(${v.x.toFixed(2)}vw, ${v.y.toFixed(2)}vh, 0) scale(${v.s.toFixed(3)})`;
-      }
-    };
+        for (let i = 0; i < points; i++) {
+          const curr = pts[i];
+          const next = pts[(i + 1) % points];
+          ctx.quadraticCurveTo(curr[0], curr[1], (curr[0] + next[0]) * 0.5, (curr[1] + next[1]) * 0.5);
+        }
+        ctx.closePath();
 
-    const tick = () => {
-      current += (target - current) * 0.12;
-      if (Math.abs(target - current) < 0.0004) {
-        current = target;
-        apply(current);
-        rafId = 0;
-        return;
-      }
-      apply(current);
-      rafId = requestAnimationFrame(tick);
-    };
+        const gLen = cfg.radius * Math.max(cfg.aspectX, cfg.aspectY) * 1.15;
+        const gx = Math.cos(cfg.gradAngle) * gLen;
+        const gy = Math.sin(cfg.gradAngle) * gLen;
+        const grad = ctx.createLinearGradient(cfg.cx - gx, cfg.cy - gy, cfg.cx + gx, cfg.cy + gy);
+        for (const [offset, color] of cfg.stops) {
+          grad.addColorStop(offset, color);
+        }
 
-    const onScroll = () => {
-      target = readProgress();
-      if (!rafId && !document.hidden) rafId = requestAnimationFrame(tick);
-    };
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.restore();
+      };
 
-    apply(current);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+      const render = (t: number, s: number) => {
+        ctx.clearRect(0, 0, cw, ch);
+
+        const dark = darkQuery.matches;
+        const portrait = ch > cw;
+        const minDim = Math.min(cw, ch);
+
+        // Big organic blob sized cleanly to viewport with visible curving silhouette edges
+        const baseRadius = portrait ? minDim * 0.52 : minDim * 0.44;
+        const baseAspectX = portrait ? 1.06 : 1.36;
+        const baseAspectY = portrait ? 1.32 : 0.92;
+
+        // Smooth scroll-driven grand S-sweep + gentle autonomous float
+        const scrollSwing = Math.sin(s * Math.PI * 1.65);
+        const scrollLift = Math.cos(s * Math.PI * 1.25);
+
+        const cx = cw * (0.56 - scrollSwing * 0.19 + Math.sin(t * 0.27) * 0.045);
+        const cy = ch * (0.52 - scrollLift * 0.08 + Math.cos(t * 0.22) * 0.045);
+
+        const morphT = t + s * 5.2;
+        const rot = t * 0.14 + s * 1.65;
+        const aspectX = baseAspectX + Math.sin(t * 0.41) * 0.14;
+        const aspectY = baseAspectY + Math.cos(t * 0.35) * 0.12;
+        const amps: [number, number, number, number, number] = [0.24, 0.17, 0.1, 0.055, 0.025];
+
+        // 1. Soft atmospheric bloom halo matching the exact morphing blob shape
+        drawFluidBlob({
+          cx,
+          cy,
+          radius: baseRadius * 1.1,
+          aspectX,
+          aspectY,
+          rot,
+          phase: 0.4,
+          morphT,
+          amps,
+          blurPx: Math.max(12, Math.round(minDim * 0.095)),
+          gradAngle: t * 0.22 + s * 2.2,
+          stops: dark
+            ? [
+                [0, 'rgba(116, 36, 255, 0.32)'],
+                [0.5, 'rgba(68, 122, 255, 0.24)'],
+                [1, 'rgba(196, 82, 255, 0.22)'],
+              ]
+            : [
+                [0, 'rgba(103, 0, 255, 0.18)'],
+                [0.5, 'rgba(78, 138, 255, 0.16)'],
+                [1, 'rgba(216, 112, 255, 0.16)'],
+              ],
+        });
+
+        // 2. Main giant sculptural liquid gradient blob (clearly readable organic silhouette)
+        drawFluidBlob({
+          cx,
+          cy,
+          radius: baseRadius,
+          aspectX,
+          aspectY,
+          rot,
+          phase: 0.4,
+          morphT,
+          amps,
+          blurPx: Math.max(7, Math.round(minDim * 0.046)),
+          gradAngle: t * 0.28 + s * 2.6,
+          stops: dark
+            ? [
+                [0, 'rgba(128, 44, 255, 0.46)'],
+                [0.36, 'rgba(72, 124, 255, 0.38)'],
+                [0.72, 'rgba(154, 72, 255, 0.36)'],
+                [1, 'rgba(214, 88, 255, 0.32)'],
+              ]
+            : [
+                [0, 'rgba(103, 0, 255, 0.30)'],
+                [0.36, 'rgba(76, 138, 255, 0.26)'],
+                [0.72, 'rgba(156, 98, 255, 0.24)'],
+                [1, 'rgba(224, 118, 255, 0.24)'],
+              ],
+        });
+
+        // 3. Swirling inner liquid core shifting color depth inside the giant blob
+        drawFluidBlob({
+          cx: cx + Math.cos(t * 0.48 + s * 3.1) * baseRadius * 0.2,
+          cy: cy + Math.sin(t * 0.42 - s * 2.4) * baseRadius * 0.18,
+          radius: baseRadius * 0.64,
+          aspectX: baseAspectX * 0.96 + Math.cos(t * 0.51) * 0.14,
+          aspectY: baseAspectY * 1.04 + Math.sin(t * 0.45) * 0.14,
+          rot: -rot * 0.85,
+          phase: 2.3,
+          morphT: morphT * 1.18 + 1.9,
+          amps: [0.22, 0.16, 0.09, 0.05, 0.02],
+          blurPx: Math.max(9, Math.round(minDim * 0.062)),
+          gradAngle: -t * 0.32 - s * 2.1,
+          stops: dark
+            ? [
+                [0, 'rgba(218, 96, 255, 0.34)'],
+                [0.55, 'rgba(108, 146, 255, 0.28)'],
+                [1, 'rgba(103, 0, 255, 0.22)'],
+              ]
+            : [
+                [0, 'rgba(232, 126, 255, 0.26)'],
+                [0.55, 'rgba(98, 162, 255, 0.22)'],
+                [1, 'rgba(126, 72, 255, 0.18)'],
+              ],
+        });
+      };
+
+      const stop = () => {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+        lastTs = 0;
+      };
+
+      const loop = (ts: number) => {
+        if (document.hidden || reduceMotionQuery.matches) {
+          stop();
+          return;
+        }
+        if (lastTs) {
+          const dt = Math.min(0.05, (ts - lastTs) / 1000);
+          elapsed += dt * 1.15;
+        }
+        lastTs = ts;
+        curScroll += (targetScroll - curScroll) * 0.085;
+        render(elapsed, curScroll);
+        rafId = requestAnimationFrame(loop);
+      };
+
+      const start = () => {
+        if (reduceMotionQuery.matches) {
+          stop();
+          render(0.8, readScroll());
+          return;
+        }
+        if (!rafId && !document.hidden) {
+          lastTs = 0;
+          rafId = requestAnimationFrame(loop);
+        }
+      };
+
+      resize();
+      render(elapsed, curScroll);
+      start();
+
+      window.addEventListener(
+        'scroll',
+        () => {
+          targetScroll = readScroll();
+          if (reduceMotionQuery.matches) {
+            curScroll = targetScroll;
+            render(0.8, curScroll);
+          }
+        },
+        { passive: true },
+      );
+
+      window.addEventListener(
+        'resize',
+        () => {
+          resize();
+          render(elapsed, curScroll);
+        },
+        { passive: true },
+      );
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop();
+        else start();
+      });
+
+      reduceMotionQuery.addEventListener('change', () => start());
+      darkQuery.addEventListener('change', () => render(elapsed, curScroll));
+    }
   }
 </script>
 
@@ -118,165 +308,18 @@
     pointer-events: none;
     overflow: hidden;
     contain: strict;
-    --orb-1-a: rgba(103, 0, 255, 0.27);
-    --orb-1-b: rgba(128, 74, 255, 0.14);
-    --orb-1-c: rgba(173, 146, 255, 0.05);
-    --orb-2-a: rgba(74, 134, 255, 0.24);
-    --orb-2-b: rgba(126, 180, 255, 0.13);
-    --orb-2-c: rgba(176, 212, 255, 0.045);
-    --orb-3-a: rgba(196, 98, 255, 0.21);
-    --orb-3-b: rgba(232, 152, 255, 0.11);
-    --orb-3-c: rgba(246, 204, 255, 0.045);
-    --wash: linear-gradient(155deg, rgba(255, 255, 255, 0.65) 0%, rgba(246, 242, 255, 0.35) 52%, rgba(238, 245, 255, 0.5) 100%);
   }
 
-  @media (prefers-color-scheme: dark) {
-    .ambient-bg {
-      --orb-1-a: rgba(122, 40, 255, 0.38);
-      --orb-1-b: rgba(96, 28, 232, 0.19);
-      --orb-1-c: rgba(74, 22, 186, 0.06);
-      --orb-2-a: rgba(64, 118, 255, 0.29);
-      --orb-2-b: rgba(76, 132, 255, 0.14);
-      --orb-2-c: rgba(90, 148, 255, 0.045);
-      --orb-3-a: rgba(186, 80, 255, 0.25);
-      --orb-3-b: rgba(140, 56, 230, 0.12);
-      --orb-3-c: rgba(112, 42, 196, 0.045);
-      --wash: linear-gradient(155deg, rgba(16, 11, 28, 0.55) 0%, rgba(11, 8, 18, 0.2) 55%, rgba(18, 12, 34, 0.45) 100%);
-    }
-  }
-
-  .ambient-wash {
+  .ambient-canvas {
     position: absolute;
     inset: 0;
-    background: var(--wash);
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 
-  .ambient-layer {
-    position: absolute;
-    inset: 0;
-    will-change: transform;
-  }
-
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    will-change: transform;
-  }
-
-  .orb-1 {
-    width: min(84vw, 1020px);
-    height: min(84vw, 1020px);
-    top: -22vh;
-    right: -12vw;
-    background: radial-gradient(circle, var(--orb-1-a) 0%, var(--orb-1-b) 30%, var(--orb-1-c) 56%, transparent 72%);
-  }
-
-  .orb-2 {
-    width: min(78vw, 940px);
-    height: min(78vw, 940px);
-    top: 22vh;
-    left: -16vw;
-    background: radial-gradient(circle, var(--orb-2-a) 0%, var(--orb-2-b) 30%, var(--orb-2-c) 56%, transparent 72%);
-  }
-
-  .orb-3 {
-    width: min(74vw, 880px);
-    height: min(74vw, 880px);
-    bottom: -24vh;
-    left: 24vw;
-    background: radial-gradient(circle, var(--orb-3-a) 0%, var(--orb-3-b) 32%, var(--orb-3-c) 56%, transparent 72%);
-  }
-
-  /* Gentle idle breathing on inner orbs */
-  @media (prefers-reduced-motion: no-preference) {
-    .orb-1 {
-      animation: orbDrift1 22s ease-in-out infinite alternate;
-    }
-    .orb-2 {
-      animation: orbDrift2 26s ease-in-out infinite alternate;
-    }
-    .orb-3 {
-      animation: orbDrift3 24s ease-in-out infinite alternate;
-    }
-  }
-
-  /* Scroll-driven gradient choreography on outer layers (native compositor timeline) */
-  @supports (animation-timeline: scroll()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .ambient-layer-1 {
-        animation: orbScroll1 1ms linear both;
-      }
-      .ambient-layer-2 {
-        animation: orbScroll2 1ms linear both;
-      }
-      .ambient-layer-3 {
-        animation: orbScroll3 1ms linear both;
-      }
-
-      /* Separate rule prevents LightningCSS from merging animation-timeline into invalid animation shorthand */
-      .ambient-bg > .ambient-layer {
-        animation-timeline: scroll(root block);
-      }
-    }
-  }
-
-  @keyframes orbScroll1 {
-    0% { transform: translate3d(0, 0, 0) scale(1); }
-    35% { transform: translate3d(-24vw, 22vh, 0) scale(1.16); }
-    70% { transform: translate3d(-42vw, 32vh, 0) scale(0.96); }
-    100% { transform: translate3d(-10vw, 12vh, 0) scale(1.12); }
-  }
-
-  @keyframes orbScroll2 {
-    0% { transform: translate3d(0, 0, 0) scale(1); }
-    35% { transform: translate3d(28vw, -16vh, 0) scale(1.14); }
-    70% { transform: translate3d(44vw, 14vh, 0) scale(1.04); }
-    100% { transform: translate3d(12vw, 24vh, 0) scale(1.16); }
-  }
-
-  @keyframes orbScroll3 {
-    0% { transform: translate3d(0, 0, 0) scale(1); }
-    35% { transform: translate3d(-22vw, -28vh, 0) scale(1.16); }
-    70% { transform: translate3d(18vw, -42vh, 0) scale(1.06); }
-    100% { transform: translate3d(-4vw, -14vh, 0) scale(1.2); }
-  }
-
-  @keyframes orbDrift1 {
-    0% { transform: translate3d(0, 0, 0) scale(1); }
-    50% { transform: translate3d(-4vw, 5vh, 0) scale(1.06); }
-    100% { transform: translate3d(3vw, 8vh, 0) scale(0.97); }
-  }
-
-  @keyframes orbDrift2 {
-    0% { transform: translate3d(0, 0, 0) scale(1); }
-    50% { transform: translate3d(5vw, -4vh, 0) scale(1.05); }
-    100% { transform: translate3d(2vw, 5vh, 0) scale(0.97); }
-  }
-
-  @keyframes orbDrift3 {
-    0% { transform: translate3d(0, 0, 0) scale(1); }
-    50% { transform: translate3d(-4vw, -6vh, 0) scale(1.07); }
-    100% { transform: translate3d(5vw, -2vh, 0) scale(0.96); }
-  }
-
-  @media (max-width: 768px) {
-    .orb-1 {
-      width: 118vw;
-      height: 118vw;
-      top: -18vh;
-      right: -30vw;
-    }
-    .orb-2 {
-      width: 112vw;
-      height: 112vw;
-      top: 28vh;
-      left: -34vw;
-    }
-    .orb-3 {
-      width: 108vw;
-      height: 108vw;
-      bottom: -20vh;
-      left: 5vw;
-    }
+  .ambient-canvas.fallback-blur {
+    filter: blur(40px);
+    transform: scale(1.08);
   }
 </style>
