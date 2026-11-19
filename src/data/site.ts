@@ -146,10 +146,10 @@ export const SYSTEMS_SECTION_COPY: SectionHeadingCopy = {
 
 export const FOUNDER_COPY: FounderCopy = {
   heading: "Who's behind Beneru",
-  lead: 'I am Reuben Magallanes, also known as Ben. Beneru is my personal brand for AI direction and marketing systems. Spawntel is my company, where I lead marketing as Co-Founder alongside Creative Head Jairus Catana.',
+  lead: "I'm Reuben Magallanes (most people call me Ben). I'm a creative person at heart who loves making things, and today I'm a self-taught Marketing Head and Co-Founder at Spawntel. Beneru is my personal brand where I document the AI marketing systems we build.",
   paragraphs: [
-    "I'm a self-taught builder based in the Philippines, working remotely with business owners worldwide. Before Spawntel, I co-founded AUTOBIT with my brother and ran operations across student programming bootcamps, college hardware and software thesis builds, and international client work.",
-    'Most marketing bottlenecks come from broken processes, not lazy teams. At Spawntel we map how a business runs, standardize the messy steps, and build intelligent workflow systems around the tools the team already uses. Under Beneru, I document those builds in the open.',
+    'Back in senior high school, building a business was not on my radar. I lived a normal life, played games, had unclear goals, and tried a bit of everything. My mindset started to change when I entered college, joined our school publication, and became the creative lead. Over time, Jay Canete noticed my skills from the work I published and invited me to join his startup, AUTOBIT, as marketing manager.',
+    'After a few months, I stepped back because my school projects had piled up and I thought I needed to focus on classes. Slowly, though, I realized building in a startup was where I actually belonged. My drive did not match the course I was taking, so I dropped out in my second year. Through hands-on experience together with my team, Jay Canete, Argelo Nunez, Jairus Catana, Winston Elligue, Vince Pana, and Paolo Desio, we built Spawntel to help business owners grow by building sustainable systems so they can focus on their product or service.',
   ],
   principlesHeading: 'How I work',
   principles: [
