@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import AmbientBackdrop from '../components/AmbientBackdrop.astro';
 import CookieConsent from '../components/CookieConsent.astro';
-import BookingModal from '../components/BookingModal.astro';
+import { spawntelFunnelUrl } from '../../shared/funnel';
 
 interface Props {
   title: string;
@@ -119,7 +119,7 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
         </nav>
 
         <div class="header-actions">
-          <a href="/#demo" class="btn btn-primary header-cta" data-open-booking>Book an audit</a>
+          <a href={spawntelFunnelUrl('header')} class="btn btn-primary header-cta" data-spawntel-cta="header">Book on Spawntel</a>
           <details class="mobile-menu">
             <summary aria-label="Open menu">
               <span class="burger" aria-hidden="true"><span></span><span></span></span>
@@ -159,7 +159,7 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
         <div class="footer-col">
           <span class="footer-label">Elsewhere</span>
           <a href="https://instagram.com/Beneru.ai" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://spawntel.com" target="_blank" rel="noopener noreferrer">Spawntel</a>
+          <a href={spawntelFunnelUrl('footer')} data-spawntel-cta="footer">Spawntel.com</a>
         </div>
       </div>
       <div class="footer-bottom">
@@ -169,7 +169,6 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
 
     <!-- Cookie & Privacy Consent Notice (DPA 2012 / GDPR compliance) -->
     <CookieConsent />
-    <BookingModal />
 
     <script>
       // Scroll reveal: IntersectionObserver only, no scroll listeners.
@@ -195,6 +194,34 @@ const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href
       // Close the mobile menu after picking a link.
       document.querySelectorAll<HTMLDetailsElement>('.mobile-menu').forEach((menu) => {
         menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.removeAttribute('open')));
+      });
+
+      // Notify Reuben once per visitor session when someone clicks through to spawntel.com.
+      const FUNNEL_PING_KEY = 'beneru_spawntel_ping';
+      document.querySelectorAll<HTMLAnchorElement>('[data-spawntel-cta]').forEach((link) => {
+        link.addEventListener('click', () => {
+          try {
+            if (sessionStorage.getItem(FUNNEL_PING_KEY)) return;
+            sessionStorage.setItem(FUNNEL_PING_KEY, '1');
+          } catch {
+            // Continue without sessionStorage if blocked by privacy settings.
+          }
+          const payload = JSON.stringify({
+            placement: link.dataset.spawntelCta || 'cta',
+            page: location.pathname,
+            referrer: document.referrer || '',
+          });
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon('/api/funnel-click', new Blob([payload], { type: 'application/json' }));
+          } else {
+            fetch('/api/funnel-click', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: payload,
+              keepalive: true,
+            }).catch(() => {});
+          }
+        });
       });
     </script>
   </body>

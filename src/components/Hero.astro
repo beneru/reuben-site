@@ -1,4 +1,5 @@
 ---
+import { spawntelFunnelUrl } from '../../shared/funnel';
 ---
 <section class="hero" aria-labelledby="hero-heading">
   <div class="hero-copy">
@@ -10,8 +11,8 @@
       I build AI systems that repurpose content, qualify DMs and test ads, so your team stops doing it by hand.
     </p>
     <div class="hero-actions hero-in" style="--d:3">
-      <a href="#demo" class="btn btn-primary" data-open-booking>
-        Book an audit <span class="arrow" aria-hidden="true">&rarr;</span>
+      <a href={spawntelFunnelUrl('hero')} class="btn btn-primary" data-spawntel-cta="hero">
+        Book on Spawntel <span class="arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a href="#work" class="btn btn-ghost">See the work</a>
     </div>

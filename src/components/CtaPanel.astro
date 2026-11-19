@@ -1,14 +1,15 @@
 ---
 import { BOOKING } from '../../shared/booking';
+import { spawntelFunnelUrl } from '../../shared/funnel';
 ---
 <section id="demo" class="cta" aria-labelledby="cta-heading" data-reveal>
   <div class="cta-copy">
     <h2 id="cta-heading">Your market moves fast. <span>Your marketing systems should lead it.</span></h2>
-    <p>Let's find where AI direction can multiply your content output and inbound leads. The audit is free and takes {BOOKING.slotMinutes} minutes.</p>
+    <p>Ready to build your AI marketing system? Bookings and discovery calls run through Spawntel, where we map your workflows in {BOOKING.slotMinutes} minutes.</p>
   </div>
   <div class="cta-actions">
-    <a href="/#demo" class="btn btn-primary" data-open-booking>
-      Book an audit <span class="arrow" aria-hidden="true">&rarr;</span>
+    <a href={spawntelFunnelUrl('cta')} class="btn btn-primary" data-spawntel-cta="cta">
+      Book on Spawntel <span class="arrow" aria-hidden="true">&rarr;</span>
     </a>
     <a href="https://instagram.com/Beneru.ai" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Chat on Instagram</a>
   </div>
