@@ -35,10 +35,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <style>
   .about-page {
-    padding: 4rem 0;
+    padding: clamp(2.5rem, 6vw, 4.5rem) 0;
   }
   .content-wrapper {
-    max-width: 65ch;
+    max-width: 72ch;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border-radius: 28px;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
   }
   .lead {
     font-size: var(--step-1);

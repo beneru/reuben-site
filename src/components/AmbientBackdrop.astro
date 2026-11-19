@@ -1,0 +1,282 @@
+---
+/**
+ * Motion-interactive light gradient background.
+ * Uses pre-feathered multi-stop radial gradients (zero runtime CSS filter blur cost)
+ * on GPU transform layers: gentle ambient drift paired with pointer and scroll parallax.
+ * The rAF loop runs on demand and stops automatically once settled.
+ */
+---
+
+<div class="ambient-bg" aria-hidden="true" data-ambient-bg>
+  <div class="ambient-wash"></div>
+  <div class="ambient-layer" data-parallax-x="36" data-parallax-y="28" data-scroll-y="-120">
+    <div class="orb orb-1"></div>
+  </div>
+  <div class="ambient-layer" data-parallax-x="-30" data-parallax-y="22" data-scroll-y="90">
+    <div class="orb orb-2"></div>
+  </div>
+  <div class="ambient-layer" data-parallax-x="24" data-parallax-y="-26" data-scroll-y="-80">
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="ambient-pointer" data-ambient-pointer></div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-ambient-bg]');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (root && !reduceMotion) {
+    const pointerEl = root.querySelector<HTMLElement>('[data-ambient-pointer]');
+    const layers = Array.from(root.querySelectorAll<HTMLElement>('[data-parallax-x]')).map((el) => ({
+      el,
+      px: Number(el.dataset.parallaxX || 0),
+      py: Number(el.dataset.parallaxY || 0),
+      sy: Number(el.dataset.scrollY || 0),
+    }));
+
+    let vw = window.innerWidth || 1440;
+    let vh = window.innerHeight || 900;
+    let maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+
+    let targetX = vw * 0.62;
+    let targetY = vh * 0.34;
+    let curX = targetX;
+    let curY = targetY;
+
+    let targetScroll = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+    let curScroll = targetScroll;
+
+    let rafId = 0;
+
+    const apply = () => {
+      if (pointerEl) {
+        pointerEl.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0)`;
+      }
+
+      const nx = (curX / vw) - 0.5;
+      const ny = (curY / vh) - 0.5;
+
+      for (const layer of layers) {
+        const dx = nx * layer.px;
+        const dy = ny * layer.py + curScroll * layer.sy;
+        layer.el.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0)`;
+      }
+    };
+
+    const tick = () => {
+      const ease = 0.075;
+      curX += (targetX - curX) * ease;
+      curY += (targetY - curY) * ease;
+      curScroll += (targetScroll - curScroll) * 0.1;
+
+      apply();
+
+      const settled =
+        Math.abs(targetX - curX) < 0.35 &&
+        Math.abs(targetY - curY) < 0.35 &&
+        Math.abs(targetScroll - curScroll) < 0.0005;
+
+      if (settled) {
+        curX = targetX;
+        curY = targetY;
+        curScroll = targetScroll;
+        apply();
+        rafId = 0;
+        return;
+      }
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const wake = () => {
+      if (!rafId && !document.hidden) {
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    apply();
+
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        wake();
+      },
+      { passive: true },
+    );
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+        targetScroll = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+        wake();
+      },
+      { passive: true },
+    );
+
+    window.addEventListener(
+      'resize',
+      () => {
+        vw = window.innerWidth || 1440;
+        vh = window.innerHeight || 900;
+        maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+        targetScroll = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+        wake();
+      },
+      { passive: true },
+    );
+  }
+</script>
+
+<style>
+  .ambient-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    contain: strict;
+    --orb-1-a: rgba(103, 0, 255, 0.24);
+    --orb-1-b: rgba(128, 74, 255, 0.13);
+    --orb-1-c: rgba(173, 146, 255, 0.05);
+    --orb-2-a: rgba(74, 134, 255, 0.22);
+    --orb-2-b: rgba(126, 180, 255, 0.12);
+    --orb-2-c: rgba(176, 212, 255, 0.04);
+    --orb-3-a: rgba(196, 98, 255, 0.19);
+    --orb-3-b: rgba(232, 152, 255, 0.10);
+    --orb-3-c: rgba(246, 204, 255, 0.04);
+    --ptr-a: rgba(103, 0, 255, 0.20);
+    --ptr-b: rgba(108, 144, 255, 0.11);
+    --ptr-c: rgba(194, 132, 255, 0.04);
+    --wash: linear-gradient(155deg, rgba(255, 255, 255, 0.65) 0%, rgba(246, 242, 255, 0.35) 52%, rgba(238, 245, 255, 0.5) 100%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .ambient-bg {
+      --orb-1-a: rgba(118, 36, 255, 0.34);
+      --orb-1-b: rgba(96, 28, 232, 0.17);
+      --orb-1-c: rgba(74, 22, 186, 0.06);
+      --orb-2-a: rgba(62, 114, 255, 0.26);
+      --orb-2-b: rgba(76, 132, 255, 0.12);
+      --orb-2-c: rgba(90, 148, 255, 0.04);
+      --orb-3-a: rgba(182, 76, 255, 0.22);
+      --orb-3-b: rgba(140, 56, 230, 0.10);
+      --orb-3-c: rgba(112, 42, 196, 0.04);
+      --ptr-a: rgba(138, 88, 255, 0.26);
+      --ptr-b: rgba(88, 118, 255, 0.13);
+      --ptr-c: rgba(176, 98, 255, 0.04);
+      --wash: linear-gradient(155deg, rgba(16, 11, 28, 0.55) 0%, rgba(11, 8, 18, 0.2) 55%, rgba(18, 12, 34, 0.45) 100%);
+    }
+  }
+
+  .ambient-wash {
+    position: absolute;
+    inset: 0;
+    background: var(--wash);
+  }
+
+  .ambient-layer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .orb-1 {
+    width: min(82vw, 980px);
+    height: min(82vw, 980px);
+    top: -24vh;
+    right: -14vw;
+    background: radial-gradient(circle, var(--orb-1-a) 0%, var(--orb-1-b) 30%, var(--orb-1-c) 56%, transparent 72%);
+  }
+
+  .orb-2 {
+    width: min(76vw, 900px);
+    height: min(76vw, 900px);
+    top: 24vh;
+    left: -18vw;
+    background: radial-gradient(circle, var(--orb-2-a) 0%, var(--orb-2-b) 30%, var(--orb-2-c) 56%, transparent 72%);
+  }
+
+  .orb-3 {
+    width: min(72vw, 860px);
+    height: min(72vw, 860px);
+    bottom: -26vh;
+    left: 24vw;
+    background: radial-gradient(circle, var(--orb-3-a) 0%, var(--orb-3-b) 32%, var(--orb-3-c) 56%, transparent 72%);
+  }
+
+  .ambient-pointer {
+    --ptr-size: min(62vw, 720px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--ptr-size);
+    height: var(--ptr-size);
+    margin: calc(var(--ptr-size) / -2) 0 0 calc(var(--ptr-size) / -2);
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--ptr-a) 0%, var(--ptr-b) 30%, var(--ptr-c) 55%, transparent 72%);
+    transform: translate3d(62vw, 34vh, 0);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .orb-1 {
+      animation: orbDrift1 20s ease-in-out infinite alternate;
+    }
+    .orb-2 {
+      animation: orbDrift2 24s ease-in-out infinite alternate;
+    }
+    .orb-3 {
+      animation: orbDrift3 22s ease-in-out infinite alternate;
+    }
+  }
+
+  @keyframes orbDrift1 {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(-5vw, 6vh, 0) scale(1.07); }
+    100% { transform: translate3d(3vw, 10vh, 0) scale(0.96); }
+  }
+
+  @keyframes orbDrift2 {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(6vw, -5vh, 0) scale(1.06); }
+    100% { transform: translate3d(2vw, 6vh, 0) scale(0.97); }
+  }
+
+  @keyframes orbDrift3 {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(-5vw, -7vh, 0) scale(1.08); }
+    100% { transform: translate3d(6vw, -3vh, 0) scale(0.96); }
+  }
+
+  @media (max-width: 768px) {
+    .orb-1 {
+      width: 115vw;
+      height: 115vw;
+      top: -18vh;
+      right: -30vw;
+    }
+    .orb-2 {
+      width: 110vw;
+      height: 110vw;
+      top: 30vh;
+      left: -34vw;
+    }
+    .orb-3 {
+      width: 105vw;
+      height: 105vw;
+      bottom: -20vh;
+      left: 5vw;
+    }
+    .ambient-pointer {
+      --ptr-size: 95vw;
+    }
+  }
+</style>

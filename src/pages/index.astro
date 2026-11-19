@@ -67,8 +67,8 @@ const shifts = [
     gap: 1rem 1.5rem;
     flex-wrap: wrap;
     padding: 1.75rem 0;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
+    border-top: 1px solid var(--glass-border-subtle);
+    border-bottom: 1px solid var(--glass-border-subtle);
   }
 
   .audience-label {
@@ -87,14 +87,24 @@ const shifts = [
   }
 
   .audience li {
-    padding: 0.4rem 0.9rem;
+    padding: 0.42rem 0.95rem;
     border-radius: var(--radius-full);
-    background: var(--paper-2);
-    border: 1px solid var(--rule);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    backdrop-filter: var(--glass-blur-sm);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--shadow-sm);
     font-size: 0.9rem;
     font-weight: 500;
     color: var(--ink-2);
     white-space: nowrap;
+    transition: background-color 0.25s var(--ease-ios), border-color 0.25s var(--ease-ios), color 0.25s ease;
+  }
+
+  .audience li:hover {
+    background: var(--glass-tint);
+    border-color: var(--glass-tint-border);
+    color: var(--ink);
   }
 
   /* Before / after */
@@ -109,6 +119,8 @@ const shifts = [
   .shift-col {
     border-radius: var(--radius-lg);
     padding: clamp(1.5rem, 3vw, 2.25rem);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
   }
 
   .shift-col h3 {
@@ -139,8 +151,9 @@ const shifts = [
   }
 
   .before {
-    background: var(--paper-2);
-    border: 1px solid var(--rule);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
     color: var(--ink-2);
   }
 
@@ -149,9 +162,10 @@ const shifts = [
   .before li::before { content: '\00D7'; color: var(--ink-muted); }
 
   .after {
-    background: var(--accent);
-    color: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 24px 50px -28px rgba(103, 0, 255, 0.7);
+    background: linear-gradient(145deg, rgba(103, 0, 255, 0.84) 0%, rgba(82, 0, 224, 0.74) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: rgba(255, 255, 255, 0.94);
+    box-shadow: var(--glass-tint-highlight), 0 26px 56px -26px rgba(103, 0, 255, 0.62);
   }
 
   .after h3 { color: #FFFFFF; }

@@ -20,9 +20,12 @@ import { BOOKING } from '../../shared/booking';
     padding: clamp(2rem, 5vw, 4rem);
     border-radius: 28px;
     background:
-      radial-gradient(120% 140% at 100% 0%, var(--accent-light-2) 0%, transparent 55%),
-      var(--accent-light);
-    border: 1px solid var(--accent-light-2);
+      radial-gradient(120% 140% at 100% 0%, rgba(103, 0, 255, 0.16) 0%, transparent 58%),
+      var(--glass-bg-strong);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-tint-border);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
     display: grid;
     grid-template-columns: minmax(0, 1.4fr) auto;
     align-items: end;
@@ -52,7 +55,7 @@ import { BOOKING } from '../../shared/booking';
     justify-content: flex-end;
   }
 
-  .btn-ghost { background: var(--paper); }
+  .btn-ghost { background: var(--glass-bg); }
 
   @media (max-width: 860px) {
     .cta { grid-template-columns: 1fr; align-items: start; }

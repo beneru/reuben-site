@@ -1,21 +1,43 @@
 /*
  * Beneru design tokens.
- * One accent (Beneru violet #6700FF), cool zinc neutrals, light + dark.
+ * One accent (Beneru violet #6700FF), cool zinc neutrals, tinted frosted glass, light + dark.
+ * Tinted glass is an Apple/iOS frosted glass approximation using backdrop-filter, layered
+ * translucent fills, specular highlights, and solid fallbacks for prefers-reduced-transparency.
  * Shape rule: interactive controls are full-pill, surfaces/cards are 20px, small media 12px.
  */
 :root {
   color-scheme: light;
 
   /* Surfaces */
-  --paper: #FCFCFD;
+  --paper: #F9F8FD;
   --paper-2: #F4F4F6;
   --paper-3: #ECECF0;
-  --rule: #E3E3E8;
+  --rule: rgba(34, 24, 68, 0.1);
 
-  /* Text (all AA 4.5:1+ on --paper) */
+  /* Tinted glass materials (light) */
+  --glass-bg: rgba(255, 255, 255, 0.54);
+  --glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --glass-bg-hover: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.76);
+  --glass-border-subtle: rgba(103, 0, 255, 0.13);
+  --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 0 rgba(103, 0, 255, 0.06);
+  --glass-shadow: 0 12px 34px -14px rgba(46, 16, 108, 0.16), 0 2px 8px -2px rgba(19, 19, 40, 0.06);
+  --glass-blur: saturate(185%) blur(20px);
+  --glass-blur-sm: saturate(175%) blur(14px);
+
+  /* Violet-tinted glass materials (light) */
+  --glass-tint: rgba(103, 0, 255, 0.085);
+  --glass-tint-hover: rgba(103, 0, 255, 0.14);
+  --glass-tint-border: rgba(103, 0, 255, 0.22);
+  --glass-tint-strong: rgba(103, 0, 255, 0.84);
+  --glass-tint-strong-hover: rgba(88, 0, 220, 0.92);
+  --glass-tint-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.38), inset 0 -1px 0 0 rgba(24, 0, 72, 0.18);
+  --glass-tint-shadow: 0 16px 38px -14px rgba(103, 0, 255, 0.48), 0 2px 8px -2px rgba(103, 0, 255, 0.24);
+
+  /* Text (all AA 4.5:1+ on --paper and --glass-bg) */
   --ink: #131316;
-  --ink-2: #4A4A55;
-  --ink-muted: #63636F;
+  --ink-2: #444252;
+  --ink-muted: #5F5C70;
 
   /* Brand accent */
   --accent: #6700FF;
@@ -34,9 +56,9 @@
   --color-focus-ring: #6700FF;
 
   /* Shadows (tinted, never pure black) */
-  --shadow-sm: 0 1px 2px rgba(19, 19, 40, 0.05);
-  --shadow-md: 0 12px 32px -12px rgba(30, 10, 70, 0.18);
-  --shadow-glow: 0 10px 30px -10px rgba(103, 0, 255, 0.45);
+  --shadow-sm: 0 1px 3px rgba(24, 14, 58, 0.07);
+  --shadow-md: 0 14px 36px -12px rgba(34, 12, 82, 0.2);
+  --shadow-glow: 0 12px 32px -10px rgba(103, 0, 255, 0.45);
 
   /* Radius */
   --radius-sm: 8px;
@@ -73,10 +95,28 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --paper: #0E0B14;
+    --paper: #0B0812;
     --paper-2: #16121F;
     --paper-3: #1E1929;
-    --rule: #2A2436;
+    --rule: rgba(185, 165, 240, 0.14);
+
+    /* Tinted glass materials (dark smoked violet) */
+    --glass-bg: rgba(24, 18, 40, 0.54);
+    --glass-bg-strong: rgba(20, 15, 34, 0.74);
+    --glass-bg-hover: rgba(36, 27, 58, 0.68);
+    --glass-border: rgba(255, 255, 255, 0.14);
+    --glass-border-subtle: rgba(179, 140, 255, 0.18);
+    --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 0 rgba(0, 0, 0, 0.28);
+    --glass-shadow: 0 18px 44px -14px rgba(0, 0, 0, 0.64), 0 2px 10px -2px rgba(0, 0, 0, 0.35);
+
+    --glass-tint: rgba(124, 58, 255, 0.16);
+    --glass-tint-hover: rgba(124, 58, 255, 0.24);
+    --glass-tint-border: rgba(179, 140, 255, 0.28);
+    --glass-tint-strong: rgba(103, 0, 255, 0.76);
+    --glass-tint-strong-hover: rgba(116, 20, 255, 0.88);
+    --glass-tint-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.32), inset 0 -1px 0 0 rgba(0, 0, 0, 0.25);
+    --glass-tint-shadow: 0 18px 44px -14px rgba(103, 0, 255, 0.52), 0 2px 10px -2px rgba(0, 0, 0, 0.42);
+
     --ink: #F2F0F7;
     --ink-2: #B9B4C6;
     --ink-muted: #9A94A8;
@@ -84,14 +124,27 @@
     --accent-light: #1D1430;
     --accent-light-2: #2A1C47;
     --color-focus-ring: #B38CFF;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45);
     --shadow-md: 0 16px 40px -16px rgba(0, 0, 0, 0.7);
   }
 }
 
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-bg: var(--paper-2);
+    --glass-bg-strong: var(--paper);
+    --glass-bg-hover: var(--paper-3);
+    --glass-tint: var(--accent-light);
+    --glass-tint-hover: var(--accent-light-2);
+    --glass-tint-strong: var(--accent);
+    --glass-tint-strong-hover: var(--accent-hover);
+    --glass-blur: none;
+    --glass-blur-sm: none;
+  }
+}
+
 /*
- * The booking modal and cookie banner were built light-only with hard-coded whites.
- * Keep them on light tokens in both themes so text never lands light-on-white.
+ * The booking modal uses light form surfaces so text never lands light-on-white.
  */
 .force-light {
   color-scheme: light;
