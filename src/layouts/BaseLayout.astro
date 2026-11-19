@@ -96,9 +96,14 @@ const structuredData = {
     <meta name="theme-color" content="#0B0812" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
     />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
@@ -320,13 +325,14 @@ const structuredData = {
   }
 
   .brand-logo {
+    font-family: var(--font-heading);
     font-size: 1.125rem;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--ink);
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.025em;
     justify-self: start;
   }
 
@@ -497,6 +503,9 @@ const structuredData = {
   }
 
   .footer-brand-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    letter-spacing: -0.025em;
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;

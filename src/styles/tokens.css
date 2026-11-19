@@ -67,9 +67,10 @@
   --radius-lg: 20px;
   --radius-full: 9999px;
 
-  /* Type */
-  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  /* Type (Spawntel Brand Guidelines: Poppins + General Sans + JetBrains Mono) */
+  --font-heading: 'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --step--1: 0.875rem;
   --step-0: 1rem;
   --step-1: 1.125rem;

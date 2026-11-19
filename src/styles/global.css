@@ -21,12 +21,25 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  line-height: 1.08;
+  font-family: var(--font-heading);
+  line-height: 1.1;
   text-wrap: balance;
   margin-top: 0;
   color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+h1 {
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+h3, h4, h5, h6 {
   font-weight: 600;
-  letter-spacing: -0.035em;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
 }
 
 p { text-wrap: pretty; }
