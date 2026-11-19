@@ -1,0 +1,305 @@
+---
+import { WORK_SECTION_COPY } from '../data/site';
+import { WORK_BUILDS } from '../data/work';
+
+const featuredBuild = WORK_BUILDS.find((b) => b.featured) || WORK_BUILDS[0];
+const supportingBuilds = WORK_BUILDS.filter((b) => b.slug !== featuredBuild.slug);
+---
+<section id="work" class="proof section" aria-labelledby="work-heading">
+  <div class="proof-head" data-reveal>
+    <h2 id="work-heading" class="section-title">{WORK_SECTION_COPY.heading}</h2>
+    <p class="section-lead">{WORK_SECTION_COPY.lead}</p>
+  </div>
+
+  {featuredBuild && (
+    <article class="proof-card proof-featured" data-reveal style="--i:0">
+      <a href={`/work/${featuredBuild.slug}/`} class="proof-media-link" aria-label={`Inspect ${featuredBuild.title}`}>
+        <div class="proof-media">
+          <img
+            src={featuredBuild.cardImage.src}
+            alt={featuredBuild.cardImage.alt}
+            width={featuredBuild.cardImage.width}
+            height={featuredBuild.cardImage.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </a>
+      <div class="proof-body">
+        <div class="proof-meta">
+          <span class="proof-category">{featuredBuild.category}</span>
+          <span class="proof-dot" aria-hidden="true">&middot;</span>
+          <span class="proof-status">{featuredBuild.statusLabel}</span>
+        </div>
+        <h3>
+          <a href={`/work/${featuredBuild.slug}/`}>{featuredBuild.title}</a>
+        </h3>
+        <p class="proof-summary">{featuredBuild.summary}</p>
+        <div class="proof-verified">
+          <span class="verified-label">Verified</span>
+          <p>{featuredBuild.proofSummary}</p>
+        </div>
+        <div class="proof-footer">
+          <ul class="tag-list" aria-label="Technical stack">
+            {featuredBuild.metaTags.map((tag) => <li>{tag}</li>)}
+          </ul>
+          <a href={`/work/${featuredBuild.slug}/`} class="proof-cta">
+            Read documentation <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </article>
+  )}
+
+  <div class="proof-grid">
+    {supportingBuilds.map((build, idx) => (
+      <article class="proof-card" data-reveal style={`--i:${idx + 1}`}>
+        <a href={`/work/${build.slug}/`} class="proof-media-link" aria-label={`Inspect ${build.title}`}>
+          <div class="proof-media">
+            <img
+              src={build.cardImage.src}
+              alt={build.cardImage.alt}
+              width={build.cardImage.width}
+              height={build.cardImage.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </a>
+        <div class="proof-body">
+          <div class="proof-meta">
+            <span class="proof-category">{build.category}</span>
+            <span class="proof-dot" aria-hidden="true">&middot;</span>
+            <span class="proof-status">{build.statusLabel}</span>
+          </div>
+          <h3>
+            <a href={`/work/${build.slug}/`}>{build.title}</a>
+          </h3>
+          <p class="proof-summary">{build.summary}</p>
+          <div class="proof-verified">
+            <span class="verified-label">Verified</span>
+            <p>{build.proofSummary}</p>
+          </div>
+          <div class="proof-footer">
+            <ul class="tag-list" aria-label="Technical stack">
+              {build.metaTags.map((tag) => <li>{tag}</li>)}
+            </ul>
+            <a href={`/work/${build.slug}/`} class="proof-cta">
+              Read documentation <span class="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .proof {
+    scroll-margin-top: 84px;
+  }
+
+  .proof-head {
+    margin-bottom: clamp(2rem, 4.5vw, 3.25rem);
+  }
+
+  .proof-card {
+    background: var(--glass-bg-strong);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
+    overflow: hidden;
+    transition: border-color 0.25s var(--ease-ios), box-shadow 0.3s var(--ease-ios), transform 0.35s var(--spring-ios);
+  }
+
+  .proof-card:hover {
+    border-color: var(--glass-tint-border);
+    box-shadow: var(--glass-highlight), var(--shadow-md);
+  }
+
+  .proof-featured {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    align-items: stretch;
+    margin-bottom: 1.25rem;
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .proof-grid .proof-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .proof-media-link {
+    display: block;
+    padding: 0.9rem 0.9rem 0;
+  }
+
+  .proof-featured .proof-media-link {
+    padding: 1rem 0 1rem 1rem;
+    display: flex;
+  }
+
+  .proof-media {
+    position: relative;
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #F9F8FD;
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .proof-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.55s var(--ease-ios);
+  }
+
+  .proof-card:hover .proof-media img {
+    transform: scale(1.018);
+  }
+
+  .proof-body {
+    padding: clamp(1.35rem, 2.6vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    flex: 1;
+  }
+
+  .proof-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--ink-muted);
+  }
+
+  .proof-category {
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+
+  h3 {
+    font-size: var(--step-2);
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+
+  h3 a {
+    color: var(--ink);
+  }
+
+  h3 a:hover {
+    color: var(--accent-ink);
+  }
+
+  .proof-summary {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 0.975rem;
+    line-height: 1.55;
+  }
+
+  .proof-verified {
+    margin-top: 0.15rem;
+    padding: 0.75rem 0.95rem;
+    border-radius: var(--radius-md);
+    background: var(--glass-tint);
+    border: 1px solid var(--glass-tint-border);
+  }
+
+  .verified-label {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--accent-ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .proof-verified p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+
+  .proof-footer {
+    margin-top: auto;
+    padding-top: 0.65rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .tag-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag-list li {
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--ink-2);
+  }
+
+  .proof-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 40px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+
+  .proof-cta .arrow {
+    transition: transform 0.3s var(--spring-ios);
+  }
+
+  .proof-cta:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 920px) {
+    .proof-featured {
+      grid-template-columns: 1fr;
+    }
+
+    .proof-featured .proof-media-link {
+      padding: 0.9rem 0.9rem 0;
+    }
+
+    .proof-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

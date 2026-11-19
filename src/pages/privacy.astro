@@ -1,0 +1,72 @@
+---
+import DocLayout from '../layouts/DocLayout.astro';
+import { PRIVACY_DOC } from '../data/privacy';
+---
+
+<DocLayout
+  title={PRIVACY_DOC.seoTitle}
+  description={PRIVACY_DOC.seoDescription}
+  eyebrow={`Updated ${PRIVACY_DOC.lastUpdated}`}
+  heading={PRIVACY_DOC.title}
+  subtitle={PRIVACY_DOC.intro}
+  backHref="/"
+  backLabel="Back to home"
+>
+  <div class="privacy-sections">
+    {PRIVACY_DOC.sections.map((sec) => (
+      <section id={sec.id} class="privacy-card" aria-labelledby={`${sec.id}-heading`}>
+        <h2 id={`${sec.id}-heading`}>{sec.heading}</h2>
+        {sec.paragraphs.map((p) => <p>{p}</p>)}
+        {sec.bullets && (
+          <ul>
+            {sec.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        )}
+      </section>
+    ))}
+  </div>
+</DocLayout>
+
+<style>
+  .privacy-sections {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 76ch;
+  }
+
+  .privacy-card {
+    padding: clamp(1.4rem, 2.8vw, 2rem);
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  h2 {
+    font-size: var(--step-2);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    margin: 0;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  ul {
+    margin: 0.25rem 0 0;
+    padding-left: 1.25rem;
+    color: var(--ink);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  li {
+    line-height: 1.55;
+  }
+</style>

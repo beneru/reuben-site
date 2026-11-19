@@ -1,18 +1,22 @@
 ---
-import { BOOKING } from '../../shared/booking';
 import { spawntelFunnelUrl } from '../../shared/funnel';
 import { INSTAGRAM_URL } from '../../shared/socials';
+import { CTA_COPY } from '../data/site';
 ---
-<section id="demo" class="cta" aria-labelledby="cta-heading" data-reveal>
+<section id={CTA_COPY.id} class="cta" aria-labelledby="cta-heading" data-reveal>
   <div class="cta-copy">
-    <h2 id="cta-heading">Your market moves fast. <span>Your marketing systems should lead it.</span></h2>
-    <p>Ready to build your AI marketing system? Bookings and discovery calls run through Spawntel, where we map your workflows in {BOOKING.slotMinutes} minutes.</p>
+    <h2 id="cta-heading">
+      {CTA_COPY.headingLead}<span>{CTA_COPY.headingAccent}</span>
+    </h2>
+    <p>{CTA_COPY.body}</p>
   </div>
   <div class="cta-actions">
     <a href={spawntelFunnelUrl('cta')} class="btn btn-primary" data-spawntel-cta="cta">
-      Book on Spawntel <span class="arrow" aria-hidden="true">&rarr;</span>
+      {CTA_COPY.primaryCtaLabel} <span class="arrow" aria-hidden="true">&rarr;</span>
     </a>
-    <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Chat on Instagram</a>
+    <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+      {CTA_COPY.secondaryCtaLabel} ({CTA_COPY.secondaryCtaHandle})
+    </a>
   </div>
 </section>
 
@@ -46,7 +50,7 @@ import { INSTAGRAM_URL } from '../../shared/socials';
   p {
     color: var(--ink-2);
     font-size: var(--step-1);
-    max-width: 48ch;
+    max-width: 52ch;
     margin: 0;
   }
 

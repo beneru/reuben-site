@@ -1,0 +1,380 @@
+---
+import DocLayout from '../../layouts/DocLayout.astro';
+import { WORK_BUILDS, type WorkBuild } from '../../data/work';
+
+export function getStaticPaths() {
+  return WORK_BUILDS.map((build) => ({
+    params: { slug: build.slug },
+    props: { build },
+  }));
+}
+
+interface Props {
+  build: WorkBuild;
+}
+
+const { build } = Astro.props;
+const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
+---
+
+<DocLayout
+  title={build.seoTitle}
+  description={build.seoDescription}
+  eyebrow={`${build.category} (${build.year})`}
+  heading={build.title}
+  subtitle={build.summary}
+  statusLabel={build.statusLabel}
+>
+  <figure class="doc-figure">
+    <div class="figure-frame">
+      <img
+        src={build.cardImage.src}
+        alt={build.cardImage.alt}
+        width={build.cardImage.width}
+        height={build.cardImage.height}
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+    <figcaption>{build.cardImage.caption}</figcaption>
+  </figure>
+
+  <div class="doc-grid">
+    <section class="doc-card" aria-labelledby="problem-heading">
+      <h2 id="problem-heading">The Problem</h2>
+      <p>{build.problem}</p>
+    </section>
+
+    <section class="doc-card doc-card-tint" aria-labelledby="verified-heading">
+      <h2 id="verified-heading">What Is Verified</h2>
+      <ul class="check-list">
+        {build.verifiedFacts.map((fact) => <li>{fact}</li>)}
+      </ul>
+      <div class="stack-row">
+        <span class="stack-label">Stack</span>
+        <ul class="stack-tags">
+          {build.stackTags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <section class="doc-card" aria-labelledby="arch-heading">
+    <h2 id="arch-heading">Architecture &amp; Request Flow</h2>
+    <p class="arch-summary">{build.architectureSummary}</p>
+
+    {build.diagramImage && (
+      <figure class="doc-figure diagram-figure">
+        <div class="figure-frame">
+          <img
+            src={build.diagramImage.src}
+            alt={build.diagramImage.alt}
+            width={build.diagramImage.width}
+            height={build.diagramImage.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>{build.diagramImage.caption}</figcaption>
+      </figure>
+    )}
+
+    <ol class="step-grid">
+      {build.architectureSteps.map((s) => (
+        <li class="step-item">
+          <span class="step-num">{s.step}</span>
+          <h3>{s.title}</h3>
+          <p>{s.detail}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {build.implementations && build.implementations.length > 0 && (
+    <section class="doc-card" aria-labelledby="impl-heading">
+      <h2 id="impl-heading">Codebase Implementations</h2>
+      <div class="impl-grid">
+        {build.implementations.map((track) => (
+          <div class="impl-box">
+            <h3>{track.name}</h3>
+            <p class="impl-scope">{track.scope}</p>
+            <ul class="check-list">
+              {track.highlights.map((h) => <li>{h}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="doc-card" aria-labelledby="guardrails-heading">
+    <h2 id="guardrails-heading">Safety &amp; Operational Guardrails</h2>
+    <ul class="check-list">
+      {build.guardrails.map((g) => <li>{g}</li>)}
+    </ul>
+  </section>
+
+  {otherBuilds.length > 0 && (
+    <nav class="more-builds" aria-label="Other documented systems">
+      <h2>Other Documented Systems</h2>
+      <div class="more-grid">
+        {otherBuilds.map((item) => (
+          <a href={`/work/${item.slug}/`} class="more-card">
+            <span class="more-cat">{item.category}</span>
+            <strong>{item.title}</strong>
+            <span class="more-link">Read documentation &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </nav>
+  )}
+</DocLayout>
+
+<style>
+  .doc-figure {
+    margin: 0;
+    padding: 0.9rem;
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg-strong);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
+  }
+
+  .diagram-figure {
+    margin: 1.5rem 0;
+    padding: 0.75rem;
+  }
+
+  .figure-frame {
+    border-radius: 14px;
+    overflow: hidden;
+    background: #F9F8FD;
+    border: 1px solid var(--glass-border-subtle);
+  }
+
+  .figure-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  figcaption {
+    padding: 0.65rem 0.35rem 0.15rem;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+  }
+
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .doc-card {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
+  }
+
+  .doc-card-tint {
+    background: color-mix(in srgb, var(--glass-bg-strong) 82%, var(--glass-tint));
+    border-color: var(--glass-tint-border);
+  }
+
+  h2 {
+    font-size: var(--step-2);
+    margin: 0 0 0.9rem;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    margin: 0;
+    color: var(--ink-2);
+    line-height: 1.65;
+    max-width: 70ch;
+  }
+
+  .arch-summary {
+    margin-bottom: 1.5rem;
+  }
+
+  .check-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .check-list li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: var(--ink);
+    font-size: 0.96rem;
+    line-height: 1.5;
+  }
+
+  .check-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-ink);
+  }
+
+  .stack-row {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--glass-border-subtle);
+  }
+
+  .stack-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .stack-tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .stack-tags li {
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--ink);
+  }
+
+  .step-grid {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .step-item {
+    padding: 1.2rem;
+    border-radius: var(--radius-md);
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border-subtle);
+  }
+
+  .step-num {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--accent-ink);
+    margin-bottom: 0.35rem;
+  }
+
+  .step-item h3 {
+    font-size: 1.05rem;
+    margin: 0 0 0.45rem;
+  }
+
+  .step-item p {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .impl-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .impl-box {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border-subtle);
+  }
+
+  .impl-box h3 {
+    font-size: 1.08rem;
+    margin: 0 0 0.35rem;
+  }
+
+  .impl-scope {
+    font-size: 0.9rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .more-builds {
+    padding-top: 1rem;
+  }
+
+  .more-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .more-card {
+    padding: 1.25rem 1.4rem;
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    backdrop-filter: var(--glass-blur-sm);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .more-card:hover {
+    border-color: var(--glass-tint-border);
+  }
+
+  .more-cat {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--accent-ink);
+  }
+
+  .more-card strong {
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+
+  .more-link {
+    margin-top: 0.35rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+
+  @media (max-width: 860px) {
+    .doc-grid,
+    .step-grid,
+    .impl-grid,
+    .more-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,256 @@
+---
+import { FOUNDER_COPY, SITE_IDENTITY } from '../data/site';
+import { SOCIAL_LINKS } from '../../shared/socials';
+---
+<section id="about" class="founder section" aria-labelledby="founder-heading">
+  <div class="founder-layout">
+    <div class="founder-copy" data-reveal>
+      <h2 id="founder-heading" class="section-title">{FOUNDER_COPY.heading}</h2>
+      <p class="founder-lead">{FOUNDER_COPY.lead}</p>
+      {FOUNDER_COPY.paragraphs.map((p) => (
+        <p class="founder-p">{p}</p>
+      ))}
+
+      <div class="principles-card">
+        <h3>{FOUNDER_COPY.principlesHeading}</h3>
+        <ul>
+          {FOUNDER_COPY.principles.map((rule) => <li>{rule}</li>)}
+        </ul>
+      </div>
+
+      <div class="founder-contact">
+        <a href={SITE_IDENTITY.mailto} class="contact-pill">
+          {SITE_IDENTITY.email}
+        </a>
+        <div class="founder-socials" aria-label="Reuben Magallanes social profiles">
+          {SOCIAL_LINKS.map((s) => (
+            <a
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="founder-social-btn"
+              aria-label={`${s.label} (${s.handle})`}
+              title={`${s.label} (${s.handle})`}
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" set:html={s.iconSvg} />
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="founder-gallery" data-reveal style="--i:1">
+      {FOUNDER_COPY.photos.map((photo, idx) => (
+        <figure class={`photo-card photo-${idx + 1}`}>
+          <div class="photo-frame">
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <figcaption>{photo.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .founder {
+    scroll-margin-top: 84px;
+    border-top: 1px solid var(--glass-border-subtle);
+  }
+
+  .founder-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+    gap: clamp(2rem, 5vw, 4.25rem);
+    align-items: start;
+  }
+
+  .founder-lead {
+    font-size: var(--step-1);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.55;
+    margin: 0 0 1.15rem;
+    max-width: 58ch;
+  }
+
+  .founder-p {
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1.65;
+    margin: 0 0 1.1rem;
+    max-width: 60ch;
+  }
+
+  .principles-card {
+    margin: 1.6rem 0;
+    padding: 1.25rem 1.4rem;
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    backdrop-filter: var(--glass-blur-sm);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--shadow-sm);
+  }
+
+  .principles-card h3 {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-ink);
+    margin: 0 0 0.75rem;
+  }
+
+  .principles-card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .principles-card li {
+    position: relative;
+    padding-left: 1.15rem;
+    font-size: 0.94rem;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+
+  .principles-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-ink);
+  }
+
+  .founder-contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .contact-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius-full);
+    background: var(--glass-bg-strong);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    backdrop-filter: var(--glass-blur-sm);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--shadow-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .contact-pill:hover {
+    border-color: var(--glass-tint-border);
+    color: var(--accent-ink);
+  }
+
+  .founder-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .founder-social-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    backdrop-filter: var(--glass-blur-sm);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--shadow-sm);
+    color: var(--ink-2);
+    transition: transform 0.35s var(--spring-ios), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .founder-social-btn:hover {
+    transform: translateY(-2px);
+    background: var(--glass-tint);
+    border-color: var(--glass-tint-border);
+    color: var(--accent-ink);
+  }
+
+  .founder-gallery {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .photo-card {
+    margin: 0;
+    padding: 0.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg-strong);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
+  }
+
+  .photo-frame {
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--paper-2);
+  }
+
+  .photo-1 .photo-frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .photo-2 .photo-frame {
+    aspect-ratio: 4 / 3.4;
+  }
+
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 22%;
+  }
+
+  figcaption {
+    padding: 0.65rem 0.35rem 0.15rem;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 860px) {
+    .founder-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .founder-gallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .founder-gallery {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

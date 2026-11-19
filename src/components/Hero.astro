@@ -1,21 +1,22 @@
 ---
 import { spawntelFunnelUrl } from '../../shared/funnel';
 import { SOCIAL_LINKS } from '../../shared/socials';
+import { HERO_COPY } from '../data/site';
 ---
 <section class="hero" aria-labelledby="hero-heading">
   <div class="hero-copy">
-    <p class="eyebrow hero-in hero-text-in" style="--d:0">AI Direction &amp; Marketing Systems</p>
+    <p class="eyebrow hero-in hero-text-in" style="--d:0">{HERO_COPY.eyebrow}</p>
     <h1 id="hero-heading" class="headline hero-in hero-text-in" style="--d:1">
-      Marketing shouldn't run on <span class="accent">manual hustle.</span>
+      {HERO_COPY.headlineLead}<span class="accent">{HERO_COPY.headlineAccent}</span>
     </h1>
     <p class="subtitle hero-in hero-text-in" style="--d:2">
-      I build AI systems that repurpose content, qualify DMs and test ads, so your team stops doing it by hand.
+      {HERO_COPY.subtitle}
     </p>
     <div class="hero-actions hero-in" style="--d:3">
       <a href={spawntelFunnelUrl('hero')} class="btn btn-primary" data-spawntel-cta="hero">
-        Book on Spawntel <span class="arrow" aria-hidden="true">&rarr;</span>
+        {HERO_COPY.primaryCtaLabel} <span class="arrow" aria-hidden="true">&rarr;</span>
       </a>
-      <a href="#work" class="btn btn-ghost">See the work</a>
+      <a href={HERO_COPY.secondaryCtaHref} class="btn btn-ghost">{HERO_COPY.secondaryCtaLabel}</a>
     </div>
   </div>
 
@@ -26,7 +27,7 @@ import { SOCIAL_LINKS } from '../../shared/socials';
           <source srcset="/PFP-hero.webp" type="image/webp" />
           <img
             src="/PFP.png"
-            alt="Reuben (Ben) Magallanes, Beneru: AI Direction & Marketing Systems"
+            alt={HERO_COPY.portraitAlt}
             width="880"
             height="880"
             loading="eager"
@@ -39,8 +40,8 @@ import { SOCIAL_LINKS } from '../../shared/socials';
     </div>
     <figcaption class="portrait-caption">
       <div class="portrait-id">
-        <strong>Reuben Magallanes</strong>
-        <span>Marketing Head &amp; Co-Founder, Spawntel</span>
+        <strong>{HERO_COPY.portraitName}</strong>
+        <span>{HERO_COPY.portraitRole}</span>
       </div>
       <div class="portrait-socials" aria-label="Social accounts">
         {SOCIAL_LINKS.map((s) => (
@@ -52,7 +53,7 @@ import { SOCIAL_LINKS } from '../../shared/socials';
             aria-label={`${s.label} (${s.handle})`}
             title={`${s.label} (${s.handle})`}
           >
-            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" set:html={s.iconSvg} />
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" set:html={s.iconSvg} />
           </a>
         ))}
       </div>
@@ -305,8 +306,8 @@ import { SOCIAL_LINKS } from '../../shared/socials';
   }
 
   .hero-social-btn {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: inline-grid;
     place-items: center;

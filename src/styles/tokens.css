@@ -20,6 +20,7 @@
   --glass-bg-hover: rgba(255, 255, 255, 0.78);
   --glass-border: rgba(255, 255, 255, 0.76);
   --glass-border-subtle: rgba(103, 0, 255, 0.13);
+  --glass-edge-highlight: rgba(255, 255, 255, 0.42);
   --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 0 rgba(103, 0, 255, 0.06);
   --glass-shadow: 0 12px 34px -14px rgba(46, 16, 108, 0.16), 0 2px 8px -2px rgba(19, 19, 40, 0.06);
   --glass-blur: saturate(185%) blur(20px);
@@ -106,6 +107,7 @@
     --glass-bg-hover: rgba(36, 27, 58, 0.68);
     --glass-border: rgba(255, 255, 255, 0.14);
     --glass-border-subtle: rgba(179, 140, 255, 0.18);
+    --glass-edge-highlight: rgba(255, 255, 255, 0.1);
     --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 0 rgba(0, 0, 0, 0.28);
     --glass-shadow: 0 18px 44px -14px rgba(0, 0, 0, 0.64), 0 2px 10px -2px rgba(0, 0, 0, 0.35);
 
@@ -141,21 +143,4 @@
     --glass-blur: none;
     --glass-blur-sm: none;
   }
-}
-
-/*
- * The booking modal uses light form surfaces so text never lands light-on-white.
- */
-.force-light {
-  color-scheme: light;
-  --paper: #FFFFFF;
-  --paper-2: #F9FAFB;
-  --rule: #ECECEC;
-  --ink: #111111;
-  --ink-2: #4B5563;
-  --ink-muted: #64748B;
-  --accent-ink: #5A00E0;
-  --accent-light: #F7F2FF;
-  --accent-light-2: #EFE5FF;
-  --color-focus-ring: #6700FF;
 }

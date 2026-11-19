@@ -1,0 +1,77 @@
+---
+import { CONTEXT_FACTS } from '../data/site';
+---
+<section class="context-strip" aria-label="Verified role and focus" data-reveal>
+  <dl class="context-grid">
+    {CONTEXT_FACTS.map((fact) => (
+      <div class="context-item">
+        <dt>{fact.label}</dt>
+        <dd>{fact.value}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<style>
+  .context-strip {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--glass-border-subtle);
+    border-bottom: 1px solid var(--glass-border-subtle);
+  }
+
+  .context-grid {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem 2rem;
+  }
+
+  .context-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-left: 1rem;
+    border-left: 1px solid var(--glass-border-subtle);
+  }
+
+  .context-item:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  dt {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 760px) {
+    .context-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .context-item {
+      padding-left: 0;
+      border-left: 0;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--glass-border-subtle);
+    }
+
+    .context-item:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+  }
+</style>

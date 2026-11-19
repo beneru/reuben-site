@@ -1,0 +1,132 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import CtaPanel from '../components/CtaPanel.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  heading: string;
+  subtitle?: string;
+  statusLabel?: string;
+  backHref?: string;
+  backLabel?: string;
+}
+
+const {
+  title,
+  description,
+  eyebrow,
+  heading,
+  subtitle,
+  statusLabel,
+  backHref = '/#work',
+  backLabel = 'Back to documented systems',
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="doc-shell">
+    <div class="doc-back-row">
+      <a href={backHref} class="doc-back">
+        <span class="arrow" aria-hidden="true">&larr;</span> {backLabel}
+      </a>
+    </div>
+
+    <header class="doc-header">
+      <div class="doc-meta">
+        <span class="doc-eyebrow">{eyebrow}</span>
+        {statusLabel && (
+          <>
+            <span aria-hidden="true">&middot;</span>
+            <span class="doc-status">{statusLabel}</span>
+          </>
+        )}
+      </div>
+      <h1>{heading}</h1>
+      {subtitle && <p class="doc-lead">{subtitle}</p>}
+    </header>
+
+    <div class="doc-content">
+      <slot />
+    </div>
+  </article>
+
+  <CtaPanel />
+</BaseLayout>
+
+<style>
+  .doc-shell {
+    padding: clamp(2rem, 5vw, 3.75rem) 0 1rem;
+  }
+
+  .doc-back-row {
+    margin-bottom: 1.5rem;
+  }
+
+  .doc-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 40px;
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-full);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    backdrop-filter: var(--glass-blur-sm);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--shadow-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+
+  .doc-back:hover {
+    color: var(--accent-ink);
+    border-color: var(--glass-tint-border);
+  }
+
+  .doc-header {
+    max-width: 74ch;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--glass-border-subtle);
+  }
+
+  .doc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.85rem;
+  }
+
+  .doc-eyebrow {
+    color: var(--accent-ink);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 1.35rem + 2.4vw, 3.1rem);
+    line-height: 1.08;
+    letter-spacing: -0.038em;
+    margin: 0 0 1rem;
+  }
+
+  .doc-lead {
+    font-size: var(--step-1);
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .doc-content {
+    display: grid;
+    gap: 2rem;
+  }
+</style>

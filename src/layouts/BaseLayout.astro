@@ -1,64 +1,57 @@
 ---
 import '../styles/global.css';
 import AmbientBackdrop from '../components/AmbientBackdrop.astro';
-import CookieConsent from '../components/CookieConsent.astro';
 import { spawntelFunnelUrl } from '../../shared/funnel';
 import { SOCIAL_LINKS } from '../../shared/socials';
+import { FOOTER_COPY, NAV_ITEMS, SEO_DEFAULTS, SITE_IDENTITY } from '../data/site';
 
 interface Props {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   image?: string;
   canonical?: string;
+  noindex?: boolean;
 }
 
-const { title, description, image = '/PFP.png', canonical = new URL(Astro.url.pathname, Astro.site || 'https://beneru.spawntel.com').href } = Astro.props;
-const navItems = [
-  { label: 'Work', href: '/work' },
-  { label: 'Services', href: '/services' },
-  { label: 'About', href: '/about' },
-  { label: 'Articles', href: '/articles' },
-];
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isActive = (href: string) => path === href || path.startsWith(href + '/');
-const currentUrl = new URL(Astro.url.pathname, Astro.site || 'https://beneru.spawntel.com').href;
-const ogImage = new URL(image, Astro.site || 'https://beneru.spawntel.com').href;
+const {
+  title = SEO_DEFAULTS.title,
+  description = SEO_DEFAULTS.description,
+  image = SEO_DEFAULTS.ogImage,
+  canonical = new URL(Astro.url.pathname, Astro.site || SITE_IDENTITY.siteUrl).href,
+  noindex = false,
+} = Astro.props;
+
+const currentUrl = new URL(Astro.url.pathname, Astro.site || SITE_IDENTITY.siteUrl).href;
+const ogImage = new URL(image, Astro.site || SITE_IDENTITY.siteUrl).href;
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Person',
-      '@id': 'https://beneru.spawntel.com/#person',
-      name: 'Reuben Magallanes',
-      alternateName: ['Beneru', 'Ben Magallanes', 'Beneru AI'],
-      url: 'https://beneru.spawntel.com',
-      image: 'https://beneru.spawntel.com/PFP.png',
-      jobTitle: 'Marketing Head & Co-Founder',
+      '@id': `${SITE_IDENTITY.siteUrl}/#person`,
+      name: SITE_IDENTITY.personName,
+      alternateName: [...SITE_IDENTITY.alternateNames],
+      url: SITE_IDENTITY.siteUrl,
+      image: `${SITE_IDENTITY.siteUrl}/images/founder/reuben-studio.webp`,
+      email: SITE_IDENTITY.email,
+      jobTitle: SITE_IDENTITY.role,
       worksFor: {
         '@type': 'Organization',
-        name: 'Spawntel',
-        url: 'https://spawntel.com',
+        name: SITE_IDENTITY.companyName,
+        url: SITE_IDENTITY.companyUrl,
       },
-      knowsAbout: [
-        'AI marketing systems',
-        'content multiplication',
-        'DM lead capture',
-        'Meta ad creative testing',
-        'marketing automation',
-      ],
+      knowsAbout: [...SEO_DEFAULTS.knowsAbout],
       sameAs: SOCIAL_LINKS.map((s) => s.url),
-      description:
-        'Reuben Magallanes (Beneru) builds AI marketing systems: content multiplication, 24/7 DM lead capture and ad creative testing. Marketing Head and Co-Founder of Spawntel.',
+      description: SEO_DEFAULTS.personDescription,
     },
     {
       '@type': 'WebSite',
-      '@id': 'https://beneru.spawntel.com/#website',
-      url: 'https://beneru.spawntel.com',
-      name: 'Beneru',
-      alternateName: 'Beneru AI',
+      '@id': `${SITE_IDENTITY.siteUrl}/#website`,
+      url: SITE_IDENTITY.siteUrl,
+      name: SITE_IDENTITY.brandName,
       publisher: {
-        '@id': 'https://beneru.spawntel.com/#person',
+        '@id': `${SITE_IDENTITY.siteUrl}/#person`,
       },
     },
   ],
@@ -73,13 +66,13 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Beneru (Reuben Magallanes)" />
     <meta name="publisher" content="Beneru" />
-    <meta name="keywords" content="Beneru, AI Marketing Direction, Reuben Magallanes, Ben Magallanes, Beneru AI, Spawntel, Employmo, AI automation, marketing automation Philippines, content multiplication, inbound lead capture" />
-    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content={SEO_DEFAULTS.keywords} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" href="/PFP.png" />
-    <link rel="apple-touch-icon" href="/PFP.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href={canonical} />
-    
+
     <!-- Open Graph / Social Media -->
     <meta property="og:site_name" content="Beneru" />
     <meta property="og:type" content="website" />
@@ -87,22 +80,26 @@ const structuredData = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    
+
     <title>{title}</title>
 
     <!-- Schema.org Structured Data for Reuben Magallanes (Beneru) -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <slot name="json-ld" />
-    <meta name="theme-color" content="#FCFCFD" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0E0B14" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F9F8FD" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0B0812" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&display=swap"
+    />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>
@@ -115,26 +112,29 @@ const structuredData = {
             <source srcset="/PFP.webp" type="image/webp" />
             <img src="/PFP.png" alt="" width="32" height="32" class="brand-avatar" loading="eager" />
           </picture>
-          <span>Beneru</span>
+          <span>{SITE_IDENTITY.brandName}</span>
         </a>
 
-        <nav aria-label="Primary" class="nav-links">
-          {navItems.map((item) => (
-            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+        <nav aria-label="Primary" class="nav-links" data-primary-nav>
+          {NAV_ITEMS.map((item) => (
+            <a href={item.href} data-section-link={item.sectionId}>{item.label}</a>
           ))}
         </nav>
 
         <div class="header-actions">
-          <a href={spawntelFunnelUrl('header')} class="btn btn-primary header-cta" data-spawntel-cta="header">Book on Spawntel</a>
+          <a href={spawntelFunnelUrl('header')} class="btn btn-primary header-cta" data-spawntel-cta="header">
+            Book on Spawntel
+          </a>
           <details class="mobile-menu">
-            <summary aria-label="Open menu">
+            <summary aria-label="Toggle navigation menu">
               <span class="burger" aria-hidden="true"><span></span><span></span></span>
             </summary>
             <nav aria-label="Mobile" class="mobile-panel">
-              {navItems.map((item) => (
-                <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+              {NAV_ITEMS.map((item) => (
+                <a href={item.href} data-section-link={item.sectionId}>{item.label}</a>
               ))}
-              <a href="mailto:hello@beneru.spawntel.com">hello@beneru.spawntel.com</a>
+              <a href="/privacy/">Privacy</a>
+              <a href={SITE_IDENTITY.mailto}>{SITE_IDENTITY.email}</a>
             </nav>
           </details>
         </div>
@@ -153,10 +153,10 @@ const structuredData = {
               <source srcset="/PFP.webp" type="image/webp" />
               <img src="/PFP.png" alt="" width="28" height="28" class="footer-avatar" loading="lazy" />
             </picture>
-            <strong>Beneru</strong>
+            <strong>{FOOTER_COPY.brandName}</strong>
           </div>
-          <p>AI marketing direction and automated growth workflows by Reuben Magallanes.</p>
-          <a class="footer-mail" href="mailto:hello@beneru.spawntel.com">hello@beneru.spawntel.com</a>
+          <p>{FOOTER_COPY.summary}</p>
+          <a class="footer-mail" href={FOOTER_COPY.mailto}>{FOOTER_COPY.email}</a>
           <div class="footer-socials" aria-label="Social accounts">
             {SOCIAL_LINKS.map((s) => (
               <a
@@ -172,25 +172,19 @@ const structuredData = {
             ))}
           </div>
         </div>
-        <nav class="footer-col" aria-label="Footer">
-          <span class="footer-label">Site</span>
-          {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+
+        <nav class="footer-col" aria-label="Footer navigation">
+          <span class="footer-label">Navigate</span>
+          {FOOTER_COPY.navigateLinks.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))}
           <a href={spawntelFunnelUrl('footer')} data-spawntel-cta="footer">Spawntel.com</a>
         </nav>
-        <div class="footer-col">
-          <span class="footer-label">Socials</span>
-          {SOCIAL_LINKS.map((s) => (
-            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}</a>
-          ))}
-        </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Beneru (Reuben Magallanes). All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} {FOOTER_COPY.copyrightHolder}. All rights reserved.</p>
       </div>
     </footer>
-
-    <!-- Cookie & Privacy Consent Notice (DPA 2012 / GDPR compliance) -->
-    <CookieConsent />
 
     <script>
       // Scroll reveal: IntersectionObserver only, no scroll listeners.
@@ -213,9 +207,62 @@ const structuredData = {
         items.forEach((el) => io.observe(el));
       }
 
-      // Close the mobile menu after picking a link.
-      document.querySelectorAll<HTMLDetailsElement>('.mobile-menu').forEach((menu) => {
+      // Section scroll-spy on homepage using IntersectionObserver (zero scroll event listeners).
+      const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
+      if ('IntersectionObserver' in window && navLinks.length > 0) {
+        const sectionIds = Array.from(new Set(Array.from(navLinks).map((a) => a.dataset.sectionLink).filter(Boolean))) as string[];
+        const sections = sectionIds.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el));
+        if (sections.length > 0) {
+          const spy = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const activeId = entry.target.id;
+                  navLinks.forEach((link) => {
+                    if (link.dataset.sectionLink === activeId) {
+                      link.setAttribute('aria-current', 'location');
+                    } else {
+                      link.removeAttribute('aria-current');
+                    }
+                  });
+                }
+              });
+            },
+            { rootMargin: '-28% 0px -55% 0px', threshold: 0 },
+          );
+          sections.forEach((sec) => spy.observe(sec));
+        } else if (location.pathname.startsWith('/work/')) {
+          navLinks.forEach((link) => {
+            if (link.dataset.sectionLink === 'work') {
+              link.setAttribute('aria-current', 'page');
+            }
+          });
+        }
+      }
+
+      // Mobile menu: close on link click, Escape key, or outside click.
+      const menus = document.querySelectorAll<HTMLDetailsElement>('.mobile-menu');
+      menus.forEach((menu) => {
         menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.removeAttribute('open')));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          menus.forEach((menu) => {
+            if (menu.hasAttribute('open')) {
+              menu.removeAttribute('open');
+              menu.querySelector('summary')?.focus();
+            }
+          });
+        }
+      });
+      document.addEventListener('click', (e) => {
+        const target = e.target as Node | null;
+        if (!target) return;
+        menus.forEach((menu) => {
+          if (menu.hasAttribute('open') && !menu.contains(target)) {
+            menu.removeAttribute('open');
+          }
+        });
       });
 
       // Notify Reuben once per visitor session when someone clicks through to spawntel.com.
@@ -258,7 +305,7 @@ const structuredData = {
     -webkit-backdrop-filter: var(--glass-blur);
     backdrop-filter: var(--glass-blur);
     border-bottom: 1px solid var(--glass-border-subtle);
-    box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.35), 0 4px 20px -12px rgba(42, 16, 102, 0.14);
+    box-shadow: inset 0 -1px 0 0 var(--glass-edge-highlight), 0 4px 20px -12px rgba(42, 16, 102, 0.14);
   }
 
   .header-container {
@@ -321,7 +368,7 @@ const structuredData = {
     font-size: 0.9rem;
     font-weight: 500;
     color: var(--ink-2);
-    padding: 0.4rem 0.95rem;
+    padding: 0.45rem 1rem;
     border-radius: var(--radius-full);
     transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
   }
@@ -331,7 +378,8 @@ const structuredData = {
     background: var(--glass-tint);
   }
 
-  .nav-links a[aria-current='page'] {
+  .nav-links a[aria-current='page'],
+  .nav-links a[aria-current='location'] {
     color: var(--ink);
     background: var(--glass-bg-strong);
     box-shadow: var(--glass-highlight), var(--shadow-sm);
@@ -345,7 +393,7 @@ const structuredData = {
   }
 
   .header-cta {
-    padding: 0.6rem 1.1rem;
+    padding: 0.65rem 1.15rem;
     font-size: 0.875rem;
   }
 
@@ -354,8 +402,8 @@ const structuredData = {
 
   .mobile-menu summary {
     list-style: none;
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: var(--glass-bg);
     -webkit-backdrop-filter: var(--glass-blur-sm);
@@ -384,7 +432,7 @@ const structuredData = {
     position: absolute;
     right: 0;
     top: calc(100% + 0.75rem);
-    width: min(80vw, 280px);
+    width: min(82vw, 280px);
     display: grid;
     padding: 0.5rem;
     background: var(--glass-bg-strong);
@@ -403,14 +451,16 @@ const structuredData = {
   }
 
   .mobile-panel a:hover,
-  .mobile-panel a[aria-current='page'] { background: var(--glass-tint); }
+  .mobile-panel a[aria-current='page'],
+  .mobile-panel a[aria-current='location'] { background: var(--glass-tint); }
 
   .mobile-panel a:last-child {
     margin-top: 0.25rem;
     border-top: 1px solid var(--rule);
     border-radius: 0 0 var(--radius-md) var(--radius-md);
     color: var(--ink-2);
-    font-size: 0.875rem;
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
   }
 
   @media (max-width: 860px) {
@@ -431,7 +481,7 @@ const structuredData = {
     background: var(--glass-bg);
     -webkit-backdrop-filter: var(--glass-blur);
     backdrop-filter: var(--glass-blur);
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.45);
+    box-shadow: inset 0 1px 0 0 var(--glass-edge-highlight);
     padding: 4rem 0 2rem;
     margin-top: 4rem;
   }
@@ -441,7 +491,7 @@ const structuredData = {
     margin: 0 auto;
     padding: 0 var(--gutter);
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: minmax(0, 1.75fr) minmax(180px, 0.75fr);
     gap: 2.5rem;
     margin-bottom: 3rem;
   }
@@ -456,7 +506,7 @@ const structuredData = {
   .footer-brand p {
     color: var(--ink-2);
     margin: 0.75rem 0 1rem;
-    max-width: 34ch;
+    max-width: 44ch;
   }
 
   .footer-mail {
@@ -476,8 +526,8 @@ const structuredData = {
   }
 
   .social-pill {
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: inline-grid;
     place-items: center;
@@ -509,7 +559,10 @@ const structuredData = {
   }
 
   .footer-label {
-    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     color: var(--ink-muted);
     margin-bottom: 0.25rem;
   }
@@ -523,13 +576,13 @@ const structuredData = {
     padding: 1.5rem var(--gutter) 0;
     color: var(--ink-muted);
     font-size: 0.85rem;
+    border-top: 1px solid var(--glass-border-subtle);
   }
 
   .footer-bottom p { margin: 0; }
 
   @media (max-width: 640px) {
-    .footer-container { grid-template-columns: 1fr 1fr; }
-    .footer-brand { grid-column: 1 / -1; }
+    .footer-container { grid-template-columns: 1fr; }
   }
 
   /* Accessibility: Skip to Content */

@@ -1,0 +1,158 @@
+---
+import { SYSTEMS_SECTION_COPY } from '../data/site';
+import { SYSTEMS_LIST } from '../data/systems';
+---
+<section id="systems" class="systems section" aria-labelledby="systems-heading">
+  <div class="systems-layout">
+    <div class="systems-intro" data-reveal>
+      <h2 id="systems-heading" class="section-title">{SYSTEMS_SECTION_COPY.heading}</h2>
+      <p class="section-lead">{SYSTEMS_SECTION_COPY.lead}</p>
+    </div>
+
+    <div class="systems-list">
+      {SYSTEMS_LIST.map((item, idx) => (
+        <article class="system-row" data-reveal style={`--i:${idx}`}>
+          <div class="system-header">
+            <span class="system-num" aria-hidden="true">0{idx + 1}</span>
+            <h3>{item.title}</h3>
+          </div>
+          <p class="system-desc">{item.description}</p>
+          <div class="system-footer">
+            <ul class="output-list" aria-label={`Deliverables for ${item.title}`}>
+              {item.outputs.map((out) => <li>{out}</li>)}
+            </ul>
+            {item.relatedBuildSlug && (
+              <a href={`/work/${item.relatedBuildSlug}/`} class="system-link">
+                See documented build <span class="arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .systems {
+    scroll-margin-top: 84px;
+    border-top: 1px solid var(--glass-border-subtle);
+  }
+
+  .systems-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .systems-intro {
+    position: sticky;
+    top: 100px;
+  }
+
+  .systems-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .system-row {
+    padding: clamp(1.35rem, 2.5vw, 1.85rem);
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
+    display: grid;
+    gap: 0.75rem;
+    transition: border-color 0.25s var(--ease-ios), background-color 0.25s var(--ease-ios);
+  }
+
+  .system-row:hover {
+    background: var(--glass-bg-strong);
+    border-color: var(--glass-tint-border);
+  }
+
+  .system-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .system-num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+
+  h3 {
+    font-size: var(--step-2);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .system-desc {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 0.975rem;
+    line-height: 1.55;
+  }
+
+  .system-footer {
+    padding-top: 0.35rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .output-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .output-list li {
+    padding: 0.28rem 0.7rem;
+    border-radius: var(--radius-full);
+    background: var(--glass-tint);
+    border: 1px solid var(--glass-tint-border);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .system-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 38px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+
+  .system-link .arrow {
+    transition: transform 0.3s var(--spring-ios);
+  }
+
+  .system-link:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 860px) {
+    .systems-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .systems-intro {
+      position: static;
+    }
+  }
+</style>
