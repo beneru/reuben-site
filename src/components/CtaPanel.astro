@@ -1,6 +1,7 @@
 ---
 import { BOOKING } from '../../shared/booking';
 import { spawntelFunnelUrl } from '../../shared/funnel';
+import { INSTAGRAM_URL } from '../../shared/socials';
 ---
 <section id="demo" class="cta" aria-labelledby="cta-heading" data-reveal>
   <div class="cta-copy">
@@ -11,7 +12,7 @@ import { spawntelFunnelUrl } from '../../shared/funnel';
     <a href={spawntelFunnelUrl('cta')} class="btn btn-primary" data-spawntel-cta="cta">
       Book on Spawntel <span class="arrow" aria-hidden="true">&rarr;</span>
     </a>
-    <a href="https://instagram.com/Beneru.ai" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Chat on Instagram</a>
+    <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Chat on Instagram</a>
   </div>
 </section>
 

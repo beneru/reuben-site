@@ -1,5 +1,6 @@
 ---
 import { caseStudies } from '../data/portfolio';
+import { INSTAGRAM_URL } from '../../shared/socials';
 
 interface Props {
   limit?: number;
@@ -43,7 +44,7 @@ const items = typeof limit === 'number' ? caseStudies.slice(0, limit) : caseStud
       <p>
         The first client systems are live. I'm documenting the before, the build and the numbers, and they'll land here soon.
       </p>
-      <a class="empty-link" href="https://instagram.com/Beneru.ai" target="_blank" rel="noopener noreferrer">
+      <a class="empty-link" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
         Follow the build on Instagram <span aria-hidden="true">&rarr;</span>
       </a>
     </div>
