@@ -26,10 +26,10 @@
     <g filter="url(#cardShadow)">
       <rect x="40" y="108" width="202" height="286" rx="16" fill="#FFFFFF" fill-opacity="0.92" stroke="#6700FF" stroke-opacity="0.18" stroke-width="1.5"/>
     </g>
-    <text x="56" y="136" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="11" font-weight="700" fill="#6700FF">01 / TRUTH LAYER</text>
+    <text x="56" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#6700FF">01 / TRUTH LAYER</text>
     
       <rect x="180.0" y="122" width="48" height="22" rx="11" fill="#6700FF" fill-opacity="0.10"/>
-      <text x="204" y="137" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="10.5" font-weight="700" fill="#5A00E0">VAULT</text>
+      <text x="204" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#5A00E0">VAULT</text>
     <text x="56" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#131316">Shared Brand Vault</text>
     <line x1="56" y1="176" x2="226" y2="176" stroke="#221844" stroke-opacity="0.08" stroke-width="1"/>
     
@@ -45,10 +45,10 @@
     <g filter="url(#cardShadow)">
       <rect x="268" y="108" width="202" height="286" rx="16" fill="#FFFFFF" fill-opacity="0.92" stroke="#6700FF" stroke-opacity="0.18" stroke-width="1.5"/>
     </g>
-    <text x="284" y="136" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="11" font-weight="700" fill="#6700FF">02 / STRATEGY</text>
+    <text x="284" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#6700FF">02 / STRATEGY</text>
     
       <rect x="414.4" y="122" width="42" height="22" rx="11" fill="#6700FF" fill-opacity="0.10"/>
-      <text x="435" y="137" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="10.5" font-weight="700" fill="#5A00E0">PLAN</text>
+      <text x="435" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#5A00E0">PLAN</text>
     <text x="284" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#131316">Milo (Marketing)</text>
     <line x1="284" y1="176" x2="454" y2="176" stroke="#221844" stroke-opacity="0.08" stroke-width="1"/>
     
@@ -64,10 +64,10 @@
     <g filter="url(#cardShadow)">
       <rect x="496" y="108" width="202" height="286" rx="16" fill="#F4EEFF" fill-opacity="0.92" stroke="#6700FF" stroke-opacity="0.42" stroke-width="1.5"/>
     </g>
-    <text x="512" y="136" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="11" font-weight="700" fill="#6700FF">03 / BATON PASS</text>
+    <text x="512" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#6700FF">03 / BATON PASS</text>
     
       <rect x="642.4" y="122" width="42" height="22" rx="11" fill="#6700FF" fill-opacity="0.10"/>
-      <text x="663" y="137" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="10.5" font-weight="700" fill="#5A00E0">SPEC</text>
+      <text x="663" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#5A00E0">SPEC</text>
     <text x="512" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#131316">Handoff Packet</text>
     <line x1="512" y1="176" x2="682" y2="176" stroke="#221844" stroke-opacity="0.08" stroke-width="1"/>
     
@@ -83,10 +83,10 @@
     <g filter="url(#cardShadow)">
       <rect x="724" y="108" width="196" height="286" rx="16" fill="#FFFFFF" fill-opacity="0.92" stroke="#6700FF" stroke-opacity="0.18" stroke-width="1.5"/>
     </g>
-    <text x="740" y="136" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="11" font-weight="700" fill="#6700FF">04 / PRODUCTION</text>
+    <text x="740" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#6700FF">04 / PRODUCTION</text>
     
       <rect x="864.4" y="122" width="42" height="22" rx="11" fill="#6700FF" fill-opacity="0.10"/>
-      <text x="885" y="137" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="10.5" font-weight="700" fill="#5A00E0">SHIP</text>
+      <text x="885" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#5A00E0">SHIP</text>
     <text x="740" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#131316">Remy (Creative)</text>
     <line x1="740" y1="176" x2="904" y2="176" stroke="#221844" stroke-opacity="0.08" stroke-width="1"/>
     
@@ -102,11 +102,11 @@
   
     <rect x="40" y="416" width="230" height="32" rx="16" fill="#F4EEFF" stroke="#6700FF" stroke-opacity="0.24" stroke-width="1"/>
     <circle cx="54" cy="432" r="3.5" fill="#6700FF"/>
-    <text x="64" y="436" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="600" fill="#4B00BD">Single source of brand truth</text>
+    <text x="64" y="436" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="600" fill="#4B00BD">Single source of brand truth</text>
     <rect x="279.6" y="416" width="273" height="32" rx="16" fill="#F4EEFF" stroke="#6700FF" stroke-opacity="0.24" stroke-width="1"/>
     <circle cx="293.6" cy="432" r="3.5" fill="#6700FF"/>
-    <text x="303.6" y="436" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="600" fill="#4B00BD">Role-bounded Milo to Remy handoffs</text>
+    <text x="303.6" y="436" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="600" fill="#4B00BD">Role-bounded Milo to Remy handoffs</text>
     <rect x="562.4000000000001" y="416" width="230" height="32" rx="16" fill="#F4EEFF" stroke="#6700FF" stroke-opacity="0.24" stroke-width="1"/>
     <circle cx="576.4000000000001" cy="432" r="3.5" fill="#6700FF"/>
-    <text x="586.4000000000001" y="436" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="600" fill="#4B00BD">Automated privacy &amp; QA gates</text>
+    <text x="586.4000000000001" y="436" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="600" fill="#4B00BD">Automated privacy &amp; QA gates</text>
 </svg>
