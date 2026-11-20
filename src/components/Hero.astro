@@ -282,6 +282,39 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     text-align: left;
   }
 
+  @keyframes hero-enter {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes hero-portrait-enter {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes status-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.9;
+    }
+    50% {
+      transform: scale(1.35);
+      opacity: 1;
+    }
+  }
+
   .hero-kicker {
     display: inline-flex;
     align-items: center;
@@ -295,6 +328,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     font-size: 13px;
     font-weight: 600;
     line-height: 1.2;
+    animation: hero-enter 0.65s var(--ease-expo) 0.04s both;
   }
 
   .hero-emblem {
@@ -330,7 +364,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: text-blob-drift 13s ease-in-out -2.4s infinite alternate;
+    animation: text-blob-drift 13s ease-in-out -2.4s infinite alternate, hero-enter 0.72s var(--ease-expo) 0.1s both;
   }
 
   .hero-sub {
@@ -339,11 +373,13 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     color: var(--ink-body);
     font-size: clamp(1rem, 0.94rem + 0.26vw, 1.12rem);
     line-height: 1.62;
+    animation: hero-enter 0.72s var(--ease-expo) 0.18s both;
   }
 
   .hero-actions {
     margin-top: 30px;
     justify-content: flex-start;
+    animation: hero-enter 0.72s var(--ease-expo) 0.25s both;
   }
 
   .hero-actions .cta-btn-dark {
@@ -362,6 +398,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     align-items: center;
     justify-content: space-between;
     gap: 14px 20px;
+    animation: hero-enter 0.72s var(--ease-expo) 0.32s both;
   }
 
   .hero-socials {
@@ -413,6 +450,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.3),
       0 26px 68px -24px rgba(103, 0, 255, 0.56);
+    animation: hero-portrait-enter 0.85s var(--ease-expo) 0.14s both;
   }
 
   .hero-portrait-stage img {
@@ -420,6 +458,11 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     height: 100%;
     object-fit: cover;
     object-position: center 14%;
+    transition: transform 0.7s var(--ease-expo);
+  }
+
+  .hero-portrait-stage:hover img {
+    transform: scale(1.03);
   }
 
   .hero-status-chip {
@@ -446,6 +489,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     border-radius: 50%;
     background: var(--violet-bright);
     box-shadow: 0 0 10px var(--violet-bright);
+    animation: status-pulse 2.4s ease-in-out infinite;
   }
 
   .hero-portrait-cap {

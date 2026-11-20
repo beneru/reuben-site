@@ -184,9 +184,11 @@ main {
   line-height: 1.55;
 }
 
-/* ---------- Liquid Glass Pill Buttons with Circular Arrow Icons ---------- */
+/* ---------- Liquid Glass Pill Buttons with Specular Sweep ---------- */
 .cta-btn,
 .cta-btn-dark {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -200,7 +202,23 @@ main {
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
-  transition: transform 0.16s var(--ease-out), filter 0.16s ease, background-color 0.18s ease, border-color 0.18s ease;
+  transition: transform 0.22s var(--ease-expo), filter 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.24s var(--ease-expo);
+}
+
+.cta-btn::before,
+.cta-btn-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 22%, rgba(255, 255, 255, 0.22) 50%, transparent 78%);
+  transform: translate3d(-125%, 0, 0);
+  transition: transform 0.65s var(--ease-expo);
+  pointer-events: none;
+}
+
+.cta-btn:hover::before,
+.cta-btn-dark:hover::before {
+  transform: translate3d(125%, 0, 0);
 }
 
 .cta-btn {
@@ -211,13 +229,14 @@ main {
 }
 
 .cta-btn:hover {
-  filter: brightness(1.1);
+  filter: brightness(1.09);
+  transform: translate3d(0, -2px, 0);
   color: var(--on-primary);
 }
 
 .cta-btn:active,
 .cta-btn-dark:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 .cta-btn-dark {
@@ -232,6 +251,7 @@ main {
 .cta-btn-dark:hover {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(38, 30, 56, 0.66));
   border-color: var(--glass-border-strong);
+  transform: translate3d(0, -2px, 0);
   color: var(--ink);
 }
 
@@ -242,7 +262,7 @@ main {
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  transition: transform 0.22s var(--ease-out);
+  transition: transform 0.28s var(--ease-spring);
 }
 
 .cta-btn .cta-btn__circle {
@@ -259,7 +279,7 @@ main {
 
 .cta-btn:hover .cta-btn__circle,
 .cta-btn-dark:hover .cta-btn__circle {
-  transform: translateX(2px);
+  transform: translate3d(3px, 0, 0) scale(1.06);
 }
 
 .cta-btn__circle svg {
@@ -275,18 +295,18 @@ main {
   gap: 12px;
 }
 
-/* ---------- Scroll Reveal (Progressive Enhancement) ---------- */
+/* ---------- Optical Spring-Settled Scroll Reveal ---------- */
 @media (prefers-reduced-motion: no-preference) {
   .js [data-reveal] {
     opacity: 0;
-    transform: translate3d(0, 16px, 0);
-    transition: opacity 0.58s var(--ease-out), transform 0.58s var(--ease-out);
-    transition-delay: calc(var(--i, 0) * 60ms);
+    transform: translate3d(0, 24px, 0) scale(0.985);
+    transition: opacity 0.72s var(--ease-expo), transform 0.82s var(--ease-expo);
+    transition-delay: calc(var(--i, 0) * 70ms);
   }
 
   .js [data-reveal].is-in {
     opacity: 1;
-    transform: none;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
