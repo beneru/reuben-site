@@ -1,62 +1,54 @@
 /*
- * Beneru Obsidian + Spawntel Electric Violet design tokens.
- * Typography strictly follows Spawntel Brand Guidelines:
- *   Headings: Poppins (800 display/wordmark, 700 section titles, 600 cards)
- *   Body & UI: General Sans only
+ * Beneru design tokens aligned to official Spawntel Brand Guidelines (D-053).
+ * Colors:
+ *   60% Abyss Dark canvas (#0D0814) & layered surfaces (#15111E / #1F1A2C)
+ *   30% Pure White (#FFFFFF), Ghost White (#F0EDF7) & Muted Slate (#94A3B8)
+ *   10% Violet Brand (#6700FF) as fills/nodes; #AB73FF / #B79BFF for dark-canvas text accents
+ * Typography:
+ *   Headings & Wordmark: Poppins (800 display/H1, 700 H2, 600 H3-H6)
+ *   Body, UI & Labels: General Sans only
  */
 :root {
   color-scheme: dark;
 
-  /* Core dark surfaces */
-  --bg: #0B0B0C;
-  --surface-1: #111114;
-  --surface-2: #16161B;
-  --surface-3: #1E1E24;
-  --surface-glass: rgba(24, 24, 29, 0.72);
-  --surface-tint: rgba(103, 0, 255, 0.12);
+  /* 60% Abyss Dark surface ladder */
+  --bg: #0D0814;
+  --bg-deep: #09050F;
+  --surface-1: #15111E;
+  --surface-2: #1B1528;
+  --surface-3: #231C33;
+  --surface-inset: #110C1A;
+  --surface-tint: rgba(103, 0, 255, 0.13);
 
-  /* Crisp borders */
-  --border: rgba(255, 255, 255, 0.09);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --border-violet: rgba(103, 0, 255, 0.56);
+  /* Hairline borders */
+  --border: rgba(183, 155, 255, 0.12);
+  --border-strong: rgba(183, 155, 255, 0.24);
+  --border-violet: rgba(103, 0, 255, 0.52);
 
-  /* Ink (WCAG AA/AAA verified on #0B0B0C and #141418) */
-  --ink: #F5F5F7;
-  --ink-2: #A1A1A6;
-  --ink-muted: #8C8C94;
+  /* 30% Ink hierarchy (WCAG AA+ verified on #0D0814 & #15111E) */
+  --ink: #FFFFFF;
+  --ink-body: #F0EDF7;
+  --ink-2: #B8B2C8;
+  --ink-muted: #94A3B8;
 
-  /* Spawntel Electric Violet brand palette */
+  /* 10% Official Spawntel Violet palette (D-053) */
   --primary: #6700FF;
-  --primary-hover: #7619FF;
-  --violet-bright: #8B32FF;
+  --primary-hover: #7E26FF;
+  --violet-bright: #8F4DFF;
+  --violet-accent-text: #AB73FF;
   --violet-soft: #B79BFF;
-  --violet-pale: #D9CCFF;
+  --violet-pale: #D7C8FF;
   --on-primary: #FFFFFF;
 
-  /* Gradient display text */
-  --grad-heading: linear-gradient(90deg, #F5F5F7 0%, #D9CCFF 48%, #7F3BFF 100%);
-  --grad-num: linear-gradient(135deg, #F5F5F7 10%, #B79BFF 62%, #6700FF 130%);
+  /* Restrained shadows (surface contrast carries depth) */
+  --shadow-card: 0 12px 36px -16px rgba(5, 2, 12, 0.78);
+  --shadow-violet: 0 8px 28px -6px rgba(103, 0, 255, 0.48);
 
-  /* Glows & elevation */
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.45);
-  --shadow-violet:
-    inset 0 2px 1px rgba(255, 255, 255, 0.16),
-    0 2px 6px rgba(103, 0, 255, 0.28),
-    0 10px 24px -4px rgba(103, 0, 255, 0.42),
-    0 26px 48px -10px rgba(103, 0, 255, 0.36);
-  --shadow-dark-pill:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    2px 4px 14px rgba(0, 0, 0, 0.45);
-
-  /* Blur */
-  --blur-nav: saturate(160%) blur(14px);
-  --blur-sm: blur(8px);
-
-  /* Radius */
+  /* Radius scale */
   --radius-sm: 10px;
   --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
   --radius-full: 9999px;
 
   /* Typography (Poppins + General Sans only) */
@@ -64,26 +56,18 @@
   --font-sans: 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Motion */
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Layout */
-  --nav-h: 76px;
-  --site-w: min(1320px, 88vw);
-  --doc-w: min(1040px, 90vw);
-  --gutter: clamp(1rem, 4vw, 2.5rem);
-}
-
-@supports (color: oklab(0% 0 0)) {
-  :root {
-    --grad-heading: linear-gradient(to right in oklab, #F5F5F7 0%, #6700FF 100%);
-    --grad-num: linear-gradient(to bottom right in oklab, #F5F5F7 10%, #6700FF 130%);
-  }
+  --nav-h: 72px;
+  --site-w: min(1240px, 90vw);
+  --doc-w: min(1020px, 90vw);
 }
 
 @media (max-width: 768px) {
   :root {
     --site-w: calc(100vw - 2rem);
     --doc-w: calc(100vw - 2rem);
-    --nav-h: 68px;
+    --nav-h: 64px;
   }
 }

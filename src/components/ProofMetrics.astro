@@ -1,0 +1,125 @@
+---
+const proofItems = [
+  {
+    value: '03',
+    label: 'Documented Systems',
+    detail: 'Meta DM qualification, Brand DNA pipeline, and multi-agent marketing ops.',
+  },
+  {
+    value: '83',
+    label: 'E2E Checks Passing',
+    detail: 'Automated tests across beneru-meta and spawntel-meta Cloudflare Workers.',
+  },
+  {
+    value: '5',
+    label: 'Channel Cascades',
+    detail: 'Native formats extracted and structured from a single Brand DNA brief.',
+  },
+  {
+    value: '100%',
+    label: 'Human Takeover Safe',
+    detail: 'Automatic pause on manual reply so bots never talk over the business owner.',
+  },
+];
+---
+
+<section class="proof-strip" id="proof" aria-label="Verified system metrics">
+  <div class="site-wrap">
+    <dl class="proof-grid">
+      {proofItems.map((item) => (
+        <div class="proof-cell">
+          <dt class="proof-label">{item.label}</dt>
+          <dd class="proof-val">{item.value}</dd>
+          <dd class="proof-detail">{item.detail}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .proof-strip {
+    padding-block: 0 clamp(36px, 4.5vw, 56px);
+  }
+
+  .proof-grid {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    overflow: hidden;
+  }
+
+  .proof-cell {
+    padding: clamp(20px, 2.4vw, 28px);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-right: 1px solid var(--border);
+  }
+
+  .proof-cell:last-child {
+    border-right: none;
+  }
+
+  .proof-val {
+    order: -1;
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 1.35rem + 1.2vw, 2.35rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+
+  .proof-label {
+    font-family: var(--font-heading);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--violet-soft);
+    line-height: 1.3;
+  }
+
+  .proof-detail {
+    margin: 2px 0 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 960px) {
+    .proof-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .proof-cell {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .proof-cell:nth-child(2n) {
+      border-right: none;
+    }
+
+    .proof-cell:nth-last-child(-n + 2) {
+      border-bottom: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .proof-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .proof-cell {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .proof-cell:last-child {
+      border-bottom: none;
+    }
+  }
+</style>

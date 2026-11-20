@@ -1,0 +1,303 @@
+---
+import { PROBLEM_CARDS, PROBLEM_SECTION_COPY } from '../data/site';
+
+const channels = ['Instagram', 'Facebook', 'LinkedIn', 'X', 'Threads'];
+---
+
+<section class="section-block" id="problem" aria-labelledby="problem-heading">
+  <div class="site-wrap">
+    <div class="section-head" data-reveal>
+      <span class="pill-tag">{PROBLEM_SECTION_COPY.pill}</span>
+      <h2 class="section-title" id="problem-heading">
+        Everything in marketing still runs <span class="accent-word">through you</span>
+      </h2>
+    </div>
+
+    <div class="bento-grid">
+      {PROBLEM_CARDS.map((card, idx) => (
+        <article
+          class={`bento-card ${idx === 0 || idx === 3 ? 'bento-card--wide' : ''}`}
+          data-reveal
+          style={`--i: ${idx}`}
+        >
+          <div class="bento-schematic" aria-hidden="true">
+            {card.id === 'radar' && (
+              <div class="sch-nodes">
+                <span class="sch-node">Briefs</span>
+                <span class="sch-line"></span>
+                <span class="sch-node sch-node--core">Owner</span>
+                <span class="sch-line"></span>
+                <span class="sch-node">DMs</span>
+                <span class="sch-line"></span>
+                <span class="sch-node">Assets</span>
+              </div>
+            )}
+
+            {card.id === 'stack' && (
+              <div class="sch-inbox">
+                <div class="sch-row">
+                  <span class="sch-dot sch-dot--hot"></span>
+                  <span class="sch-row-title">IG DM: Pricing inquiry</span>
+                  <span class="sch-tag">Waiting</span>
+                </div>
+                <div class="sch-row">
+                  <span class="sch-dot"></span>
+                  <span class="sch-row-title">FB Comment: Keyword trigger</span>
+                  <span class="sch-tag">Unanswered</span>
+                </div>
+              </div>
+            )}
+
+            {card.id === 'chat' && (
+              <div class="sch-channels">
+                {channels.map((ch) => (
+                  <span class="sch-ch">{ch}</span>
+                ))}
+              </div>
+            )}
+
+            {card.id === 'wall' && (
+              <div class="sch-compare">
+                <div class="sch-col sch-col--muted">
+                  <span class="sch-col-head">Ad-hoc prompts</span>
+                  <span class="sch-col-line">Scattered chats, shifting tone</span>
+                </div>
+                <span class="sch-arrow" aria-hidden="true">&rarr;</span>
+                <div class="sch-col sch-col--active">
+                  <span class="sch-col-head">Shared brand brain</span>
+                  <span class="sch-col-line">Locked voice, rules, and handoffs</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div class="bento-body">
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .bento-card {
+    grid-column: span 5;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    padding: clamp(20px, 2.4vw, 28px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 22px;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+  }
+
+  .bento-card--wide {
+    grid-column: span 7;
+  }
+
+  .bento-card:hover {
+    border-color: var(--border-violet);
+    background: var(--surface-2);
+  }
+
+  .bento-schematic {
+    min-height: 112px;
+    padding: 18px;
+    border-radius: var(--radius-md);
+    background: var(--surface-inset);
+    border: 1px solid rgba(183, 155, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bento-body h3 {
+    margin: 0;
+    font-size: clamp(1.15rem, 1.05rem + 0.35vw, 1.35rem);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .bento-body p {
+    margin: 8px 0 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 48ch;
+  }
+
+  /* Schematic 1: Bottleneck nodes */
+  .sch-nodes {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .sch-node {
+    padding: 7px 13px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-body);
+  }
+
+  .sch-node--core {
+    background: var(--primary);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    font-weight: 600;
+  }
+
+  .sch-line {
+    width: 18px;
+    height: 1px;
+    background: rgba(183, 155, 255, 0.35);
+  }
+
+  /* Schematic 2: Inbox queue */
+  .sch-inbox {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sch-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    font-size: 12.5px;
+  }
+
+  .sch-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--violet-soft);
+    flex-shrink: 0;
+  }
+
+  .sch-dot--hot {
+    background: var(--primary);
+    box-shadow: 0 0 8px var(--primary);
+  }
+
+  .sch-row-title {
+    color: var(--ink-body);
+    font-weight: 500;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sch-tag {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--violet-soft);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background: rgba(103, 0, 255, 0.16);
+  }
+
+  /* Schematic 3: 5 channels */
+  .sch-channels {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .sch-ch {
+    padding: 7px 12px;
+    border-radius: var(--radius-full);
+    background: var(--surface-1);
+    border: 1px solid var(--border-strong);
+    color: var(--ink-body);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  /* Schematic 4: Ad-hoc vs Brand Brain */
+  .sch-compare {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sch-col {
+    padding: 11px 13px;
+    border-radius: 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .sch-col--muted {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+  }
+
+  .sch-col--active {
+    background: rgba(103, 0, 255, 0.14);
+    border: 1px solid var(--border-violet);
+  }
+
+  .sch-col-head {
+    font-family: var(--font-heading);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .sch-col-line {
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+
+  .sch-arrow {
+    color: var(--violet-soft);
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .bento-card,
+    .bento-card--wide {
+      grid-column: span 12;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .sch-compare {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .sch-arrow {
+      display: none;
+    }
+    .sch-line {
+      display: none;
+    }
+  }
+</style>

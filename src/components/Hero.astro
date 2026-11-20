@@ -1,371 +1,335 @@
 ---
 import { spawntelFunnelUrl } from '../../shared/funnel';
-import { HERO_COPY } from '../data/site';
+import { SOCIAL_LINKS } from '../../shared/socials';
+import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 ---
 
 <section class="hero" id="hero" aria-label="Introduction">
-  <div class="hero-bg" aria-hidden="true">
-    <div class="hero-grid"></div>
-    <div class="hero-rays">
-      <span class="ray ray-1"></span>
-      <span class="ray ray-2"></span>
-      <span class="ray ray-3"></span>
-      <span class="ray ray-4"></span>
-      <span class="ray ray-5"></span>
-    </div>
-  </div>
-
-  <div class="site-wrap hero-inner">
-    <div class="hero-copy">
-      <h1 class="hero-h1">{HERO_COPY.headline}</h1>
-      <p class="hero-sub">{HERO_COPY.subtitle}</p>
-
-      <div class="cta-row hero-actions">
-        <a
-          href={spawntelFunnelUrl('hero')}
-          class="cta-btn"
-          data-spawntel-cta="hero"
-        >
-          <span>{HERO_COPY.primaryCtaLabel}</span>
-          <span class="cta-btn__circle" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
+  <div class="site-wrap">
+    <div class="hero-card">
+      <div class="hero-copy">
+        <div class="hero-kicker">
+          <span class="hero-emblem" aria-hidden="true">
+            <img src="/images/brand/spawntel-emblem.webp" alt="" width="22" height="22" decoding="async" />
           </span>
-        </a>
+          <span>{SITE_IDENTITY.niche}</span>
+        </div>
 
-        <a href={HERO_COPY.secondaryCtaHref} class="cta-btn-dark">
-          <span>{HERO_COPY.secondaryCtaLabel}</span>
-          <span class="cta-btn__circle" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </span>
-        </a>
-      </div>
-    </div>
+        <h1 class="hero-h1">
+          Marketing shouldn't run on <span class="accent-word">manual hustle.</span>
+        </h1>
 
-    <div class="hero-stage">
-      <div class="hero-bezel">
-        <div class="hero-plate">
-          <div class="hero-plate__glow" aria-hidden="true"></div>
-          <div class="hero-plate__head">
-            <span class="hero-plate__badge" aria-hidden="true">
-              <img src="/images/brand/spawntel-emblem.webp" alt="" width="44" height="44" decoding="async" />
+        <p class="hero-sub">{HERO_COPY.subtitle}</p>
+
+        <div class="cta-row hero-actions">
+          <a
+            href={spawntelFunnelUrl('hero')}
+            class="cta-btn"
+            data-spawntel-cta="hero"
+          >
+            <span>{HERO_COPY.primaryCtaLabel}</span>
+            <span class="cta-btn__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
             </span>
-            <p class="hero-plate__tagline">{HERO_COPY.plateTagline}</p>
-          </div>
-          <img
-            class="hero-plate__photo"
-            src="/images/founder/reuben-hero-cutout.webp"
-            alt={HERO_COPY.portraitAlt}
-            width="1070"
-            height="811"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
-          <div class="hero-plate__floor" aria-hidden="true"></div>
+          </a>
+
+          <a href={HERO_COPY.secondaryCtaHref} class="cta-btn-dark">
+            <span>{HERO_COPY.secondaryCtaLabel}</span>
+            <span class="cta-btn__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="hero-meta-bar">
+          <ul class="hero-socials" aria-label="Beneru social profiles">
+            {SOCIAL_LINKS.map((s) => (
+              <li>
+                <a
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.label} (${s.handle})`}
+                  title={`${s.label} (${s.handle})`}
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" set:html={s.iconSvg} />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <span class="hero-location">{SITE_IDENTITY.locationPublic}</span>
         </div>
       </div>
+
+      <figure class="hero-portrait-card">
+        <span class="hero-live-chip">
+          <span class="hero-live-dot" aria-hidden="true"></span>
+          3 Documented Systems
+        </span>
+        <img
+          src="/images/founder/reuben-studio.webp"
+          alt={HERO_COPY.portraitAlt}
+          width="900"
+          height="900"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <figcaption class="hero-portrait-cap">
+          <strong>{SITE_IDENTITY.personName} ({SITE_IDENTITY.shortName})</strong>
+          <span>{SITE_IDENTITY.role}, {SITE_IDENTITY.companyName}</span>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
-<script>
-  const hero = document.getElementById('hero');
-  if (hero) {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) {
-      hero.style.setProperty('--card-tilt', '0deg');
-      hero.style.setProperty('--card-scale', '1');
-    } else {
-      let raf = 0;
-      const maxScroll = 420;
-      const startTilt = 16;
-      const startScale = 1.045;
-      const update = () => {
-        raf = 0;
-        const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-        const eased = 1 - Math.pow(1 - progress, 2);
-        const tilt = startTilt * (1 - eased);
-        const scale = 1 + (startScale - 1) * (1 - eased);
-        hero.style.setProperty('--card-tilt', `${tilt.toFixed(3)}deg`);
-        hero.style.setProperty('--card-scale', scale.toFixed(4));
-      };
-      const onScroll = () => {
-        if (!raf) raf = requestAnimationFrame(update);
-      };
-      update();
-      window.addEventListener('scroll', onScroll, { passive: true });
-    }
-  }
-</script>
-
 <style>
   .hero {
+    padding-top: clamp(24px, 3vw, 40px);
+    padding-bottom: clamp(20px, 2.6vw, 32px);
+  }
+
+  .hero-card {
     position: relative;
-    overflow: hidden;
-    padding-top: clamp(32px, 4.2vw, 56px);
-    padding-bottom: clamp(44px, 6vw, 88px);
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(90deg, rgba(103, 0, 255, 0.16) 1px, transparent 1px),
-      linear-gradient(rgba(103, 0, 255, 0.09) 1px, transparent 1px);
-    background-size: 128px 128px;
-    -webkit-mask-image: radial-gradient(75% 70% at 50% 20%, #000 0%, rgba(0, 0, 0, 0.55) 55%, transparent 100%);
-    mask-image: radial-gradient(75% 70% at 50% 20%, #000 0%, rgba(0, 0, 0, 0.55) 55%, transparent 100%);
-  }
-
-  .hero-rays {
-    position: absolute;
-    top: -320px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(1200px, 120vw);
-    height: 920px;
-    filter: blur(22px);
-    -webkit-mask-image: radial-gradient(50% 100% at 50% 12%, #000 0%, transparent 94%);
-    mask-image: radial-gradient(50% 100% at 50% 12%, #000 0%, transparent 94%);
-  }
-
-  .ray {
-    position: absolute;
-    top: 0;
-    height: 1100px;
-    background-image: radial-gradient(50% 50%, rgba(103, 0, 255, 0.55) 0%, transparent 100%);
-    animation: ray-pulse 5.5s ease-in-out infinite alternate;
-  }
-
-  .ray-1 { left: 16%; width: 72px; transform: rotate(14deg); animation-delay: -0.6s; }
-  .ray-2 { left: 36%; width: 46px; transform: rotate(8deg); animation-delay: -1.8s; opacity: 0.65; }
-  .ray-3 { left: 52%; width: 88px; transform: rotate(-10deg); animation-delay: -3.1s; }
-  .ray-4 { left: 68%; width: 52px; transform: rotate(-16deg); animation-delay: -2.2s; opacity: 0.72; }
-  .ray-5 { left: 82%; width: 64px; transform: rotate(-22deg); animation-delay: -4s; opacity: 0.52; }
-
-  @keyframes ray-pulse {
-    0% { opacity: 0.25; }
-    100% { opacity: 0.75; }
-  }
-
-  .hero-inner {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1.28fr) minmax(0, 0.92fr);
+    gap: clamp(28px, 4vw, 52px);
     align-items: center;
+    padding: clamp(24px, 3.6vw, 48px);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(183, 155, 255, 0.16);
+    background:
+      radial-gradient(65% 80% at 88% 12%, rgba(103, 0, 255, 0.2), transparent 65%),
+      linear-gradient(155deg, #171124 0%, #120D1C 58%, #0F0A18 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(215, 200, 255, 0.14),
+      var(--shadow-card);
+    overflow: hidden;
   }
 
   .hero-copy {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero-kicker {
+    display: inline-flex;
     align-items: center;
-    text-align: center;
-    max-width: 860px;
+    gap: 9px;
+    padding: 6px 14px 6px 7px;
+    border-radius: var(--radius-full);
+    background: rgba(103, 0, 255, 0.14);
+    border: 1px solid rgba(183, 155, 255, 0.22);
+    color: var(--violet-pale);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
   }
 
-  .hero-h1 {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(2.25rem, 1.35rem + 2.85vw, 3.55rem);
-    font-weight: 700;
-    line-height: 1.09;
-    letter-spacing: -0.025em;
-    max-width: 20ch;
-    padding-bottom: 0.08em;
-    margin-bottom: -0.08em;
-    background-image: var(--grad-heading);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-
-  .hero-sub {
-    margin: 18px 0 0;
-    max-width: 52ch;
-    color: #D2D2D9;
-    font-size: clamp(0.975rem, 0.92rem + 0.28vw, 1.1rem);
-    line-height: 1.55;
-  }
-
-  .hero-actions {
-    margin-top: 24px;
-  }
-
-  /* 3D Perspective Showcase Card */
-  .hero-stage {
-    width: 100%;
-    max-width: 1220px;
-    margin-top: clamp(30px, 3.8vw, 46px);
-    perspective: 1200px;
-  }
-
-  .hero-bezel {
-    width: 100%;
-    padding: clamp(8px, 1.1vw, 15px);
-    border-radius: clamp(22px, 2.6vw, 34px);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    background: linear-gradient(180deg, rgba(28, 28, 34, 0.65), rgba(14, 14, 18, 0.9));
-    box-shadow: 0 28px 90px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-    transform: scale(var(--card-scale, 1.045)) rotateX(var(--card-tilt, 16deg));
-    transform-origin: 50% 45%;
-    will-change: transform;
-  }
-
-  .hero-plate {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    border-radius: clamp(16px, 2vw, 24px);
-    overflow: hidden;
-    isolation: isolate;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #0B0B0C;
-    background-image:
-      linear-gradient(90deg, rgba(103, 0, 255, 0.16) 1px, transparent 1px),
-      linear-gradient(rgba(103, 0, 255, 0.1) 1px, transparent 1px);
-    background-size: 7% 12%;
-  }
-
-  .hero-plate__glow {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background-image:
-      radial-gradient(46% 52% at 50% 62%, rgba(103, 0, 255, 0.6) 0%, rgba(103, 0, 255, 0) 70%),
-      radial-gradient(70% 42% at 50% 14%, rgba(103, 0, 255, 0.24) 0%, rgba(103, 0, 255, 0) 100%),
-      radial-gradient(90% 80%, transparent 40%, rgba(11, 11, 12, 0.88) 100%);
-  }
-
-  .hero-plate__head {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 14px;
-    padding: clamp(22px, 4.2vw, 54px) 6% 0;
-    text-align: center;
-  }
-
-  .hero-plate__badge {
-    width: clamp(36px, 3.6vw, 52px);
-    height: clamp(36px, 3.6vw, 52px);
+  .hero-emblem {
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     overflow: hidden;
     display: grid;
     place-items: center;
-    box-shadow: 0 0 28px rgba(103, 0, 255, 0.8), 0 0 0 2px rgba(183, 155, 255, 0.28);
+    background: var(--primary);
+    flex-shrink: 0;
   }
 
-  .hero-plate__badge img {
+  .hero-emblem img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .hero-plate__tagline {
-    margin: 0;
+  .hero-h1 {
+    margin: 20px 0 0;
     font-family: var(--font-heading);
-    font-size: clamp(1.5rem, 4.9vw, 4.45rem);
+    font-size: clamp(2.15rem, 1.35rem + 2.55vw, 3.55rem);
     font-weight: 800;
-    letter-spacing: -0.025em;
-    line-height: 1;
-    text-transform: uppercase;
+    line-height: 1.07;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    max-width: 15ch;
+  }
+
+  .hero-sub {
+    margin: 18px 0 0;
+    max-width: 50ch;
+    color: var(--ink-2);
+    font-size: clamp(0.975rem, 0.94rem + 0.2vw, 1.08rem);
+    line-height: 1.62;
+  }
+
+  .hero-actions {
+    margin-top: 26px;
+  }
+
+  .hero-meta-bar {
+    width: 100%;
+    margin-top: clamp(24px, 3vw, 34px);
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 20px;
+  }
+
+  .hero-socials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-socials a {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    color: var(--ink-body);
+    display: grid;
+    place-items: center;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s var(--ease-out);
+  }
+
+  .hero-socials a:hover {
+    background: var(--primary);
+    border-color: var(--primary);
     color: #FFFFFF;
-    text-shadow: 0 0 18px rgba(255, 255, 255, 0.32), 0 0 58px rgba(103, 0, 255, 0.68);
-    white-space: nowrap;
+    transform: translateY(-2px);
   }
 
-  .hero-plate__photo {
-    position: absolute;
-    z-index: 3;
-    bottom: -3%;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 74%;
-    width: auto;
-    max-width: none;
-    object-fit: contain;
-    filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.72));
-    pointer-events: none;
+  .hero-location {
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-weight: 500;
   }
 
-  .hero-plate__floor {
+  /* Right Portrait Frame */
+  .hero-portrait-card {
+    position: relative;
+    margin: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(183, 155, 255, 0.24);
+    background: #1C0D38;
+    aspect-ratio: 4 / 4.45;
+    box-shadow: 0 20px 50px -24px rgba(103, 0, 255, 0.45);
+  }
+
+  .hero-portrait-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 14%;
+  }
+
+  .hero-live-chip {
     position: absolute;
-    z-index: 4;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    background: rgba(13, 8, 20, 0.84);
+    border: 1px solid rgba(183, 155, 255, 0.28);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .hero-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--violet-bright);
+    box-shadow: 0 0 10px var(--violet-bright);
+  }
+
+  .hero-portrait-cap {
+    position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 18%;
-    pointer-events: none;
-    background-image: linear-gradient(transparent 0%, rgba(11, 11, 12, 0.74) 60%, #0B0B0C 100%);
+    padding: 44px 18px 16px;
+    background: linear-gradient(transparent, rgba(13, 8, 20, 0.88) 46%, rgba(13, 8, 20, 0.96) 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
-  @media (max-width: 768px) {
-    .hero {
-      padding-top: 36px;
+  .hero-portrait-cap strong {
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.25;
+  }
+
+  .hero-portrait-cap span {
+    font-size: 13px;
+    color: var(--violet-pale);
+    line-height: 1.35;
+  }
+
+  @media (max-width: 960px) {
+    .hero-card {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
     }
 
     .hero-h1 {
-      font-size: clamp(2.1rem, 9.2vw, 2.75rem);
-      max-width: 12ch;
+      max-width: 18ch;
     }
 
-    .hero-sub {
-      font-size: 0.96rem;
-      max-width: 34ch;
+    .hero-portrait-card {
+      max-width: 440px;
+      width: 100%;
+      margin-inline: auto;
+      aspect-ratio: 4 / 4.2;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hero-card {
+      padding: 20px;
+      border-radius: 22px;
     }
 
     .hero-actions {
-      gap: 10px;
+      width: 100%;
     }
 
     .hero-actions .cta-btn,
     .hero-actions .cta-btn-dark {
+      flex: 1 1 auto;
       height: 44px;
-      padding: 0 7px 0 18px;
-      font-size: 13.5px;
-      gap: 10px;
+      padding: 0 16px;
+      font-size: 14px;
     }
 
-    .hero-bezel {
-      transform: none;
-    }
-
-    .hero-plate {
-      aspect-ratio: 4 / 4.8;
-      background-size: 12% 10%;
-    }
-
-    .hero-plate__head {
-      padding-top: 28px;
-      gap: 10px;
-    }
-
-    .hero-plate__tagline {
-      font-size: clamp(1.4rem, 7.6vw, 2.3rem);
-    }
-
-    .hero-plate__photo {
-      height: 70%;
-      bottom: -2%;
+    .hero-meta-bar {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 </style>

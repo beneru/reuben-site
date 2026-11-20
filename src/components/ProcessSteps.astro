@@ -6,13 +6,18 @@ import { PROCESS_SECTION_COPY, PROCESS_STEPS } from '../data/site';
   <div class="site-wrap">
     <div class="section-head" data-reveal>
       <span class="pill-tag">{PROCESS_SECTION_COPY.pill}</span>
-      <h2 class="grad-title" id="hw-title">{PROCESS_SECTION_COPY.heading}</h2>
+      <h2 class="section-title" id="hw-title">
+        From messy workflow to <span class="accent-word">running system</span>
+      </h2>
     </div>
 
-    <ol class="hw">
+    <ol class="rail-grid">
       {PROCESS_STEPS.map((item, idx) => (
-        <li class="hw-step" data-reveal style={`--i: ${idx}`}>
-          <span class="hw-num" aria-hidden="true">{item.step}</span>
+        <li class="rail-card" data-reveal style={`--i: ${idx}`}>
+          <div class="rail-top">
+            <span class="rail-step">Step {item.step}</span>
+            <span class="rail-line" aria-hidden="true"></span>
+          </div>
           <h3>{item.title}</h3>
           <p>{item.text}</p>
         </li>
@@ -22,57 +27,79 @@ import { PROCESS_SECTION_COPY, PROCESS_STEPS } from '../data/site';
 </section>
 
 <style>
-  .hw {
+  .rail-grid {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(24px, 3.2vw, 52px);
+    gap: 16px;
   }
 
-  .hw-num {
-    display: block;
+  .rail-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    padding: clamp(20px, 2.4vw, 26px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+  }
+
+  .rail-card:hover {
+    border-color: var(--border-violet);
+    background: var(--surface-2);
+  }
+
+  .rail-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .rail-step {
+    padding: 4px 11px;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    color: #FFFFFF;
     font-family: var(--font-heading);
-    font-size: clamp(3.75rem, 2.5rem + 4vw, 6.75rem);
+    font-size: 12px;
     font-weight: 700;
-    line-height: 0.92;
-    letter-spacing: -0.055em;
-    background-image: var(--grad-num);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
   }
 
-  .hw-step h3 {
-    margin: 22px 0 0;
-    font-size: clamp(1.15rem, 1rem + 0.45vw, 1.4rem);
+  .rail-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(139, 50, 255, 0.5), rgba(183, 155, 255, 0.08));
+  }
+
+  .rail-card h3 {
+    margin: 0;
+    font-size: 17.5px;
     font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
     color: var(--ink);
   }
 
-  .hw-step p {
-    margin: 10px 0 0;
-    max-width: 29ch;
-    font-size: 15px;
-    line-height: 1.55;
+  .rail-card p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.58;
     color: var(--ink-2);
   }
 
   @media (max-width: 960px) {
-    .hw {
+    .rail-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 32px 24px;
     }
   }
 
   @media (max-width: 540px) {
-    .hw {
+    .rail-grid {
       grid-template-columns: minmax(0, 1fr);
-      gap: 32px;
     }
   }
 </style>

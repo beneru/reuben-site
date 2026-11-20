@@ -36,7 +36,7 @@ const {
 
       <header class="doc-header">
         <div class="doc-meta">
-          <span class="pill-tag doc-eyebrow">{eyebrow}</span>
+          <span class="pill-tag">{eyebrow}</span>
           {statusLabel && <span class="doc-status">{statusLabel}</span>}
         </div>
         <h1 class="doc-h1">{heading}</h1>
@@ -72,7 +72,7 @@ const {
     gap: 8px;
     padding: 8px 16px;
     border-radius: var(--radius-full);
-    background: #17171C;
+    background: var(--surface-1);
     border: 1px solid var(--border);
     font-size: 14px;
     font-weight: 500;
@@ -83,7 +83,7 @@ const {
   .doc-back:hover {
     color: var(--ink);
     border-color: var(--border-violet);
-    background: #1E1E26;
+    background: var(--surface-2);
   }
 
   .doc-header {
@@ -101,12 +101,6 @@ const {
     margin-bottom: 18px;
   }
 
-  .doc-eyebrow {
-    color: var(--violet-soft);
-    border-color: rgba(103, 0, 255, 0.35);
-    background: rgba(103, 0, 255, 0.12);
-  }
-
   .doc-status {
     font-size: 13.5px;
     color: var(--ink-muted);
@@ -115,23 +109,18 @@ const {
   .doc-h1 {
     margin: 0 0 16px;
     font-family: var(--font-heading);
-    font-size: clamp(2rem, 1.35rem + 2.3vw, 3.15rem);
-    font-weight: 700;
-    line-height: 1.1;
+    font-size: clamp(2rem, 1.35rem + 2.2vw, 3.1rem);
+    font-weight: 800;
+    line-height: 1.09;
     letter-spacing: -0.028em;
-    padding-bottom: 0.06em;
-    background-image: var(--grad-heading);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+    color: var(--ink);
   }
 
   .doc-lead {
     margin: 0;
     font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-    color: #D0D0D8;
-    line-height: 1.62;
+    color: var(--ink-2);
+    line-height: 1.65;
   }
 
   .doc-content {
