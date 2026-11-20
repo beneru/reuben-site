@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import AmbientBackdrop from '../components/AmbientBackdrop.astro';
 import { spawntelFunnelUrl } from '../../shared/funnel';
 import { SOCIAL_LINKS } from '../../shared/socials';
 import { FOOTER_COPY, NAV_ITEMS, SEO_DEFAULTS, SITE_IDENTITY } from '../data/site';
@@ -68,6 +67,7 @@ const structuredData = {
     <meta name="publisher" content="Beneru" />
     <meta name="keywords" content={SEO_DEFAULTS.keywords} />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+    <meta name="theme-color" content="#0B0B0C" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -92,8 +92,8 @@ const structuredData = {
     <!-- Schema.org Structured Data for Reuben Magallanes (Beneru) -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <slot name="json-ld" />
-    <meta name="theme-color" content="#F9F8FD" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0B0812" media="(prefers-color-scheme: dark)" />
+
+    <!-- Spawntel Brand Guidelines Typography: Poppins + General Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
@@ -107,17 +107,13 @@ const structuredData = {
     />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
-  <body>
-    <AmbientBackdrop />
+  <body id="top">
     <a href="#main" class="skip-to-content">Skip to content</a>
+
     <header class="site-header">
-      <div class="header-container">
-        <a href="/" class="brand-logo" aria-label="Beneru home">
-          <picture class="brand-avatar-frame">
-            <source srcset="/PFP.webp" type="image/webp" />
-            <img src="/PFP.png" alt="" width="32" height="32" class="brand-avatar" loading="eager" />
-          </picture>
-          <span>{SITE_IDENTITY.brandName}</span>
+      <div class="header-inner">
+        <a href="/" class="wordmark" aria-label="Beneru home">
+          {SITE_IDENTITY.wordmark}<span class="wordmark-dot" aria-hidden="true">.</span>
         </a>
 
         <nav aria-label="Primary" class="nav-links" data-primary-nav>
@@ -127,19 +123,33 @@ const structuredData = {
         </nav>
 
         <div class="header-actions">
-          <a href={spawntelFunnelUrl('header')} class="btn btn-primary header-cta" data-spawntel-cta="header">
-            Book on Spawntel
+          <a
+            href={spawntelFunnelUrl('header')}
+            class="cta-btn header-cta"
+            data-spawntel-cta="header"
+          >
+            <span>Book a Call</span>
+            <span class="cta-btn__circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
           </a>
+
           <details class="mobile-menu">
             <summary aria-label="Toggle navigation menu">
-              <span class="burger" aria-hidden="true"><span></span><span></span></span>
+              <svg class="plus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+              </svg>
             </summary>
             <nav aria-label="Mobile" class="mobile-panel">
               {NAV_ITEMS.map((item) => (
                 <a href={item.href} data-section-link={item.sectionId}>{item.label}</a>
               ))}
-              <a href="/privacy/">Privacy</a>
-              <a href={SITE_IDENTITY.mailto}>{SITE_IDENTITY.email}</a>
+              <a href="/privacy/">Privacy Policy</a>
+              <a href={SITE_IDENTITY.mailto} class="mobile-email">{SITE_IDENTITY.email}</a>
             </nav>
           </details>
         </div>
@@ -150,49 +160,98 @@ const structuredData = {
       <slot />
     </main>
 
-    <footer class="site-footer">
-      <div class="footer-container">
-        <div class="footer-brand">
-          <div class="footer-brand-title">
-            <picture class="footer-avatar-frame">
-              <source srcset="/PFP.webp" type="image/webp" />
-              <img src="/PFP.png" alt="" width="28" height="28" class="footer-avatar" loading="lazy" />
-            </picture>
-            <strong>{FOOTER_COPY.brandName}</strong>
+    <footer class="ft">
+      <div class="ft-wrap">
+        <div class="ft-top">
+          <div class="ft-cols">
+            <div class="ft-col">
+              <h3>Site</h3>
+              <ul>
+                {FOOTER_COPY.siteLinks.map((item) => (
+                  <li><a href={item.href}>{item.label}</a></li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="ft-col">
+              <h3>Systems</h3>
+              <ul>
+                {FOOTER_COPY.buildLinks.map((item) => (
+                  <li><a href={item.href}>{item.label}</a></li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="ft-col">
+              <h3>Contact &amp; Legal</h3>
+              <ul>
+                <li>
+                  <a href={spawntelFunnelUrl('footer')} data-spawntel-cta="footer">Book a Call</a>
+                </li>
+                <li><a href={FOOTER_COPY.mailto}>Email me</a></li>
+                <li><a href="/privacy/">Privacy Policy</a></li>
+              </ul>
+            </div>
           </div>
-          <p>{FOOTER_COPY.summary}</p>
-          <a class="footer-mail" href={FOOTER_COPY.mailto}>{FOOTER_COPY.email}</a>
-          <div class="footer-socials" aria-label="Social accounts">
-            {SOCIAL_LINKS.map((s) => (
-              <a
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-pill"
-                aria-label={`${s.label} (${s.handle})`}
-                title={`${s.label} (${s.handle})`}
-              >
-                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" set:html={s.iconSvg} />
-              </a>
-            ))}
+
+          <div class="ft-col ft-follow">
+            <h3>Follow</h3>
+            <ul class="ft-socials" aria-label="Social accounts">
+              {SOCIAL_LINKS.map((s) => (
+                <li>
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${s.label} (${s.handle})`}
+                    title={`${s.label} (${s.handle})`}
+                  >
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" set:html={s.iconSvg} />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        <nav class="footer-col" aria-label="Footer navigation">
-          <span class="footer-label">Navigate</span>
-          {FOOTER_COPY.navigateLinks.map((item) => (
-            <a href={item.href}>{item.label}</a>
-          ))}
-          <a href={spawntelFunnelUrl('footer')} data-spawntel-cta="footer">Spawntel.com</a>
-        </nav>
+        <div class="ft-bottom">
+          <span>&copy; {new Date().getFullYear()} {FOOTER_COPY.copyrightHolder}. All rights reserved.</span>
+          <a href="#top">Back to top &uarr;</a>
+        </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} {FOOTER_COPY.copyrightHolder}. All rights reserved.</p>
+
+      <div class="ft-mark-wrap" aria-hidden="true">
+        <svg class="ft-mark" viewBox="0 0 1200 218" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="beneru-mark-fill" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#3E3654" stop-opacity="0.76" />
+              <stop offset="58%" stop-color="#201C2C" stop-opacity="0.48" />
+              <stop offset="100%" stop-color="#101012" stop-opacity="0.04" />
+            </linearGradient>
+            <linearGradient id="beneru-mark-stroke" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#9A88CA" stop-opacity="0.48" />
+              <stop offset="72%" stop-color="#4A3F66" stop-opacity="0.16" />
+              <stop offset="100%" stop-color="#101012" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <text
+            x="600"
+            y="198"
+            text-anchor="middle"
+            textLength="1160"
+            lengthAdjust="spacing"
+            fill="url(#beneru-mark-fill)"
+            stroke="url(#beneru-mark-stroke)"
+            stroke-width="2"
+          >
+            {FOOTER_COPY.wordmark}
+          </text>
+        </svg>
       </div>
     </footer>
 
     <script>
-      // Scroll reveal: IntersectionObserver only, no scroll listeners.
+      // Scroll reveal: IntersectionObserver only.
       const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduce || !('IntersectionObserver' in window)) {
@@ -207,24 +266,27 @@ const structuredData = {
               }
             });
           },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.1 },
         );
         items.forEach((el) => io.observe(el));
       }
 
-      // Section scroll-spy on homepage using IntersectionObserver (zero scroll event listeners).
+      // Section scroll-spy on homepage using IntersectionObserver.
       const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
       if ('IntersectionObserver' in window && navLinks.length > 0) {
         const sectionIds = Array.from(new Set(Array.from(navLinks).map((a) => a.dataset.sectionLink).filter(Boolean))) as string[];
-        const sections = sectionIds.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el));
-        if (sections.length > 0) {
+        const topClearIds = ['hero', 'proof'];
+        const observedIds = [...topClearIds, ...sectionIds];
+        const sections = observedIds.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el));
+        if (sectionIds.some((id) => document.getElementById(id))) {
           const spy = new IntersectionObserver(
             (entries) => {
               entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                   const activeId = entry.target.id;
+                  const isClear = topClearIds.includes(activeId);
                   navLinks.forEach((link) => {
-                    if (link.dataset.sectionLink === activeId) {
+                    if (!isClear && link.dataset.sectionLink === activeId) {
                       link.setAttribute('aria-current', 'location');
                     } else {
                       link.removeAttribute('aria-current');
@@ -306,296 +368,316 @@ const structuredData = {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: color-mix(in srgb, var(--glass-bg-strong) 84%, var(--glass-tint));
-    -webkit-backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur);
-    border-bottom: 1px solid var(--glass-border-subtle);
-    box-shadow: inset 0 -1px 0 0 var(--glass-edge-highlight), 0 4px 20px -12px rgba(42, 16, 102, 0.14);
+    background: rgba(11, 11, 12, 0.76);
+    -webkit-backdrop-filter: var(--blur-nav);
+    backdrop-filter: var(--blur-nav);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  .header-container {
-    max-width: var(--max-w);
-    margin: 0 auto;
-    padding: 0 var(--gutter);
-    height: 68px;
+  .header-inner {
+    width: var(--site-w);
+    margin-inline: auto;
+    height: var(--nav-h);
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
   }
 
-  .brand-logo {
+  .wordmark {
+    justify-self: start;
     font-family: var(--font-heading);
-    font-size: 1.125rem;
+    font-size: 16px;
     font-weight: 800;
+    letter-spacing: 0.055em;
+    line-height: 1;
     color: var(--ink);
     display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    letter-spacing: -0.025em;
-    justify-self: start;
+    align-items: baseline;
   }
 
-  .brand-logo:hover { color: var(--ink); }
-
-  .brand-avatar-frame,
-  .footer-avatar-frame {
-    display: inline-flex;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-    background: var(--accent);
-  }
-
-  .brand-avatar-frame { width: 32px; height: 32px; transition: transform 0.25s var(--ease-out); }
-  .brand-logo:hover .brand-avatar-frame { transform: rotate(-6deg) scale(1.06); }
-  .footer-avatar-frame { width: 28px; height: 28px; }
-
-  .brand-avatar,
-  .footer-avatar {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .wordmark-dot {
+    color: var(--violet-bright);
+    font-size: 1.45em;
+    line-height: 0;
+    margin-left: 0.02em;
   }
 
   .nav-links {
     display: flex;
-    gap: 0.25rem;
-    padding: 0.25rem;
-    border-radius: var(--radius-full);
-    background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--glass-blur-sm);
-    backdrop-filter: var(--glass-blur-sm);
-    border: 1px solid var(--glass-border-subtle);
-    box-shadow: var(--glass-highlight), var(--shadow-sm);
+    align-items: center;
+    gap: 28px;
   }
 
   .nav-links a {
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
     color: var(--ink-2);
-    padding: 0.45rem 1rem;
-    border-radius: var(--radius-full);
-    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 6px 2px;
+    transition: color 0.16s ease;
   }
 
-  .nav-links a:hover {
-    color: var(--ink);
-    background: var(--glass-tint);
-  }
-
+  .nav-links a:hover,
   .nav-links a[aria-current='page'],
   .nav-links a[aria-current='location'] {
     color: var(--ink);
-    background: var(--glass-bg-strong);
-    box-shadow: var(--glass-highlight), var(--shadow-sm);
   }
 
   .header-actions {
     justify-self: end;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 10px;
   }
 
   .header-cta {
-    padding: 0.65rem 1.15rem;
-    font-size: 0.875rem;
+    height: 42px;
+    padding: 0 7px 0 18px;
+    font-size: 13.5px;
   }
 
-  /* Mobile menu: native <details>, no framework needed */
-  .mobile-menu { display: none; position: relative; }
+  .header-cta .cta-btn__circle {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Mobile circular + toggle */
+  .mobile-menu {
+    display: none;
+    position: relative;
+  }
 
   .mobile-menu summary {
     list-style: none;
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--glass-blur-sm);
-    backdrop-filter: var(--glass-blur-sm);
-    border: 1px solid var(--glass-border-subtle);
-    box-shadow: var(--glass-highlight), var(--shadow-sm);
+    background: var(--primary);
+    color: #FFFFFF;
+    box-shadow: var(--shadow-violet);
     display: grid;
     place-items: center;
     cursor: pointer;
+    transition: transform 0.2s var(--ease-out), filter 0.16s ease;
   }
 
-  .mobile-menu summary::-webkit-details-marker { display: none; }
-
-  .burger { display: grid; gap: 5px; }
-  .burger span {
-    display: block;
-    width: 16px;
-    height: 1.5px;
-    background: var(--ink);
-    transition: transform 0.25s var(--ease-out);
+  .mobile-menu summary:hover {
+    filter: brightness(1.12);
   }
-  .mobile-menu[open] .burger span:first-child { transform: translateY(3.25px) rotate(45deg); }
-  .mobile-menu[open] .burger span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+
+  .mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .plus-icon {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.24s var(--ease-out);
+  }
+
+  .mobile-menu[open] .plus-icon {
+    transform: rotate(45deg);
+  }
 
   .mobile-panel {
     position: absolute;
     right: 0;
-    top: calc(100% + 0.75rem);
-    width: min(82vw, 280px);
+    top: calc(100% + 12px);
+    width: min(84vw, 276px);
     display: grid;
-    padding: 0.5rem;
-    background: var(--glass-bg-strong);
-    -webkit-backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border-subtle);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--glass-highlight), var(--glass-shadow);
+    gap: 4px;
+    padding: 8px;
+    border-radius: 20px;
+    background: rgba(18, 18, 22, 0.96);
+    -webkit-backdrop-filter: var(--blur-nav);
+    backdrop-filter: var(--blur-nav);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.72);
   }
 
   .mobile-panel a {
-    padding: 0.8rem 1rem;
-    border-radius: var(--radius-md);
+    padding: 11px 14px;
+    border-radius: 12px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--ink);
   }
 
   .mobile-panel a:hover,
-  .mobile-panel a[aria-current='page'],
-  .mobile-panel a[aria-current='location'] { background: var(--glass-tint); }
+  .mobile-panel a[aria-current='location'],
+  .mobile-panel a[aria-current='page'] {
+    background: rgba(103, 0, 255, 0.16);
+    color: #FFFFFF;
+  }
 
-  .mobile-panel a:last-child {
-    margin-top: 0.25rem;
-    border-top: 1px solid var(--rule);
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  .mobile-panel .mobile-email {
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    border-radius: 0 0 12px 12px;
+    font-size: 13px;
     color: var(--ink-2);
-    font-size: 0.85rem;
     overflow-wrap: anywhere;
   }
 
   @media (max-width: 860px) {
-    .header-container { grid-template-columns: minmax(0, 1fr) auto; gap: 0.65rem; }
-    .nav-links { display: none; }
-    .mobile-menu { display: block; }
+    .header-inner {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+    .nav-links {
+      display: none;
+    }
+    .mobile-menu {
+      display: block;
+    }
   }
 
   @media (max-width: 420px) {
     .header-cta {
-      padding: 0.55rem 0.9rem;
-      font-size: 0.82rem;
+      height: 40px;
+      padding: 0 6px 0 15px;
+      font-size: 13px;
+      gap: 9px;
+    }
+    .mobile-menu summary {
+      width: 40px;
+      height: 40px;
     }
   }
 
-  /* Footer */
-  .site-footer {
+  /* ---------- Footer ---------- */
+  .ft {
     position: relative;
-    z-index: 1;
-    border-top: 1px solid var(--glass-border-subtle);
-    background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur);
-    box-shadow: inset 0 1px 0 0 var(--glass-edge-highlight);
-    padding: 4rem 0 2rem;
-    margin-top: 4rem;
-  }
-
-  .footer-container {
-    max-width: var(--max-w);
-    margin: 0 auto;
-    padding: 0 var(--gutter);
-    display: grid;
-    grid-template-columns: minmax(0, 1.75fr) minmax(180px, 0.75fr);
-    gap: 2.5rem;
-    margin-bottom: 3rem;
-  }
-
-  .footer-brand-title {
-    font-family: var(--font-heading);
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 1.1rem;
-  }
-
-  .footer-brand p {
-    color: var(--ink-2);
-    margin: 0.75rem 0 1rem;
-    max-width: 44ch;
-  }
-
-  .footer-mail {
-    display: inline-block;
-    font-weight: 600;
+    z-index: 2;
+    background: #101012;
     color: var(--ink);
-    text-decoration: underline;
-    text-decoration-color: var(--rule);
-    text-underline-offset: 4px;
+    padding-top: clamp(52px, 6.5vw, 84px);
+    overflow: hidden;
+    border-top: 1px solid rgba(103, 0, 255, 0.24);
+    box-shadow: 0 -24px 80px -40px rgba(103, 0, 255, 0.35);
   }
 
-  .footer-socials {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1.25rem;
+  .ft-wrap {
+    width: var(--site-w);
+    margin-inline: auto;
   }
 
-  .social-pill {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: inline-grid;
-    place-items: center;
-    background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--glass-blur-sm);
-    backdrop-filter: var(--glass-blur-sm);
-    border: 1px solid var(--glass-border-subtle);
-    box-shadow: var(--glass-highlight), var(--shadow-sm);
-    color: var(--ink-2);
-    transition: transform 0.4s var(--spring-ios), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.25s var(--ease-ios);
+  .ft-top {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1.15fr);
+    gap: 36px;
   }
 
-  .social-pill:hover {
-    transform: translateY(-2px) scale(1.05);
-    background: var(--glass-tint);
-    border-color: var(--glass-tint-border);
-    color: var(--accent-ink);
-    box-shadow: var(--glass-highlight), var(--glass-shadow);
+  .ft-cols {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
   }
 
-  .social-pill:active {
-    transform: scale(0.94);
+  .ft-col h3 {
+    font-family: var(--font-sans);
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0;
+    margin: 0 0 16px;
   }
 
-  .footer-col {
+  .ft-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 12px;
   }
 
-  .footer-label {
-    font-family: var(--font-sans);
-    font-size: 0.76rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+  .ft-col a {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15px;
+    transition: color 0.16s ease;
+  }
+
+  .ft-col a:hover {
+    color: #FFFFFF;
+  }
+
+  .ft-col .ft-socials {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .ft-socials a {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #242429;
+    color: rgba(255, 255, 255, 0.9);
+    display: grid;
+    place-items: center;
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.2s var(--ease-out);
+  }
+
+  .ft-socials a:hover {
+    background: var(--primary);
+    color: #FFFFFF;
+    transform: translateY(-3px);
+  }
+
+  .ft-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    margin-top: clamp(48px, 6vw, 72px);
+    font-size: 13px;
     color: var(--ink-muted);
-    margin-bottom: 0.25rem;
   }
 
-  .footer-col a { color: var(--ink-2); font-weight: 500; }
-  .footer-col a:hover { color: var(--accent-ink); }
-
-  .footer-bottom {
-    max-width: var(--max-w);
-    margin: 0 auto;
-    padding: 1.5rem var(--gutter) 0;
-    color: var(--ink-muted);
-    font-size: 0.85rem;
-    border-top: 1px solid var(--glass-border-subtle);
+  .ft-bottom a {
+    color: rgba(255, 255, 255, 0.85);
   }
 
-  .footer-bottom p { margin: 0; }
+  .ft-bottom a:hover {
+    color: #FFFFFF;
+  }
 
-  @media (max-width: 640px) {
-    .footer-container { grid-template-columns: 1fr; }
+  .ft-mark-wrap {
+    width: 100%;
+    max-width: 1400px;
+    padding-inline: clamp(8px, 1.5vw, 22px);
+    margin: clamp(14px, 2.4vw, 28px) auto 0;
+    line-height: 0;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .ft-mark {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ft-mark text {
+    font-family: var(--font-heading);
+    font-size: 244px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 980px) {
+    .ft-top {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 571px) {
+    .ft-cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 20px;
+    }
   }
 
   /* Accessibility: Skip to Content */
@@ -603,14 +685,17 @@ const structuredData = {
     position: absolute;
     top: -100px;
     left: 1.5rem;
-    background: var(--accent);
-    color: var(--on-accent);
+    background: var(--primary);
+    color: #FFFFFF;
     padding: 0.75rem 1.25rem;
     border-radius: var(--radius-sm);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 0.875rem;
     z-index: 1000;
     transition: top 0.2s var(--ease-out);
   }
-  .skip-to-content:focus { top: 1rem; color: var(--on-accent); }
+
+  .skip-to-content:focus {
+    top: 1rem;
+  }
 </style>

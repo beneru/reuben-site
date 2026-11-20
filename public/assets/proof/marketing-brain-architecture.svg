@@ -1,112 +1,112 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="960" height="480" role="img" aria-label="Multi-Agent Marketing Planning &amp; Production System">
   <defs>
     <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F9F8FD"/>
-      <stop offset="55%" stop-color="#F3EEFC"/>
-      <stop offset="100%" stop-color="#FAF9FE"/>
+      <stop offset="0%" stop-color="#0E0D14"/>
+      <stop offset="55%" stop-color="#141022"/>
+      <stop offset="100%" stop-color="#0B0B0F"/>
     </linearGradient>
     <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="124%">
-      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#2E106C" flood-opacity="0.10"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.55"/>
     </filter>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 1 1 L 9 5 L 1 9 z" fill="#6700FF"/>
+      <path d="M 1 1 L 9 5 L 1 9 z" fill="#8B32FF"/>
     </marker>
   </defs>
 
-  <rect width="960" height="480" rx="20" fill="url(#bgGrad)" stroke="#6700FF" stroke-opacity="0.16" stroke-width="1.5"/>
-  <g opacity="0.28" stroke="#6700FF" stroke-opacity="0.14" stroke-width="1">
+  <rect width="960" height="480" rx="20" fill="url(#bgGrad)" stroke="#8B32FF" stroke-opacity="0.32" stroke-width="1.5"/>
+  <g opacity="0.28" stroke="#6700FF" stroke-opacity="0.22" stroke-width="1">
     <line x1="0" y1="120" x2="960" y2="120"/><line x1="0" y1="240" x2="960" y2="240"/><line x1="0" y1="360" x2="960" y2="360"/>
     <line x1="240" y1="0" x2="240" y2="480"/><line x1="480" y1="0" x2="480" y2="480"/><line x1="720" y1="0" x2="720" y2="480"/>
   </g>
 
-  <text x="40" y="52" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="22" font-weight="750" letter-spacing="-0.4" fill="#131316">Multi-Agent Marketing Planning &amp; Production System</text>
-  <text x="40" y="76" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="13.5" font-weight="500" fill="#5F5C70">Shared markdown brain connecting strategy, buyer critique, handoffs, and creative QA</text>
+  <text x="40" y="52" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="22" font-weight="750" letter-spacing="-0.4" fill="#F5F5F7">Multi-Agent Marketing Planning &amp; Production System</text>
+  <text x="40" y="76" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="13.5" font-weight="500" fill="#A1A1AA">Shared markdown brain connecting strategy, buyer critique, handoffs, and creative QA</text>
 
   
     <g filter="url(#cardShadow)">
-      <rect x="40" y="108" width="202" height="286" rx="16" fill="#FFFFFF" fill-opacity="0.92" stroke="#6700FF" stroke-opacity="0.18" stroke-width="1.5"/>
+      <rect x="40" y="108" width="202" height="286" rx="16" fill="#15151C" fill-opacity="0.96" stroke="#8B32FF" stroke-opacity="0.26" stroke-width="1.5"/>
     </g>
-    <text x="56" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#6700FF">01 / TRUTH LAYER</text>
+    <text x="56" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#B79BFF">01 / TRUTH LAYER</text>
     
-      <rect x="180.0" y="122" width="48" height="22" rx="11" fill="#6700FF" fill-opacity="0.10"/>
-      <text x="204" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#5A00E0">VAULT</text>
-    <text x="56" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#131316">Shared Brand Vault</text>
-    <line x1="56" y1="176" x2="226" y2="176" stroke="#221844" stroke-opacity="0.08" stroke-width="1"/>
+      <rect x="180.0" y="122" width="48" height="22" rx="11" fill="#8B32FF" fill-opacity="0.24"/>
+      <text x="204" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#C9B3FF">VAULT</text>
+    <text x="56" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#F5F5F7">Shared Brand Vault</text>
+    <line x1="56" y1="176" x2="226" y2="176" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
     
-      <rect x="54" y="186" width="174" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="64" y="204" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Brand &amp; Palette Spec</text>
-      <text x="64" y="222" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">Contrast &amp; glass token rules</text>
-      <rect x="54" y="242" width="174" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="64" y="260" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Voice Discipline</text>
-      <text x="64" y="278" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">Plain verbs, zero em dashes</text>
-      <rect x="54" y="298" width="174" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="64" y="316" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Verified Ledgers</text>
-      <text x="64" y="334" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">Single source of facts</text><line x1="244" y1="250" x2="266" y2="250" stroke="#6700FF" stroke-width="2" marker-end="url(#arrow)"/>
+      <rect x="54" y="186" width="174" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="64" y="204" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Brand &amp; Palette Spec</text>
+      <text x="64" y="222" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">Contrast &amp; glass token rules</text>
+      <rect x="54" y="242" width="174" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="64" y="260" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Voice Discipline</text>
+      <text x="64" y="278" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">Plain verbs, zero em dashes</text>
+      <rect x="54" y="298" width="174" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="64" y="316" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Verified Ledgers</text>
+      <text x="64" y="334" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">Single source of facts</text><line x1="244" y1="250" x2="266" y2="250" stroke="#8B32FF" stroke-width="2" marker-end="url(#arrow)"/>
     <g filter="url(#cardShadow)">
-      <rect x="268" y="108" width="202" height="286" rx="16" fill="#FFFFFF" fill-opacity="0.92" stroke="#6700FF" stroke-opacity="0.18" stroke-width="1.5"/>
+      <rect x="268" y="108" width="202" height="286" rx="16" fill="#15151C" fill-opacity="0.96" stroke="#8B32FF" stroke-opacity="0.26" stroke-width="1.5"/>
     </g>
-    <text x="284" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#6700FF">02 / STRATEGY</text>
+    <text x="284" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#B79BFF">02 / STRATEGY</text>
     
-      <rect x="414.4" y="122" width="42" height="22" rx="11" fill="#6700FF" fill-opacity="0.10"/>
-      <text x="435" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#5A00E0">PLAN</text>
-    <text x="284" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#131316">Milo (Marketing)</text>
-    <line x1="284" y1="176" x2="454" y2="176" stroke="#221844" stroke-opacity="0.08" stroke-width="1"/>
+      <rect x="414.4" y="122" width="42" height="22" rx="11" fill="#8B32FF" fill-opacity="0.24"/>
+      <text x="435" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#C9B3FF">PLAN</text>
+    <text x="284" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#F5F5F7">Milo (Marketing)</text>
+    <line x1="284" y1="176" x2="454" y2="176" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
     
-      <rect x="282" y="186" width="174" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="292" y="204" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Funnel Gap Audit</text>
-      <text x="292" y="222" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">Checks silent/stale platforms</text>
-      <rect x="282" y="242" width="174" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="292" y="260" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">5-Channel Cascade</text>
-      <text x="292" y="278" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">IG, LI, FB, X, Threads copy</text>
-      <rect x="282" y="298" width="174" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="292" y="316" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Buyer Critique Gate</text>
-      <text x="292" y="334" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">1-10 score + Creative Brief</text><line x1="472" y1="250" x2="494" y2="250" stroke="#6700FF" stroke-width="2" marker-end="url(#arrow)"/>
+      <rect x="282" y="186" width="174" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="292" y="204" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Funnel Gap Audit</text>
+      <text x="292" y="222" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">Checks silent/stale platforms</text>
+      <rect x="282" y="242" width="174" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="292" y="260" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">5-Channel Cascade</text>
+      <text x="292" y="278" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">IG, LI, FB, X, Threads copy</text>
+      <rect x="282" y="298" width="174" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="292" y="316" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Buyer Critique Gate</text>
+      <text x="292" y="334" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">1-10 score + Creative Brief</text><line x1="472" y1="250" x2="494" y2="250" stroke="#8B32FF" stroke-width="2" marker-end="url(#arrow)"/>
     <g filter="url(#cardShadow)">
-      <rect x="496" y="108" width="202" height="286" rx="16" fill="#F4EEFF" fill-opacity="0.92" stroke="#6700FF" stroke-opacity="0.42" stroke-width="1.5"/>
+      <rect x="496" y="108" width="202" height="286" rx="16" fill="#211438" fill-opacity="0.96" stroke="#8B32FF" stroke-opacity="0.65" stroke-width="1.5"/>
     </g>
-    <text x="512" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#6700FF">03 / BATON PASS</text>
+    <text x="512" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#B79BFF">03 / BATON PASS</text>
     
-      <rect x="642.4" y="122" width="42" height="22" rx="11" fill="#6700FF" fill-opacity="0.10"/>
-      <text x="663" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#5A00E0">SPEC</text>
-    <text x="512" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#131316">Handoff Packet</text>
-    <line x1="512" y1="176" x2="682" y2="176" stroke="#221844" stroke-opacity="0.08" stroke-width="1"/>
+      <rect x="642.4" y="122" width="42" height="22" rx="11" fill="#8B32FF" fill-opacity="0.24"/>
+      <text x="663" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#C9B3FF">SPEC</text>
+    <text x="512" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#F5F5F7">Handoff Packet</text>
+    <line x1="512" y1="176" x2="682" y2="176" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
     
-      <rect x="510" y="186" width="174" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="520" y="204" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Role-Bounded Handoff</text>
-      <text x="520" y="222" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">One active head at a time</text>
-      <rect x="510" y="242" width="174" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="520" y="260" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Locked Verified Facts</text>
-      <text x="520" y="278" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">Zero invented metrics/claims</text>
-      <rect x="510" y="298" width="174" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="520" y="316" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Privacy Red-Lines</text>
-      <text x="520" y="334" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">Blocks internal/client PII</text><line x1="700" y1="250" x2="722" y2="250" stroke="#6700FF" stroke-width="2" marker-end="url(#arrow)"/>
+      <rect x="510" y="186" width="174" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="520" y="204" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Role-Bounded Handoff</text>
+      <text x="520" y="222" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">One active head at a time</text>
+      <rect x="510" y="242" width="174" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="520" y="260" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Locked Verified Facts</text>
+      <text x="520" y="278" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">Zero invented metrics/claims</text>
+      <rect x="510" y="298" width="174" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="520" y="316" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Privacy Red-Lines</text>
+      <text x="520" y="334" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">Blocks internal/client PII</text><line x1="700" y1="250" x2="722" y2="250" stroke="#8B32FF" stroke-width="2" marker-end="url(#arrow)"/>
     <g filter="url(#cardShadow)">
-      <rect x="724" y="108" width="196" height="286" rx="16" fill="#FFFFFF" fill-opacity="0.92" stroke="#6700FF" stroke-opacity="0.18" stroke-width="1.5"/>
+      <rect x="724" y="108" width="196" height="286" rx="16" fill="#15151C" fill-opacity="0.96" stroke="#8B32FF" stroke-opacity="0.26" stroke-width="1.5"/>
     </g>
-    <text x="740" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#6700FF">04 / PRODUCTION</text>
+    <text x="740" y="136" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11" font-weight="700" fill="#B79BFF">04 / PRODUCTION</text>
     
-      <rect x="864.4" y="122" width="42" height="22" rx="11" fill="#6700FF" fill-opacity="0.10"/>
-      <text x="885" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#5A00E0">SHIP</text>
-    <text x="740" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#131316">Remy (Creative)</text>
-    <line x1="740" y1="176" x2="904" y2="176" stroke="#221844" stroke-opacity="0.08" stroke-width="1"/>
+      <rect x="864.4" y="122" width="42" height="22" rx="11" fill="#8B32FF" fill-opacity="0.24"/>
+      <text x="885" y="137" text-anchor="middle" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="10.5" font-weight="700" fill="#C9B3FF">SHIP</text>
+    <text x="740" y="164" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="16" font-weight="750" fill="#F5F5F7">Remy (Creative)</text>
+    <line x1="740" y1="176" x2="904" y2="176" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
     
-      <rect x="738" y="186" width="168" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="748" y="204" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Visual Asset Build</text>
-      <text x="748" y="222" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">WebPs, diagrams, proof UI</text>
-      <rect x="738" y="242" width="168" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="748" y="260" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Visual &amp; Contrast QA</text>
-      <text x="748" y="278" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">Checks legibility &amp; sizing</text>
-      <rect x="738" y="298" width="168" height="46" rx="10" fill="#F9F8FD" stroke="#221844" stroke-opacity="0.09" stroke-width="1"/>
-      <text x="748" y="316" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#131316">Deploy-Ready Media</text>
-      <text x="748" y="334" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#5F5C70">Clean paths for site build</text>
+      <rect x="738" y="186" width="168" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="748" y="204" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Visual Asset Build</text>
+      <text x="748" y="222" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">WebPs, diagrams, proof UI</text>
+      <rect x="738" y="242" width="168" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="748" y="260" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Visual &amp; Contrast QA</text>
+      <text x="748" y="278" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">Checks legibility &amp; sizing</text>
+      <rect x="738" y="298" width="168" height="46" rx="10" fill="#1D1D26" stroke="#FFFFFF" stroke-opacity="0.09" stroke-width="1"/>
+      <text x="748" y="316" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="12.5" font-weight="700" fill="#F5F5F7">Deploy-Ready Media</text>
+      <text x="748" y="334" font-family="'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="400" fill="#A1A1AA">Clean paths for site build</text>
   
-    <rect x="40" y="416" width="230" height="32" rx="16" fill="#F4EEFF" stroke="#6700FF" stroke-opacity="0.24" stroke-width="1"/>
-    <circle cx="54" cy="432" r="3.5" fill="#6700FF"/>
-    <text x="64" y="436" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="600" fill="#4B00BD">Single source of brand truth</text>
-    <rect x="279.6" y="416" width="273" height="32" rx="16" fill="#F4EEFF" stroke="#6700FF" stroke-opacity="0.24" stroke-width="1"/>
-    <circle cx="293.6" cy="432" r="3.5" fill="#6700FF"/>
-    <text x="303.6" y="436" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="600" fill="#4B00BD">Role-bounded Milo to Remy handoffs</text>
-    <rect x="562.4000000000001" y="416" width="230" height="32" rx="16" fill="#F4EEFF" stroke="#6700FF" stroke-opacity="0.24" stroke-width="1"/>
-    <circle cx="576.4000000000001" cy="432" r="3.5" fill="#6700FF"/>
-    <text x="586.4000000000001" y="436" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="600" fill="#4B00BD">Automated privacy &amp; QA gates</text>
+    <rect x="40" y="416" width="230" height="32" rx="16" fill="#1A132B" stroke="#8B32FF" stroke-opacity="0.42" stroke-width="1"/>
+    <circle cx="54" cy="432" r="3.5" fill="#8B32FF"/>
+    <text x="64" y="436" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="600" fill="#D4C2FF">Single source of brand truth</text>
+    <rect x="279.6" y="416" width="273" height="32" rx="16" fill="#1A132B" stroke="#8B32FF" stroke-opacity="0.42" stroke-width="1"/>
+    <circle cx="293.6" cy="432" r="3.5" fill="#8B32FF"/>
+    <text x="303.6" y="436" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="600" fill="#D4C2FF">Role-bounded Milo to Remy handoffs</text>
+    <rect x="562.4000000000001" y="416" width="230" height="32" rx="16" fill="#1A132B" stroke="#8B32FF" stroke-opacity="0.42" stroke-width="1"/>
+    <circle cx="576.4000000000001" cy="432" r="3.5" fill="#8B32FF"/>
+    <text x="586.4000000000001" y="436" font-family="'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'DejaVu Sans', sans-serif" font-size="11.5" font-weight="600" fill="#D4C2FF">Automated privacy &amp; QA gates</text>
 </svg>

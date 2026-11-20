@@ -1,0 +1,270 @@
+---
+import { WORK_SECTION_COPY } from '../data/site';
+import { WORK_BUILDS } from '../data/work';
+
+const liveLabels: Record<string, string> = {
+  'meta-dm-qualifier': '83 E2E checks passing',
+  'brand-dna-creative-pipeline': 'Verified on beneru.spawntel.com',
+  'multi-agent-marketing-brain': 'Active daily system',
+};
+---
+
+<section class="section-block" id="work" aria-labelledby="work-heading">
+  <div class="site-wrap">
+    <div class="section-head" data-reveal>
+      <span class="pill-tag">{WORK_SECTION_COPY.pill}</span>
+      <h2 class="grad-title" id="work-heading">{WORK_SECTION_COPY.heading}</h2>
+    </div>
+
+    <div class="wk">
+      <div class="wk-split">
+        <ul class="wk-live">
+          {WORK_BUILDS.map((build, idx) => (
+            <li data-reveal style={`--i: ${idx}`}>
+              <a href={`/work/${build.slug}/`} class="wk-item-link">
+                <span class="wk-live-badge">
+                  <span class="wk-pulse" aria-hidden="true"></span>
+                  {liveLabels[build.slug] ?? build.statusLabel}
+                </span>
+                <h3>{build.title}</h3>
+                <p>{build.summary}</p>
+                <span class="wk-read">
+                  Read technical breakdown <span aria-hidden="true">&rarr;</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <ul class="wk-photos" aria-label="Documented system visuals">
+          {WORK_BUILDS.map((build, idx) => (
+            <li data-reveal style={`--i: ${idx}`}>
+              <a href={`/work/${build.slug}/`} class="wk-tile" aria-label={`Inspect ${build.title}`}>
+                <figure>
+                  <img
+                    src={build.cardImage.src}
+                    alt={build.cardImage.alt}
+                    width={build.cardImage.width}
+                    height={build.cardImage.height}
+                    loading="lazy"
+                    decoding="async"
+                    class={idx === 0 ? 'wk-img-cover' : 'wk-img-diagram'}
+                  />
+                  <figcaption>
+                    <span class="wk-cap-kind">{build.category}</span>
+                    <span class="wk-cap-title">{build.title}</span>
+                  </figcaption>
+                </figure>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wk {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 3vw, 40px);
+  }
+
+  .wk-split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+    gap: clamp(32px, 5vw, 84px);
+  }
+
+  .wk-live {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 3.4vw, 42px);
+  }
+
+  .wk-item-link {
+    display: block;
+    border-radius: 18px;
+    transition: transform 0.2s var(--ease-out);
+  }
+
+  .wk-item-link:hover {
+    transform: translateX(4px);
+  }
+
+  .wk-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 13px;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 500;
+    box-shadow: var(--shadow-violet);
+  }
+
+  .wk-pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    animation: wk-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes wk-ping {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+    75%, 100% { box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+  }
+
+  .wk-live h3 {
+    margin: 14px 0 0;
+    font-size: clamp(1.3rem, 1.05rem + 0.85vw, 1.7rem);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+
+  .wk-live p {
+    margin: 8px 0 0;
+    max-width: 44ch;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .wk-read {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--violet-soft);
+    transition: color 0.16s ease;
+  }
+
+  .wk-item-link:hover .wk-read {
+    color: #FFFFFF;
+  }
+
+  /* 3-Tile Asymmetric Proof Masonry */
+  .wk-photos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: clamp(12px, 1.4vw, 18px);
+    height: clamp(440px, 40vw, 590px);
+  }
+
+  .wk-photos li {
+    min-height: 0;
+  }
+
+  .wk-photos li:first-child {
+    grid-row: 1 / span 2;
+  }
+
+  .wk-tile {
+    display: block;
+    height: 100%;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #121119;
+    position: relative;
+    transition: border-color 0.2s ease, transform 0.25s var(--ease-out);
+  }
+
+  .wk-tile:hover {
+    border-color: var(--border-violet);
+    transform: translateY(-2px);
+  }
+
+  .wk-tile figure {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #121119;
+  }
+
+  .wk-img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top;
+    transition: transform 0.45s var(--ease-out);
+  }
+
+  .wk-img-diagram {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center top;
+    padding: 16px 14px 76px;
+    background: #0E0D14;
+    transition: transform 0.45s var(--ease-out);
+  }
+
+  .wk-tile:hover img {
+    transform: scale(1.03);
+  }
+
+  .wk-tile figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 44px 16px 14px;
+    background: linear-gradient(transparent, rgba(11, 11, 14, 0.88) 45%, rgba(11, 11, 14, 0.96) 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .wk-cap-kind {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--violet-soft);
+  }
+
+  .wk-cap-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #F5F5F7;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 960px) {
+    .wk-split {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 36px;
+    }
+
+    .wk-photos {
+      height: auto;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto;
+    }
+
+    .wk-photos li:first-child {
+      grid-row: auto;
+    }
+
+    .wk-tile figure {
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

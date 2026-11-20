@@ -2,17 +2,25 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout 
-  title="Page Not Found | Beneru" 
+<BaseLayout
+  title="Page Not Found | Beneru"
   description="The page you are looking for does not exist."
   noindex={true}
 >
   <section class="not-found-section">
-    <div class="glass-box">
+    <div class="nf-box">
       <span class="status-code">404</span>
       <h1>Page Not Found</h1>
       <p>The page you are looking for might have been moved, removed, or never existed.</p>
-      <a href="/" class="btn btn-primary">Return Home</a>
+      <a href="/" class="cta-btn">
+        <span>Return Home</span>
+        <span class="cta-btn__circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </span>
+      </a>
     </div>
   </section>
 </BaseLayout>
@@ -24,39 +32,42 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 4rem 1rem;
+    padding: 64px 16px;
   }
 
-  .glass-box {
-    background: var(--glass-bg-strong);
-    -webkit-backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-tint-border);
-    box-shadow: var(--glass-highlight), var(--glass-shadow);
-    border-radius: 26px;
-    padding: 4rem 3rem;
-    max-width: 500px;
+  .nf-box {
+    background: linear-gradient(170deg, rgba(22, 22, 27, 0.92), rgba(14, 14, 18, 0.96));
+    border: 1px solid var(--border-violet);
+    box-shadow: 0 30px 90px -46px rgba(103, 0, 255, 0.65);
+    border-radius: 28px;
+    padding: 56px 36px;
+    max-width: 480px;
     width: 100%;
   }
 
   .status-code {
+    display: block;
+    font-family: var(--font-heading);
     font-size: 5rem;
     font-weight: 800;
-    color: var(--accent-ink);
     line-height: 1;
-    display: block;
-    margin-bottom: 1rem;
-    filter: drop-shadow(0 4px 12px rgba(103, 0, 255, 0.28));
+    margin-bottom: 14px;
+    background-image: var(--grad-heading);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   h1 {
-    font-size: var(--step-2);
-    margin-bottom: 1rem;
+    font-size: 1.75rem;
+    margin-bottom: 12px;
+    color: var(--ink);
   }
 
   p {
     color: var(--ink-2);
-    margin-bottom: 2rem;
+    margin: 0 0 28px;
     line-height: 1.6;
   }
 </style>

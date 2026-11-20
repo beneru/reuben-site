@@ -1,146 +1,89 @@
 /*
- * Beneru design tokens.
- * One accent (Beneru violet #6700FF), cool zinc neutrals, tinted frosted glass, light + dark.
- * Tinted glass is an Apple/iOS frosted glass approximation using backdrop-filter, layered
- * translucent fills, specular highlights, and solid fallbacks for prefers-reduced-transparency.
- * Shape rule: interactive controls are full-pill, surfaces/cards are 20px, small media 12px.
+ * Beneru Obsidian + Spawntel Electric Violet design tokens.
+ * Typography strictly follows Spawntel Brand Guidelines:
+ *   Headings: Poppins (800 display/wordmark, 700 section titles, 600 cards)
+ *   Body & UI: General Sans only
  */
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* Surfaces */
-  --paper: #F9F8FD;
-  --paper-2: #F4F4F6;
-  --paper-3: #ECECF0;
-  --rule: rgba(34, 24, 68, 0.1);
+  /* Core dark surfaces */
+  --bg: #0B0B0C;
+  --surface-1: #111114;
+  --surface-2: #16161B;
+  --surface-3: #1E1E24;
+  --surface-glass: rgba(24, 24, 29, 0.72);
+  --surface-tint: rgba(103, 0, 255, 0.12);
 
-  /* Tinted glass materials (light) */
-  --glass-bg: rgba(255, 255, 255, 0.54);
-  --glass-bg-strong: rgba(255, 255, 255, 0.72);
-  --glass-bg-hover: rgba(255, 255, 255, 0.78);
-  --glass-border: rgba(255, 255, 255, 0.76);
-  --glass-border-subtle: rgba(103, 0, 255, 0.13);
-  --glass-edge-highlight: rgba(255, 255, 255, 0.42);
-  --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 0 rgba(103, 0, 255, 0.06);
-  --glass-shadow: 0 12px 34px -14px rgba(46, 16, 108, 0.16), 0 2px 8px -2px rgba(19, 19, 40, 0.06);
-  --glass-blur: saturate(185%) blur(20px);
-  --glass-blur-sm: saturate(175%) blur(14px);
+  /* Crisp borders */
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-violet: rgba(103, 0, 255, 0.56);
 
-  /* Violet-tinted glass materials (light) */
-  --glass-tint: rgba(103, 0, 255, 0.085);
-  --glass-tint-hover: rgba(103, 0, 255, 0.14);
-  --glass-tint-border: rgba(103, 0, 255, 0.22);
-  --glass-tint-strong: rgba(103, 0, 255, 0.84);
-  --glass-tint-strong-hover: rgba(88, 0, 220, 0.92);
-  --glass-tint-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.38), inset 0 -1px 0 0 rgba(24, 0, 72, 0.18);
-  --glass-tint-shadow: 0 16px 38px -14px rgba(103, 0, 255, 0.48), 0 2px 8px -2px rgba(103, 0, 255, 0.24);
+  /* Ink (WCAG AA/AAA verified on #0B0B0C and #141418) */
+  --ink: #F5F5F7;
+  --ink-2: #A1A1A6;
+  --ink-muted: #8C8C94;
 
-  /* Text (all AA 4.5:1+ on --paper and --glass-bg) */
-  --ink: #131316;
-  --ink-2: #444252;
-  --ink-muted: #5F5C70;
+  /* Spawntel Electric Violet brand palette */
+  --primary: #6700FF;
+  --primary-hover: #7619FF;
+  --violet-bright: #8B32FF;
+  --violet-soft: #B79BFF;
+  --violet-pale: #D9CCFF;
+  --on-primary: #FFFFFF;
 
-  /* Brand accent */
-  --accent: #6700FF;
-  --accent-hover: #5800DC;
-  --accent-ink: #5A00E0;        /* accent used as text on light surfaces */
-  --accent-light: #F4EEFF;
-  --accent-light-2: #E9DEFF;
-  --on-accent: #FFFFFF;
+  /* Gradient display text */
+  --grad-heading: linear-gradient(90deg, #F5F5F7 0%, #D9CCFF 48%, #7F3BFF 100%);
+  --grad-num: linear-gradient(135deg, #F5F5F7 10%, #B79BFF 62%, #6700FF 130%);
 
-  /* Status */
-  --color-success: #16A34A;
-  --color-success-bg: #EEFDF3;
-  --color-error: #DC2626;
-  --color-error-bg: #FEF2F2;
-  --color-warning: #D97706;
-  --color-focus-ring: #6700FF;
+  /* Glows & elevation */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-violet:
+    inset 0 2px 1px rgba(255, 255, 255, 0.16),
+    0 2px 6px rgba(103, 0, 255, 0.28),
+    0 10px 24px -4px rgba(103, 0, 255, 0.42),
+    0 26px 48px -10px rgba(103, 0, 255, 0.36);
+  --shadow-dark-pill:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    2px 4px 14px rgba(0, 0, 0, 0.45);
 
-  /* Shadows (tinted, never pure black) */
-  --shadow-sm: 0 1px 3px rgba(24, 14, 58, 0.07);
-  --shadow-md: 0 14px 36px -12px rgba(34, 12, 82, 0.2);
-  --shadow-glow: 0 12px 32px -10px rgba(103, 0, 255, 0.45);
+  /* Blur */
+  --blur-nav: saturate(160%) blur(14px);
+  --blur-sm: blur(8px);
 
   /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
   --radius-full: 9999px;
 
-  /* Type (Spawntel Brand Guidelines: Poppins + General Sans) */
+  /* Typography (Poppins + General Sans only) */
   --font-heading: 'Poppins', 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-sans: 'General Sans', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --step--1: 0.875rem;
-  --step-0: 1rem;
-  --step-1: 1.125rem;
-  --step-2: clamp(1.375rem, 1rem + 1vw, 1.625rem);
-  --step-3: clamp(2rem, 1.4rem + 2.2vw, 2.875rem);
-  --step-4: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem);
 
   /* Motion */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
-  --spring-ios: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
   /* Layout */
-  --max-w: 1200px;
-  --gutter: clamp(1rem, 5vw, 3rem);
+  --nav-h: 76px;
+  --site-w: min(1320px, 88vw);
+  --doc-w: min(1040px, 90vw);
+  --gutter: clamp(1rem, 4vw, 2.5rem);
 }
 
-@supports (animation-timing-function: linear(0, 1)) {
+@supports (color: oklab(0% 0 0)) {
   :root {
-    --spring-ios: linear(0, 0.1533 6.2%, 0.4326 12.5%, 0.6848 18.8%, 0.8607 25%, 0.9623 31.2%, 1.0096 37.5%, 1.0246 43.8%, 1.0236 50%, 1.017 56.2%, 1.0101 62.5%, 1.0049 68.8%, 1.0017 75%, 1.0001 81.2%, 0.9994 87.5%, 0.9994 93.8%, 1);
+    --grad-heading: linear-gradient(to right in oklab, #F5F5F7 0%, #6700FF 100%);
+    --grad-num: linear-gradient(to bottom right in oklab, #F5F5F7 10%, #6700FF 130%);
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --paper: #0B0812;
-    --paper-2: #16121F;
-    --paper-3: #1E1929;
-    --rule: rgba(185, 165, 240, 0.14);
-
-    /* Tinted glass materials (dark smoked violet) */
-    --glass-bg: rgba(24, 18, 40, 0.54);
-    --glass-bg-strong: rgba(20, 15, 34, 0.74);
-    --glass-bg-hover: rgba(36, 27, 58, 0.68);
-    --glass-border: rgba(255, 255, 255, 0.14);
-    --glass-border-subtle: rgba(179, 140, 255, 0.18);
-    --glass-edge-highlight: rgba(255, 255, 255, 0.1);
-    --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 0 rgba(0, 0, 0, 0.28);
-    --glass-shadow: 0 18px 44px -14px rgba(0, 0, 0, 0.64), 0 2px 10px -2px rgba(0, 0, 0, 0.35);
-
-    --glass-tint: rgba(124, 58, 255, 0.16);
-    --glass-tint-hover: rgba(124, 58, 255, 0.24);
-    --glass-tint-border: rgba(179, 140, 255, 0.28);
-    --glass-tint-strong: rgba(103, 0, 255, 0.76);
-    --glass-tint-strong-hover: rgba(116, 20, 255, 0.88);
-    --glass-tint-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.32), inset 0 -1px 0 0 rgba(0, 0, 0, 0.25);
-    --glass-tint-shadow: 0 18px 44px -14px rgba(103, 0, 255, 0.52), 0 2px 10px -2px rgba(0, 0, 0, 0.42);
-
-    --ink: #F2F0F7;
-    --ink-2: #B9B4C6;
-    --ink-muted: #9A94A8;
-    --accent-ink: #B38CFF;
-    --accent-light: #1D1430;
-    --accent-light-2: #2A1C47;
-    --color-focus-ring: #B38CFF;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45);
-    --shadow-md: 0 16px 40px -16px rgba(0, 0, 0, 0.7);
-  }
-}
-
-@media (prefers-reduced-transparency: reduce) {
+@media (max-width: 768px) {
   :root {
-    --glass-bg: var(--paper-2);
-    --glass-bg-strong: var(--paper);
-    --glass-bg-hover: var(--paper-3);
-    --glass-tint: var(--accent-light);
-    --glass-tint-hover: var(--accent-light-2);
-    --glass-tint-strong: var(--accent);
-    --glass-tint-strong-hover: var(--accent-hover);
-    --glass-blur: none;
-    --glass-blur-sm: none;
+    --site-w: calc(100vw - 2rem);
+    --doc-w: calc(100vw - 2rem);
+    --nav-h: 68px;
   }
 }

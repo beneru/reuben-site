@@ -1,3 +1,5 @@
+import type { FunnelPlacement } from '../../shared/funnel';
+
 export interface NavItem {
   label: string;
   href: string;
@@ -6,6 +8,7 @@ export interface NavItem {
 
 export interface SiteIdentity {
   brandName: string;
+  wordmark: string;
   personName: string;
   shortName: string;
   alternateNames: readonly string[];
@@ -20,26 +23,53 @@ export interface SiteIdentity {
 }
 
 export interface HeroCopy {
-  eyebrow: string;
-  headlineLead: string;
-  headlineAccent: string;
+  headline: string;
   subtitle: string;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
   secondaryCtaHref: string;
-  portraitName: string;
-  portraitRole: string;
+  plateTagline: string;
   portraitAlt: string;
 }
 
-export interface ContextFact {
-  label: string;
-  value: string;
+export interface ProofCloudCopy {
+  statNumber: string;
+  statLine: string;
+  subline: string;
+  facts: readonly string[];
+  ctaLabel: string;
+}
+
+export interface ProblemCardItem {
+  id: 'radar' | 'stack' | 'chat' | 'wall';
+  title: string;
+  description: string;
+}
+
+export interface OutcomeItem {
+  title: string;
+  text: string;
+}
+
+export interface SystemTierCard {
+  badge: string;
+  title: string;
+  subtitle: string;
+  featured?: boolean;
+  ctaPlacement: FunnelPlacement;
+  bullets: readonly string[];
+}
+
+export interface ProcessStepItem {
+  step: string;
+  title: string;
+  text: string;
 }
 
 export interface SectionHeadingCopy {
+  pill: string;
   heading: string;
-  lead: string;
+  lead?: string;
 }
 
 export interface FounderPhoto {
@@ -51,9 +81,12 @@ export interface FounderPhoto {
 }
 
 export interface FounderCopy {
+  pill: string;
   heading: string;
   lead: string;
   paragraphs: readonly string[];
+  teamHeading: string;
+  teamMembers: readonly string[];
   principlesHeading: string;
   principles: readonly string[];
   photos: readonly FounderPhoto[];
@@ -61,9 +94,9 @@ export interface FounderCopy {
 
 export interface CtaCopy {
   id: string;
-  headingLead: string;
-  headingAccent: string;
-  body: string;
+  pill: string;
+  accessibleTitle: string;
+  barPrompt: string;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
   secondaryCtaHandle: string;
@@ -76,10 +109,11 @@ export interface FooterLink {
 
 export interface FooterCopy {
   brandName: string;
-  summary: string;
+  wordmark: string;
   email: string;
   mailto: string;
-  navigateLinks: readonly FooterLink[];
+  siteLinks: readonly FooterLink[];
+  buildLinks: readonly FooterLink[];
   copyrightHolder: string;
 }
 
@@ -94,6 +128,7 @@ export interface SeoDefaults {
 
 export const SITE_IDENTITY: SiteIdentity = {
   brandName: 'Beneru',
+  wordmark: 'BENERU',
   personName: 'Reuben Magallanes',
   shortName: 'Ben',
   alternateNames: ['Beneru', 'Ben Magallanes'],
@@ -108,48 +143,180 @@ export const SITE_IDENTITY: SiteIdentity = {
 };
 
 export const NAV_ITEMS: readonly NavItem[] = [
-  { label: 'Work', href: '/#work', sectionId: 'work' },
   { label: 'Systems', href: '/#systems', sectionId: 'systems' },
+  { label: 'Process', href: '/#process', sectionId: 'process' },
+  { label: 'Work', href: '/#work', sectionId: 'work' },
   { label: 'About', href: '/#about', sectionId: 'about' },
 ];
 
 export const HERO_COPY: HeroCopy = {
-  eyebrow: 'AI Direction & Marketing Systems',
-  headlineLead: "Marketing shouldn't run on ",
-  headlineAccent: 'manual hustle.',
+  headline: "Marketing shouldn't run on manual hustle",
   subtitle:
     'I design and build AI systems for content workflows, inbound DM qualification, and lead routing so business owners stop doing it by hand.',
-  primaryCtaLabel: 'Book on Spawntel',
-  secondaryCtaLabel: "See what I've built",
+  primaryCtaLabel: 'Book a Call',
+  secondaryCtaLabel: 'See the Work',
   secondaryCtaHref: '/#work',
-  portraitName: 'Reuben Magallanes',
-  portraitRole: 'Marketing Head & Co-Founder, Spawntel',
+  plateTagline: 'BUILD THE SYSTEM',
   portraitAlt:
     'Reuben Magallanes, Marketing Head and Co-Founder of Spawntel, personal brand Beneru',
 };
 
-export const CONTEXT_FACTS: readonly ContextFact[] = [
-  { label: 'Role', value: 'Marketing Head & Co-Founder, Spawntel' },
-  { label: 'Focus', value: 'AI Direction & Marketing Systems' },
-  { label: 'Working', value: 'Remote from the Philippines, with business owners worldwide' },
+export const PROOF_CLOUD_COPY: ProofCloudCopy = {
+  statNumber: '3 Systems',
+  statLine: 'built, documented, and verified in production',
+  subline: 'Meta DM qualification, Brand DNA creative pipelines, and multi-agent marketing operations',
+  facts: [
+    '83 automated E2E checks passing across Meta DM workers',
+    '5-channel content cascades from one Brand DNA brief',
+    'Marketing Head & Co-Founder at Spawntel',
+    'Remote from the Philippines, working worldwide',
+  ],
+  ctaLabel: 'Book a free call',
+};
+
+export const PROBLEM_SECTION_COPY: SectionHeadingCopy = {
+  pill: 'The Problem',
+  heading: 'Everything in marketing still runs through you',
+};
+
+export const PROBLEM_CARDS: readonly ProblemCardItem[] = [
+  {
+    id: 'radar',
+    title: 'Scattered tools and briefs',
+    description: 'Hooks, captions, assets, and DMs live across five apps and one head.',
+  },
+  {
+    id: 'stack',
+    title: 'Unanswered DMs and comments',
+    description: 'Warm leads go quiet on Instagram and Facebook while you are busy delivering.',
+  },
+  {
+    id: 'chat',
+    title: 'Manual creative repetition',
+    description: 'Rewriting the same offer for five channels and chasing visuals every week.',
+  },
+  {
+    id: 'wall',
+    title: 'No documented brand brain',
+    description: 'Prompts sit in random chats, so voice and quality break when you delegate.',
+  },
+];
+
+export const OUTCOMES_SECTION_COPY: SectionHeadingCopy = {
+  pill: 'Outcomes',
+  heading: 'What changes when marketing runs on systems',
+};
+
+export const OUTCOME_ITEMS: readonly OutcomeItem[] = [
+  {
+    title: 'One brand brain',
+    text: 'Voice rules, briefs, and visual standards stay locked across every channel.',
+  },
+  {
+    title: 'Zero dropped DMs',
+    text: 'Every Instagram and Facebook inquiry gets qualified with human takeover built in.',
+  },
+  {
+    title: 'AI on the repeat work',
+    text: 'Systems extract, draft, and package while creative direction stays with you.',
+  },
+];
+
+export const SYSTEMS_SECTION_COPY: SectionHeadingCopy = {
+  pill: 'Systems',
+  heading: 'Fix one bottleneck, then scale the stack',
+  lead: 'Scope first, then build. Tell us where marketing time is leaking and our team at Spawntel will map the workflow that fits.',
+};
+
+export const SYSTEM_TIER_CARDS: readonly SystemTierCard[] = [
+  {
+    badge: 'Content',
+    title: 'AI Content Workflows',
+    subtitle: 'One brief or live URL turned into 5-channel assets.',
+    ctaPlacement: 'systems-content',
+    bullets: [
+      'Live URL Brand DNA extraction',
+      '5-channel native content cascades',
+      'Compressed WebP visual assets',
+      'Structured brief and asset manifests',
+    ],
+  },
+  {
+    badge: 'Most Requested',
+    title: 'Inbound DM Systems',
+    subtitle: 'Official Meta Graph API replies with human takeover.',
+    featured: true,
+    ctaPlacement: 'systems-dm',
+    bullets: [
+      'IG and FB DM and comment webhooks',
+      'Strict pricing and business-rule guardrails',
+      'Automatic pause on manual owner reply',
+      'Private lead dashboard and CSV export',
+    ],
+  },
+  {
+    badge: 'Full Stack',
+    title: 'Marketing Ops & Funnel',
+    subtitle: 'Multi-agent production and conversion web pages.',
+    ctaPlacement: 'systems-ops',
+    bullets: [
+      'Shared brand brain and content ledger',
+      'Planning-to-creative handoff workflow',
+      'Fast edge pages on Cloudflare',
+      'UTM and click-placement alerts',
+    ],
+  },
+];
+
+export const PROCESS_SECTION_COPY: SectionHeadingCopy = {
+  pill: 'How it works',
+  heading: 'From messy workflow to running system',
+};
+
+export const PROCESS_STEPS: readonly ProcessStepItem[] = [
+  {
+    step: '01',
+    title: 'Free 30-minute call',
+    text: 'You tell us where content, DMs, or lead follow-up are breaking right now.',
+  },
+  {
+    step: '02',
+    title: 'Map the real workflow',
+    text: 'I look at how your marketing actually moves today before automating a single step.',
+  },
+  {
+    step: '03',
+    title: 'Build with guardrails',
+    text: 'Strict brand rules, dry-run checks, and human takeover pauses come built in.',
+  },
+  {
+    step: '04',
+    title: 'Document and hand over',
+    text: 'You get working infrastructure, clean docs, and a system your team can actually run.',
+  },
 ];
 
 export const WORK_SECTION_COPY: SectionHeadingCopy = {
-  heading: "Systems I've built",
-  lead: 'Real software and marketing workflows behind Beneru and Spawntel, documented with how each build actually runs.',
-};
-
-export const SYSTEMS_SECTION_COPY: SectionHeadingCopy = {
-  heading: 'What I build and direct',
-  lead: 'Four marketing systems grounded in working code and daily operations. Full company workflow builds run through Spawntel.',
+  pill: 'The Work',
+  heading: 'Built, documented, and verified',
 };
 
 export const FOUNDER_COPY: FounderCopy = {
+  pill: 'About',
   heading: "Who's behind Beneru",
   lead: "I'm Reuben Magallanes (most people call me Ben). I'm a creative person at heart who loves making things, and today I'm a self-taught Marketing Head and Co-Founder at Spawntel. Beneru is my personal brand where I document the AI marketing systems we build.",
   paragraphs: [
     'Back in senior high school, building a business was not on my radar. I lived a normal life, played games, had unclear goals, and tried a bit of everything. My mindset started to change when I entered college, joined our school publication, and became the creative lead. Over time, Jay Canete noticed my skills from the work I published and invited me to join his startup, AUTOBIT, as marketing manager.',
     'After a few months, I stepped back because my school projects had piled up and I thought I needed to focus on classes. Slowly, though, I realized building in a startup was where I actually belonged. My drive did not match the course I was taking, so I dropped out in my second year. Through hands-on experience together with my team, Jay Canete, Argelo Nunez, Jairus Catana, Winston Elligue, Vince Pana, and Paolo Desio, we built Spawntel to help business owners grow by building sustainable systems so they can focus on their product or service.',
+  ],
+  teamHeading: 'Built together with the Spawntel team',
+  teamMembers: [
+    'Jay Canete',
+    'Argelo Nunez',
+    'Jairus Catana',
+    'Winston Elligue',
+    'Vince Pana',
+    'Paolo Desio',
   ],
   principlesHeading: 'How I work',
   principles: [
@@ -176,26 +343,30 @@ export const FOUNDER_COPY: FounderCopy = {
 };
 
 export const CTA_COPY: CtaCopy = {
-  id: 'spawntel',
-  headingLead: 'Want a system like this ',
-  headingAccent: 'in your business?',
-  body: 'Strategy calls and custom builds run through Spawntel. Book a free 30-minute call and our team will map the one workflow costing you the most time.',
-  primaryCtaLabel: 'Book a free call on Spawntel',
+  id: 'contact',
+  pill: 'Get Started',
+  accessibleTitle: 'Ready to systemize your marketing for good?',
+  barPrompt: 'Pick a time for a free 30-minute call on Spawntel',
+  primaryCtaLabel: 'Book a Call',
   secondaryCtaLabel: 'Message on Instagram',
   secondaryCtaHandle: '@Beneru.ai',
 };
 
 export const FOOTER_COPY: FooterCopy = {
   brandName: 'Beneru',
-  summary:
-    'Beneru is the personal brand of Reuben Magallanes, Marketing Head and Co-Founder of Spawntel.',
+  wordmark: 'BENERU',
   email: 'reubenmagallanes91@gmail.com',
   mailto: 'mailto:reubenmagallanes91@gmail.com',
-  navigateLinks: [
-    { label: 'Work', href: '/#work' },
+  siteLinks: [
     { label: 'Systems', href: '/#systems' },
+    { label: 'Process', href: '/#process' },
+    { label: 'Work', href: '/#work' },
     { label: 'About', href: '/#about' },
-    { label: 'Privacy', href: '/privacy/' },
+  ],
+  buildLinks: [
+    { label: 'Meta DM Qualifier', href: '/work/meta-dm-qualifier/' },
+    { label: 'Brand DNA Pipeline', href: '/work/brand-dna-creative-pipeline/' },
+    { label: 'Marketing Brain', href: '/work/multi-agent-marketing-brain/' },
   ],
   copyrightHolder: 'Beneru (Reuben Magallanes)',
 };

@@ -30,40 +30,38 @@ import { PRIVACY_DOC } from '../data/privacy';
 <style>
   .privacy-sections {
     display: grid;
-    gap: 1.25rem;
-    max-width: 76ch;
+    gap: 20px;
+    max-width: 78ch;
   }
 
   .privacy-card {
-    padding: clamp(1.4rem, 2.8vw, 2rem);
-    border-radius: var(--radius-lg);
-    background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border-subtle);
-    box-shadow: var(--glass-highlight), var(--glass-shadow);
+    padding: clamp(22px, 3vw, 32px);
+    border-radius: 24px;
+    background: linear-gradient(170deg, rgba(22, 22, 27, 0.92), rgba(14, 14, 18, 0.96));
+    border: 1px solid var(--border);
     display: grid;
-    gap: 0.85rem;
+    gap: 12px;
   }
 
   h2 {
-    font-size: var(--step-2);
+    font-size: clamp(1.25rem, 1rem + 0.7vw, 1.55rem);
     margin: 0;
     letter-spacing: -0.02em;
+    color: var(--ink);
   }
 
   p {
     margin: 0;
-    color: var(--ink-2);
+    color: #C9C9D2;
     line-height: 1.65;
   }
 
   ul {
-    margin: 0.25rem 0 0;
-    padding-left: 1.25rem;
-    color: var(--ink);
+    margin: 4px 0 0;
+    padding-left: 20px;
+    color: #E2E2E9;
     display: grid;
-    gap: 0.5rem;
+    gap: 8px;
   }
 
   li {

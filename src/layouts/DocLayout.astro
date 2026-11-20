@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import CtaPanel from '../components/CtaPanel.astro';
+import CtaBanner from '../components/CtaBanner.astro';
 
 interface Props {
   title: string;
@@ -27,118 +27,123 @@ const {
 
 <BaseLayout title={title} description={description}>
   <article class="doc-shell">
-    <div class="doc-back-row">
-      <a href={backHref} class="doc-back">
-        <span class="arrow" aria-hidden="true">&larr;</span> {backLabel}
-      </a>
-    </div>
-
-    <header class="doc-header">
-      <div class="doc-meta">
-        <span class="doc-eyebrow">{eyebrow}</span>
-        {statusLabel && (
-          <>
-            <span class="doc-dot" aria-hidden="true">&middot;</span>
-            <span class="doc-status">{statusLabel}</span>
-          </>
-        )}
+    <div class="doc-wrap">
+      <div class="doc-back-row">
+        <a href={backHref} class="doc-back">
+          <span aria-hidden="true">&larr;</span> {backLabel}
+        </a>
       </div>
-      <h1>{heading}</h1>
-      {subtitle && <p class="doc-lead">{subtitle}</p>}
-    </header>
 
-    <div class="doc-content">
-      <slot />
+      <header class="doc-header">
+        <div class="doc-meta">
+          <span class="pill-tag doc-eyebrow">{eyebrow}</span>
+          {statusLabel && <span class="doc-status">{statusLabel}</span>}
+        </div>
+        <h1 class="doc-h1">{heading}</h1>
+        {subtitle && <p class="doc-lead">{subtitle}</p>}
+      </header>
+
+      <div class="doc-content">
+        <slot />
+      </div>
     </div>
   </article>
 
-  <CtaPanel />
+  <CtaBanner />
 </BaseLayout>
 
 <style>
   .doc-shell {
-    padding: clamp(2rem, 5vw, 3.75rem) 0 1rem;
+    padding: clamp(36px, 5vw, 68px) 0 16px;
+  }
+
+  .doc-wrap {
+    width: var(--doc-w);
+    margin-inline: auto;
   }
 
   .doc-back-row {
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
   }
 
   .doc-back {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    min-height: 40px;
-    padding: 0.4rem 0.9rem;
+    gap: 8px;
+    padding: 8px 16px;
     border-radius: var(--radius-full);
-    background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--glass-blur-sm);
-    backdrop-filter: var(--glass-blur-sm);
-    border: 1px solid var(--glass-border-subtle);
-    box-shadow: var(--glass-highlight), var(--shadow-sm);
-    font-size: 0.875rem;
+    background: #17171C;
+    border: 1px solid var(--border);
+    font-size: 14px;
     font-weight: 500;
     color: var(--ink-2);
+    transition: color 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
   }
 
   .doc-back:hover {
-    color: var(--accent-ink);
-    border-color: var(--glass-tint-border);
+    color: var(--ink);
+    border-color: var(--border-violet);
+    background: #1E1E26;
   }
 
   .doc-header {
-    max-width: 74ch;
-    margin-bottom: clamp(2rem, 4vw, 3rem);
-    padding-bottom: 1.75rem;
-    border-bottom: 1px solid var(--glass-border-subtle);
+    max-width: 78ch;
+    margin-bottom: clamp(28px, 4vw, 48px);
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
   }
 
   .doc-meta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--ink-muted);
-    margin-bottom: 0.85rem;
+    gap: 10px 14px;
+    margin-bottom: 18px;
   }
 
   .doc-eyebrow {
-    color: var(--accent-ink);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
+    color: var(--violet-soft);
+    border-color: rgba(103, 0, 255, 0.35);
+    background: rgba(103, 0, 255, 0.12);
   }
 
-  h1 {
-    font-size: clamp(2rem, 1.35rem + 2.4vw, 3.1rem);
-    line-height: 1.08;
-    letter-spacing: -0.038em;
-    margin: 0 0 1rem;
+  .doc-status {
+    font-size: 13.5px;
+    color: var(--ink-muted);
+  }
+
+  .doc-h1 {
+    margin: 0 0 16px;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 1.35rem + 2.3vw, 3.15rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.028em;
+    padding-bottom: 0.06em;
+    background-image: var(--grad-heading);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   .doc-lead {
-    font-size: var(--step-1);
-    color: var(--ink-2);
-    line-height: 1.6;
     margin: 0;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    color: #D0D0D8;
+    line-height: 1.62;
   }
 
   .doc-content {
     display: grid;
-    gap: 2rem;
+    gap: 24px;
   }
 
   @media (max-width: 640px) {
     .doc-meta {
       flex-direction: column;
       align-items: flex-start;
-      gap: 0.25rem;
-    }
-    .doc-dot {
-      display: none;
+      gap: 8px;
     }
   }
 </style>
