@@ -10,6 +10,8 @@ interface Props {
   image?: string;
   canonical?: string;
   noindex?: boolean;
+  /** 'light' = cream story canvas with a transparent header over a full-bleed hero (homepage). */
+  theme?: 'dark' | 'light';
 }
 
 const {
@@ -18,7 +20,9 @@ const {
   image = SEO_DEFAULTS.ogImage,
   canonical = new URL(Astro.url.pathname, Astro.site || SITE_IDENTITY.siteUrl).href,
   noindex = false,
+  theme = 'dark',
 } = Astro.props;
+const isLight = theme === 'light';
 
 const currentUrl = new URL(Astro.url.pathname, Astro.site || SITE_IDENTITY.siteUrl).href;
 const ogImage = new URL(image, Astro.site || SITE_IDENTITY.siteUrl).href;
@@ -58,7 +62,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class={isLight ? 'page-light' : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -118,7 +122,7 @@ const structuredData = {
   <body id="top">
     <a href="#main" class="skip-to-content">Skip to content</a>
 
-    <header class="site-header">
+    <header class:list={['site-header', { 'header-overlay': isLight }]} data-site-header>
       <div class="header-inner">
         <a href="/" class="wordmark" aria-label="Beneru home">
           {SITE_IDENTITY.wordmark}<span class="wordmark-dot" aria-hidden="true">.</span>
@@ -152,7 +156,7 @@ const structuredData = {
                 <path d="M5 12h14" />
               </svg>
             </summary>
-            <nav aria-label="Mobile" class="mobile-panel">
+            <nav aria-label="Mobile" class="mobile-panel theme-dark">
               {NAV_ITEMS.map((item) => (
                 <a href={item.href} data-section-link={item.sectionId}>{item.label}</a>
               ))}
@@ -354,6 +358,22 @@ const structuredData = {
         window.addEventListener('resize', paintProgress, { passive: true });
       }
 
+      // Light homepage: header floats transparent over the hero, then turns solid cream.
+      const siteHeader = document.querySelector<HTMLElement>('[data-site-header].header-overlay');
+      const heroEl = document.getElementById('hero');
+      if (siteHeader && heroEl) {
+        let hRaf = 0;
+        const paintHeader = () => {
+          hRaf = 0;
+          const solid = window.scrollY > heroEl.offsetHeight - siteHeader.offsetHeight - 8;
+          siteHeader.classList.toggle('is-solid', solid);
+          siteHeader.classList.toggle('theme-light', solid);
+        };
+        paintHeader();
+        window.addEventListener('scroll', () => { if (!hRaf) hRaf = requestAnimationFrame(paintHeader); }, { passive: true });
+        window.addEventListener('resize', paintHeader, { passive: true });
+      }
+
       // Notify Reuben once per visitor session when someone clicks through to spawntel.com.
       const FUNNEL_PING_KEY = 'beneru_spawntel_ping';
       document.querySelectorAll<HTMLAnchorElement>('[data-spawntel-cta]').forEach((link) => {
@@ -395,6 +415,37 @@ const structuredData = {
     backdrop-filter: var(--blur-nav);
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: inset 0 -1px 0 rgba(103, 0, 255, 0.12);
+  }
+
+  .header-overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    background: transparent;
+    border-bottom-color: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .header-overlay.is-solid {
+    background: rgba(246, 243, 238, 0.86);
+    border-bottom-color: rgba(27, 21, 48, 0.08);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    backdrop-filter: blur(14px) saturate(160%);
+  }
+
+  .header-overlay:not(.is-solid) .nav-links a {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .header-overlay:not(.is-solid) .nav-links a:hover {
+    color: #FFFFFF;
+  }
+
+  .header-overlay:not(.is-solid) .header-progress {
+    opacity: 0;
   }
 
   .header-progress {

@@ -1,579 +1,353 @@
 ---
 import { spawntelFunnelUrl } from '../../shared/funnel';
 import { SOCIAL_LINKS } from '../../shared/socials';
-import { HERO_COPY, SITE_IDENTITY } from '../data/site';
+import { FOOTER_COPY, HERO_COPY, SITE_IDENTITY } from '../data/site';
+import SkyScene from './SkyScene.astro';
+
+const buildIcons = [
+  // Meta DM Qualifier: chat bubble with check
+  '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="m9 12 2 2 4-4"/>',
+  // Brand DNA Pipeline: sparkle
+  '<path d="M12 3c.6 4.4 2.6 6.4 7 7-4.4.6-6.4 2.6-7 7-.6-4.4-2.6-6.4-7-7 4.4-.6 6.4-2.6 7-7Z"/><path d="M19 3v4M17 5h4"/>',
+  // Marketing Brain: stacked layers
+  '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+];
 ---
 
-<section class="hero" id="hero" aria-label="Introduction">
-  <div class="hero-lid-stage">
-    <div class="hero-lid" data-hero-lid>
-      <div class="hero-bg" aria-hidden="true">
-        <div class="hero-grid"></div>
-      </div>
+<section class="hero theme-dark" id="hero" aria-labelledby="hero-title" data-hero>
+  <SkyScene id="hero-sky" variant="dawn" />
+  <div class="hero-scrim" aria-hidden="true"></div>
 
-      <div class="site-wrap hero-inner">
-        <div class="hero-copy">
-          <div class="hero-kicker">
-            <span class="hero-emblem" aria-hidden="true">
-              <img src="/images/brand/spawntel-emblem.webp" alt="" width="24" height="24" decoding="async" />
+  <div class="site-wrap hero-inner">
+    <div class="hero-top" data-hero-top>
+      <p class="hero-welcome">Welcome to</p>
+      <h1 class="hero-mark" id="hero-title">
+        <span class="sr-only">Beneru, AI Direction and Marketing Systems by {SITE_IDENTITY.personName}</span>
+        <svg viewBox="0 0 820 168" aria-hidden="true" focusable="false">
+          <text x="0" y="158" textLength="816" lengthAdjust="spacingAndGlyphs">BENERU</text>
+        </svg>
+      </h1>
+      <p class="hero-tag">{SITE_IDENTITY.niche}, built so business owners stop doing marketing by hand.</p>
+    </div>
+
+    <ul class="hero-builds" aria-label="Documented builds">
+      {FOOTER_COPY.buildLinks.map((link, i) => (
+        <li>
+          <a href={link.href}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={buildIcons[i]} />
+            <span>{link.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="hero-bottom">
+      <div class="hero-copy">
+        <p class="hero-statement">{HERO_COPY.headline}.</p>
+        <p class="hero-sub">{HERO_COPY.subtitle}</p>
+        <div class="cta-row hero-actions">
+          <a href={spawntelFunnelUrl('hero')} class="cta-btn" data-spawntel-cta="hero">
+            <span>{HERO_COPY.primaryCtaLabel}</span>
+            <span class="cta-btn__circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
             </span>
-            <span>{SITE_IDENTITY.niche}</span>
-          </div>
-
-          <h1 class="hero-h1">Marketing shouldn't run on manual hustle.</h1>
-
-          <p class="hero-sub">{HERO_COPY.subtitle}</p>
-
-          <div class="cta-row hero-actions">
-            <a
-              href={spawntelFunnelUrl('hero')}
-              class="cta-btn"
-              data-spawntel-cta="hero"
-            >
-              <span>{HERO_COPY.primaryCtaLabel}</span>
-              <span class="cta-btn__circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </span>
-            </a>
-
-            <a href={HERO_COPY.secondaryCtaHref} class="cta-btn-dark">
-              <span>{HERO_COPY.secondaryCtaLabel}</span>
-              <span class="cta-btn__circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </span>
-            </a>
-          </div>
-
-          <div class="hero-meta">
-            <ul class="hero-socials" aria-label="Beneru social profiles">
-              {SOCIAL_LINKS.map((s) => (
-                <li>
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${s.label} (${s.handle})`}
-                    title={`${s.label} (${s.handle})`}
-                  >
-                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" set:html={s.iconSvg} />
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <span class="hero-loc">{SITE_IDENTITY.locationPublic}</span>
-          </div>
+          </a>
+          <a href={HERO_COPY.secondaryCtaHref} class="cta-btn-dark">
+            <span>{HERO_COPY.secondaryCtaLabel}</span>
+            <span class="cta-btn__circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </a>
         </div>
-
-        <figure class="hero-portrait-stage">
-          <span class="hero-status-chip">
-            <span class="hero-status-dot" aria-hidden="true"></span>
-            3 Verified Systems
-          </span>
-          <img
-            src="/images/founder/reuben-studio.webp"
-            alt={HERO_COPY.portraitAlt}
-            width="900"
-            height="900"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
-          <figcaption class="hero-portrait-cap">
-            <strong>{SITE_IDENTITY.personName} ({SITE_IDENTITY.shortName})</strong>
-            <span>{SITE_IDENTITY.role}, {SITE_IDENTITY.companyName}</span>
-          </figcaption>
-        </figure>
       </div>
 
-      <div class="hero-lid-shade" aria-hidden="true"></div>
-      <div class="hero-lid-rim" aria-hidden="true"></div>
+      <div class="hero-person">
+        <img src="/images/founder/reuben-studio.webp" alt={HERO_COPY.portraitAlt} width="56" height="56" decoding="async" />
+        <div>
+          <strong>{SITE_IDENTITY.personName} ({SITE_IDENTITY.shortName})</strong>
+          <span>{SITE_IDENTITY.role}, {SITE_IDENTITY.companyName}</span>
+          <ul class="hero-socials" aria-label="Beneru social profiles">
+            {SOCIAL_LINKS.map((s) => (
+              <li>
+                <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={`${s.label} (${s.handle})`} title={`${s.label} (${s.handle})`}>
+                  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" set:html={s.iconSvg} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
-  const hero = document.getElementById('hero');
-  const lid = document.querySelector<HTMLElement>('[data-hero-lid]');
-  if (hero && lid) {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!reduceMotion) {
-      let startY = 0;
-      let travel = 520;
-      let target = 0;
-      let current = 0;
-      let raf = 0;
-      let lastTime = 0;
-
-      const measure = () => {
-        const vh = window.innerHeight || 800;
-        const isMobile = window.innerWidth <= 960;
-        const heroTop = hero.getBoundingClientRect().top + window.scrollY;
-        const lidH = lid.offsetHeight || vh;
-
-        if (isMobile) {
-          // Wait until the entire hero (including portrait) has scrolled into view before flipping.
-          const overflow = Math.max(0, heroTop + lidH - vh);
-          startY = overflow + 36;
-          travel = Math.max(320, vh * 0.58);
-        } else {
-          startY = 0;
-          const pinH = Math.max(420, vh - 74);
-          travel = Math.max(320, hero.offsetHeight - pinH * 0.72);
-        }
-      };
-
-      const computeTarget = () => {
-        const y = Math.max(0, window.scrollY - startY);
-        const raw = Math.min(1, y / travel);
-        // Smooth cubic ease-out-in curve
-        return raw * raw * (3 - 2 * raw);
-      };
-
-      const apply = (v: number) => {
-        const deg = window.innerWidth <= 960 ? -42 : -68;
-        const angle = v * deg;
-        const scale = 1 - v * 0.085;
-        const ty = v * -10;
-        const alpha = 1 - v * v * 0.7;
-        lid.style.transform = `rotateX(${angle.toFixed(3)}deg) scale3d(${scale.toFixed(4)}, ${scale.toFixed(4)}, 1) translate3d(0, ${ty.toFixed(2)}px, 0)`;
-        lid.style.opacity = alpha.toFixed(4);
-        lid.style.setProperty('--lid-p', v.toFixed(4));
-      };
-
-      const step = (now: number) => {
-        const dt = lastTime ? Math.min(48, now - lastTime) : 16.67;
-        lastTime = now;
-        // Frame-rate independent smooth damping (silky on 60Hz, 120Hz, and mouse wheel)
-        const factor = 1 - Math.exp(-dt * 0.0115);
-        current += (target - current) * factor;
-
-        if (Math.abs(target - current) < 0.0006) {
-          current = target;
-          apply(current);
-          raf = 0;
-          lastTime = 0;
-          return;
-        }
-
-        apply(current);
-        raf = requestAnimationFrame(step);
-      };
-
-      const onScroll = () => {
-        target = computeTarget();
-        if (!raf) {
-          lastTime = 0;
-          raf = requestAnimationFrame(step);
-        }
-      };
-
-      measure();
-      target = computeTarget();
-      current = target;
-      apply(current);
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', () => {
-        measure();
-        target = computeTarget();
-        current = target;
-        apply(current);
-      }, { passive: true });
-    }
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const layers = Array.from(hero.querySelectorAll<SVGGElement>('.sky-scene g[data-depth]'));
+    const top = hero.querySelector<HTMLElement>('[data-hero-top]');
+    let raf = 0;
+    const paint = () => {
+      raf = 0;
+      const y = Math.min(window.scrollY, hero.offsetHeight);
+      layers.forEach((g) => {
+        const d = Number(g.dataset.depth || 0);
+        g.style.transform = `translate3d(0, ${(y * d).toFixed(1)}px, 0)`;
+      });
+      if (top) {
+        const k = window.innerWidth <= 760 ? 0 : 0.32;
+        top.style.transform = `translate3d(0, ${(y * k).toFixed(1)}px, 0)`;
+        top.style.opacity = String(Math.max(0, 1 - y / (hero.offsetHeight * 0.7)));
+      }
+    };
+    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(paint); }, { passive: true });
+    paint();
   }
 </script>
 
 <style>
   .hero {
     position: relative;
-    width: 100%;
-    height: 146svh;
-    overflow-x: clip;
-  }
-
-  .hero-lid-stage {
-    position: sticky;
-    top: var(--nav-h);
-    width: 100%;
-    height: calc(100svh - var(--nav-h));
-    perspective: 1500px;
-    perspective-origin: 50% 22%;
+    isolation: isolate;
     overflow: hidden;
-    contain: layout paint;
-  }
-
-  /* Pure GPU-composited full-bleed first screen; flips up smoothly like a MacBook lid on scroll */
-  .hero-lid {
-    --lid-p: 0;
-    position: relative;
-    width: 100%;
-    height: 100%;
+    min-height: max(100svh, 780px);
     display: flex;
-    align-items: center;
-    padding-block: clamp(24px, 3.6vw, 52px);
-    overflow: hidden;
+    background: #4F6CEB;
+  }
+
+  .hero :global(.sky-scene) {
+    z-index: -2;
+  }
+
+  /* Darkens the lower band so white copy stays readable over the ridges, then melts into cream */
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background:
-      radial-gradient(56% 72% at 78% 26%, rgba(103, 0, 255, 0.28), transparent 68%),
-      radial-gradient(46% 60% at 16% 18%, rgba(143, 77, 255, 0.16), transparent 68%),
-      linear-gradient(180deg, #0D0B14 0%, #0B0B0C 100%);
-    transform-origin: 50% 0%;
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-  }
-
-  .hero-lid-shade {
-    position: absolute;
-    inset: 0;
-    z-index: 6;
-    pointer-events: none;
-    background: linear-gradient(180deg, rgba(6, 5, 10, 0.08) 0%, rgba(5, 4, 9, 0.84) 100%);
-    opacity: calc(var(--lid-p) * 0.8);
-  }
-
-  .hero-lid-rim {
-    position: absolute;
-    inset: 0;
-    z-index: 7;
-    pointer-events: none;
-    border: 1px solid rgba(215, 200, 255, 0.3);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.36),
-      inset 0 -3px 0 rgba(139, 77, 255, 0.65);
-    opacity: clamp(0, calc(var(--lid-p) * 3.5), 1);
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(90deg, rgba(183, 155, 255, 0.075) 1px, transparent 1px),
-      linear-gradient(rgba(183, 155, 255, 0.055) 1px, transparent 1px);
-    background-size: 112px 112px;
-    -webkit-mask-image: radial-gradient(78% 76% at 50% 34%, #000 0%, transparent 90%);
-    mask-image: radial-gradient(78% 76% at 50% 34%, #000 0%, transparent 90%);
+      linear-gradient(180deg, rgba(20, 10, 60, 0.22) 0%, transparent 22%),
+      linear-gradient(180deg, transparent 52%, rgba(24, 12, 64, 0.5) 74%, rgba(24, 12, 64, 0.55) 90%, #F6F3EE 100%);
   }
 
   .hero-inner {
     position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: minmax(0, 1.24fr) minmax(0, 0.92fr);
-    gap: clamp(32px, 5vw, 72px);
-    align-items: center;
-  }
-
-  .hero-copy {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  @keyframes hero-enter {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 22px, 0);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  @keyframes hero-portrait-enter {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 24px, 0) scale(0.96);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-  }
-
-  @keyframes status-pulse {
-    0%, 100% {
-      transform: scale(1);
-      opacity: 0.9;
-    }
-    50% {
-      transform: scale(1.35);
-      opacity: 1;
-    }
-  }
-
-  .hero-kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 6px 14px 6px 7px;
-    border-radius: var(--radius-full);
-    background: linear-gradient(135deg, rgba(36, 28, 56, 0.86), rgba(18, 14, 30, 0.88));
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
-    color: var(--violet-pale);
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.2;
-    animation: hero-enter 0.65s var(--ease-expo) 0.04s both;
-  }
-
-  .hero-emblem {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: grid;
-    place-items: center;
-    background: var(--primary);
-    flex-shrink: 0;
-  }
-
-  .hero-emblem img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .hero-h1 {
-    margin: 22px 0 0;
-    font-family: var(--font-heading);
-    font-size: clamp(2.35rem, 1.45rem + 3vw, 4.15rem);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.032em;
-    max-width: 15ch;
-    padding-bottom: 0.06em;
-    background-image: var(--grad-shimmer);
-    background-size: var(--blob-bg-size);
-    background-repeat: no-repeat;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    animation: text-blob-drift 13s ease-in-out -2.4s infinite alternate, hero-enter 0.72s var(--ease-expo) 0.1s both;
-  }
-
-  .hero-sub {
-    margin: 18px 0 0;
-    max-width: 52ch;
-    color: var(--ink-body);
-    font-size: clamp(1rem, 0.94rem + 0.26vw, 1.12rem);
-    line-height: 1.62;
-    animation: hero-enter 0.72s var(--ease-expo) 0.18s both;
-  }
-
-  .hero-actions {
-    margin-top: 30px;
-    justify-content: flex-start;
-    animation: hero-enter 0.72s var(--ease-expo) 0.25s both;
-  }
-
-  .hero-actions .cta-btn-dark {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    background: linear-gradient(145deg, rgba(36, 30, 56, 0.9), rgba(18, 15, 28, 0.92));
-  }
-
-  .hero-meta {
-    width: 100%;
-    margin-top: clamp(28px, 3.8vw, 44px);
-    padding-top: 22px;
-    border-top: 1px solid rgba(255, 255, 255, 0.11);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     justify-content: space-between;
-    gap: 14px 20px;
-    animation: hero-enter 0.72s var(--ease-expo) 0.32s both;
+    gap: 32px;
+    padding-top: calc(var(--nav-h) + clamp(28px, 6vh, 72px));
+    padding-bottom: clamp(88px, 12vh, 140px);
   }
 
-  .hero-socials {
+  .hero-top {
+    will-change: transform, opacity;
+  }
+
+  .hero-welcome {
+    margin: 0 0 0.4vw 0.6%;
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 0.8rem + 1.4vw, 2rem);
+    font-weight: 600;
+    color: #FFFFFF;
+    text-shadow: 0 2px 18px rgba(40, 20, 110, 0.35);
+  }
+
+  .hero-mark {
+    margin: 0;
+    line-height: 0;
+  }
+
+  .hero-mark svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 18px 40px rgba(40, 18, 120, 0.28));
+  }
+
+  .hero-mark text {
+    font-family: 'Poppins', var(--font-heading);
+    font-size: 200px;
+    font-weight: 800;
+    letter-spacing: -6px;
+    fill: #FFFFFF;
+  }
+
+  .hero-tag {
+    margin: clamp(14px, 1.6vw, 24px) 0 0 auto;
+    max-width: 30ch;
+    text-align: right;
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 0.85rem + 1vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: #FFFFFF;
+    text-shadow: 0 2px 20px rgba(40, 20, 110, 0.45);
+  }
+
+  .hero-builds {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px clamp(14px, 3vw, 44px);
+  }
+
+  .hero-builds a {
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    padding: 10px 16px 10px 12px;
+    border-radius: 999px;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: clamp(14px, 0.8rem + 0.3vw, 16px);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    transition: background-color 0.18s ease, transform 0.2s var(--ease-out);
+  }
+
+  .hero-builds a:hover {
+    background: rgba(255, 255, 255, 0.24);
+    transform: translateY(-2px);
+  }
+
+  .hero-builds svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .hero-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px 48px;
+    flex-wrap: wrap;
+  }
+
+  .hero-copy {
+    max-width: 640px;
+  }
+
+  .hero-statement {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    color: #FFFFFF;
+    text-wrap: balance;
+  }
+
+  .hero-sub {
+    margin: 16px 0 0;
+    max-width: 52ch;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .hero-actions {
+    margin-top: 26px;
+    justify-content: flex-start;
+  }
+
+  .hero-person {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px 12px 12px;
+    border-radius: 22px;
+    background: rgba(18, 10, 48, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  .hero-person img {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    object-fit: cover;
+    object-position: center 15%;
+  }
+
+  .hero-person strong {
+    display: block;
+    font-size: 15px;
+    color: #FFFFFF;
+  }
+
+  .hero-person span {
+    display: block;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .hero-socials {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    gap: 6px;
   }
 
   .hero-socials a {
-    width: 38px;
-    height: 38px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03));
-    border: 1px solid var(--glass-border);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
-    color: var(--ink-body);
     display: grid;
     place-items: center;
-    transition: background-color 0.16s ease, border-color 0.16s ease, transform 0.16s var(--ease-out);
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.12);
+    transition: background-color 0.16s ease;
   }
 
   .hero-socials a:hover {
     background: var(--primary);
-    border-color: rgba(226, 210, 255, 0.4);
-    color: #FFFFFF;
-    transform: translateY(-2px);
   }
 
-  .hero-loc {
-    font-size: 13px;
-    color: var(--ink-muted);
-    font-weight: 500;
-  }
-
-  /* Right Portrait Frame (no nested backdrop-filter inside 3D lid so animation stays 120fps) */
-  .hero-portrait-stage {
-    position: relative;
-    margin: 0;
-    border-radius: 26px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: #1B0D36;
-    aspect-ratio: 4 / 4.45;
-    max-height: 74vh;
-    width: 100%;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 26px 68px -24px rgba(103, 0, 255, 0.56);
-    animation: hero-portrait-enter 0.85s var(--ease-expo) 0.14s both;
-  }
-
-  .hero-portrait-stage img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 14%;
-    transition: transform 0.7s var(--ease-expo);
-  }
-
-  .hero-portrait-stage:hover img {
-    transform: scale(1.03);
-  }
-
-  .hero-status-chip {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 13px;
-    border-radius: var(--radius-full);
-    background: linear-gradient(135deg, rgba(28, 22, 46, 0.88), rgba(11, 10, 18, 0.84));
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    color: #FFFFFF;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .hero-status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--violet-bright);
-    box-shadow: 0 0 10px var(--violet-bright);
-    animation: status-pulse 2.4s ease-in-out infinite;
-  }
-
-  .hero-portrait-cap {
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    padding: 13px 16px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, rgba(24, 19, 38, 0.88), rgba(11, 10, 18, 0.84));
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.26);
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .hero-portrait-cap strong {
-    font-family: var(--font-heading);
-    font-size: 15px;
-    font-weight: 700;
-    color: #FFFFFF;
-    line-height: 1.25;
-  }
-
-  .hero-portrait-cap span {
-    font-size: 13px;
-    color: var(--violet-pale);
-    line-height: 1.35;
-  }
-
-  @media (max-width: 960px) {
+  @media (max-width: 760px) {
     .hero {
-      height: auto;
+      min-height: max(100svh, 720px);
     }
 
-    .hero-lid-stage {
-      position: relative;
-      top: 0;
-      height: auto;
-      overflow: visible;
-      contain: none;
+    .hero-scrim {
+      background:
+        linear-gradient(180deg, rgba(20, 10, 60, 0.22) 0%, transparent 20%),
+        linear-gradient(180deg, transparent 38%, rgba(30, 14, 78, 0.62) 58%, rgba(24, 12, 64, 0.7) 90%, #F6F3EE 100%);
     }
 
-    .hero-lid {
-      height: auto;
-      min-height: calc(100svh - var(--nav-h));
-      align-items: flex-start;
-      padding-block: 28px 36px;
+    .hero-tag {
+      margin-left: 0;
+      text-align: left;
+      font-size: 1.15rem;
     }
 
-    .hero-inner {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 28px;
+    .hero-builds {
+      justify-content: flex-start;
     }
 
-    .hero-h1 {
-      max-width: 18ch;
-    }
-
-    .hero-portrait-stage {
-      max-width: 440px;
-      margin-inline: auto;
-      aspect-ratio: 4 / 4.2;
-      max-height: none;
-    }
-  }
-
-  @media (max-width: 520px) {
-    .hero-actions {
-      width: 100%;
-    }
-
-    .hero-actions .cta-btn,
-    .hero-actions .cta-btn-dark {
-      height: 44px;
-      padding: 0 7px 0 16px;
+    .hero-builds a {
+      padding: 8px 13px 8px 10px;
       font-size: 13.5px;
-      gap: 9px;
     }
 
-    .hero-meta {
-      flex-direction: column;
-      align-items: flex-start;
+    .hero-builds svg {
+      width: 18px;
+      height: 18px;
     }
   }
 </style>

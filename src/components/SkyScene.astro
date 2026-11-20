@@ -1,0 +1,155 @@
+---
+/**
+ * Original procedural landscape (no external art): seeded ridgelines, sun glow,
+ * soft clouds, mist bands and tree silhouettes. Two palettes: dawn and dusk.
+ * Layers carry data-depth so a parent script can parallax them on scroll.
+ */
+interface Props {
+  variant?: 'dawn' | 'dusk';
+  id: string;
+  trees?: boolean;
+}
+
+const { variant = 'dawn', id, trees = true } = Astro.props;
+
+const W = 1440;
+const H = 1000;
+
+function rng(seed: number) {
+  let s = seed >>> 0;
+  return () => {
+    s = (s * 1664525 + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+function ridgePoints(seed: number, baseY: number, amp: number) {
+  const r = rng(seed);
+  const waves = Array.from({ length: 4 }, (_, i) => ({
+    f: (i + 1) * (0.0026 + r() * 0.0022),
+    p: r() * Math.PI * 2,
+    a: amp / (i + 1.2),
+  }));
+  const pts: [number, number][] = [];
+  for (let x = -20; x <= W + 20; x += 16) {
+    let y = baseY;
+    for (const w of waves) y -= Math.sin(x * w.f + w.p) * w.a;
+    pts.push([x, Math.round(y * 10) / 10]);
+  }
+  return pts;
+}
+
+function ridgePath(pts: [number, number][]) {
+  return `M-20,${H} L${pts.map(([x, y]) => `${x},${y}`).join(' L')} L${W + 20},${H} Z`;
+}
+
+function treePath(pts: [number, number][], seed: number) {
+  const r = rng(seed);
+  let d = '';
+  for (let i = 2; i < pts.length - 2; i += 1) {
+    if (r() > 0.34) continue;
+    const [x, y] = pts[i];
+    const h = 26 + r() * 46;
+    const w = h * (0.3 + r() * 0.12);
+    d += `M${x - w / 2},${y + 6} L${x},${y - h} L${x + w / 2},${y + 6} Z `;
+  }
+  return d;
+}
+
+const P = {
+  dawn: {
+    sky: ['#4F6CEB', '#8579EE', '#D98FDB', '#F4B5CF'],
+    sun: '#FFE3F1',
+    cloud: '#FBD3EA',
+    ridges: ['#9C88EA', '#7354CF', '#4C2DA6', '#2A1663'],
+    mist: '#F2D9FF',
+  },
+  dusk: {
+    sky: ['#1D1450', '#4B2A9E', '#B45BC8', '#F59AB3'],
+    sun: '#FFD0DF',
+    cloud: '#E6A6E0',
+    ridges: ['#7B5BD0', '#55369F', '#331D74', '#170B3D'],
+    mist: '#D9B8FF',
+  },
+}[variant];
+
+const layers = [
+  { seed: 11, base: 600, amp: 70, depth: 0.08 },
+  { seed: 23, base: 690, amp: 80, depth: 0.16 },
+  { seed: 37, base: 790, amp: 70, depth: 0.26 },
+  { seed: 51, base: 900, amp: 50, depth: 0.38 },
+].map((l, i) => {
+  const pts = ridgePoints(l.seed, l.base, l.amp);
+  return { ...l, d: ridgePath(pts), trees: trees && i >= 2 ? treePath(pts, l.seed + 5) : '', fill: P.ridges[i] };
+});
+
+const clouds = [
+  { cx: 260, cy: 520, rx: 300, ry: 70 },
+  { cx: 1180, cy: 500, rx: 340, ry: 80 },
+  { cx: 720, cy: 560, rx: 420, ry: 60 },
+  { cx: 980, cy: 380, rx: 200, ry: 40 },
+];
+---
+
+<svg
+  class="sky-scene"
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMidYMax slice"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color={P.sky[0]} />
+      <stop offset="0.34" stop-color={P.sky[1]} />
+      <stop offset="0.58" stop-color={P.sky[2]} />
+      <stop offset="0.74" stop-color={P.sky[3]} />
+    </linearGradient>
+    <radialGradient id={`${id}-sun`} cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color={P.sun} stop-opacity="0.95" />
+      <stop offset="0.45" stop-color={P.sun} stop-opacity="0.35" />
+      <stop offset="1" stop-color={P.sun} stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id={`${id}-cloud`} cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color={P.cloud} stop-opacity="0.85" />
+      <stop offset="0.6" stop-color={P.cloud} stop-opacity="0.32" />
+      <stop offset="1" stop-color={P.cloud} stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id={`${id}-mist`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color={P.mist} stop-opacity="0" />
+      <stop offset="0.5" stop-color={P.mist} stop-opacity="0.38" />
+      <stop offset="1" stop-color={P.mist} stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect width={W} height={H} fill={`url(#${id}-sky)`} />
+
+  <g data-depth="0.04">
+    <ellipse cx="720" cy="470" rx="520" ry="320" fill={`url(#${id}-sun)`} />
+    {clouds.map((c) => (
+      <ellipse cx={c.cx} cy={c.cy} rx={c.rx} ry={c.ry} fill={`url(#${id}-cloud)`} />
+    ))}
+  </g>
+
+  {layers.map((l, i) => (
+    <g data-depth={l.depth}>
+      <path d={l.d} fill={l.fill} />
+      {l.trees && <path d={l.trees} fill={l.fill} />}
+      {i < 3 && <rect x="-20" y={l.base - 10} width={W + 40} height="150" fill={`url(#${id}-mist)`} />}
+    </g>
+  ))}
+</svg>
+
+<style>
+  .sky-scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .sky-scene :global(g[data-depth]) {
+    will-change: transform;
+  }
+</style>

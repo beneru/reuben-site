@@ -2,26 +2,32 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import ProofCloud from '../components/ProofCloud.astro';
-import ProblemCarousel from '../components/ProblemCarousel.astro';
-import FlagshipDm from '../components/FlagshipDm.astro';
-import PillarsSection from '../components/PillarsSection.astro';
-import SystemsCards from '../components/SystemsCards.astro';
-import WorkShowcase from '../components/WorkShowcase.astro';
-import ProcessSteps from '../components/ProcessSteps.astro';
 import FounderStory from '../components/FounderStory.astro';
+import FlagshipDm from '../components/FlagshipDm.astro';
+import WorkShowcase from '../components/WorkShowcase.astro';
+import PillarsSection from '../components/PillarsSection.astro';
+import ProblemCarousel from '../components/ProblemCarousel.astro';
+import SystemsCards from '../components/SystemsCards.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import { SEO_DEFAULTS } from '../data/site';
 ---
 
-<BaseLayout title={SEO_DEFAULTS.title} description={SEO_DEFAULTS.description}>
+<BaseLayout title={SEO_DEFAULTS.title} description={SEO_DEFAULTS.description} theme="light">
   <Hero />
-  <ProofCloud />
-  <ProblemCarousel />
+  <div class="theme-light">
+    <ProofCloud />
+    <FounderStory />
+  </div>
   <FlagshipDm />
-  <PillarsSection />
-  <SystemsCards />
-  <WorkShowcase />
-  <ProcessSteps />
-  <FounderStory />
+  <div class="theme-light">
+    <WorkShowcase />
+    <PillarsSection />
+  </div>
+  <ProblemCarousel />
+  <div class="theme-light">
+    <SystemsCards />
+    <ProcessSteps />
+  </div>
   <CtaBanner />
 </BaseLayout>

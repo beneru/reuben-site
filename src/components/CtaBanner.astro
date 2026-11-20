@@ -2,392 +2,107 @@
 import { spawntelFunnelUrl } from '../../shared/funnel';
 import { SOCIAL_LINKS } from '../../shared/socials';
 import { CTA_COPY, SITE_IDENTITY } from '../data/site';
+import SkyScene from './SkyScene.astro';
 
 const instagram = SOCIAL_LINKS.find((s) => s.id === 'instagram');
 ---
 
-<section class="cx" id={CTA_COPY.id} aria-labelledby="cx-title">
-  <canvas class="cx-ascii" data-cx-canvas aria-hidden="true"></canvas>
+<section class="cx theme-dark" id={CTA_COPY.id} aria-labelledby="cx-title">
+  <SkyScene id="cta-sky" variant="dusk" trees={false} />
+  <div class="cx-scrim" aria-hidden="true"></div>
 
-  <div class="cx-inner">
-    <span class="pill-tag cx-pill">{CTA_COPY.pill}</span>
-    <h2 class="sr-only" id="cx-title">{CTA_COPY.accessibleTitle}</h2>
+  <div class="site-wrap cx-inner" data-reveal>
+    <h2 class="cx-title" id="cx-title">{CTA_COPY.accessibleTitle}</h2>
+    <p class="cx-sub">{CTA_COPY.barPrompt}. Tell me where content, DMs or lead follow-up keep breaking, and we map the fix together.</p>
 
-    <div class="cx-words" aria-hidden="true">
-      <div class="cx-row">
-        <span class="cx-text">Ready to</span>
-        <span class="cx-badge" style="top: -0.06em; right: -1.12em; background: #F4EFE6;" title="AI Direction">
-          <svg viewBox="0 0 24 24" fill="#D97757">
-            <path d="M12 2.5 13.6 9l5.7-3.4-3.4 5.7L22.5 12l-6.6 1.6 3.4 5.7-5.7-3.4L12 22.5 10.4 16l-5.7 3.4 3.4-5.7L1.5 12l6.6-1.6-3.4-5.7 5.7 3.4Z" />
+    <div class="cta-row cx-actions">
+      <a href={spawntelFunnelUrl('cta-bar')} class="cta-btn" data-spawntel-cta="cta-bar">
+        <span>{CTA_COPY.primaryCtaLabel}</span>
+        <span class="cta-btn__circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
           </svg>
-        </span>
-      </div>
-
-      <div class="cx-row">
-        <span class="cx-badge" style="top: -0.32em; left: -1.55em; background: #FFFFFF;" title="Meta Graph API">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#111114" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8Z" />
-          </svg>
-        </span>
-        <span class="cx-badge" data-over="true" style="top: 0.04em; left: -0.92em; background: #FFFFFF;" title="Gemini AI">
-          <svg viewBox="0 0 24 24" fill="#4285F4">
-            <path d="M12 2c.7 5.2 4.8 9.3 10 10-5.2.7-9.3 4.8-10 10-.7-5.2-4.8-9.3-10-10 5.2-.7 9.3-4.8 10-10Z" />
-          </svg>
-        </span>
-        <span class="cx-text">systemize</span>
-        <span class="cx-badge" style="top: -0.05em; right: -1.04em; background: #FFFFFF;" title="Cloudflare Workers">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#F38020" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
-          </svg>
-        </span>
-      </div>
-
-      <div class="cx-row">
-        <span class="cx-badge" style="top: 0.1em; left: -1.02em; background: #EA4B71;" title="Automated Pipelines">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="6" cy="12" r="2.2" />
-            <circle cx="18" cy="7" r="2.2" />
-            <circle cx="18" cy="17" r="2.2" />
-            <path d="M8.2 12h4.3c1.2 0 1.8-5 3.3-5" />
-            <path d="M12.5 12c1.2 0 1.8 5 3.3 5" />
-          </svg>
-        </span>
-        <span class="cx-text">your marketing</span>
-        <span class="cx-badge" style="top: -0.32em; right: -1.02em; background: #FF4F00;" title="Fast Execution">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-          </svg>
-        </span>
-      </div>
-
-      <div class="cx-row">
-        <span class="cx-badge" style="top: -0.1em; left: -1.52em; background: #1B1B22; border: 1px solid rgba(255,255,255,0.16);" title="TypeScript & Python">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="16 18 22 12 16 6" />
-            <polyline points="8 6 2 12 8 18" />
-          </svg>
-        </span>
-        <span class="cx-badge cx-badge--img" data-over="true" style="top: 0.1em; left: -0.92em; background: #6700FF;" title="Spawntel">
-          <img src="/images/brand/spawntel-emblem.webp" alt="" width="64" height="64" loading="lazy" />
-        </span>
-        <span class="cx-text">for good?</span>
-      </div>
-    </div>
-
-    <div class="cx-book">
-      <a
-        class="cx-bar"
-        href={spawntelFunnelUrl('cta-bar')}
-        data-spawntel-cta="cta-bar"
-      >
-        <span class="cx-bar__line">{CTA_COPY.barPrompt}</span>
-        <span class="cx-bar__btn">
-          <span>{CTA_COPY.primaryCtaLabel}</span>
-          <span class="cx-bar__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </span>
         </span>
       </a>
-
-      <div class="cx-sub-links">
-        {instagram && (
-          <a
-            class="cx-proof"
-            href={instagram.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img class="cx-proof__av" src="/PFP.webp" alt="" width="22" height="22" loading="lazy" />
-            <span>{CTA_COPY.secondaryCtaLabel} ({CTA_COPY.secondaryCtaHandle})</span>
-          </a>
-        )}
-        <a class="cx-proof" href={SITE_IDENTITY.mailto}>
-          <span>Direct email: {SITE_IDENTITY.email}</span>
+      {instagram && (
+        <a href={instagram.url} class="cta-btn-dark" target="_blank" rel="noopener noreferrer">
+          <span>{CTA_COPY.secondaryCtaLabel} ({CTA_COPY.secondaryCtaHandle})</span>
         </a>
-      </div>
+      )}
     </div>
+
+    <a class="cx-mail" href={SITE_IDENTITY.mailto}>Or email {SITE_IDENTITY.email}</a>
   </div>
 </section>
-
-<script>
-  const canvas = document.querySelector<HTMLCanvasElement>('[data-cx-canvas]');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    if (ctx) {
-      const glyphs = '01<>/=+*%:.-|';
-      const cellSize = 16;
-      let cols = 0;
-      let cells: { ch: string; a: number; v: boolean }[] = [];
-
-      const makeCell = () => ({
-        ch: Math.random() < 0.56 ? ' ' : glyphs[Math.floor(Math.random() * glyphs.length)],
-        a: 0.08 + Math.random() * 0.22,
-        v: Math.random() < 0.38,
-      });
-
-      const paintCell = (idx: number) => {
-        const x = (idx % cols) * cellSize;
-        const y = Math.floor(idx / cols) * cellSize;
-        const c = cells[idx];
-        ctx.clearRect(x, y, cellSize, cellSize);
-        if (c.ch !== ' ') {
-          ctx.fillStyle = c.v
-            ? `rgba(139, 50, 255, ${c.a})`
-            : `rgba(245, 245, 247, ${c.a * 0.55})`;
-          ctx.fillText(c.ch, x + cellSize / 2, y + cellSize / 2);
-        }
-      };
-
-      const resize = () => {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = Math.round(rect.width * dpr);
-        canvas.height = Math.round(rect.height * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.font = '11px "General Sans", "DM Sans", ui-sans-serif, system-ui, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        cols = Math.max(1, Math.ceil(rect.width / cellSize));
-        const rows = Math.max(1, Math.ceil(rect.height / cellSize));
-        cells = Array.from({ length: cols * rows }, makeCell);
-        for (let i = 0; i < cells.length; i++) paintCell(i);
-      };
-
-      resize();
-      const ro = new ResizeObserver(resize);
-      ro.observe(canvas);
-    }
-  }
-</script>
 
 <style>
   .cx {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
-    padding: clamp(72px, 9vw, 124px) 0;
+    min-height: clamp(560px, 78vh, 760px);
+    display: grid;
+    place-items: center;
+    background: #1D1450;
   }
 
-  .cx-ascii {
+  .cx :global(.sky-scene) {
+    z-index: -2;
+  }
+
+  .cx-scrim {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    z-index: -1;
     pointer-events: none;
-    -webkit-mask-image: linear-gradient(transparent, #000 22% 78%, transparent);
-    mask-image: linear-gradient(transparent, #000 22% 78%, transparent);
+    background:
+      linear-gradient(180deg, #F6F3EE 0%, rgba(246, 243, 238, 0) 12%),
+      radial-gradient(60% 55% at 50% 46%, rgba(18, 8, 52, 0.5), transparent 75%);
   }
 
   .cx-inner {
-    position: relative;
-    width: var(--site-w);
-    margin-inline: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    padding-block: clamp(96px, 12vw, 160px);
   }
 
-  .cx-pill {
-    margin-bottom: clamp(24px, 3vw, 40px);
-  }
-
-  .cx-words {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: var(--font-heading);
-    font-size: clamp(2.4rem, 7.6vw, 7.1rem);
-    font-weight: 700;
+  .cx-title {
+    margin: 0;
+    max-width: 16ch;
+    font-size: clamp(2.3rem, 1.4rem + 3.6vw, 4.6rem);
+    font-weight: 800;
     line-height: 1.02;
-    letter-spacing: -0.035em;
-    color: var(--ink);
-  }
-
-  .cx-row {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .cx-text {
-    position: relative;
-    z-index: 1;
-    white-space: nowrap;
-    background-image: var(--grad-shimmer);
-    background-size: var(--blob-bg-size);
-    background-repeat: no-repeat;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    animation: text-blob-drift 14s ease-in-out infinite alternate;
-  }
-
-  .cx-row:nth-child(2) .cx-text { animation-delay: -3.3s; animation-duration: 15.5s; }
-  .cx-row:nth-child(3) .cx-text { animation-delay: -6.9s; animation-duration: 13.5s; }
-  .cx-row:nth-child(4) .cx-text { animation-delay: -10.2s; animation-duration: 16.5s; }
-
-  .cx-badge {
-    position: absolute;
-    z-index: 0;
-    width: 0.86em;
-    height: 0.86em;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 14px 30px rgba(0, 0, 0, 0.52);
-  }
-
-  .cx-badge[data-over='true'] {
-    z-index: 2;
-  }
-
-  .cx-badge svg {
-    width: 56%;
-    height: 56%;
-  }
-
-  .cx-badge--img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .cx-book {
-    width: min(100%, 560px);
-    margin-top: clamp(40px, 5.2vw, 64px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .cx-bar {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 6px 6px 6px 22px;
-    border-radius: 22px;
-    background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--blur-glass);
-    backdrop-filter: var(--blur-glass);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-rim);
-    color: rgba(255, 255, 255, 0.94);
-    transition: background-color 0.18s ease, border-color 0.18s ease;
-  }
-
-  .cx-bar:hover {
-    background: var(--glass-bg-hover);
-    border-color: var(--glass-border-strong);
-  }
-
-  .cx-bar__line {
-    font-size: 14.5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .cx-bar__btn {
-    flex: none;
-    height: 44px;
-    padding: 0 8px 0 18px;
-    border-radius: 15px;
-    background: var(--primary);
+    letter-spacing: -0.04em;
     color: #FFFFFF;
-    font-size: 14.5px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: var(--shadow-violet);
-    transition: filter 0.16s ease, transform 0.16s var(--ease-out);
+    text-shadow: 0 6px 40px rgba(30, 10, 80, 0.45);
   }
 
-  .cx-bar:hover .cx-bar__btn {
-    filter: brightness(1.12);
+  .cx-sub {
+    margin: 20px 0 0;
+    max-width: 48ch;
+    font-size: clamp(1rem, 0.94rem + 0.3vw, 1.15rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.92);
   }
 
-  .cx-bar:active .cx-bar__btn {
-    transform: scale(0.97);
-  }
-
-  .cx-bar__icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #0B0B0C;
-    color: #FFFFFF;
-    display: grid;
-    place-items: center;
-  }
-
-  .cx-bar__icon svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .cx-sub-links {
-    display: flex;
-    flex-wrap: wrap;
+  .cx-actions {
+    margin-top: 32px;
     justify-content: center;
-    gap: 4px 18px;
   }
 
-  .cx-proof {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 8px;
-    font-size: 13px;
-    color: var(--ink-2);
-    transition: color 0.16s ease;
+  .cx-mail {
+    margin-top: 20px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.4);
+    text-underline-offset: 4px;
   }
 
-  .cx-proof:hover {
+  .cx-mail:hover {
     color: #FFFFFF;
-  }
-
-  .cx-proof__av {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 0 0 2px #1B1B22;
-  }
-
-  @media (max-width: 720px) {
-    .cx-words {
-      font-size: clamp(2.1rem, 10vw, 3.4rem);
-    }
-
-    .cx-badge {
-      display: none;
-    }
-
-    .cx-bar {
-      flex-direction: column;
-      align-items: stretch;
-      padding: 12px;
-      gap: 12px;
-      text-align: center;
-    }
-
-    .cx-bar__line {
-      white-space: normal;
-      font-size: 14px;
-    }
-
-    .cx-bar__btn {
-      width: 100%;
-      justify-content: space-between;
-    }
   }
 </style>

@@ -318,3 +318,86 @@ main {
     scroll-behavior: auto !important;
   }
 }
+
+/* ===================================================================
+   Light canvas theme (homepage, wishlabs-style story layout).
+   Calm cream sections; immersive scenes and cards opt back into
+   .theme-dark. Dark tokens live on :root/.theme-dark in tokens.css.
+   =================================================================== */
+.theme-dark {
+  color: var(--ink-body);
+}
+
+.theme-light {
+  color-scheme: light;
+  --bg: #F6F3EE;
+  --surface-1: #FFFFFF;
+  --surface-2: #EFEAE2;
+  --surface-3: #E6E0D6;
+  --glass-bg: #FFFFFF;
+  --glass-bg-hover: #FFFFFF;
+  --glass-bg-violet: linear-gradient(160deg, #EFE6FF 0%, #FFFFFF 72%);
+  --glass-bg-inset: #F1EDE6;
+  --glass-border: rgba(27, 21, 48, 0.1);
+  --glass-border-strong: rgba(27, 21, 48, 0.2);
+  --glass-border-violet: rgba(103, 0, 255, 0.35);
+  --glass-rim: 0 1px 2px rgba(27, 21, 48, 0.04), 0 22px 44px -28px rgba(52, 24, 120, 0.3);
+  --glass-rim-violet: 0 26px 60px -30px rgba(103, 0, 255, 0.45);
+  --border: rgba(27, 21, 48, 0.1);
+  --border-strong: rgba(27, 21, 48, 0.2);
+  --border-violet: rgba(103, 0, 255, 0.4);
+  --ink: #1B1530;
+  --ink-body: #2B2442;
+  --ink-2: #4B4463;
+  --ink-muted: #6A6480;
+  --violet-soft: #5A10D8;
+  --violet-accent: #5A10D8;
+  --shadow-dark-pill: 0 10px 24px -14px rgba(27, 21, 48, 0.5);
+  --grad-num: linear-gradient(180deg, #7A2BFF 0%, #4A00C9 100%);
+  --grad-shimmer: linear-gradient(180deg, #1B1530 0%, #1B1530 100%);
+  --blob-bg-size: 100% 100%;
+  color: var(--ink-body);
+}
+
+html.page-light,
+html.page-light body {
+  background: #F6F3EE;
+}
+
+html.page-light body {
+  background-image: none;
+}
+
+.theme-light .grad-title {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--ink);
+  animation: none;
+}
+
+.theme-light .pill-tag {
+  background: #FFFFFF;
+  color: var(--ink-2);
+  border-color: var(--border);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.theme-light .cta-btn-dark {
+  background: #1B1530;
+  color: #FFFFFF;
+  border-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.theme-light .cta-btn-dark:hover {
+  background: #2C2149;
+  color: #FFFFFF;
+}
+
+/* Deep plum band for dark interludes on the light page */
+.band-plum {
+  background: #150F26;
+}

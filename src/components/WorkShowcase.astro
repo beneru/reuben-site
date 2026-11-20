@@ -8,262 +8,238 @@ const metrics: Record<string, { value: string; label: string }> = {
   'brand-dna-creative-pipeline': { value: '1 URL', label: 'in, 5 compressed Instagram assets out' },
   'multi-agent-marketing-brain': { value: '5', label: 'channels from one idea, used daily' },
 };
+
+const tones: Record<string, string> = {
+  'meta-dm-qualifier': 'violet',
+  'brand-dna-creative-pipeline': 'rose',
+  'multi-agent-marketing-brain': 'blue',
+};
 ---
 
 <section class="section-block" id="work" aria-labelledby="work-heading">
   <div class="site-wrap">
-    <div class="section-head" data-reveal>
-      <span class="pill-tag">{WORK_SECTION_COPY.pill}</span>
-      <h2 class="grad-title" id="work-heading">{WORK_SECTION_COPY.heading}</h2>
+    <div class="wk-head" data-reveal>
+      <h2 class="wk-title" id="work-heading">{WORK_SECTION_COPY.heading}</h2>
+      {WORK_SECTION_COPY.lead && <p class="wk-sub">{WORK_SECTION_COPY.lead}</p>}
     </div>
 
-    <div class="wk">
-      <div class="wk-split">
-        <ul class="wk-live">
-          {WORK_BUILDS.map((build, idx) => (
-            <li data-reveal style={`--i: ${idx}`}>
-              <a href={`/work/${build.slug}/`} class="wk-item-link">
-                {metrics[build.slug] && (
-                  <p class="wk-metric">
-                    <span class="wk-metric__value">{metrics[build.slug].value}</span>
-                    <span class="wk-metric__label">{metrics[build.slug].label}</span>
-                  </p>
-                )}
-                <h3>{build.title}</h3>
-                <p>{build.summary}</p>
-                <span class="wk-read">
-                  Read technical breakdown <span aria-hidden="true">&rarr;</span>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <ul class="wk-photos" aria-label="Documented system visuals">
-          {WORK_BUILDS.map((build, idx) => (
-            <li data-reveal style={`--i: ${idx}`}>
-              <a href={`/work/${build.slug}/`} class="wk-tile" aria-label={`Inspect ${build.title}`}>
-                <figure>
-                  <img
-                    src={build.cardImage.src}
-                    alt={build.cardImage.alt}
-                    width={build.cardImage.width}
-                    height={build.cardImage.height}
-                    loading="lazy"
-                    decoding="async"
-                    class={idx === 0 ? 'wk-img-cover' : 'wk-img-diagram'}
-                  />
-                  <figcaption>
-                    <span class="wk-cap-kind">{build.category}</span>
-                    <span class="wk-cap-title">{build.title}</span>
-                  </figcaption>
-                </figure>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <ul class="wk-grid">
+      {WORK_BUILDS.map((build, idx) => (
+        <li class={`wk-card wk-card--${tones[build.slug] ?? 'violet'} ${idx === 0 ? 'wk-card--wide' : ''} theme-dark`} data-reveal style={`--i: ${idx}`}>
+          <a href={`/work/${build.slug}/`} class="wk-link">
+            <div class="wk-copy">
+              <span class="wk-cat">{build.category}</span>
+              <h3>{build.title}</h3>
+              {metrics[build.slug] && (
+                <p class="wk-metric">
+                  <span class="wk-metric__value">{metrics[build.slug].value}</span>
+                  <span class="wk-metric__label">{metrics[build.slug].label}</span>
+                </p>
+              )}
+              <span class="wk-read">Read the breakdown <span aria-hidden="true">&rarr;</span></span>
+            </div>
+            <div class={`wk-media ${idx === 0 ? 'wk-media--shot' : 'wk-media--diagram'}`}>
+              <img
+                src={build.cardImage.src}
+                alt={build.cardImage.alt}
+                width={build.cardImage.width}
+                height={build.cardImage.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
 
 <style>
-  .wk {
+  .wk-head {
     display: flex;
     flex-direction: column;
-    gap: clamp(24px, 3vw, 40px);
-  }
-
-  .wk-split {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     align-items: center;
-    gap: clamp(32px, 5vw, 84px);
+    text-align: center;
+    gap: 18px;
+    margin-bottom: clamp(40px, 5vw, 72px);
   }
 
-  .wk-live {
-    list-style: none;
+  .wk-title {
     margin: 0;
+    max-width: 14ch;
+    font-size: clamp(2.4rem, 1.4rem + 4vw, 4.8rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+  }
+
+  .wk-sub {
+    margin: 0;
+    max-width: 46ch;
+    font-size: clamp(1.05rem, 0.95rem + 0.45vw, 1.3rem);
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .wk-grid {
+    list-style: none;
+    margin: 0 auto;
     padding: 0;
+    max-width: 1180px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .wk-card {
+    border-radius: 30px;
+    overflow: hidden;
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+    box-shadow: 0 30px 60px -36px rgba(40, 16, 110, 0.55);
+  }
+
+  .wk-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .wk-card--violet {
+    background: radial-gradient(90% 120% at 100% 0%, rgba(150, 90, 255, 0.45), transparent 60%), linear-gradient(150deg, #3A1290 0%, #170B3D 100%);
+  }
+
+  .wk-card--rose {
+    background: radial-gradient(90% 120% at 100% 0%, rgba(255, 140, 200, 0.4), transparent 60%), linear-gradient(150deg, #9A2475 0%, #34104F 100%);
+  }
+
+  .wk-card--blue {
+    background: radial-gradient(90% 120% at 100% 0%, rgba(120, 160, 255, 0.45), transparent 60%), linear-gradient(150deg, #2A47C9 0%, #1D1450 100%);
+  }
+
+  .wk-card--wide {
+    grid-column: 1 / -1;
+  }
+
+  .wk-link {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: clamp(28px, 3.4vw, 42px);
+    gap: 24px;
+    padding: clamp(24px, 3vw, 40px) clamp(24px, 3vw, 40px) 0;
   }
 
-  .wk-item-link {
-    display: block;
-    border-radius: 18px;
-    transition: transform 0.2s var(--ease-out);
+  .wk-card--wide .wk-link {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr);
+    align-items: end;
+    gap: clamp(24px, 4vw, 56px);
   }
 
-  .wk-item-link:hover {
-    transform: translateX(4px);
+  .wk-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .wk-card--wide .wk-copy {
+    align-self: center;
+    padding-bottom: clamp(24px, 3vw, 40px);
+  }
+
+  .wk-cat {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .wk-copy h3 {
+    margin: 12px 0 0;
+    max-width: 22ch;
+    font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: #FFFFFF;
   }
 
   .wk-metric {
-    margin: 0;
+    margin: 20px 0 0;
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
-    gap: 4px 10px;
+    gap: 4px 12px;
   }
 
   .wk-metric__value {
     font-family: var(--font-heading);
-    font-size: clamp(2rem, 1.5rem + 1.6vw, 2.75rem);
+    font-size: clamp(2.4rem, 1.7rem + 2.4vw, 3.6rem);
     font-weight: 800;
     line-height: 1;
-    letter-spacing: -0.04em;
-    color: var(--violet-soft);
-  }
-
-  .wk-metric__label {
-    font-size: 13.5px;
-    color: var(--ink-2);
-  }
-
-  .wk-live h3 {
-    margin: 12px 0 0;
-    font-size: clamp(1.3rem, 1.05rem + 0.85vw, 1.7rem);
-    font-weight: 600;
-    line-height: 1.18;
-    letter-spacing: -0.025em;
-    color: var(--ink);
-  }
-
-  .wk-live p {
-    margin: 8px 0 0;
-    max-width: 44ch;
-    font-size: 15px;
-    line-height: 1.55;
-    color: var(--ink-2);
-  }
-
-  .wk-read {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 10px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--violet-soft);
-    transition: color 0.16s ease;
-  }
-
-  .wk-item-link:hover .wk-read {
+    letter-spacing: -0.045em;
     color: #FFFFFF;
   }
 
-  /* 3-Tile Asymmetric Proof Masonry */
-  .wk-photos {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: clamp(12px, 1.4vw, 18px);
-    height: clamp(440px, 40vw, 590px);
+  .wk-metric__label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.82);
   }
 
-  .wk-photos li {
-    min-height: 0;
-  }
-
-  .wk-photos li:first-child {
-    grid-row: 1 / span 2;
-  }
-
-  .wk-tile {
-    display: block;
-    height: 100%;
-    border-radius: 24px;
-    overflow: hidden;
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
-    box-shadow: var(--glass-rim);
-    position: relative;
-    transition: border-color 0.2s ease, transform 0.25s var(--ease-out);
-  }
-
-  .wk-tile:hover {
-    border-color: var(--border-violet);
-    transform: translateY(-2px);
-  }
-
-  .wk-tile figure {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background: #121119;
-  }
-
-  .wk-img-cover {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: left top;
-    transition: transform 0.45s var(--ease-out);
-  }
-
-  .wk-img-diagram {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center top;
-    padding: 16px 14px 76px;
-    background: #0E0D14;
-    transition: transform 0.45s var(--ease-out);
-  }
-
-  .wk-tile:hover img {
-    transform: scale(1.03);
-  }
-
-  .wk-tile figcaption {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 44px 16px 14px;
-    background: linear-gradient(transparent, rgba(11, 11, 14, 0.88) 45%, rgba(11, 11, 14, 0.96) 100%);
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .wk-cap-kind {
-    font-size: 11.5px;
-    font-weight: 500;
-    color: var(--violet-soft);
-  }
-
-  .wk-cap-title {
+  .wk-read {
+    margin-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
     font-size: 13.5px;
     font-weight: 600;
-    color: #F5F5F7;
-    line-height: 1.3;
+    color: #FFFFFF;
+    transition: background-color 0.16s ease;
   }
 
-  @media (max-width: 960px) {
-    .wk-split {
+  .wk-link:hover .wk-read {
+    background: rgba(255, 255, 255, 0.26);
+  }
+
+  .wk-media {
+    margin-top: auto;
+    border-radius: 18px 18px 0 0;
+    overflow: hidden;
+    background: #0E0D14;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-bottom: 0;
+  }
+
+  .wk-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.45s var(--ease-out);
+  }
+
+  .wk-media--diagram img {
+    padding: 12px 12px 4px;
+  }
+
+  .wk-link:hover .wk-media img {
+    transform: scale(1.025);
+  }
+
+  @media (max-width: 900px) {
+    .wk-grid {
       grid-template-columns: minmax(0, 1fr);
-      gap: 36px;
     }
 
-    .wk-photos {
-      height: auto;
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: auto;
+    .wk-card--wide .wk-link {
+      display: flex;
+      flex-direction: column;
     }
 
-    .wk-photos li:first-child {
-      grid-row: auto;
-    }
-
-    .wk-tile figure {
-      aspect-ratio: 16 / 10;
+    .wk-card--wide .wk-copy {
+      padding-bottom: 0;
     }
   }
 </style>

@@ -54,9 +54,7 @@ import { FOOTER_COPY, PROOF_NUMBERS_COPY } from '../data/site';
   .pn {
     position: relative;
     isolation: isolate;
-    padding-block: clamp(64px, 8vw, 120px);
-    background: #101012;
-    border-block: 1px solid var(--border);
+    padding-block: clamp(72px, 9vw, 132px);
   }
 
   .pn::before {
@@ -65,7 +63,7 @@ import { FOOTER_COPY, PROOF_NUMBERS_COPY } from '../data/site';
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(42% 60% at 50% 44%, rgba(103, 0, 255, 0.14), transparent 72%);
+    background: radial-gradient(42% 60% at 50% 44%, rgba(103, 0, 255, 0.06), transparent 72%);
   }
 
   .pn-wrap {
@@ -119,9 +117,9 @@ import { FOOTER_COPY, PROOF_NUMBERS_COPY } from '../data/site';
 
   .pn-title {
     margin: 0;
-    font-size: clamp(2rem, 1.35rem + 2.3vw, 3.1rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
+    font-size: clamp(2.3rem, 1.4rem + 3.4vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
     color: var(--ink);
   }
 
@@ -145,7 +143,7 @@ import { FOOTER_COPY, PROOF_NUMBERS_COPY } from '../data/site';
   }
 
   .pn-stat + .pn-stat {
-    border-left: 1px solid var(--border);
+    border-left: 1.5px solid rgba(103, 0, 255, 0.22);
   }
 
   .pn-stat__value {
@@ -229,7 +227,7 @@ import { FOOTER_COPY, PROOF_NUMBERS_COPY } from '../data/site';
 
     .pn-stat + .pn-stat {
       border-left: 0;
-      border-top: 1px solid var(--border);
+      border-top: 1.5px solid rgba(103, 0, 255, 0.18);
     }
 
     .pn-stat__value {

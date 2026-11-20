@@ -6,40 +6,36 @@ const photo = FOUNDER_COPY.photos[0];
 
 <section class="section-block about-section" id="about" aria-labelledby="about-heading">
   <div class="site-wrap">
-    <div class="section-head" data-reveal>
-      <span class="pill-tag">{FOUNDER_COPY.pill}</span>
-      <h2 class="grad-title" id="about-heading">{FOUNDER_COPY.heading}</h2>
-    </div>
-
-    <div class="story-spotlight" data-reveal>
-      <blockquote class="story-quote">{FOUNDER_COPY.lead}</blockquote>
-    </div>
-
     <div class="bento">
-      <article class="bento-card bento-story" data-reveal>
-        <p class="bento-label">The short version</p>
+      <article class="bento-card bento-story theme-dark" data-reveal>
+        <h2 class="bento-eyebrow" id="about-heading">Who's behind Beneru</h2>
+        <p class="bento-lead">{FOUNDER_COPY.lead}</p>
         {FOUNDER_COPY.paragraphs.map((para) => (
           <p class="story-para">{para}</p>
         ))}
       </article>
 
-      <figure class="bento-card bento-photo" data-reveal style="--i: 1">
-        <img
-          src={photo.src}
-          alt={photo.alt}
-          width={photo.width}
-          height={photo.height}
-          loading="lazy"
-          decoding="async"
-        />
+      <figure class="bento-card bento-photo theme-dark" data-reveal style="--i: 1">
+        <p class="bento-photo__line">Understand it.<br />Then build it.</p>
+        <div class="bento-photo__frame">
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
         <figcaption>
           <strong>{SITE_IDENTITY.personName} ({SITE_IDENTITY.shortName})</strong>
           <span>{SITE_IDENTITY.role}, {SITE_IDENTITY.companyName}</span>
         </figcaption>
       </figure>
 
-      <article class="bento-card bento-team" data-reveal style="--i: 2">
-        <h3>{FOUNDER_COPY.teamHeading}</h3>
+      <article class="bento-card bento-team theme-dark" data-reveal style="--i: 2">
+        <p class="bento-eyebrow">The team</p>
+        <h3>Built together with the <strong>Spawntel</strong> team.</h3>
         <ul class="team-chips">
           {FOUNDER_COPY.teamMembers.map((member) => (
             <li>{member}</li>
@@ -47,8 +43,8 @@ const photo = FOUNDER_COPY.photos[0];
         </ul>
       </article>
 
-      <article class="bento-card bento-rules" data-reveal style="--i: 3">
-        <h3>{FOUNDER_COPY.principlesHeading}</h3>
+      <article class="bento-card bento-rules theme-dark" data-reveal style="--i: 3">
+        <p class="bento-eyebrow">{FOUNDER_COPY.principlesHeading}</p>
         <ul class="principles-list">
           {FOUNDER_COPY.principles.map((rule) => (
             <li>
@@ -63,74 +59,87 @@ const photo = FOUNDER_COPY.photos[0];
 </section>
 
 <style>
-  .story-spotlight {
-    max-width: 960px;
-    margin: 0 auto clamp(40px, 5.5vw, 68px);
-    text-align: center;
-  }
-
-  .story-quote {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(1.45rem, 1.05rem + 1.5vw, 2.35rem);
-    font-weight: 600;
-    line-height: 1.24;
-    letter-spacing: -0.025em;
-    color: var(--ink);
-  }
-
-  /* Bento: story wide, portrait tall, team and principles underneath */
   .bento {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.86fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.9fr);
     grid-template-areas:
       'story story photo'
       'team rules photo';
     gap: 16px;
+    max-width: 1180px;
+    margin-inline: auto;
   }
 
   .bento-card {
     margin: 0;
-    border-radius: 26px;
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
-    box-shadow: var(--glass-rim);
-    padding: clamp(22px, 2.6vw, 34px);
+    border-radius: 28px;
+    background: #231A3D;
+    padding: clamp(24px, 2.8vw, 36px);
+  }
+
+  .bento-eyebrow {
+    margin: 0 0 14px;
+    font-family: var(--font-sans);
+    line-height: 1.3;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #C8B4FF;
   }
 
   .bento-story {
     grid-area: story;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
   }
 
-  .bento-label {
-    margin: 0;
-    font-size: 13px;
+  .bento-lead {
+    margin: 0 0 20px;
+    font-size: clamp(1.25rem, 1rem + 0.9vw, 1.7rem);
     font-weight: 500;
-    color: var(--violet-soft);
+    line-height: 1.34;
+    letter-spacing: -0.015em;
+    color: #FFFFFF;
+    text-wrap: pretty;
   }
 
   .story-para {
     margin: 0;
-    max-width: 68ch;
-    font-size: 16px;
-    line-height: 1.72;
-    color: #D2D2DA;
+    max-width: 70ch;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: #CFC8E0;
+  }
+
+  .story-para + .story-para {
+    margin-top: 14px;
   }
 
   .bento-photo {
     grid-area: photo;
-    position: relative;
-    padding: 0;
-    overflow: hidden;
-    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
   }
 
-  .bento-photo img {
-    position: absolute;
-    inset: 0;
+  .bento-photo__line {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.7rem, 1.2rem + 1.4vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #FF8FD1;
+  }
+
+  .bento-photo__frame {
+    flex: 1;
+    min-height: 260px;
+    border-radius: 120px 20px 120px 20px;
+    overflow: hidden;
+    background: #6700FF;
+  }
+
+  .bento-photo__frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -138,17 +147,11 @@ const photo = FOUNDER_COPY.photos[0];
   }
 
   .bento-photo figcaption {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 56px 20px 18px;
     display: flex;
     flex-direction: column;
     gap: 2px;
-    background: linear-gradient(transparent, rgba(11, 11, 12, 0.92) 55%);
     font-size: 13px;
-    color: var(--ink-2);
+    color: #CFC8E0;
   }
 
   .bento-photo figcaption strong {
@@ -164,12 +167,16 @@ const photo = FOUNDER_COPY.photos[0];
     grid-area: rules;
   }
 
-  .bento-team h3,
-  .bento-rules h3 {
-    margin: 0 0 16px;
-    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
-    font-weight: 600;
-    color: var(--ink);
+  .bento-team h3 {
+    margin: 0 0 18px;
+    font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.6rem);
+    font-weight: 500;
+    line-height: 1.25;
+    color: #FFFFFF;
+  }
+
+  .bento-team h3 strong {
+    font-weight: 700;
   }
 
   .team-chips {
@@ -184,11 +191,11 @@ const photo = FOUNDER_COPY.photos[0];
   .team-chips li {
     padding: 7px 14px;
     border-radius: var(--radius-full);
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 13.5px;
     font-weight: 500;
-    color: var(--ink);
+    color: #FFFFFF;
   }
 
   .principles-list {
@@ -196,24 +203,23 @@ const photo = FOUNDER_COPY.photos[0];
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 12px;
+    gap: 14px;
   }
 
   .principles-list li {
     display: flex;
     align-items: flex-start;
-    gap: 11px;
-    font-size: 15px;
-    line-height: 1.5;
-    color: #E2E2E8;
+    gap: 12px;
+    font-size: 16px;
+    line-height: 1.45;
+    color: #FFFFFF;
   }
 
   .principle-dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 12px rgba(103, 0, 255, 0.9);
+    background: #FF8FD1;
     margin-top: 8px;
     flex-shrink: 0;
   }
@@ -229,16 +235,6 @@ const photo = FOUNDER_COPY.photos[0];
   }
 
   @media (max-width: 640px) {
-    .story-spotlight {
-      text-align: left;
-      margin-bottom: 28px;
-    }
-
-    .story-quote {
-      font-size: 1.25rem;
-      line-height: 1.4;
-    }
-
     .bento {
       grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
@@ -248,7 +244,7 @@ const photo = FOUNDER_COPY.photos[0];
         'rules';
     }
 
-    .bento-photo {
+    .bento-photo__frame {
       min-height: 0;
       aspect-ratio: 4 / 5;
     }

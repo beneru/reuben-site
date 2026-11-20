@@ -384,7 +384,8 @@ export const PROCESS_STEPS: readonly ProcessStepItem[] = [
 
 export const WORK_SECTION_COPY: SectionHeadingCopy = {
   pill: 'The Work',
-  heading: 'Built, documented, and verified',
+  heading: "Systems I've actually shipped",
+  lead: 'Three builds, each documented down to its guardrails. Open any of them to see how it works.',
 };
 
 export const FOUNDER_COPY: FounderCopy = {

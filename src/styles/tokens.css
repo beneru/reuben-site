@@ -7,7 +7,8 @@
  *   Pure White (#FFFFFF) & Ghost White (#F0EDF7) with a faint constantly-moving Spawntel Violet shimmer
  *   Secondary: #C2BCD4 · Muted Slate: #94A3B8
  */
-:root {
+:root,
+.theme-dark {
   color-scheme: dark;
 
   /* Core obsidian dark canvas */
