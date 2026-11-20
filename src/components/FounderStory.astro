@@ -1,5 +1,7 @@
 ---
-import { FOUNDER_COPY } from '../data/site';
+import { FOUNDER_COPY, SITE_IDENTITY } from '../data/site';
+
+const photo = FOUNDER_COPY.photos[0];
 ---
 
 <section class="section-block about-section" id="about" aria-labelledby="about-heading">
@@ -13,49 +15,49 @@ import { FOUNDER_COPY } from '../data/site';
       <blockquote class="story-quote">{FOUNDER_COPY.lead}</blockquote>
     </div>
 
-    <div class="story-grid">
-      <div class="story-copy" data-reveal>
+    <div class="bento">
+      <article class="bento-card bento-story" data-reveal>
+        <p class="bento-label">The short version</p>
         {FOUNDER_COPY.paragraphs.map((para) => (
           <p class="story-para">{para}</p>
         ))}
+      </article>
 
-        <div class="story-block">
-          <h3>{FOUNDER_COPY.teamHeading}</h3>
-          <ul class="team-chips">
-            {FOUNDER_COPY.teamMembers.map((member) => (
-              <li>{member}</li>
-            ))}
-          </ul>
-        </div>
+      <figure class="bento-card bento-photo" data-reveal style="--i: 1">
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          width={photo.width}
+          height={photo.height}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>
+          <strong>{SITE_IDENTITY.personName} ({SITE_IDENTITY.shortName})</strong>
+          <span>{SITE_IDENTITY.role}, {SITE_IDENTITY.companyName}</span>
+        </figcaption>
+      </figure>
 
-        <div class="story-block">
-          <h3>{FOUNDER_COPY.principlesHeading}</h3>
-          <ul class="principles-list">
-            {FOUNDER_COPY.principles.map((rule) => (
-              <li>
-                <span class="principle-dot" aria-hidden="true"></span>
-                <span>{rule}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <article class="bento-card bento-team" data-reveal style="--i: 2">
+        <h3>{FOUNDER_COPY.teamHeading}</h3>
+        <ul class="team-chips">
+          {FOUNDER_COPY.teamMembers.map((member) => (
+            <li>{member}</li>
+          ))}
+        </ul>
+      </article>
 
-      <div class="story-gallery" data-reveal style="--i: 1">
-        {FOUNDER_COPY.photos.map((photo, idx) => (
-          <figure class={`story-photo ${idx === 0 ? 'story-photo--square' : 'story-photo--tall'}`}>
-            <img
-              src={photo.src}
-              alt={photo.alt}
-              width={photo.width}
-              height={photo.height}
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption>{photo.caption}</figcaption>
-          </figure>
-        ))}
-      </div>
+      <article class="bento-card bento-rules" data-reveal style="--i: 3">
+        <h3>{FOUNDER_COPY.principlesHeading}</h3>
+        <ul class="principles-list">
+          {FOUNDER_COPY.principles.map((rule) => (
+            <li>
+              <span class="principle-dot" aria-hidden="true"></span>
+              <span>{rule}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
     </div>
   </div>
 </section>
@@ -77,46 +79,97 @@ import { FOUNDER_COPY } from '../data/site';
     color: var(--ink);
   }
 
-  .story-grid {
+  /* Bento: story wide, portrait tall, team and principles underneath */
+  .bento {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    gap: clamp(28px, 4.5vw, 64px);
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.86fr);
+    grid-template-areas:
+      'story story photo'
+      'team rules photo';
+    gap: 16px;
   }
 
-  .story-copy {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: clamp(24px, 3vw, 36px);
-    border-radius: 28px;
+  .bento-card {
+    margin: 0;
+    border-radius: 26px;
     border: 1px solid var(--glass-border);
     background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--blur-glass);
-    backdrop-filter: var(--blur-glass);
     box-shadow: var(--glass-rim);
+    padding: clamp(22px, 2.6vw, 34px);
+  }
+
+  .bento-story {
+    grid-area: story;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .bento-label {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--violet-soft);
   }
 
   .story-para {
     margin: 0;
+    max-width: 68ch;
     font-size: 16px;
     line-height: 1.72;
     color: #D2D2DA;
   }
 
-  .story-block {
-    padding-top: 18px;
-    border-top: 1px solid var(--border);
+  .bento-photo {
+    grid-area: photo;
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    min-height: 420px;
   }
 
-  .story-block h3 {
-    margin: 0 0 12px;
-    font-family: var(--font-sans);
-    font-size: 12.5px;
+  .bento-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 15%;
+  }
+
+  .bento-photo figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 56px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: linear-gradient(transparent, rgba(11, 11, 12, 0.92) 55%);
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .bento-photo figcaption strong {
+    font-size: 15px;
+    color: #FFFFFF;
+  }
+
+  .bento-team {
+    grid-area: team;
+  }
+
+  .bento-rules {
+    grid-area: rules;
+  }
+
+  .bento-team h3,
+  .bento-rules h3 {
+    margin: 0 0 16px;
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--violet-soft);
+    color: var(--ink);
   }
 
   .team-chips {
@@ -143,7 +196,7 @@ import { FOUNDER_COPY } from '../data/site';
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 10px;
+    gap: 12px;
   }
 
   .principles-list li {
@@ -165,52 +218,13 @@ import { FOUNDER_COPY } from '../data/site';
     flex-shrink: 0;
   }
 
-  .story-gallery {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-    align-items: start;
-  }
-
-  .story-photo {
-    margin: 0;
-    border-radius: 24px;
-    overflow: hidden;
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
-    box-shadow: var(--glass-rim);
-    position: relative;
-  }
-
-  .story-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .story-photo--square img {
-    aspect-ratio: 4 / 5;
-    object-position: center 15%;
-  }
-
-  .story-photo--tall img {
-    aspect-ratio: 4 / 5;
-    object-position: center 20%;
-  }
-
-  .story-photo figcaption {
-    padding: 12px 14px;
-    font-size: 12.5px;
-    line-height: 1.4;
-    color: var(--ink-2);
-    background: #141418;
-    border-top: 1px solid var(--border);
-  }
-
-  @media (max-width: 960px) {
-    .story-grid {
-      grid-template-columns: minmax(0, 1fr);
+  @media (max-width: 1020px) {
+    .bento {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas:
+        'story story'
+        'photo team'
+        'photo rules';
     }
   }
 
@@ -224,11 +238,19 @@ import { FOUNDER_COPY } from '../data/site';
       font-size: 1.25rem;
       line-height: 1.4;
     }
-  }
 
-  @media (max-width: 560px) {
-    .story-gallery {
+    .bento {
       grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'story'
+        'photo'
+        'team'
+        'rules';
+    }
+
+    .bento-photo {
+      min-height: 0;
+      aspect-ratio: 4 / 5;
     }
   }
 </style>

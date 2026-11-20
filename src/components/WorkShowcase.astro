@@ -2,10 +2,11 @@
 import { WORK_SECTION_COPY } from '../data/site';
 import { WORK_BUILDS } from '../data/work';
 
-const liveLabels: Record<string, string> = {
-  'meta-dm-qualifier': '83 E2E checks passing',
-  'brand-dna-creative-pipeline': 'Verified on beneru.spawntel.com',
-  'multi-agent-marketing-brain': 'Active daily system',
+/* One metric per build, each traceable to verifiedFacts in work.ts. */
+const metrics: Record<string, { value: string; label: string }> = {
+  'meta-dm-qualifier': { value: '83', label: 'end-to-end checks passing' },
+  'brand-dna-creative-pipeline': { value: '1 URL', label: 'in, 5 compressed Instagram assets out' },
+  'multi-agent-marketing-brain': { value: '5', label: 'channels from one idea, used daily' },
 };
 ---
 
@@ -22,10 +23,12 @@ const liveLabels: Record<string, string> = {
           {WORK_BUILDS.map((build, idx) => (
             <li data-reveal style={`--i: ${idx}`}>
               <a href={`/work/${build.slug}/`} class="wk-item-link">
-                <span class="wk-live-badge">
-                  <span class="wk-pulse" aria-hidden="true"></span>
-                  {liveLabels[build.slug] ?? build.statusLabel}
-                </span>
+                {metrics[build.slug] && (
+                  <p class="wk-metric">
+                    <span class="wk-metric__value">{metrics[build.slug].value}</span>
+                    <span class="wk-metric__label">{metrics[build.slug].label}</span>
+                  </p>
+                )}
                 <h3>{build.title}</h3>
                 <p>{build.summary}</p>
                 <span class="wk-read">
@@ -97,35 +100,30 @@ const liveLabels: Record<string, string> = {
     transform: translateX(4px);
   }
 
-  .wk-live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 13px;
-    border-radius: var(--radius-full);
-    background: var(--primary);
-    color: #FFFFFF;
-    font-size: 12px;
-    font-weight: 500;
-    box-shadow: var(--shadow-violet);
+  .wk-metric {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 10px;
   }
 
-  .wk-pulse {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #FFFFFF;
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-    animation: wk-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  .wk-metric__value {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 1.5rem + 1.6vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--violet-soft);
   }
 
-  @keyframes wk-ping {
-    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-    75%, 100% { box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+  .wk-metric__label {
+    font-size: 13.5px;
+    color: var(--ink-2);
   }
 
   .wk-live h3 {
-    margin: 14px 0 0;
+    margin: 12px 0 0;
     font-size: clamp(1.3rem, 1.05rem + 0.85vw, 1.7rem);
     font-weight: 600;
     line-height: 1.18;

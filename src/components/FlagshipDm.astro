@@ -1,0 +1,464 @@
+---
+import { FLAGSHIP_COPY } from '../data/site';
+import { WORK_BUILDS } from '../data/work';
+
+const build = WORK_BUILDS.find((b) => b.slug === 'meta-dm-qualifier')!;
+
+/* Illustration only: generic inbox rows, no real people or businesses. */
+const inboxRows = [
+  { initials: 'JM', channel: 'Instagram DM', text: 'Hi! How much is the package?', age: '14h' },
+  { initials: 'AL', channel: 'Facebook comment', text: 'Is this still available?', age: '9h' },
+  { initials: 'RC', channel: 'Messenger', text: 'Can I book a slot this week?', age: '6h' },
+  { initials: 'KD', channel: 'Instagram DM', text: 'Hello?? Anyone there?', age: '3h' },
+];
+---
+
+<section class="fs" id="flagship" aria-labelledby="fs-title">
+  <div class="site-wrap fs-grid">
+    <div class="fs-copy" data-reveal>
+      <p class="fs-kicker">{FLAGSHIP_COPY.kicker} &middot; Meta DM Qualifier</p>
+      <h2 class="fs-title" id="fs-title">{FLAGSHIP_COPY.heading}</h2>
+      <p class="fs-lead">{FLAGSHIP_COPY.lead}</p>
+
+      <ul class="fs-facts">
+        {FLAGSHIP_COPY.facts.map((fact) => (
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 12.5l4 4 8-9" />
+            </svg>
+            <span>{fact}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="fs-foot">
+        <span class="fs-status"><span class="fs-status__dot" aria-hidden="true"></span>{FLAGSHIP_COPY.status}</span>
+        <a class="fs-link" href={FLAGSHIP_COPY.href}>
+          {FLAGSHIP_COPY.linkLabel} <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <figure class="fs-compare" data-reveal style="--i: 1">
+      <div class="ba" data-ba style="--pos: 50%;">
+        <img
+          class="ba-after"
+          src={build.cardImage.src}
+          alt={build.cardImage.alt}
+          width={build.cardImage.width}
+          height={build.cardImage.height}
+          loading="lazy"
+          decoding="async"
+        />
+
+        <div class="ba-before" aria-hidden="true">
+          <div class="inbox">
+            <div class="inbox-head">
+              <span>Inbox</span>
+              <span class="inbox-badge">Unanswered</span>
+            </div>
+            <ul class="inbox-rows">
+              {inboxRows.map((row) => (
+                <li>
+                  <span class="inbox-avatar">{row.initials}</span>
+                  <span class="inbox-text">
+                    <span class="inbox-channel">{row.channel}</span>
+                    <span class="inbox-msg">{row.text}</span>
+                  </span>
+                  <span class="inbox-age">{row.age}</span>
+                  <span class="inbox-dot"></span>
+                </li>
+              ))}
+            </ul>
+            <p class="inbox-note">You, answering between client work.</p>
+          </div>
+        </div>
+
+        <span class="ba-chip ba-chip--before" aria-hidden="true">{FLAGSHIP_COPY.beforeLabel}</span>
+        <span class="ba-chip ba-chip--after" aria-hidden="true">{FLAGSHIP_COPY.afterLabel}</span>
+
+        <div class="ba-handle" aria-hidden="true">
+          <span class="ba-knob">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 6-6 6 6 6" />
+              <path d="m15 6 6 6-6 6" />
+            </svg>
+          </span>
+        </div>
+
+        <input
+          class="ba-range"
+          type="range"
+          min="0"
+          max="100"
+          step="1"
+          value="50"
+          aria-label={FLAGSHIP_COPY.sliderLabel}
+          data-ba-range
+        />
+      </div>
+
+      <figcaption class="fs-cap">
+        <span><strong>{FLAGSHIP_COPY.beforeLabel}:</strong> {FLAGSHIP_COPY.beforeNote}</span>
+        <span><strong>{FLAGSHIP_COPY.afterLabel}:</strong> {FLAGSHIP_COPY.afterNote}</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ba]').forEach((frame) => {
+    const range = frame.querySelector<HTMLInputElement>('[data-ba-range]');
+    if (!range) return;
+    const paint = () => frame.style.setProperty('--pos', `${range.value}%`);
+    range.addEventListener('input', paint);
+    paint();
+  });
+</script>
+
+<style>
+  .fs {
+    position: relative;
+    padding-block: clamp(72px, 9vw, 140px);
+  }
+
+  .fs-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+    gap: clamp(32px, 5vw, 80px);
+  }
+
+  .fs-kicker {
+    margin: 0 0 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--violet-soft);
+  }
+
+  .fs-title {
+    margin: 0;
+    font-size: clamp(2rem, 1.3rem + 2.4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    max-width: 14ch;
+  }
+
+  .fs-lead {
+    margin: 18px 0 0;
+    max-width: 46ch;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
+  .fs-facts {
+    list-style: none;
+    margin: 26px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+
+  .fs-facts li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--ink-body);
+  }
+
+  .fs-facts svg {
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    padding: 4px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #FFFFFF;
+  }
+
+  .fs-foot {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
+  }
+
+  .fs-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+
+  .fs-status__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #F5B83D;
+  }
+
+  .fs-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--violet-soft);
+    text-decoration: underline;
+    text-decoration-color: rgba(183, 155, 255, 0.35);
+    text-underline-offset: 4px;
+  }
+
+  .fs-link:hover {
+    color: #FFFFFF;
+    text-decoration-color: currentColor;
+  }
+
+  /* Before / after comparison */
+  .fs-compare {
+    margin: 0;
+  }
+
+  .ba {
+    --pos: 50%;
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    background: #0E0D14;
+    box-shadow: 0 40px 90px -40px rgba(103, 0, 255, 0.55), var(--glass-rim);
+    container-type: inline-size;
+    user-select: none;
+  }
+
+  .ba-after {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top;
+  }
+
+  .ba-before {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+    background:
+      radial-gradient(70% 90% at 20% 10%, rgba(255, 120, 90, 0.08), transparent 70%),
+      #17151C;
+  }
+
+  .inbox {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: max(50px, 9cqi) 5cqi 4cqi;
+  }
+
+  .inbox-head {
+    display: flex;
+    align-items: center;
+    gap: 2cqi;
+    font-family: var(--font-heading);
+    font-size: clamp(13px, 3.2cqi, 22px);
+    font-weight: 700;
+    color: #ECEAF2;
+  }
+
+  .inbox-badge {
+    padding: 0.5cqi 1.6cqi;
+    border-radius: 999px;
+    background: #E5484D;
+    color: #FFFFFF;
+    font-family: var(--font-sans);
+    font-size: clamp(9px, 1.6cqi, 12px);
+    font-weight: 600;
+  }
+
+  .inbox-rows {
+    list-style: none;
+    margin: 3.2cqi 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.6cqi;
+  }
+
+  .inbox-rows li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 2cqi;
+    padding: 1.7cqi 2cqi;
+    border-radius: 1.8cqi;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .inbox-avatar {
+    width: 5.6cqi;
+    height: 5.6cqi;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #2A2633;
+    color: #BDB7CC;
+    font-size: clamp(8px, 1.6cqi, 12px);
+    font-weight: 600;
+  }
+
+  .inbox-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .inbox-channel {
+    font-size: clamp(8px, 1.5cqi, 11px);
+    color: #8C869A;
+  }
+
+  .inbox-msg {
+    font-size: clamp(10px, 2.1cqi, 15px);
+    color: #E6E3EE;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .inbox-age {
+    font-size: clamp(8px, 1.6cqi, 12px);
+    color: #F08A6C;
+  }
+
+  .inbox-dot {
+    width: 1.4cqi;
+    height: 1.4cqi;
+    min-width: 6px;
+    min-height: 6px;
+    border-radius: 50%;
+    background: #E5484D;
+  }
+
+  .inbox-note {
+    margin: auto 0 0;
+    font-size: clamp(9px, 1.8cqi, 13px);
+    font-style: italic;
+    color: #8C869A;
+  }
+
+  .ba-chip {
+    position: absolute;
+    top: 14px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    pointer-events: none;
+    background: rgba(11, 11, 12, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #FFFFFF;
+  }
+
+  .ba-chip--before {
+    left: 14px;
+  }
+
+  .ba-chip--after {
+    right: 14px;
+    background: var(--primary);
+    border-color: transparent;
+  }
+
+  .ba-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 2px;
+    margin-left: -1px;
+    background: #FFFFFF;
+    box-shadow: 0 0 18px rgba(103, 0, 255, 0.8);
+    pointer-events: none;
+  }
+
+  .ba-knob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #FFFFFF;
+    color: var(--primary);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    transition: transform 0.15s var(--ease-out);
+  }
+
+  .ba-knob svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ba-range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+    touch-action: pan-y;
+  }
+
+  .ba:has(.ba-range:focus-visible) .ba-knob {
+    outline: 2px solid var(--violet-soft);
+    outline-offset: 3px;
+  }
+
+  .ba:has(.ba-range:active) .ba-knob {
+    transform: scale(0.94);
+  }
+
+  .fs-cap {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 6px 18px;
+    font-size: 12.5px;
+    color: var(--ink-muted);
+  }
+
+  .fs-cap strong {
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+
+  @media (max-width: 560px) {
+    .ba {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .fs-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .fs-title {
+      max-width: 18ch;
+    }
+  }
+</style>

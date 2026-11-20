@@ -32,23 +32,56 @@ export interface HeroCopy {
   portraitAlt: string;
 }
 
-export interface ProofCloudCopy {
-  statNumber: string;
-  statLine: string;
-  subline: string;
-  facts: readonly string[];
+export interface ProofStat {
+  value: string;
+  label: string;
+  sourceLabel: string;
+  href: string;
+}
+
+export interface ProofNumbersCopy {
+  buildsLabel: string;
+  heading: string;
+  stats: readonly ProofStat[];
+  manifestoLead: string;
+  manifestoPayoff: string;
   ctaLabel: string;
+}
+
+export interface FlagshipCopy {
+  kicker: string;
+  heading: string;
+  lead: string;
+  facts: readonly string[];
+  status: string;
+  beforeLabel: string;
+  beforeNote: string;
+  afterLabel: string;
+  afterNote: string;
+  sliderLabel: string;
+  linkLabel: string;
+  href: string;
+}
+
+export type PillarIcon = 'shield' | 'eye' | 'doc' | 'funnel' | 'layers' | 'buyer';
+
+export interface PillarItem {
+  title: string;
+  text: string;
+  bullets: readonly { icon: PillarIcon; text: string }[];
+  image: { src: string; width: number; height: number; alt: string; fit: 'contain' | 'cover' };
+}
+
+export interface PillarsCopy {
+  heading: string;
+  lead: string;
+  pillars: readonly PillarItem[];
 }
 
 export interface ProblemCardItem {
   id: 'radar' | 'stack' | 'chat' | 'wall';
   title: string;
   description: string;
-}
-
-export interface OutcomeItem {
-  title: string;
-  text: string;
 }
 
 export interface SystemTierCard {
@@ -161,16 +194,31 @@ export const HERO_COPY: HeroCopy = {
     'Reuben Magallanes, Marketing Head and Co-Founder of Spawntel, personal brand Beneru',
 };
 
-export const PROOF_CLOUD_COPY: ProofCloudCopy = {
-  statNumber: '3 Systems',
-  statLine: 'built, documented, and verified in production',
-  subline: 'Meta DM qualification, Brand DNA creative pipelines, and multi-agent marketing operations',
-  facts: [
-    '83 automated E2E checks passing across Meta DM workers',
-    '5-channel content cascades from one Brand DNA brief',
-    'Marketing Head & Co-Founder at Spawntel',
-    'Remote from the Philippines, working worldwide',
+export const PROOF_NUMBERS_COPY: ProofNumbersCopy = {
+  buildsLabel: 'Built and documented',
+  heading: 'Numbers I can back up.',
+  stats: [
+    {
+      value: '3',
+      label: 'systems built and documented, each with its own proof page',
+      sourceLabel: 'See all three',
+      href: '/#work',
+    },
+    {
+      value: '83',
+      label: 'automated end-to-end checks passing on the Meta DM workers',
+      sourceLabel: 'Meta DM Qualifier',
+      href: '/work/meta-dm-qualifier/',
+    },
+    {
+      value: '5',
+      label: 'channels from one approved idea, in daily use',
+      sourceLabel: 'Marketing Brain',
+      href: '/work/multi-agent-marketing-brain/',
+    },
   ],
+  manifestoLead: "I don't bolt AI onto your marketing. I build the system it runs on.",
+  manifestoPayoff: 'You get your hours back.',
   ctaLabel: 'Book a free call',
 };
 
@@ -202,25 +250,63 @@ export const PROBLEM_CARDS: readonly ProblemCardItem[] = [
   },
 ];
 
-export const OUTCOMES_SECTION_COPY: SectionHeadingCopy = {
-  pill: 'Outcomes',
-  heading: 'What changes when marketing runs on systems',
+export const FLAGSHIP_COPY: FlagshipCopy = {
+  kicker: 'Flagship build',
+  heading: 'The build that proved the approach',
+  lead: 'Leads ask real questions in Instagram and Facebook DMs. This engine answers from your actual business rules, never invents a price, and steps aside the moment you type.',
+  facts: [
+    '83 automated end-to-end checks passing',
+    'Pauses itself on any thread you answer by hand',
+    'Every webhook signature-checked before a reply goes out',
+  ],
+  status: 'Dry run, pending Meta App Review',
+  beforeLabel: 'Before',
+  beforeNote: 'Answering by hand (illustration)',
+  afterLabel: 'After',
+  afterNote: 'Private dashboard, dry-run demo data',
+  sliderLabel: 'Compare the manual inbox with the system dashboard',
+  linkLabel: 'Read the technical breakdown',
+  href: '/work/meta-dm-qualifier/',
 };
 
-export const OUTCOME_ITEMS: readonly OutcomeItem[] = [
-  {
-    title: 'One brand brain',
-    text: 'Voice rules, briefs, and visual standards stay locked across every channel.',
-  },
-  {
-    title: 'Zero dropped DMs',
-    text: 'Every Instagram and Facebook inquiry gets qualified with human takeover built in.',
-  },
-  {
-    title: 'AI on the repeat work',
-    text: 'Systems extract, draft, and package while creative direction stays with you.',
-  },
-];
+export const PILLARS_COPY: PillarsCopy = {
+  heading: 'It takes both halves',
+  lead: 'Automation without marketing judgment just sends the wrong message faster. So I do both.',
+  pillars: [
+    {
+      title: 'I build the systems.',
+      text: 'Cloudflare Workers, Meta Graph API webhooks and Python pipelines, written, tested and documented before anything touches a real customer.',
+      bullets: [
+        { icon: 'shield', text: 'Webhooks verified and deduplicated, so no lead gets two replies' },
+        { icon: 'eye', text: 'Dry-run mode by default, so you read every reply before it goes live' },
+        { icon: 'doc', text: 'Technical write-ups your team can run without me' },
+      ],
+      image: {
+        src: '/assets/proof/meta-dm-architecture.svg',
+        width: 960,
+        height: 480,
+        alt: 'Architecture flow of the Meta DM engine: webhook intake, signature check, business-rule guardrails, human takeover pause, and Cloudflare D1 logging',
+        fit: 'contain',
+      },
+    },
+    {
+      title: 'And I run the marketing.',
+      text: 'As Marketing Head and Co-Founder of Spawntel, I plan the content these systems carry, so the automation says the right thing to the right person.',
+      bullets: [
+        { icon: 'funnel', text: 'Funnel gaps checked before chasing more reach' },
+        { icon: 'layers', text: 'One idea adapted natively for five channels' },
+        { icon: 'buyer', text: "Every brief critiqued from the buyer's side before production" },
+      ],
+      image: {
+        src: '/images/founder/reuben-outdoor.webp',
+        width: 800,
+        height: 1000,
+        alt: 'Reuben Magallanes outdoors at golden hour',
+        fit: 'cover',
+      },
+    },
+  ],
+};
 
 export const SYSTEMS_SECTION_COPY: SectionHeadingCopy = {
   pill: 'Systems',
