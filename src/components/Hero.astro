@@ -198,12 +198,13 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     max-width: 15ch;
     padding-bottom: 0.06em;
     background-image: var(--grad-shimmer);
-    background-size: 200% 100%;
+    background-size: var(--blob-bg-size);
+    background-repeat: no-repeat;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: text-shimmer-flow 7.5s linear infinite;
+    animation: text-blob-drift 13s ease-in-out -2.4s infinite alternate;
   }
 
   .hero-sub {

@@ -229,12 +229,13 @@ import { PROOF_CLOUD_COPY } from '../data/site';
     letter-spacing: -0.035em;
     padding-bottom: 0.06em;
     background-image: var(--grad-shimmer);
-    background-size: 200% 100%;
+    background-size: var(--blob-bg-size);
+    background-repeat: no-repeat;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: text-shimmer-flow 7.5s linear infinite;
+    animation: text-blob-drift 15s ease-in-out -5.2s infinite alternate;
   }
 
   .pf-title__line {

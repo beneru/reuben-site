@@ -39,13 +39,18 @@ import { PROCESS_SECTION_COPY, PROCESS_STEPS } from '../data/site';
     line-height: 0.92;
     letter-spacing: -0.055em;
     background-image: var(--grad-num);
-    background-size: 200% 100%;
+    background-size: var(--blob-bg-size);
+    background-repeat: no-repeat;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: text-shimmer-flow 8.5s linear infinite;
+    animation: text-blob-drift 16s ease-in-out infinite alternate;
   }
+
+  .hw-step:nth-child(2) .hw-num { animation-delay: -3.5s; }
+  .hw-step:nth-child(3) .hw-num { animation-delay: -7.1s; }
+  .hw-step:nth-child(4) .hw-num { animation-delay: -11.4s; }
 
   .hw-step h3 {
     margin: 22px 0 0;

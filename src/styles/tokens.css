@@ -74,27 +74,20 @@
   --violet-pale: #D7C8FF;
   --on-primary: #FFFFFF;
 
-  /* Faint seamless constantly-moving gradient for display text (zero dark left/right fade) */
-  --grad-shimmer: linear-gradient(
-    105deg,
-    #F5F2FF 0%,
-    #FFFFFF 20%,
-    #D9CCFF 38%,
-    #B594FF 50%,
-    #D9CCFF 62%,
-    #FFFFFF 80%,
-    #F5F2FF 100%
-  );
-  --grad-num: linear-gradient(
-    105deg,
-    #F4F0FF 0%,
-    #FFFFFF 22%,
-    #CEBCFF 42%,
-    #A77EFF 52%,
-    #CEBCFF 64%,
-    #FFFFFF 82%,
-    #F4F0FF 100%
-  );
+  /* Organic wandering multi-blob gradients for display text (zero dark edge fade) */
+  --grad-shimmer:
+    radial-gradient(46% 95% at 50% 50%, rgba(167, 118, 255, 0.72) 0%, rgba(167, 118, 255, 0) 72%),
+    radial-gradient(42% 88% at 50% 50%, rgba(206, 184, 255, 0.68) 0%, rgba(206, 184, 255, 0) 70%),
+    radial-gradient(50% 105% at 50% 50%, rgba(126, 62, 255, 0.56) 0%, rgba(126, 62, 255, 0) 74%),
+    radial-gradient(38% 82% at 50% 50%, rgba(226, 212, 255, 0.74) 0%, rgba(226, 212, 255, 0) 68%),
+    linear-gradient(180deg, #FFFFFF 0%, #F5F1FF 100%);
+  --grad-num:
+    radial-gradient(50% 95% at 50% 50%, rgba(154, 98, 255, 0.78) 0%, rgba(154, 98, 255, 0) 72%),
+    radial-gradient(44% 88% at 50% 50%, rgba(203, 178, 255, 0.72) 0%, rgba(203, 178, 255, 0) 70%),
+    radial-gradient(52% 100% at 50% 50%, rgba(103, 0, 255, 0.52) 0%, rgba(103, 0, 255, 0) 74%),
+    radial-gradient(40% 80% at 50% 50%, rgba(228, 214, 255, 0.74) 0%, rgba(228, 214, 255, 0) 68%),
+    linear-gradient(180deg, #FFFFFF 0%, #F2ECFF 100%);
+  --blob-bg-size: 62% 170%, 54% 160%, 66% 180%, 48% 150%, 100% 100%;
 
   /* Liquid glow accents */
   --shadow-card: var(--glass-rim);

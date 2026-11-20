@@ -216,13 +216,18 @@ const instagram = SOCIAL_LINKS.find((s) => s.id === 'instagram');
     z-index: 1;
     white-space: nowrap;
     background-image: var(--grad-shimmer);
-    background-size: 200% 100%;
+    background-size: var(--blob-bg-size);
+    background-repeat: no-repeat;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: text-shimmer-flow 8s linear infinite;
+    animation: text-blob-drift 14s ease-in-out infinite alternate;
   }
+
+  .cx-row:nth-child(2) .cx-text { animation-delay: -3.3s; animation-duration: 15.5s; }
+  .cx-row:nth-child(3) .cx-text { animation-delay: -6.9s; animation-duration: 13.5s; }
+  .cx-row:nth-child(4) .cx-text { animation-delay: -10.2s; animation-duration: 16.5s; }
 
   .cx-badge {
     position: absolute;

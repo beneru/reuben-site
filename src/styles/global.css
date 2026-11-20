@@ -99,13 +99,22 @@ main {
   border: 0;
 }
 
-/* ---------- Faint Constantly-Moving Text Gradient ---------- */
-@keyframes text-shimmer-flow {
+/* ---------- Organic Wandering Multi-Blob Text Gradient ---------- */
+@keyframes text-blob-drift {
   0% {
-    background-position: 200% 50%;
+    background-position: 10% 18%, 88% 82%, 64% 22%, 24% 78%, 50% 50%;
+  }
+  25% {
+    background-position: 52% 86%, 34% 14%, 12% 64%, 86% 26%, 50% 50%;
+  }
+  50% {
+    background-position: 86% 24%, 16% 58%, 54% 90%, 20% 16%, 50% 50%;
+  }
+  75% {
+    background-position: 22% 76%, 90% 40%, 78% 14%, 56% 58%, 50% 50%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 62% 14%, 44% 86%, 14% 34%, 84% 74%, 50% 50%;
   }
 }
 
@@ -158,12 +167,13 @@ main {
   padding-bottom: 0.08em;
   margin-bottom: -0.08em;
   background-image: var(--grad-shimmer);
-  background-size: 200% 100%;
+  background-size: var(--blob-bg-size);
+  background-repeat: no-repeat;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  animation: text-shimmer-flow 7.5s linear infinite;
+  animation: text-blob-drift 14s ease-in-out infinite alternate;
 }
 
 .section-sub {
