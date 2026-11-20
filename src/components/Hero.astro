@@ -5,151 +5,232 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 ---
 
 <section class="hero" id="hero" aria-label="Introduction">
-  <div class="hero-bg" aria-hidden="true">
-    <div class="hero-grid"></div>
-  </div>
-
-  <div class="site-wrap">
-    <div class="hero-card">
-      <div class="hero-copy">
-        <div class="hero-kicker">
-          <span class="hero-emblem" aria-hidden="true">
-            <img src="/images/brand/spawntel-emblem.webp" alt="" width="24" height="24" decoding="async" />
-          </span>
-          <span>{SITE_IDENTITY.niche}</span>
-        </div>
-
-        <h1 class="hero-h1">Marketing shouldn't run on manual hustle.</h1>
-
-        <p class="hero-sub">{HERO_COPY.subtitle}</p>
-
-        <div class="cta-row hero-actions">
-          <a
-            href={spawntelFunnelUrl('hero')}
-            class="cta-btn"
-            data-spawntel-cta="hero"
-          >
-            <span>{HERO_COPY.primaryCtaLabel}</span>
-            <span class="cta-btn__circle" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </span>
-          </a>
-
-          <a href={HERO_COPY.secondaryCtaHref} class="cta-btn-dark">
-            <span>{HERO_COPY.secondaryCtaLabel}</span>
-            <span class="cta-btn__circle" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </span>
-          </a>
-        </div>
-
-        <div class="hero-meta">
-          <ul class="hero-socials" aria-label="Beneru social profiles">
-            {SOCIAL_LINKS.map((s) => (
-              <li>
-                <a
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${s.label} (${s.handle})`}
-                  title={`${s.label} (${s.handle})`}
-                >
-                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" set:html={s.iconSvg} />
-                </a>
-              </li>
-            ))}
-          </ul>
-          <span class="hero-loc">{SITE_IDENTITY.locationPublic}</span>
-        </div>
+  <div class="hero-lid-stage">
+    <div class="hero-lid" data-hero-lid>
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-grid"></div>
       </div>
 
-      <figure class="hero-portrait-card">
-        <span class="hero-status-chip">
-          <span class="hero-status-dot" aria-hidden="true"></span>
-          3 Verified Systems
-        </span>
-        <img
-          src="/images/founder/reuben-studio.webp"
-          alt={HERO_COPY.portraitAlt}
-          width="900"
-          height="900"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
-        <figcaption class="hero-portrait-cap">
-          <strong>{SITE_IDENTITY.personName} ({SITE_IDENTITY.shortName})</strong>
-          <span>{SITE_IDENTITY.role}, {SITE_IDENTITY.companyName}</span>
-        </figcaption>
-      </figure>
+      <div class="site-wrap hero-inner">
+        <div class="hero-copy">
+          <div class="hero-kicker">
+            <span class="hero-emblem" aria-hidden="true">
+              <img src="/images/brand/spawntel-emblem.webp" alt="" width="24" height="24" decoding="async" />
+            </span>
+            <span>{SITE_IDENTITY.niche}</span>
+          </div>
+
+          <h1 class="hero-h1">Marketing shouldn't run on manual hustle.</h1>
+
+          <p class="hero-sub">{HERO_COPY.subtitle}</p>
+
+          <div class="cta-row hero-actions">
+            <a
+              href={spawntelFunnelUrl('hero')}
+              class="cta-btn"
+              data-spawntel-cta="hero"
+            >
+              <span>{HERO_COPY.primaryCtaLabel}</span>
+              <span class="cta-btn__circle" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </span>
+            </a>
+
+            <a href={HERO_COPY.secondaryCtaHref} class="cta-btn-dark">
+              <span>{HERO_COPY.secondaryCtaLabel}</span>
+              <span class="cta-btn__circle" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <div class="hero-meta">
+            <ul class="hero-socials" aria-label="Beneru social profiles">
+              {SOCIAL_LINKS.map((s) => (
+                <li>
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${s.label} (${s.handle})`}
+                    title={`${s.label} (${s.handle})`}
+                  >
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" set:html={s.iconSvg} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <span class="hero-loc">{SITE_IDENTITY.locationPublic}</span>
+          </div>
+        </div>
+
+        <figure class="hero-portrait-stage">
+          <span class="hero-status-chip">
+            <span class="hero-status-dot" aria-hidden="true"></span>
+            3 Verified Systems
+          </span>
+          <img
+            src="/images/founder/reuben-studio.webp"
+            alt={HERO_COPY.portraitAlt}
+            width="900"
+            height="900"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <figcaption class="hero-portrait-cap">
+            <strong>{SITE_IDENTITY.personName} ({SITE_IDENTITY.shortName})</strong>
+            <span>{SITE_IDENTITY.role}, {SITE_IDENTITY.companyName}</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="hero-lid-shade" aria-hidden="true"></div>
+      <div class="hero-lid-rim" aria-hidden="true"></div>
     </div>
   </div>
 </section>
 
+<script>
+  const hero = document.getElementById('hero');
+  const lid = document.querySelector<HTMLElement>('[data-hero-lid]');
+  if (hero && lid) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion) {
+      let travel = 520;
+      let raf = 0;
+
+      const measure = () => {
+        const vh = window.innerHeight || 800;
+        const navH = window.innerWidth <= 768 ? 66 : 74;
+        const pinH = Math.max(400, vh - navH);
+        travel = Math.max(260, hero.offsetHeight - pinH * 0.78);
+      };
+
+      const update = () => {
+        raf = 0;
+        const y = Math.max(0, window.scrollY);
+        const p = Math.min(1, y / travel);
+        // Smooth ease-in-out curve like a damped MacBook lid hinge
+        const eased = p * p * (3 - 2 * p);
+        lid.style.setProperty('--lid-p', eased.toFixed(4));
+      };
+
+      const onScroll = () => {
+        if (!raf) raf = requestAnimationFrame(update);
+      };
+
+      measure();
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        measure();
+        update();
+      }, { passive: true });
+    }
+  }
+</script>
+
 <style>
   .hero {
     position: relative;
+    width: 100%;
+    height: 132svh;
+    overflow-x: clip;
+  }
+
+  .hero-lid-stage {
+    position: sticky;
+    top: var(--nav-h);
+    width: 100%;
+    height: calc(100svh - var(--nav-h));
+    perspective: 1450px;
+    perspective-origin: 50% 24%;
     overflow: hidden;
-    padding-top: clamp(28px, 3.6vw, 48px);
-    padding-bottom: clamp(28px, 4vw, 56px);
+  }
+
+  /* Full-bleed first screen at rest; hinges at top and flips up & back in 3D like a MacBook lid closing */
+  .hero-lid {
+    --lid-p: 0;
+    --lid-max-deg: -72deg;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-block: clamp(24px, 3.6vw, 52px);
+    overflow: hidden;
+    background:
+      radial-gradient(56% 72% at 78% 26%, rgba(103, 0, 255, 0.28), transparent 68%),
+      radial-gradient(46% 60% at 16% 18%, rgba(143, 77, 255, 0.16), transparent 68%),
+      linear-gradient(180deg, #0D0B14 0%, #0B0B0C 100%);
+    border-radius: calc(var(--lid-p) * 34px);
+    transform-origin: 50% 0%;
+    transform:
+      rotateX(calc(var(--lid-p) * var(--lid-max-deg)))
+      scale(calc(1 - var(--lid-p) * 0.1))
+      translate3d(0, calc(var(--lid-p) * -12px), 0);
+    opacity: calc(1 - var(--lid-p) * var(--lid-p) * 0.72);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  .hero-lid-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(6, 5, 10, 0.08) 0%, rgba(5, 4, 9, 0.85) 100%);
+    opacity: calc(var(--lid-p) * 0.82);
+  }
+
+  .hero-lid-rim {
+    position: absolute;
+    inset: 0;
+    z-index: 7;
+    pointer-events: none;
+    border-radius: inherit;
+    border: 1px solid rgba(215, 200, 255, 0.32);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -3px 0 rgba(139, 77, 255, 0.65);
+    opacity: clamp(0, calc(var(--lid-p) * 4), 1);
   }
 
   .hero-bg {
     position: absolute;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     pointer-events: none;
-    background:
-      radial-gradient(52% 62% at 78% 24%, rgba(103, 0, 255, 0.28), transparent 68%),
-      radial-gradient(45% 55% at 18% 12%, rgba(143, 77, 255, 0.16), transparent 68%);
   }
 
   .hero-grid {
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(90deg, rgba(183, 155, 255, 0.08) 1px, transparent 1px),
-      linear-gradient(rgba(183, 155, 255, 0.06) 1px, transparent 1px);
+      linear-gradient(90deg, rgba(183, 155, 255, 0.075) 1px, transparent 1px),
+      linear-gradient(rgba(183, 155, 255, 0.055) 1px, transparent 1px);
     background-size: 112px 112px;
-    -webkit-mask-image: radial-gradient(75% 75% at 50% 25%, #000 0%, transparent 90%);
-    mask-image: radial-gradient(75% 75% at 50% 25%, #000 0%, transparent 90%);
+    -webkit-mask-image: radial-gradient(78% 76% at 50% 34%, #000 0%, transparent 90%);
+    mask-image: radial-gradient(78% 76% at 50% 34%, #000 0%, transparent 90%);
   }
 
-  /* Liquid Glass Hero Card */
-  .hero-card {
+  .hero-inner {
     position: relative;
+    z-index: 2;
     display: grid;
-    grid-template-columns: minmax(0, 1.28fr) minmax(0, 0.92fr);
-    gap: clamp(28px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1.24fr) minmax(0, 0.92fr);
+    gap: clamp(32px, 5vw, 72px);
     align-items: center;
-    padding: clamp(24px, 3.8vw, 50px);
-    border-radius: 32px;
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--blur-glass);
-    backdrop-filter: var(--blur-glass);
-    box-shadow: var(--glass-rim);
-    overflow: hidden;
-  }
-
-  .hero-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border-radius: inherit;
-    background: radial-gradient(55% 65% at 86% 10%, rgba(183, 155, 255, 0.16), transparent 65%);
   }
 
   .hero-copy {
-    position: relative;
-    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -163,6 +244,8 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     padding: 6px 14px 6px 7px;
     border-radius: var(--radius-full);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(103, 0, 255, 0.16));
+    -webkit-backdrop-filter: var(--blur-sm);
+    backdrop-filter: var(--blur-sm);
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
     color: var(--violet-pale);
@@ -189,12 +272,12 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   }
 
   .hero-h1 {
-    margin: 20px 0 0;
+    margin: 22px 0 0;
     font-family: var(--font-heading);
-    font-size: clamp(2.15rem, 1.35rem + 2.65vw, 3.65rem);
+    font-size: clamp(2.35rem, 1.45rem + 3vw, 4.15rem);
     font-weight: 800;
-    line-height: 1.07;
-    letter-spacing: -0.03em;
+    line-height: 1.05;
+    letter-spacing: -0.032em;
     max-width: 15ch;
     padding-bottom: 0.06em;
     background-image: var(--grad-shimmer);
@@ -208,22 +291,22 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   }
 
   .hero-sub {
-    margin: 16px 0 0;
-    max-width: 50ch;
+    margin: 18px 0 0;
+    max-width: 52ch;
     color: var(--ink-body);
-    font-size: clamp(0.975rem, 0.93rem + 0.24vw, 1.08rem);
-    line-height: 1.6;
+    font-size: clamp(1rem, 0.94rem + 0.26vw, 1.12rem);
+    line-height: 1.62;
   }
 
   .hero-actions {
-    margin-top: 26px;
+    margin-top: 30px;
     justify-content: flex-start;
   }
 
   .hero-meta {
     width: 100%;
-    margin-top: clamp(24px, 3vw, 34px);
-    padding-top: 20px;
+    margin-top: clamp(28px, 3.8vw, 44px);
+    padding-top: 22px;
     border-top: 1px solid rgba(255, 255, 255, 0.11);
     display: flex;
     flex-wrap: wrap;
@@ -267,22 +350,23 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     font-weight: 500;
   }
 
-  /* Right Liquid-Bevel Portrait Frame */
-  .hero-portrait-card {
+  /* Right Portrait Frame */
+  .hero-portrait-stage {
     position: relative;
-    z-index: 1;
     margin: 0;
-    border-radius: 24px;
+    border-radius: 26px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: #1B0D36;
-    aspect-ratio: 4 / 4.35;
+    aspect-ratio: 4 / 4.45;
+    max-height: 74vh;
+    width: 100%;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 24px 58px -24px rgba(103, 0, 255, 0.56);
+      0 26px 68px -24px rgba(103, 0, 255, 0.56);
   }
 
-  .hero-portrait-card img {
+  .hero-portrait-stage img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -349,7 +433,26 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   }
 
   @media (max-width: 960px) {
-    .hero-card {
+    .hero {
+      height: auto;
+    }
+
+    .hero-lid-stage {
+      position: relative;
+      top: 0;
+      height: auto;
+      overflow: visible;
+    }
+
+    .hero-lid {
+      --lid-max-deg: -48deg;
+      height: auto;
+      min-height: calc(100svh - var(--nav-h));
+      align-items: flex-start;
+      padding-block: 28px 36px;
+    }
+
+    .hero-inner {
       grid-template-columns: minmax(0, 1fr);
       gap: 28px;
     }
@@ -358,20 +461,15 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
       max-width: 18ch;
     }
 
-    .hero-portrait-card {
+    .hero-portrait-stage {
       max-width: 440px;
-      width: 100%;
       margin-inline: auto;
       aspect-ratio: 4 / 4.2;
+      max-height: none;
     }
   }
 
   @media (max-width: 520px) {
-    .hero-card {
-      padding: 20px;
-      border-radius: 24px;
-    }
-
     .hero-actions {
       width: 100%;
     }
