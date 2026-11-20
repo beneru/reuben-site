@@ -103,35 +103,87 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   if (hero && lid) {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduceMotion) {
+      let startY = 0;
       let travel = 520;
+      let target = 0;
+      let current = 0;
       let raf = 0;
+      let lastTime = 0;
 
       const measure = () => {
         const vh = window.innerHeight || 800;
-        const navH = window.innerWidth <= 768 ? 66 : 74;
-        const pinH = Math.max(400, vh - navH);
-        travel = Math.max(260, hero.offsetHeight - pinH * 0.78);
+        const isMobile = window.innerWidth <= 960;
+        const heroTop = hero.getBoundingClientRect().top + window.scrollY;
+        const lidH = lid.offsetHeight || vh;
+
+        if (isMobile) {
+          // Wait until the entire hero (including portrait) has scrolled into view before flipping.
+          const overflow = Math.max(0, heroTop + lidH - vh);
+          startY = overflow + 36;
+          travel = Math.max(320, vh * 0.58);
+        } else {
+          startY = 0;
+          const pinH = Math.max(420, vh - 74);
+          travel = Math.max(320, hero.offsetHeight - pinH * 0.72);
+        }
       };
 
-      const update = () => {
-        raf = 0;
-        const y = Math.max(0, window.scrollY);
-        const p = Math.min(1, y / travel);
-        // Smooth ease-in-out curve like a damped MacBook lid hinge
-        const eased = p * p * (3 - 2 * p);
-        lid.style.setProperty('--lid-p', eased.toFixed(4));
+      const computeTarget = () => {
+        const y = Math.max(0, window.scrollY - startY);
+        const raw = Math.min(1, y / travel);
+        // Smooth cubic ease-out-in curve
+        return raw * raw * (3 - 2 * raw);
+      };
+
+      const apply = (v: number) => {
+        const deg = window.innerWidth <= 960 ? -42 : -68;
+        const angle = v * deg;
+        const scale = 1 - v * 0.085;
+        const ty = v * -10;
+        const alpha = 1 - v * v * 0.7;
+        lid.style.transform = `rotateX(${angle.toFixed(3)}deg) scale3d(${scale.toFixed(4)}, ${scale.toFixed(4)}, 1) translate3d(0, ${ty.toFixed(2)}px, 0)`;
+        lid.style.opacity = alpha.toFixed(4);
+        lid.style.setProperty('--lid-p', v.toFixed(4));
+      };
+
+      const step = (now: number) => {
+        const dt = lastTime ? Math.min(48, now - lastTime) : 16.67;
+        lastTime = now;
+        // Frame-rate independent smooth damping (silky on 60Hz, 120Hz, and mouse wheel)
+        const factor = 1 - Math.exp(-dt * 0.0115);
+        current += (target - current) * factor;
+
+        if (Math.abs(target - current) < 0.0006) {
+          current = target;
+          apply(current);
+          raf = 0;
+          lastTime = 0;
+          return;
+        }
+
+        apply(current);
+        raf = requestAnimationFrame(step);
       };
 
       const onScroll = () => {
-        if (!raf) raf = requestAnimationFrame(update);
+        target = computeTarget();
+        if (!raf) {
+          lastTime = 0;
+          raf = requestAnimationFrame(step);
+        }
       };
 
       measure();
-      update();
+      target = computeTarget();
+      current = target;
+      apply(current);
+
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', () => {
         measure();
-        update();
+        target = computeTarget();
+        current = target;
+        apply(current);
       }, { passive: true });
     }
   }
@@ -141,7 +193,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   .hero {
     position: relative;
     width: 100%;
-    height: 132svh;
+    height: 146svh;
     overflow-x: clip;
   }
 
@@ -150,15 +202,15 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     top: var(--nav-h);
     width: 100%;
     height: calc(100svh - var(--nav-h));
-    perspective: 1450px;
-    perspective-origin: 50% 24%;
+    perspective: 1500px;
+    perspective-origin: 50% 22%;
     overflow: hidden;
+    contain: layout paint;
   }
 
-  /* Full-bleed first screen at rest; hinges at top and flips up & back in 3D like a MacBook lid closing */
+  /* Pure GPU-composited full-bleed first screen; flips up smoothly like a MacBook lid on scroll */
   .hero-lid {
     --lid-p: 0;
-    --lid-max-deg: -72deg;
     position: relative;
     width: 100%;
     height: 100%;
@@ -170,13 +222,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
       radial-gradient(56% 72% at 78% 26%, rgba(103, 0, 255, 0.28), transparent 68%),
       radial-gradient(46% 60% at 16% 18%, rgba(143, 77, 255, 0.16), transparent 68%),
       linear-gradient(180deg, #0D0B14 0%, #0B0B0C 100%);
-    border-radius: calc(var(--lid-p) * 34px);
     transform-origin: 50% 0%;
-    transform:
-      rotateX(calc(var(--lid-p) * var(--lid-max-deg)))
-      scale(calc(1 - var(--lid-p) * 0.1))
-      translate3d(0, calc(var(--lid-p) * -12px), 0);
-    opacity: calc(1 - var(--lid-p) * var(--lid-p) * 0.72);
     will-change: transform, opacity;
     backface-visibility: hidden;
   }
@@ -186,8 +232,8 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     inset: 0;
     z-index: 6;
     pointer-events: none;
-    background: linear-gradient(180deg, rgba(6, 5, 10, 0.08) 0%, rgba(5, 4, 9, 0.85) 100%);
-    opacity: calc(var(--lid-p) * 0.82);
+    background: linear-gradient(180deg, rgba(6, 5, 10, 0.08) 0%, rgba(5, 4, 9, 0.84) 100%);
+    opacity: calc(var(--lid-p) * 0.8);
   }
 
   .hero-lid-rim {
@@ -195,12 +241,11 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     inset: 0;
     z-index: 7;
     pointer-events: none;
-    border-radius: inherit;
-    border: 1px solid rgba(215, 200, 255, 0.32);
+    border: 1px solid rgba(215, 200, 255, 0.3);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.36),
       inset 0 -3px 0 rgba(139, 77, 255, 0.65);
-    opacity: clamp(0, calc(var(--lid-p) * 4), 1);
+    opacity: clamp(0, calc(var(--lid-p) * 3.5), 1);
   }
 
   .hero-bg {
@@ -243,9 +288,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     gap: 9px;
     padding: 6px 14px 6px 7px;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(103, 0, 255, 0.16));
-    -webkit-backdrop-filter: var(--blur-sm);
-    backdrop-filter: var(--blur-sm);
+    background: linear-gradient(135deg, rgba(36, 28, 56, 0.86), rgba(18, 14, 30, 0.88));
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
     color: var(--violet-pale);
@@ -303,6 +346,12 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     justify-content: flex-start;
   }
 
+  .hero-actions .cta-btn-dark {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: linear-gradient(145deg, rgba(36, 30, 56, 0.9), rgba(18, 15, 28, 0.92));
+  }
+
   .hero-meta {
     width: 100%;
     margin-top: clamp(28px, 3.8vw, 44px);
@@ -350,7 +399,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     font-weight: 500;
   }
 
-  /* Right Portrait Frame */
+  /* Right Portrait Frame (no nested backdrop-filter inside 3D lid so animation stays 120fps) */
   .hero-portrait-stage {
     position: relative;
     margin: 0;
@@ -383,9 +432,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     gap: 8px;
     padding: 7px 13px;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, rgba(24, 20, 38, 0.68), rgba(11, 10, 16, 0.56));
-    -webkit-backdrop-filter: var(--blur-sm);
-    backdrop-filter: var(--blur-sm);
+    background: linear-gradient(135deg, rgba(28, 22, 46, 0.88), rgba(11, 10, 18, 0.84));
     border: 1px solid rgba(255, 255, 255, 0.22);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
     color: #FFFFFF;
@@ -408,11 +455,9 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     bottom: 12px;
     padding: 13px 16px;
     border-radius: 16px;
-    background: linear-gradient(135deg, rgba(22, 18, 34, 0.68), rgba(11, 10, 16, 0.62));
-    -webkit-backdrop-filter: var(--blur-sm);
-    backdrop-filter: var(--blur-sm);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    background: linear-gradient(135deg, rgba(24, 19, 38, 0.88), rgba(11, 10, 18, 0.84));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.26);
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -442,10 +487,10 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
       top: 0;
       height: auto;
       overflow: visible;
+      contain: none;
     }
 
     .hero-lid {
-      --lid-max-deg: -48deg;
       height: auto;
       min-height: calc(100svh - var(--nav-h));
       align-items: flex-start;
