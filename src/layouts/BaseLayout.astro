@@ -99,7 +99,7 @@ const structuredData = {
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700;800;900&display=swap"
     />
     <link
       rel="stylesheet"
@@ -229,31 +229,26 @@ const structuredData = {
       </div>
 
       <div class="ft-mark-wrap" aria-hidden="true">
-        <svg class="ft-mark" viewBox="0 0 1200 218" preserveAspectRatio="xMidYMid meet">
+        <svg class="ft-mark" viewBox="0 0 1200 312" preserveAspectRatio="xMidYMax meet">
           <defs>
             <linearGradient id="beneru-mark-fill" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#3E3654" stop-opacity="0.76" />
-              <stop offset="58%" stop-color="#201C2C" stop-opacity="0.48" />
-              <stop offset="100%" stop-color="#101012" stop-opacity="0.04" />
-            </linearGradient>
-            <linearGradient id="beneru-mark-stroke" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#9A88CA" stop-opacity="0.48" />
-              <stop offset="72%" stop-color="#4A3F66" stop-opacity="0.16" />
-              <stop offset="100%" stop-color="#101012" stop-opacity="0" />
+              <stop offset="0%" stop-color="#4A3F68" stop-opacity="0.72" />
+              <stop offset="62%" stop-color="#251F35" stop-opacity="0.46" />
+              <stop offset="100%" stop-color="#101012" stop-opacity="0.06" />
             </linearGradient>
           </defs>
-          <text
-            x="600"
-            y="198"
-            text-anchor="middle"
-            textLength="1160"
-            lengthAdjust="spacing"
-            fill="url(#beneru-mark-fill)"
-            stroke="url(#beneru-mark-stroke)"
-            stroke-width="2"
-          >
-            {FOOTER_COPY.wordmark}
-          </text>
+          <g transform="translate(0, 308) scale(1, 1.4)">
+            <text
+              x="600"
+              y="0"
+              text-anchor="middle"
+              textLength="1216"
+              lengthAdjust="spacingAndGlyphs"
+              fill="url(#beneru-mark-fill)"
+            >
+              {FOOTER_COPY.wordmark}
+            </text>
+          </g>
         </svg>
       </div>
     </footer>
@@ -655,10 +650,11 @@ const structuredData = {
 
   .ft-mark-wrap {
     width: 100%;
-    max-width: 1400px;
-    padding-inline: clamp(8px, 1.5vw, 22px);
-    margin: clamp(14px, 2.4vw, 28px) auto 0;
+    max-width: none;
+    padding-inline: 0;
+    margin: clamp(18px, 2.8vw, 34px) 0 0;
     line-height: 0;
+    overflow: hidden;
     user-select: none;
     pointer-events: none;
   }
@@ -671,9 +667,10 @@ const structuredData = {
 
   .ft-mark text {
     font-family: var(--font-heading);
-    font-size: 244px;
-    font-weight: 800;
-    letter-spacing: 0.03em;
+    font-size: 300px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    stroke: none;
   }
 
   @media (max-width: 980px) {
