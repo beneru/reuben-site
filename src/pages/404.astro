@@ -14,8 +14,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p>The page you are looking for might have been moved, removed, or never existed.</p>
       <a href="/" class="cta-btn">
         <span>Return Home</span>
-        <span class="cta-btn__arrow" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <span class="cta-btn__circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
           </svg>
@@ -36,11 +36,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .nf-box {
-    background: var(--surface-1);
+    background: linear-gradient(170deg, rgba(22, 22, 27, 0.92), rgba(14, 14, 18, 0.96));
     border: 1px solid var(--border-violet);
-    box-shadow: var(--shadow-card);
-    border-radius: var(--radius-xl);
-    padding: 52px 36px;
+    box-shadow: 0 30px 90px -46px rgba(103, 0, 255, 0.65);
+    border-radius: 28px;
+    padding: 56px 36px;
     max-width: 480px;
     width: 100%;
   }
@@ -48,11 +48,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .status-code {
     display: block;
     font-family: var(--font-heading);
-    font-size: 4.8rem;
+    font-size: 5rem;
     font-weight: 800;
     line-height: 1;
     margin-bottom: 14px;
-    color: var(--violet-soft);
+    background-image: var(--grad-heading);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   h1 {

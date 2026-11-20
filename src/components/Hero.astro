@@ -5,18 +5,22 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 ---
 
 <section class="hero" id="hero" aria-label="Introduction">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-grid"></div>
+  </div>
+
   <div class="site-wrap">
     <div class="hero-card">
       <div class="hero-copy">
         <div class="hero-kicker">
           <span class="hero-emblem" aria-hidden="true">
-            <img src="/images/brand/spawntel-emblem.webp" alt="" width="22" height="22" decoding="async" />
+            <img src="/images/brand/spawntel-emblem.webp" alt="" width="24" height="24" decoding="async" />
           </span>
           <span>{SITE_IDENTITY.niche}</span>
         </div>
 
         <h1 class="hero-h1">
-          Marketing shouldn't run on <span class="accent-word">manual hustle.</span>
+          Marketing shouldn't run on <span class="hero-h1-accent">manual hustle.</span>
         </h1>
 
         <p class="hero-sub">{HERO_COPY.subtitle}</p>
@@ -28,8 +32,8 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
             data-spawntel-cta="hero"
           >
             <span>{HERO_COPY.primaryCtaLabel}</span>
-            <span class="cta-btn__arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <span class="cta-btn__circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
               </svg>
@@ -38,8 +42,8 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 
           <a href={HERO_COPY.secondaryCtaHref} class="cta-btn-dark">
             <span>{HERO_COPY.secondaryCtaLabel}</span>
-            <span class="cta-btn__arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <span class="cta-btn__circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
               </svg>
@@ -47,7 +51,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
           </a>
         </div>
 
-        <div class="hero-meta-bar">
+        <div class="hero-meta">
           <ul class="hero-socials" aria-label="Beneru social profiles">
             {SOCIAL_LINKS.map((s) => (
               <li>
@@ -63,14 +67,14 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
               </li>
             ))}
           </ul>
-          <span class="hero-location">{SITE_IDENTITY.locationPublic}</span>
+          <span class="hero-loc">{SITE_IDENTITY.locationPublic}</span>
         </div>
       </div>
 
       <figure class="hero-portrait-card">
-        <span class="hero-live-chip">
-          <span class="hero-live-dot" aria-hidden="true"></span>
-          3 Documented Systems
+        <span class="hero-status-chip">
+          <span class="hero-status-dot" aria-hidden="true"></span>
+          3 Verified Systems
         </span>
         <img
           src="/images/founder/reuben-studio.webp"
@@ -92,26 +96,45 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 
 <style>
   .hero {
-    padding-top: clamp(24px, 3vw, 40px);
-    padding-bottom: clamp(20px, 2.6vw, 32px);
+    position: relative;
+    overflow: hidden;
+    padding-top: clamp(28px, 3.6vw, 48px);
+    padding-bottom: clamp(28px, 4vw, 56px);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(62% 55% at 50% 0%, rgba(103, 0, 255, 0.22), transparent 72%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(90deg, rgba(103, 0, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(rgba(103, 0, 255, 0.08) 1px, transparent 1px);
+    background-size: 120px 120px;
+    -webkit-mask-image: radial-gradient(75% 75% at 50% 25%, #000 0%, transparent 90%);
+    mask-image: radial-gradient(75% 75% at 50% 25%, #000 0%, transparent 90%);
   }
 
   .hero-card {
-    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1.28fr) minmax(0, 0.92fr);
-    gap: clamp(28px, 4vw, 52px);
+    gap: clamp(28px, 4vw, 56px);
     align-items: center;
-    padding: clamp(24px, 3.6vw, 48px);
-    border-radius: var(--radius-xl);
+    padding: clamp(24px, 3.8vw, 50px);
+    border-radius: 30px;
     border: 1px solid rgba(183, 155, 255, 0.16);
     background:
-      radial-gradient(65% 80% at 88% 12%, rgba(103, 0, 255, 0.2), transparent 65%),
-      linear-gradient(155deg, #171124 0%, #120D1C 58%, #0F0A18 100%);
+      radial-gradient(68% 85% at 88% 12%, rgba(103, 0, 255, 0.22), transparent 68%),
+      linear-gradient(155deg, rgba(23, 21, 31, 0.94) 0%, rgba(14, 13, 18, 0.98) 100%);
     box-shadow:
       inset 0 1px 0 rgba(215, 200, 255, 0.14),
-      var(--shadow-card);
-    overflow: hidden;
+      0 26px 80px -36px rgba(0, 0, 0, 0.85);
   }
 
   .hero-copy {
@@ -128,7 +151,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     padding: 6px 14px 6px 7px;
     border-radius: var(--radius-full);
     background: rgba(103, 0, 255, 0.14);
-    border: 1px solid rgba(183, 155, 255, 0.22);
+    border: 1px solid rgba(183, 155, 255, 0.24);
     color: var(--violet-pale);
     font-size: 13px;
     font-weight: 600;
@@ -155,7 +178,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   .hero-h1 {
     margin: 20px 0 0;
     font-family: var(--font-heading);
-    font-size: clamp(2.15rem, 1.35rem + 2.55vw, 3.55rem);
+    font-size: clamp(2.15rem, 1.35rem + 2.65vw, 3.65rem);
     font-weight: 800;
     line-height: 1.07;
     letter-spacing: -0.03em;
@@ -163,19 +186,24 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     max-width: 15ch;
   }
 
+  .hero-h1-accent {
+    color: var(--violet-soft);
+  }
+
   .hero-sub {
     margin: 18px 0 0;
     max-width: 50ch;
-    color: var(--ink-2);
-    font-size: clamp(0.975rem, 0.94rem + 0.2vw, 1.08rem);
-    line-height: 1.62;
+    color: var(--ink-body);
+    font-size: clamp(0.975rem, 0.93rem + 0.24vw, 1.08rem);
+    line-height: 1.6;
   }
 
   .hero-actions {
     margin-top: 26px;
+    justify-content: flex-start;
   }
 
-  .hero-meta-bar {
+  .hero-meta {
     width: 100%;
     margin-top: clamp(24px, 3vw, 34px);
     padding-top: 20px;
@@ -199,13 +227,13 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   .hero-socials a {
     width: 36px;
     height: 36px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
     color: var(--ink-body);
     display: grid;
     place-items: center;
-    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s var(--ease-out);
+    transition: background-color 0.16s ease, border-color 0.16s ease, transform 0.16s var(--ease-out);
   }
 
   .hero-socials a:hover {
@@ -215,22 +243,22 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     transform: translateY(-2px);
   }
 
-  .hero-location {
+  .hero-loc {
     font-size: 13px;
     color: var(--ink-muted);
     font-weight: 500;
   }
 
-  /* Right Portrait Frame */
+  /* Right Portrait Card */
   .hero-portrait-card {
     position: relative;
     margin: 0;
-    border-radius: var(--radius-lg);
+    border-radius: 22px;
     overflow: hidden;
-    border: 1px solid rgba(183, 155, 255, 0.24);
-    background: #1C0D38;
-    aspect-ratio: 4 / 4.45;
-    box-shadow: 0 20px 50px -24px rgba(103, 0, 255, 0.45);
+    border: 1px solid rgba(183, 155, 255, 0.26);
+    background: #1B0D36;
+    aspect-ratio: 4 / 4.35;
+    box-shadow: 0 22px 54px -26px rgba(103, 0, 255, 0.55);
   }
 
   .hero-portrait-card img {
@@ -240,7 +268,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     object-position: center 14%;
   }
 
-  .hero-live-chip {
+  .hero-status-chip {
     position: absolute;
     top: 14px;
     left: 14px;
@@ -250,14 +278,14 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     gap: 8px;
     padding: 6px 12px;
     border-radius: var(--radius-full);
-    background: rgba(13, 8, 20, 0.84);
+    background: rgba(11, 11, 12, 0.84);
     border: 1px solid rgba(183, 155, 255, 0.28);
     color: #FFFFFF;
     font-size: 12px;
     font-weight: 600;
   }
 
-  .hero-live-dot {
+  .hero-status-dot {
     width: 7px;
     height: 7px;
     border-radius: 50%;
@@ -271,7 +299,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     right: 0;
     bottom: 0;
     padding: 44px 18px 16px;
-    background: linear-gradient(transparent, rgba(13, 8, 20, 0.88) 46%, rgba(13, 8, 20, 0.96) 100%);
+    background: linear-gradient(transparent, rgba(11, 11, 12, 0.88) 46%, rgba(11, 11, 12, 0.96) 100%);
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -321,13 +349,13 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 
     .hero-actions .cta-btn,
     .hero-actions .cta-btn-dark {
-      flex: 1 1 auto;
       height: 44px;
-      padding: 0 16px;
-      font-size: 14px;
+      padding: 0 7px 0 16px;
+      font-size: 13.5px;
+      gap: 9px;
     }
 
-    .hero-meta-bar {
+    .hero-meta {
       flex-direction: column;
       align-items: flex-start;
     }

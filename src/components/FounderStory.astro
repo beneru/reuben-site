@@ -6,15 +6,15 @@ import { FOUNDER_COPY } from '../data/site';
   <div class="site-wrap">
     <div class="section-head" data-reveal>
       <span class="pill-tag">{FOUNDER_COPY.pill}</span>
-      <h2 class="section-title" id="about-heading">
-        Who's behind <span class="accent-word">Beneru</span>
-      </h2>
+      <h2 class="grad-title" id="about-heading">{FOUNDER_COPY.heading}</h2>
+    </div>
+
+    <div class="story-spotlight" data-reveal>
+      <blockquote class="story-quote">{FOUNDER_COPY.lead}</blockquote>
     </div>
 
     <div class="story-grid">
       <div class="story-copy" data-reveal>
-        <p class="story-lead">{FOUNDER_COPY.lead}</p>
-
         {FOUNDER_COPY.paragraphs.map((para) => (
           <p class="story-para">{para}</p>
         ))}
@@ -42,18 +42,16 @@ import { FOUNDER_COPY } from '../data/site';
       </div>
 
       <div class="story-gallery" data-reveal style="--i: 1">
-        {FOUNDER_COPY.photos.map((photo) => (
-          <figure class="story-photo">
-            <div class="story-photo-frame">
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                width={photo.width}
-                height={photo.height}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
+        {FOUNDER_COPY.photos.map((photo, idx) => (
+          <figure class={`story-photo ${idx === 0 ? 'story-photo--square' : 'story-photo--tall'}`}>
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              loading="lazy"
+              decoding="async"
+            />
             <figcaption>{photo.caption}</figcaption>
           </figure>
         ))}
@@ -63,38 +61,44 @@ import { FOUNDER_COPY } from '../data/site';
 </section>
 
 <style>
+  .story-spotlight {
+    max-width: 960px;
+    margin: 0 auto clamp(40px, 5.5vw, 68px);
+    text-align: center;
+  }
+
+  .story-quote {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.45rem, 1.05rem + 1.5vw, 2.35rem);
+    font-weight: 600;
+    line-height: 1.24;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+
   .story-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    gap: clamp(24px, 4vw, 48px);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(28px, 4.5vw, 64px);
     align-items: start;
   }
 
   .story-copy {
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    padding: clamp(24px, 3.2vw, 38px);
-    border-radius: var(--radius-lg);
+    gap: 20px;
+    padding: clamp(24px, 3vw, 36px);
+    border-radius: 28px;
     border: 1px solid var(--border);
-    background: var(--surface-1);
-  }
-
-  .story-lead {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(1.15rem, 1rem + 0.45vw, 1.38rem);
-    font-weight: 600;
-    line-height: 1.42;
-    letter-spacing: -0.015em;
-    color: var(--ink);
+    background: linear-gradient(165deg, rgba(22, 22, 27, 0.9), rgba(14, 14, 18, 0.96));
   }
 
   .story-para {
     margin: 0;
-    font-size: 15.5px;
-    line-height: 1.7;
-    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.72;
+    color: #D2D2DA;
   }
 
   .story-block {
@@ -122,13 +126,13 @@ import { FOUNDER_COPY } from '../data/site';
   }
 
   .team-chips li {
-    padding: 6px 13px;
+    padding: 7px 14px;
     border-radius: var(--radius-full);
-    background: var(--surface-2);
-    border: 1px solid var(--border-strong);
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.09);
     font-size: 13.5px;
     font-weight: 500;
-    color: var(--ink-body);
+    color: var(--ink);
   }
 
   .principles-list {
@@ -144,8 +148,8 @@ import { FOUNDER_COPY } from '../data/site';
     align-items: flex-start;
     gap: 11px;
     font-size: 15px;
-    line-height: 1.55;
-    color: var(--ink-body);
+    line-height: 1.5;
+    color: #E2E2E8;
   }
 
   .principle-dot {
@@ -153,43 +157,50 @@ import { FOUNDER_COPY } from '../data/site';
     height: 7px;
     border-radius: 50%;
     background: var(--primary);
-    box-shadow: 0 0 10px rgba(103, 0, 255, 0.85);
-    margin-top: 9px;
+    box-shadow: 0 0 12px rgba(103, 0, 255, 0.9);
+    margin-top: 8px;
     flex-shrink: 0;
   }
 
   .story-gallery {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
   }
 
   .story-photo {
     margin: 0;
-    border-radius: var(--radius-lg);
+    border-radius: 22px;
     overflow: hidden;
     border: 1px solid var(--border);
-    background: var(--surface-1);
-  }
-
-  .story-photo-frame {
-    aspect-ratio: 4 / 3.2;
-    overflow: hidden;
+    background: #141418;
+    position: relative;
   }
 
   .story-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 18%;
+    display: block;
+  }
+
+  .story-photo--square img {
+    aspect-ratio: 4 / 5;
+    object-position: center 15%;
+  }
+
+  .story-photo--tall img {
+    aspect-ratio: 4 / 5;
+    object-position: center 20%;
   }
 
   .story-photo figcaption {
-    padding: 12px 16px;
-    font-size: 13px;
-    line-height: 1.45;
-    color: var(--ink-muted);
-    background: var(--surface-1);
+    padding: 12px 14px;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--ink-2);
+    background: #141418;
     border-top: 1px solid var(--border);
   }
 
@@ -197,9 +208,17 @@ import { FOUNDER_COPY } from '../data/site';
     .story-grid {
       grid-template-columns: minmax(0, 1fr);
     }
+  }
 
-    .story-gallery {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  @media (max-width: 640px) {
+    .story-spotlight {
+      text-align: left;
+      margin-bottom: 28px;
+    }
+
+    .story-quote {
+      font-size: 1.25rem;
+      line-height: 1.4;
     }
   }
 

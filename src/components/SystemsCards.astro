@@ -7,30 +7,43 @@ import { SYSTEMS_SECTION_COPY, SYSTEM_TIER_CARDS } from '../data/site';
   <div class="site-wrap">
     <div class="section-head" data-reveal>
       <span class="pill-tag">{SYSTEMS_SECTION_COPY.pill}</span>
-      <h2 class="section-title" id="systems-heading">
-        Fix one bottleneck, then <span class="accent-word">scale the stack</span>
-      </h2>
+      <h2 class="grad-title" id="systems-heading">{SYSTEMS_SECTION_COPY.heading}</h2>
       {SYSTEMS_SECTION_COPY.lead && <p class="section-sub">{SYSTEMS_SECTION_COPY.lead}</p>}
     </div>
 
-    <div class="sys-grid">
+    <div class="pc-grid">
       {SYSTEM_TIER_CARDS.map((card, idx) => (
         <article
-          class={`sys-card ${card.featured ? 'sys-card--featured' : ''}`}
+          class={`pc-card ${card.featured ? 'pc-featured' : ''}`}
           data-reveal
           style={`--i: ${idx}`}
         >
-          <div class="sys-head">
-            <span class={`sys-badge ${card.featured ? 'sys-badge--primary' : ''}`}>{card.badge}</span>
-            <h3>{card.title}</h3>
-            <p>{card.subtitle}</p>
+          <div class="pc-top">
+            <span class="pill-tag pc-badge">{card.badge}</span>
+            <div class="pc-copy">
+              <h3>{card.title}</h3>
+              <p>{card.subtitle}</p>
+            </div>
+            <a
+              href={spawntelFunnelUrl(card.ctaPlacement)}
+              class={card.featured ? 'cta-btn pc-cta' : 'cta-btn-dark pc-cta'}
+              data-spawntel-cta={card.ctaPlacement}
+            >
+              <span>Book a free call</span>
+              <span class="cta-btn__circle" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </span>
+            </a>
           </div>
 
-          <ul class="sys-list">
+          <ul class="pc-list">
             {card.bullets.map((bullet) => (
               <li>
-                <span class="sys-tick" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <span class="pc-tick" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 6 9 17l-5-5" />
                   </svg>
                 </span>
@@ -38,122 +51,105 @@ import { SYSTEMS_SECTION_COPY, SYSTEM_TIER_CARDS } from '../data/site';
               </li>
             ))}
           </ul>
-
-          <div class="sys-foot">
-            <a
-              href={spawntelFunnelUrl(card.ctaPlacement)}
-              class={card.featured ? 'cta-btn sys-cta' : 'cta-btn-dark sys-cta'}
-              data-spawntel-cta={card.ctaPlacement}
-            >
-              <span>Book a free call</span>
-              <span class="cta-btn__arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </span>
-            </a>
-          </div>
         </article>
       ))}
+    </div>
+
+    <div class="cta-row pc-more">
+      <a href="/#work" class="cta-btn-dark">
+        <span>See documented systems</span>
+        <span class="cta-btn__circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </span>
+      </a>
     </div>
   </div>
 </section>
 
 <style>
-  .sys-grid {
+  .pc-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
     align-items: stretch;
   }
 
-  .sys-card {
-    position: relative;
-    border-radius: var(--radius-lg);
+  .pc-card {
+    border-radius: 30px;
     border: 1px solid var(--border);
-    background: var(--surface-1);
-    padding: clamp(24px, 2.8vw, 32px);
+    background: linear-gradient(175deg, rgba(22, 22, 27, 0.9), rgba(14, 14, 17, 0.96));
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 22px;
-    transition: border-color 0.18s ease, background-color 0.18s ease;
+    gap: 14px;
+    box-shadow: var(--shadow-card);
   }
 
-  .sys-card:hover {
-    border-color: var(--border-strong);
-  }
-
-  .sys-card--featured {
+  .pc-featured {
     border-color: var(--border-violet);
-    background:
-      radial-gradient(90% 55% at 50% 0%, rgba(103, 0, 255, 0.18), transparent 70%),
-      var(--surface-1);
     box-shadow:
-      inset 0 2px 0 var(--primary),
-      0 20px 56px -34px rgba(103, 0, 255, 0.65);
+      0 0 0 1px rgba(103, 0, 255, 0.24),
+      0 30px 90px -46px rgba(103, 0, 255, 0.72);
   }
 
-  .sys-head {
+  .pc-top {
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.032);
+    padding: 22px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
+    gap: 18px;
   }
 
-  .sys-badge {
+  .pc-badge {
     width: fit-content;
-    padding: 4px 11px;
-    border-radius: var(--radius-full);
-    background: rgba(183, 155, 255, 0.1);
-    border: 1px solid rgba(183, 155, 255, 0.2);
-    color: var(--violet-soft);
     font-size: 12px;
-    font-weight: 600;
+    padding: 5px 12px;
   }
 
-  .sys-badge--primary {
-    background: var(--primary);
-    border-color: rgba(255, 255, 255, 0.18);
-    color: #FFFFFF;
-  }
-
-  .sys-head h3 {
-    margin: 4px 0 0;
-    font-family: var(--font-heading);
-    font-size: clamp(1.35rem, 1.15rem + 0.6vw, 1.65rem);
+  .pc-copy h3 {
+    margin: 0;
+    font-size: clamp(1.5rem, 1.25rem + 1vw, 2.05rem);
     font-weight: 700;
+    letter-spacing: -0.025em;
     color: var(--ink);
   }
 
-  .sys-head p {
-    margin: 0;
+  .pc-copy p {
+    margin: 8px 0 0;
     color: var(--ink-2);
-    font-size: 14.5px;
-    line-height: 1.55;
+    font-size: 15px;
+    line-height: 1.5;
   }
 
-  .sys-list {
+  .pc-cta {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .pc-list {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 12px 14px 14px;
     display: flex;
     flex-direction: column;
-    gap: 13px;
-    flex: 1;
+    gap: 14px;
   }
 
-  .sys-list li {
+  .pc-list li {
     display: flex;
     align-items: flex-start;
-    gap: 11px;
+    gap: 12px;
     font-size: 14.5px;
-    line-height: 1.5;
-    color: var(--ink-body);
+    line-height: 1.45;
+    color: #D8D8DF;
   }
 
-  .sys-tick {
+  .pc-tick {
     color: var(--violet-soft);
     display: grid;
     place-items: center;
@@ -163,24 +159,20 @@ import { SYSTEMS_SECTION_COPY, SYSTEM_TIER_CARDS } from '../data/site';
     flex-shrink: 0;
   }
 
-  .sys-tick svg {
+  .pc-tick svg {
     width: 15px;
     height: 15px;
   }
 
-  .sys-foot {
-    padding-top: 4px;
-  }
-
-  .sys-cta {
-    width: 100%;
-    justify-content: space-between;
+  .pc-more {
+    margin-top: 32px;
   }
 
   @media (max-width: 980px) {
-    .sys-grid {
+    .pc-grid {
       grid-template-columns: minmax(0, 1fr);
-      max-width: 540px;
+      max-width: 520px;
+      margin-inline: auto;
     }
   }
 </style>

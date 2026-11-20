@@ -67,7 +67,7 @@ const structuredData = {
     <meta name="publisher" content="Beneru" />
     <meta name="keywords" content={SEO_DEFAULTS.keywords} />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
-    <meta name="theme-color" content="#0D0814" />
+    <meta name="theme-color" content="#0B0B0C" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -99,7 +99,7 @@ const structuredData = {
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
     />
     <link
       rel="stylesheet"
@@ -113,13 +113,10 @@ const structuredData = {
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="wordmark" aria-label="Beneru home">
-          <img src="/PFP.webp" alt="" width="28" height="28" class="wordmark-av" decoding="async" />
-          <span class="wordmark-text">
-            {SITE_IDENTITY.wordmark}<span class="wordmark-dot" aria-hidden="true">.</span>
-          </span>
+          {SITE_IDENTITY.wordmark}<span class="wordmark-dot" aria-hidden="true">.</span>
         </a>
 
-        <nav aria-label="Primary" class="nav-pill" data-primary-nav>
+        <nav aria-label="Primary" class="nav-links" data-primary-nav>
           {NAV_ITEMS.map((item) => (
             <a href={item.href} data-section-link={item.sectionId}>{item.label}</a>
           ))}
@@ -132,8 +129,8 @@ const structuredData = {
             data-spawntel-cta="header"
           >
             <span>Book a Call</span>
-            <span class="cta-btn__arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <span class="cta-btn__circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
               </svg>
@@ -142,10 +139,9 @@ const structuredData = {
 
           <details class="mobile-menu">
             <summary aria-label="Toggle navigation menu">
-              <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true">
-                <path d="M4 7h16" />
-                <path d="M4 12h16" />
-                <path d="M4 17h16" />
+              <svg class="plus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
               </svg>
             </summary>
             <nav aria-label="Mobile" class="mobile-panel">
@@ -165,18 +161,41 @@ const structuredData = {
     </main>
 
     <footer class="ft">
-      <div class="site-wrap">
-        <div class="ft-grid">
-          <div class="ft-brand">
-            <a href="/" class="wordmark ft-wordmark">
-              <img src="/PFP.webp" alt="" width="30" height="30" class="wordmark-av" loading="lazy" />
-              <span class="wordmark-text">
-                {SITE_IDENTITY.wordmark}<span class="wordmark-dot" aria-hidden="true">.</span>
-              </span>
-            </a>
-            <p class="ft-desc">
-              Personal brand of {SITE_IDENTITY.personName} ({SITE_IDENTITY.shortName}), {SITE_IDENTITY.role} at {SITE_IDENTITY.companyName}. {SITE_IDENTITY.niche}.
-            </p>
+      <div class="ft-wrap">
+        <div class="ft-top">
+          <div class="ft-cols">
+            <div class="ft-col">
+              <h3>Site</h3>
+              <ul>
+                {FOOTER_COPY.siteLinks.map((item) => (
+                  <li><a href={item.href}>{item.label}</a></li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="ft-col">
+              <h3>Systems</h3>
+              <ul>
+                {FOOTER_COPY.buildLinks.map((item) => (
+                  <li><a href={item.href}>{item.label}</a></li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="ft-col">
+              <h3>Contact &amp; Legal</h3>
+              <ul>
+                <li>
+                  <a href={spawntelFunnelUrl('footer')} data-spawntel-cta="footer">Book a Call</a>
+                </li>
+                <li><a href={FOOTER_COPY.mailto}>Email me</a></li>
+                <li><a href="/privacy/">Privacy Policy</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="ft-col ft-follow">
+            <h3>Follow</h3>
             <ul class="ft-socials" aria-label="Social accounts">
               {SOCIAL_LINKS.map((s) => (
                 <li>
@@ -187,47 +206,47 @@ const structuredData = {
                     aria-label={`${s.label} (${s.handle})`}
                     title={`${s.label} (${s.handle})`}
                   >
-                    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" set:html={s.iconSvg} />
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" set:html={s.iconSvg} />
                   </a>
                 </li>
               ))}
             </ul>
           </div>
-
-          <div class="ft-col">
-            <h3>Navigation</h3>
-            <ul>
-              {FOOTER_COPY.siteLinks.map((item) => (
-                <li><a href={item.href}>{item.label}</a></li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="ft-col">
-            <h3>Documented Builds</h3>
-            <ul>
-              {FOOTER_COPY.buildLinks.map((item) => (
-                <li><a href={item.href}>{item.label}</a></li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="ft-col">
-            <h3>Connect</h3>
-            <ul>
-              <li>
-                <a href={spawntelFunnelUrl('footer')} data-spawntel-cta="footer">Book a Call on Spawntel</a>
-              </li>
-              <li><a href={FOOTER_COPY.mailto}>{FOOTER_COPY.email}</a></li>
-              <li><a href="/privacy/">Privacy Policy</a></li>
-            </ul>
-          </div>
         </div>
 
         <div class="ft-bottom">
-          <span>&copy; {new Date().getFullYear()} {FOOTER_COPY.copyrightHolder}. Built on Cloudflare Workers.</span>
-          <a href="#top" class="ft-top-link">Back to top &uarr;</a>
+          <span>&copy; {new Date().getFullYear()} {FOOTER_COPY.copyrightHolder}. All rights reserved.</span>
+          <a href="#top">Back to top &uarr;</a>
         </div>
+      </div>
+
+      <div class="ft-mark-wrap" aria-hidden="true">
+        <svg class="ft-mark" viewBox="0 0 1200 218" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="beneru-mark-fill" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#3E3654" stop-opacity="0.76" />
+              <stop offset="58%" stop-color="#201C2C" stop-opacity="0.48" />
+              <stop offset="100%" stop-color="#101012" stop-opacity="0.04" />
+            </linearGradient>
+            <linearGradient id="beneru-mark-stroke" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#9A88CA" stop-opacity="0.48" />
+              <stop offset="72%" stop-color="#4A3F66" stop-opacity="0.16" />
+              <stop offset="100%" stop-color="#101012" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <text
+            x="600"
+            y="198"
+            text-anchor="middle"
+            textLength="1160"
+            lengthAdjust="spacing"
+            fill="url(#beneru-mark-fill)"
+            stroke="url(#beneru-mark-stroke)"
+            stroke-width="2"
+          >
+            {FOOTER_COPY.wordmark}
+          </text>
+        </svg>
       </div>
     </footer>
 
@@ -247,7 +266,7 @@ const structuredData = {
               }
             });
           },
-          { rootMargin: '0px 0px -6% 0px', threshold: 0.08 },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.1 },
         );
         items.forEach((el) => io.observe(el));
       }
@@ -349,10 +368,10 @@ const structuredData = {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(13, 8, 20, 0.9);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
+    background: rgba(11, 11, 12, 0.76);
+    -webkit-backdrop-filter: var(--blur-nav);
+    backdrop-filter: var(--blur-nav);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .header-inner {
@@ -367,65 +386,41 @@ const structuredData = {
 
   .wordmark {
     justify-self: start;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--ink);
-  }
-
-  .wordmark-av {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid rgba(183, 155, 255, 0.35);
-    flex-shrink: 0;
-  }
-
-  .wordmark-text {
     font-family: var(--font-heading);
-    font-size: 15.5px;
+    font-size: 16px;
     font-weight: 800;
     letter-spacing: 0.055em;
     line-height: 1;
+    color: var(--ink);
     display: inline-flex;
     align-items: baseline;
   }
 
   .wordmark-dot {
     color: var(--violet-bright);
-    font-size: 1.4em;
+    font-size: 1.45em;
     line-height: 0;
     margin-left: 0.02em;
   }
 
-  .nav-pill {
+  .nav-links {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px;
-    border-radius: var(--radius-full);
-    background: var(--surface-1);
-    border: 1px solid var(--border);
+    gap: 28px;
   }
 
-  .nav-pill a {
-    font-size: 13.5px;
-    font-weight: 500;
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 400;
     color: var(--ink-2);
-    padding: 7px 14px;
-    border-radius: var(--radius-full);
-    transition: color 0.16s ease, background-color 0.16s ease;
+    padding: 6px 2px;
+    transition: color 0.16s ease;
   }
 
-  .nav-pill a:hover {
+  .nav-links a:hover,
+  .nav-links a[aria-current='page'],
+  .nav-links a[aria-current='location'] {
     color: var(--ink);
-  }
-
-  .nav-pill a[aria-current='page'],
-  .nav-pill a[aria-current='location'] {
-    background: rgba(103, 0, 255, 0.22);
-    color: #FFFFFF;
   }
 
   .header-actions {
@@ -436,11 +431,17 @@ const structuredData = {
   }
 
   .header-cta {
-    height: 40px;
-    padding: 0 18px;
+    height: 42px;
+    padding: 0 7px 0 18px;
     font-size: 13.5px;
   }
 
+  .header-cta .cta-btn__circle {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Mobile circular + toggle */
   .mobile-menu {
     display: none;
     position: relative;
@@ -448,58 +449,64 @@ const structuredData = {
 
   .mobile-menu summary {
     list-style: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: var(--surface-1);
-    border: 1px solid var(--border-strong);
-    color: var(--ink);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #FFFFFF;
+    box-shadow: var(--shadow-violet);
     display: grid;
     place-items: center;
     cursor: pointer;
-    transition: border-color 0.16s ease, background-color 0.16s ease;
+    transition: transform 0.2s var(--ease-out), filter 0.16s ease;
   }
 
   .mobile-menu summary:hover {
-    background: var(--surface-2);
-    border-color: var(--border-violet);
+    filter: brightness(1.12);
   }
 
   .mobile-menu summary::-webkit-details-marker {
     display: none;
   }
 
-  .menu-icon {
+  .plus-icon {
     width: 18px;
     height: 18px;
+    transition: transform 0.24s var(--ease-out);
+  }
+
+  .mobile-menu[open] .plus-icon {
+    transform: rotate(45deg);
   }
 
   .mobile-panel {
     position: absolute;
     right: 0;
-    top: calc(100% + 10px);
+    top: calc(100% + 12px);
     width: min(84vw, 276px);
     display: grid;
     gap: 4px;
     padding: 8px;
-    border-radius: 18px;
-    background: #171222;
+    border-radius: 20px;
+    background: rgba(18, 18, 22, 0.96);
+    -webkit-backdrop-filter: var(--blur-nav);
+    backdrop-filter: var(--blur-nav);
     border: 1px solid var(--border-strong);
-    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.72);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.72);
   }
 
   .mobile-panel a {
     padding: 11px 14px;
-    border-radius: 11px;
+    border-radius: 12px;
     font-size: 15px;
     font-weight: 500;
-    color: var(--ink-body);
+    color: var(--ink);
   }
 
   .mobile-panel a:hover,
   .mobile-panel a[aria-current='location'],
   .mobile-panel a[aria-current='page'] {
-    background: rgba(103, 0, 255, 0.2);
+    background: rgba(103, 0, 255, 0.16);
     color: #FFFFFF;
   }
 
@@ -507,9 +514,9 @@ const structuredData = {
     margin-top: 4px;
     padding-top: 12px;
     border-top: 1px solid var(--border);
-    border-radius: 0 0 11px 11px;
+    border-radius: 0 0 12px 12px;
     font-size: 13px;
-    color: var(--ink-muted);
+    color: var(--ink-2);
     overflow-wrap: anywhere;
   }
 
@@ -517,7 +524,7 @@ const structuredData = {
     .header-inner {
       grid-template-columns: minmax(0, 1fr) auto;
     }
-    .nav-pill {
+    .nav-links {
       display: none;
     }
     .mobile-menu {
@@ -527,83 +534,53 @@ const structuredData = {
 
   @media (max-width: 420px) {
     .header-cta {
-      height: 38px;
-      padding: 0 14px;
+      height: 40px;
+      padding: 0 6px 0 15px;
       font-size: 13px;
-      gap: 7px;
+      gap: 9px;
     }
     .mobile-menu summary {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
     }
   }
 
   /* ---------- Footer ---------- */
   .ft {
     position: relative;
-    background: var(--bg-deep);
-    border-top: 1px solid var(--border);
-    padding: clamp(48px, 6vw, 76px) 0 clamp(28px, 4vw, 40px);
+    z-index: 2;
+    background: #101012;
+    color: var(--ink);
+    padding-top: clamp(52px, 6.5vw, 84px);
+    overflow: hidden;
+    border-top: 1px solid rgba(103, 0, 255, 0.24);
+    box-shadow: 0 -24px 80px -40px rgba(103, 0, 255, 0.35);
   }
 
-  .ft-grid {
+  .ft-wrap {
+    width: var(--site-w);
+    margin-inline: auto;
+  }
+
+  .ft-top {
     display: grid;
-    grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
-    gap: clamp(28px, 4vw, 48px);
-    padding-bottom: clamp(32px, 4.5vw, 48px);
-    border-bottom: 1px solid var(--border);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1.15fr);
+    gap: 36px;
   }
 
-  .ft-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .ft-desc {
-    margin: 0;
-    max-width: 34ch;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--ink-muted);
-  }
-
-  .ft-socials {
-    list-style: none;
-    margin: 4px 0 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .ft-socials a {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    color: var(--ink-body);
+  .ft-cols {
     display: grid;
-    place-items: center;
-    transition: background-color 0.16s ease, border-color 0.16s ease, transform 0.16s var(--ease-out);
-  }
-
-  .ft-socials a:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: #FFFFFF;
-    transform: translateY(-2px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
   }
 
   .ft-col h3 {
     font-family: var(--font-sans);
-    color: var(--violet-soft);
-    font-size: 12.5px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin: 0 0 14px;
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0;
+    margin: 0 0 16px;
   }
 
   .ft-col ul {
@@ -612,17 +589,40 @@ const structuredData = {
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 11px;
+    gap: 12px;
   }
 
   .ft-col a {
-    color: var(--ink-2);
-    font-size: 14.5px;
-    overflow-wrap: anywhere;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15px;
+    transition: color 0.16s ease;
   }
 
   .ft-col a:hover {
-    color: var(--ink);
+    color: #FFFFFF;
+  }
+
+  .ft-col .ft-socials {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .ft-socials a {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #242429;
+    color: rgba(255, 255, 255, 0.9);
+    display: grid;
+    place-items: center;
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.2s var(--ease-out);
+  }
+
+  .ft-socials a:hover {
+    background: var(--primary);
+    color: #FFFFFF;
+    transform: translateY(-3px);
   }
 
   .ft-bottom {
@@ -631,32 +631,52 @@ const structuredData = {
     align-items: center;
     justify-content: space-between;
     gap: 12px 24px;
-    margin-top: 24px;
+    margin-top: clamp(48px, 6vw, 72px);
     font-size: 13px;
     color: var(--ink-muted);
   }
 
-  .ft-top-link {
-    color: var(--ink-body);
-    font-weight: 500;
+  .ft-bottom a {
+    color: rgba(255, 255, 255, 0.85);
   }
 
-  .ft-top-link:hover {
-    color: var(--violet-soft);
+  .ft-bottom a:hover {
+    color: #FFFFFF;
   }
 
-  @media (max-width: 960px) {
-    .ft-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .ft-brand {
-      grid-column: 1 / -1;
-    }
+  .ft-mark-wrap {
+    width: 100%;
+    max-width: 1400px;
+    padding-inline: clamp(8px, 1.5vw, 22px);
+    margin: clamp(14px, 2.4vw, 28px) auto 0;
+    line-height: 0;
+    user-select: none;
+    pointer-events: none;
   }
 
-  @media (max-width: 520px) {
-    .ft-grid {
+  .ft-mark {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ft-mark text {
+    font-family: var(--font-heading);
+    font-size: 244px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 980px) {
+    .ft-top {
       grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 571px) {
+    .ft-cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 20px;
     }
   }
 
