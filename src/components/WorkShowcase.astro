@@ -179,10 +179,11 @@ const liveLabels: Record<string, string> = {
   .wk-tile {
     display: block;
     height: 100%;
-    border-radius: 22px;
+    border-radius: 24px;
     overflow: hidden;
-    border: 1px solid var(--border);
-    background: #121119;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    box-shadow: var(--glass-rim);
     position: relative;
     transition: border-color 0.2s ease, transform 0.25s var(--ease-out);
   }

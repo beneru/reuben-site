@@ -36,9 +36,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .nf-box {
-    background: linear-gradient(170deg, rgba(22, 22, 27, 0.92), rgba(14, 14, 18, 0.96));
-    border: 1px solid var(--border-violet);
-    box-shadow: 0 30px 90px -46px rgba(103, 0, 255, 0.65);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--blur-glass);
+    backdrop-filter: var(--blur-glass);
+    border: 1px solid var(--glass-border-violet);
+    box-shadow: var(--glass-rim-violet);
     border-radius: 28px;
     padding: 56px 36px;
     max-width: 480px;
@@ -52,11 +54,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-weight: 800;
     line-height: 1;
     margin-bottom: 14px;
-    background-image: var(--grad-heading);
+    background-image: var(--grad-shimmer);
+    background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    animation: text-shimmer-flow 7.5s linear infinite;
   }
 
   h1 {

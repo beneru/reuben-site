@@ -1,32 +1,68 @@
 /*
- * Beneru Obsidian + Official Spawntel Brand Guidelines (D-053).
+ * Beneru Liquid Glass + Official Spawntel Brand Guidelines (D-053).
  * Fonts:
  *   Headings & Wordmark: Poppins (800 ExtraBold H1/display, 700 Bold H2, 600 SemiBold H3-H6)
  *   Body, UI & Labels: General Sans only
- * Font Colors (WCAG AA+ on dark):
- *   Headings: Pure White (#FFFFFF) + Spawntel Violet Soft (#B79BFF / #AB73FF)
- *   Body: Ghost White (#F0EDF7) · Secondary: #B6B0C6 · Muted Slate: #94A3B8
+ * Font Colors:
+ *   Pure White (#FFFFFF) & Ghost White (#F0EDF7) with a faint constantly-moving Spawntel Violet shimmer
+ *   Secondary: #C2BCD4 · Muted Slate: #94A3B8
  */
 :root {
   color-scheme: dark;
 
-  /* Core obsidian dark surfaces */
+  /* Core obsidian dark canvas */
   --bg: #0B0B0C;
-  --surface-1: #111116;
-  --surface-2: #17151F;
-  --surface-3: #201C2B;
-  --surface-glass: rgba(23, 21, 31, 0.78);
-  --surface-tint: rgba(103, 0, 255, 0.13);
+  --surface-1: #12101A;
+  --surface-2: #191526;
+  --surface-3: #221D33;
 
-  /* Crisp borders */
-  --border: rgba(255, 255, 255, 0.09);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --border-violet: rgba(103, 0, 255, 0.54);
+  /* Liquid Glass surfaces & specular rims */
+  --glass-bg: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.085) 0%,
+    rgba(26, 21, 39, 0.56) 36%,
+    rgba(13, 11, 20, 0.72) 100%
+  );
+  --glass-bg-hover: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(36, 28, 56, 0.62) 40%,
+    rgba(16, 13, 25, 0.78) 100%
+  );
+  --glass-bg-violet: linear-gradient(
+    145deg,
+    rgba(183, 155, 255, 0.18) 0%,
+    rgba(103, 0, 255, 0.16) 40%,
+    rgba(15, 11, 26, 0.76) 100%
+  );
+  --glass-bg-inset: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(14, 12, 22, 0.55) 100%
+  );
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-border-strong: rgba(255, 255, 255, 0.24);
+  --glass-border-violet: rgba(183, 155, 255, 0.42);
+  --glass-rim:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    inset 1px 0 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(103, 0, 255, 0.18),
+    0 18px 46px -22px rgba(0, 0, 0, 0.78);
+  --glass-rim-violet:
+    inset 0 1px 0 rgba(235, 224, 255, 0.36),
+    inset 1px 0 0 rgba(215, 200, 255, 0.16),
+    inset 0 -1px 0 rgba(103, 0, 255, 0.34),
+    0 24px 64px -26px rgba(103, 0, 255, 0.52);
+
+  /* Crisp structural borders */
+  --border: rgba(255, 255, 255, 0.11);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --border-violet: rgba(139, 77, 255, 0.52);
 
   /* Spawntel dark-canvas ink hierarchy */
   --ink: #FFFFFF;
   --ink-body: #F0EDF7;
-  --ink-2: #B6B0C6;
+  --ink-2: #C2BCD4;
   --ink-muted: #94A3B8;
 
   /* Official Spawntel Violet palette (D-053) */
@@ -38,24 +74,44 @@
   --violet-pale: #D7C8FF;
   --on-primary: #FFFFFF;
 
-  /* High-contrast Spawntel display heading colors (never fading to dark #6700FF on dark bg) */
-  --grad-heading: linear-gradient(90deg, #FFFFFF 0%, #E7DDFF 54%, #B79BFF 100%);
-  --grad-num: linear-gradient(135deg, #FFFFFF 12%, #C2AAFF 62%, #8F4DFF 115%);
+  /* Faint seamless constantly-moving gradient for display text (zero dark left/right fade) */
+  --grad-shimmer: linear-gradient(
+    105deg,
+    #F5F2FF 0%,
+    #FFFFFF 20%,
+    #D9CCFF 38%,
+    #B594FF 50%,
+    #D9CCFF 62%,
+    #FFFFFF 80%,
+    #F5F2FF 100%
+  );
+  --grad-num: linear-gradient(
+    105deg,
+    #F4F0FF 0%,
+    #FFFFFF 22%,
+    #CEBCFF 42%,
+    #A77EFF 52%,
+    #CEBCFF 64%,
+    #FFFFFF 82%,
+    #F4F0FF 100%
+  );
 
-  /* Glows & elevation */
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.45);
+  /* Liquid glow accents */
+  --shadow-card: var(--glass-rim);
   --shadow-violet:
-    inset 0 2px 1px rgba(255, 255, 255, 0.16),
-    0 2px 6px rgba(103, 0, 255, 0.28),
-    0 10px 24px -4px rgba(103, 0, 255, 0.42),
-    0 22px 42px -10px rgba(103, 0, 255, 0.34);
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1px 0 rgba(35, 0, 95, 0.4),
+    0 6px 22px -4px rgba(103, 0, 255, 0.48),
+    0 18px 38px -10px rgba(103, 0, 255, 0.36);
   --shadow-dark-pill:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    2px 4px 14px rgba(0, 0, 0, 0.45);
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(103, 0, 255, 0.14),
+    0 10px 26px -10px rgba(0, 0, 0, 0.6);
 
-  /* Lightweight blur */
-  --blur-nav: blur(10px);
-  --blur-sm: blur(6px);
+  /* Lightweight liquid blur */
+  --blur-nav: blur(16px) saturate(165%);
+  --blur-glass: blur(14px) saturate(150%);
+  --blur-sm: blur(10px) saturate(140%);
 
   /* Radius */
   --radius-sm: 10px;

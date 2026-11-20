@@ -35,14 +35,16 @@ import { PROCESS_SECTION_COPY, PROCESS_STEPS } from '../data/site';
     display: block;
     font-family: var(--font-heading);
     font-size: clamp(3.75rem, 2.5rem + 4vw, 6.75rem);
-    font-weight: 700;
+    font-weight: 800;
     line-height: 0.92;
     letter-spacing: -0.055em;
     background-image: var(--grad-num);
+    background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    animation: text-shimmer-flow 8.5s linear infinite;
   }
 
   .hw-step h3 {

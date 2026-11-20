@@ -116,15 +116,17 @@ const {
     margin: 0 0 16px;
     font-family: var(--font-heading);
     font-size: clamp(2rem, 1.35rem + 2.3vw, 3.15rem);
-    font-weight: 700;
+    font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.028em;
     padding-bottom: 0.06em;
-    background-image: var(--grad-heading);
+    background-image: var(--grad-shimmer);
+    background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    animation: text-shimmer-flow 7.5s linear infinite;
   }
 
   .doc-lead {
