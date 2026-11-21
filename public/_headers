@@ -14,7 +14,7 @@
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 
 /images/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
 /PFP*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800

@@ -267,8 +267,8 @@ const structuredData = {
     </footer>
 
     <script>
-      // Scroll reveal: IntersectionObserver only.
-      const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      // Scroll reveal: IntersectionObserver + fallback sweep so fast scrolls or hash jumps never leave items hidden.
+      const items = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduce || !('IntersectionObserver' in window)) {
         items.forEach((el) => el.classList.add('is-in'));
@@ -282,16 +282,27 @@ const structuredData = {
               }
             });
           },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.1 },
+          { rootMargin: '0px 0px -2% 0px', threshold: 0.01 },
         );
+        const revealVisible = () => {
+          const cutoff = window.innerHeight * 0.98;
+          items.forEach((el) => {
+            if (!el.classList.contains('is-in') && el.getBoundingClientRect().top <= cutoff) {
+              el.classList.add('is-in');
+              io.unobserve(el);
+            }
+          });
+        };
         items.forEach((el) => io.observe(el));
+        revealVisible();
+        window.addEventListener('hashchange', () => setTimeout(revealVisible, 120), { passive: true });
       }
 
       // Section scroll-spy on homepage using IntersectionObserver.
       const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
       if ('IntersectionObserver' in window && navLinks.length > 0) {
         const sectionIds = Array.from(new Set(Array.from(navLinks).map((a) => a.dataset.sectionLink).filter(Boolean))) as string[];
-        const topClearIds = ['hero', 'proof'];
+        const topClearIds = ['hero', 'proof', 'flagship', 'credentials', 'contact'];
         const observedIds = [...topClearIds, ...sectionIds];
         const sections = observedIds.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el));
         if (sectionIds.some((id) => document.getElementById(id))) {
@@ -348,14 +359,14 @@ const structuredData = {
         });
       });
 
-      // Light homepage: header floats transparent over the hero, then turns solid cream.
+      // Light homepage: header floats transparent over the hero sky, then turns solid cream before the white mist reaches it.
       const siteHeader = document.querySelector<HTMLElement>('[data-site-header].header-overlay');
       const heroEl = document.getElementById('hero');
       if (siteHeader && heroEl) {
         let hRaf = 0;
         const paintHeader = () => {
           hRaf = 0;
-          const solid = window.scrollY > heroEl.offsetHeight - siteHeader.offsetHeight - 8;
+          const solid = window.scrollY > heroEl.offsetHeight * 0.45 - siteHeader.offsetHeight;
           siteHeader.classList.toggle('is-solid', solid);
           siteHeader.classList.toggle('theme-light', solid);
         };
@@ -400,7 +411,7 @@ const structuredData = {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(13, 8, 20, 0.96);
+    background: #0D0814;
   }
 
   .header-overlay {
@@ -413,7 +424,7 @@ const structuredData = {
   }
 
   .header-overlay.is-solid {
-    background: rgba(240, 237, 247, 0.97);
+    background: #F0EDF7;
     box-shadow: 0 10px 30px -22px rgba(13, 8, 20, 0.45);
   }
 

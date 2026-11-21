@@ -5,24 +5,23 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 
 <section class="hero theme-dark" id="hero" aria-labelledby="hero-title" data-hero>
   <div class="hero-scene" aria-hidden="true">
-    <div class="hero-layer layer-bank" data-depth="0.30">
-      <img src="/images/clouds/layer-bank.webp" alt="" width="1024" height="372" decoding="async" fetchpriority="high" />
+    <div class="hero-layer layer-bank" data-depth="0.28">
+      <img src="/images/clouds/hero-bank-v2.webp" alt="" width="1024" height="372" loading="eager" decoding="async" fetchpriority="high" />
     </div>
-    <div class="hero-layer layer-peak" data-depth="0.18">
-      <img src="/images/clouds/layer-peak.webp" alt="" width="1376" height="534" decoding="async" fetchpriority="high" />
+    <div class="hero-layer layer-peak" data-depth="0.16">
+      <img src="/images/clouds/hero-peak-v2.webp" alt="" width="1376" height="534" loading="eager" decoding="async" fetchpriority="high" />
     </div>
     <div class="hero-layer layer-hills" data-depth="0">
-      <img class="layer-glow-img" src="/images/clouds/layer-glow.webp" alt="" width="688" height="290" decoding="async" />
-      <img class="layer-mtn-img" src="/images/clouds/layer-mountains.webp" alt="" width="1376" height="580" decoding="async" />
+      <img src="/images/clouds/hero-hills-v2.webp" alt="" width="1376" height="580" loading="eager" decoding="async" fetchpriority="high" />
     </div>
-    <div class="hero-layer layer-mist" data-depth="-0.12">
-      <img src="/images/clouds/layer-mist.webp" alt="" width="1024" height="386" decoding="async" />
+    <div class="hero-layer layer-mist" data-depth="-0.10">
+      <img src="/images/clouds/hero-mist-v2.webp" alt="" width="1024" height="386" loading="eager" decoding="async" />
     </div>
-    <div class="hero-layer layer-forest layer-forest-left" data-depth="-0.26" data-spread="-0.14">
-      <img src="/images/clouds/layer-forest-left.webp" alt="" width="646" height="599" decoding="async" />
+    <div class="hero-layer layer-forest layer-forest-left" data-depth="-0.22" data-spread="-0.14">
+      <img src="/images/clouds/hero-forest-left-v2.webp" alt="" width="646" height="599" loading="eager" decoding="async" />
     </div>
-    <div class="hero-layer layer-forest layer-forest-right" data-depth="-0.22" data-spread="0.14">
-      <img src="/images/clouds/layer-forest-right.webp" alt="" width="850" height="653" decoding="async" />
+    <div class="hero-layer layer-forest layer-forest-right" data-depth="-0.19" data-spread="0.14">
+      <img src="/images/clouds/hero-forest-right-v2.webp" alt="" width="744" height="653" loading="eager" decoding="async" />
     </div>
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
@@ -56,11 +55,13 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
    */
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const layers = Array.from(hero.querySelectorAll<HTMLElement>('.hero-layer[data-depth]')).map((el) => ({
-      el,
-      d: Number(el.dataset.depth || 0),
-      sx: Number(el.dataset.spread || 0),
-    }));
+    const layers = Array.from(hero.querySelectorAll<HTMLElement>('.hero-layer[data-depth]'))
+      .map((el) => ({
+        el,
+        d: Number(el.dataset.depth || 0),
+        sx: Number(el.dataset.spread || 0),
+      }))
+      .filter(({ d, sx }) => d !== 0 || sx !== 0);
     const top = hero.querySelector<HTMLElement>('[data-hero-top]');
     const TAU = 220;
     let heroH = hero.offsetHeight;
@@ -71,11 +72,12 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 
     const apply = (y: number) => {
       for (const { el, d, sx } of layers) {
-        el.style.transform = `translate3d(${(y * sx).toFixed(2)}px, ${(y * d).toFixed(2)}px, 0)`;
+        el.style.translate = `${(y * sx).toFixed(2)}px ${(y * d).toFixed(2)}px 0`;
       }
       if (top) {
-        top.style.transform = `translate3d(0, ${(y * 0.35).toFixed(2)}px, 0)`;
-        top.style.opacity = Math.max(0, 1 - y / (heroH * 0.6)).toFixed(3);
+        const fadeRange = Math.max(135, heroH * 0.21);
+        top.style.transform = `translate3d(0, ${(y * 0.06).toFixed(2)}px, 0)`;
+        top.style.opacity = Math.max(0, 1 - y / fadeRange).toFixed(3);
       }
     };
 
@@ -137,7 +139,10 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     left: 50%;
     width: var(--lw);
     margin-left: calc(var(--lw) / -2);
-    will-change: transform;
+  }
+
+  .hero-layer[data-depth]:not([data-depth="0"]) {
+    will-change: transform, translate;
   }
 
   .hero-layer img {
@@ -146,29 +151,12 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     height: auto;
   }
 
-  .layer-glow-img {
-    position: absolute;
-    inset: 0 0 auto 0;
-  }
-
-  .layer-mtn-img {
-    position: relative;
-  }
-
-  /* Back to front: bank (blended), peak, hills, near mist (blended) */
+  /* Back to front: bank, peak, hills (glow merged in), near mist */
   .layer-bank {
     z-index: 2;
+    width: calc(var(--lw) * 1.08);
+    margin-left: calc(var(--lw) * -0.54);
     top: calc(var(--horizon) + 1svh - var(--lwh) * 0.0292);
-  }
-
-  .layer-bank img,
-  .layer-mist img {
-    width: 108%;
-    max-width: none;
-    margin-left: -4%;
-  }
-
-  .layer-bank img {
     animation: hero-drift-a 38s ease-in-out infinite alternate;
   }
 
@@ -177,7 +165,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     top: calc(var(--horizon) - var(--lwh) * 0.0153);
   }
 
-  /* Small tree-covered mountains; the glow is a soft blur that follows the ridgeline (no hard rim line) */
+  /* Small tree-covered mountains with soft ridgeline glow baked into one image */
   .layer-hills {
     z-index: 4;
     top: calc(var(--horizon) + 14svh - var(--lwh) * 0.2252);
@@ -185,10 +173,9 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 
   .layer-mist {
     z-index: 5;
+    width: calc(var(--lw) * 1.08);
+    margin-left: calc(var(--lw) * -0.54);
     top: calc(var(--horizon) + 30svh - var(--lwh) * 0.3248);
-  }
-
-  .layer-mist img {
     animation: hero-drift-b 26s ease-in-out infinite alternate;
   }
 
@@ -207,7 +194,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   .layer-forest-right {
     left: auto;
     right: 0;
-    width: clamp(320px, 40vw, 720px);
+    width: clamp(290px, 35vw, 630px);
   }
 
   @keyframes hero-drift-a {
@@ -317,8 +304,8 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     }
 
     .layer-forest-right {
-      width: 92vw;
-      right: -30vw;
+      width: 84vw;
+      right: -24vw;
       bottom: -2%;
     }
 

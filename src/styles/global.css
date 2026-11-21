@@ -129,6 +129,10 @@ main {
   padding-block: clamp(56px, 7.5vw, 108px);
 }
 
+section[id] {
+  scroll-margin-top: calc(var(--nav-h) + 12px);
+}
+
 .section-head {
   display: flex;
   flex-direction: column;
@@ -190,7 +194,7 @@ main {
   justify-content: center;
   gap: 12px;
   height: 46px;
-  padding: 0 9px 0 22px;
+  padding: 0 22px;
   border-radius: var(--radius-full);
   font-family: var(--font-sans);
   font-size: 14.5px;
@@ -199,6 +203,11 @@ main {
   white-space: nowrap;
   cursor: pointer;
   transition: transform 0.22s var(--ease-expo), filter 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.24s var(--ease-expo);
+}
+
+.cta-btn:has(.cta-btn__circle),
+.cta-btn-dark:has(.cta-btn__circle) {
+  padding: 0 9px 0 22px;
 }
 
 .cta-btn {
@@ -335,6 +344,7 @@ main {
 
 html.page-light,
 html.page-light body {
+  --cx-top-rgb: 240, 237, 247;
   background: #F0EDF7;
 }
 

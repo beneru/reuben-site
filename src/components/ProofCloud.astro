@@ -87,9 +87,6 @@ import { PROOF_NUMBERS_COPY } from '../data/site';
     padding: 8px clamp(16px, 2.6vw, 40px);
   }
 
-  .pn-stat + .pn-stat {
-  }
-
   .pn-stat__value {
     font-family: var(--font-heading);
     font-size: clamp(3.4rem, 2.2rem + 4.4vw, 6.2rem);
@@ -123,13 +120,13 @@ import { PROOF_NUMBERS_COPY } from '../data/site';
     font-weight: 500;
     color: var(--violet-soft);
     text-decoration: underline;
-    text-decoration-color: rgba(183, 155, 255, 0.35);
+    text-decoration-color: rgba(103, 0, 255, 0.35);
     text-underline-offset: 4px;
     transition: color 0.15s ease, text-decoration-color 0.15s ease;
   }
 
   .pn-stat__src:hover {
-    color: #FFFFFF;
+    color: var(--ink);
     text-decoration-color: currentColor;
   }
 
@@ -148,9 +145,6 @@ import { PROOF_NUMBERS_COPY } from '../data/site';
       gap: 18px;
       padding: 20px 0;
       text-align: left;
-    }
-
-    .pn-stat + .pn-stat {
     }
 
     .pn-stat__value {
