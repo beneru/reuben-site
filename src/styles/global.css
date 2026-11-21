@@ -149,7 +149,7 @@ main {
   -webkit-backdrop-filter: var(--blur-sm);
   backdrop-filter: var(--blur-sm);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 6px 18px -8px rgba(0, 0, 0, 0.6);
-  color: #EAE6F7;
+  color: #F0EDF7;
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 500;
@@ -222,9 +222,9 @@ main {
 }
 
 .cta-btn {
-  background: linear-gradient(180deg, rgba(139, 58, 255, 0.95) 0%, rgba(103, 0, 255, 0.92) 100%);
+  background: linear-gradient(180deg, rgba(143, 77, 255, 0.95) 0%, rgba(103, 0, 255, 0.92) 100%);
   color: var(--on-primary);
-  border: 1px solid rgba(226, 210, 255, 0.36);
+  border: 1px solid rgba(215, 200, 255, 0.36);
   box-shadow: var(--shadow-violet);
 }
 
@@ -240,7 +240,7 @@ main {
 }
 
 .cta-btn-dark {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(26, 22, 38, 0.56));
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(21, 17, 30, 0.56));
   color: var(--ink);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-dark-pill);
@@ -249,7 +249,7 @@ main {
 }
 
 .cta-btn-dark:hover {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(38, 30, 56, 0.66));
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(31, 26, 44, 0.66));
   border-color: var(--glass-border-strong);
   transform: translate3d(0, -2px, 0);
   color: var(--ink);
@@ -266,13 +266,13 @@ main {
 }
 
 .cta-btn .cta-btn__circle {
-  background: rgba(11, 11, 12, 0.85);
-  color: #F5F5F7;
+  background: rgba(13, 8, 20, 0.85);
+  color: #F0EDF7;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .cta-btn-dark .cta-btn__circle {
-  background: linear-gradient(180deg, #8A38FF, #6700FF);
+  background: linear-gradient(180deg, #8F4DFF, #6700FF);
   color: #FFFFFF;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 18px rgba(103, 0, 255, 0.6);
 }
@@ -330,38 +330,38 @@ main {
 
 .theme-light {
   color-scheme: light;
-  --bg: #F6F3EE;
+  --bg: #F0EDF7;
   --surface-1: #FFFFFF;
-  --surface-2: #EFEAE2;
-  --surface-3: #E6E0D6;
+  --surface-2: #FFFFFF;
+  --surface-3: #D7C8FF;
   --glass-bg: #FFFFFF;
   --glass-bg-hover: #FFFFFF;
-  --glass-bg-violet: linear-gradient(160deg, #EFE6FF 0%, #FFFFFF 72%);
-  --glass-bg-inset: #F1EDE6;
-  --glass-border: rgba(27, 21, 48, 0.1);
-  --glass-border-strong: rgba(27, 21, 48, 0.2);
+  --glass-bg-violet: linear-gradient(160deg, #D7C8FF 0%, #FFFFFF 72%);
+  --glass-bg-inset: #FFFFFF;
+  --glass-border: rgba(13, 8, 20, 0.1);
+  --glass-border-strong: rgba(13, 8, 20, 0.2);
   --glass-border-violet: rgba(103, 0, 255, 0.35);
-  --glass-rim: 0 1px 2px rgba(27, 21, 48, 0.04), 0 22px 44px -28px rgba(52, 24, 120, 0.3);
+  --glass-rim: 0 1px 2px rgba(13, 8, 20, 0.04), 0 22px 44px -28px rgba(103, 0, 255, 0.3);
   --glass-rim-violet: 0 26px 60px -30px rgba(103, 0, 255, 0.45);
-  --border: rgba(27, 21, 48, 0.1);
-  --border-strong: rgba(27, 21, 48, 0.2);
+  --border: rgba(13, 8, 20, 0.1);
+  --border-strong: rgba(13, 8, 20, 0.2);
   --border-violet: rgba(103, 0, 255, 0.4);
-  --ink: #1B1530;
-  --ink-body: #2B2442;
-  --ink-2: #4B4463;
-  --ink-muted: #6A6480;
-  --violet-soft: #5A10D8;
-  --violet-accent: #5A10D8;
-  --shadow-dark-pill: 0 10px 24px -14px rgba(27, 21, 48, 0.5);
-  --grad-num: linear-gradient(180deg, #7A2BFF 0%, #4A00C9 100%);
-  --grad-shimmer: linear-gradient(180deg, #1B1530 0%, #1B1530 100%);
+  --ink: #0D0814;
+  --ink-body: rgba(13, 8, 20, 0.88);
+  --ink-2: rgba(13, 8, 20, 0.76);
+  --ink-muted: rgba(13, 8, 20, 0.64);
+  --violet-soft: #6700FF;
+  --violet-accent: #6700FF;
+  --shadow-dark-pill: 0 10px 24px -14px rgba(13, 8, 20, 0.5);
+  --grad-num: linear-gradient(180deg, #6700FF 0%, #8F4DFF 100%);
+  --grad-shimmer: linear-gradient(180deg, #0D0814 0%, #0D0814 100%);
   --blob-bg-size: 100% 100%;
   color: var(--ink-body);
 }
 
 html.page-light,
 html.page-light body {
-  background: #F6F3EE;
+  background: #F0EDF7;
 }
 
 html.page-light body {
@@ -385,7 +385,7 @@ html.page-light body {
 }
 
 .theme-light .cta-btn-dark {
-  background: #1B1530;
+  background: #0D0814;
   color: #FFFFFF;
   border-color: transparent;
   -webkit-backdrop-filter: none;
@@ -393,11 +393,11 @@ html.page-light body {
 }
 
 .theme-light .cta-btn-dark:hover {
-  background: #2C2149;
+  background: #15111E;
   color: #FFFFFF;
 }
 
 /* Deep plum band for dark interludes on the light page */
 .band-plum {
-  background: #150F26;
+  background: #0D0814;
 }

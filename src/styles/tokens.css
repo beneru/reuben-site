@@ -12,34 +12,34 @@
   color-scheme: dark;
 
   /* Core obsidian dark canvas */
-  --bg: #0B0B0C;
-  --surface-1: #12101A;
-  --surface-2: #191526;
-  --surface-3: #221D33;
+  --bg: #0D0814;
+  --surface-1: #15111E;
+  --surface-2: #1F1A2C;
+  --surface-3: #1A1B22;
 
   /* Liquid Glass surfaces & specular rims */
   --glass-bg: linear-gradient(
     145deg,
     rgba(255, 255, 255, 0.085) 0%,
-    rgba(26, 21, 39, 0.56) 36%,
-    rgba(13, 11, 20, 0.72) 100%
+    rgba(21, 17, 30, 0.56) 36%,
+    rgba(13, 8, 20, 0.72) 100%
   );
   --glass-bg-hover: linear-gradient(
     145deg,
     rgba(255, 255, 255, 0.12) 0%,
-    rgba(36, 28, 56, 0.62) 40%,
-    rgba(16, 13, 25, 0.78) 100%
+    rgba(31, 26, 44, 0.62) 40%,
+    rgba(13, 8, 20, 0.78) 100%
   );
   --glass-bg-violet: linear-gradient(
     145deg,
     rgba(183, 155, 255, 0.18) 0%,
     rgba(103, 0, 255, 0.16) 40%,
-    rgba(15, 11, 26, 0.76) 100%
+    rgba(13, 8, 20, 0.76) 100%
   );
   --glass-bg-inset: linear-gradient(
     160deg,
     rgba(255, 255, 255, 0.05) 0%,
-    rgba(14, 12, 22, 0.55) 100%
+    rgba(13, 8, 20, 0.55) 100%
   );
   --glass-border: rgba(255, 255, 255, 0.15);
   --glass-border-strong: rgba(255, 255, 255, 0.24);
@@ -50,7 +50,7 @@
     inset 0 -1px 0 rgba(103, 0, 255, 0.18),
     0 18px 46px -22px rgba(0, 0, 0, 0.78);
   --glass-rim-violet:
-    inset 0 1px 0 rgba(235, 224, 255, 0.36),
+    inset 0 1px 0 rgba(215, 200, 255, 0.36),
     inset 1px 0 0 rgba(215, 200, 255, 0.16),
     inset 0 -1px 0 rgba(103, 0, 255, 0.34),
     0 24px 64px -26px rgba(103, 0, 255, 0.52);
@@ -58,7 +58,7 @@
   /* Crisp structural borders */
   --border: rgba(255, 255, 255, 0.11);
   --border-strong: rgba(255, 255, 255, 0.2);
-  --border-violet: rgba(139, 77, 255, 0.52);
+  --border-violet: rgba(143, 77, 255, 0.52);
 
   /* Spawntel dark-canvas ink hierarchy */
   --ink: #FFFFFF;
@@ -77,24 +77,24 @@
 
   /* Organic wandering multi-blob gradients for display text (zero dark edge fade) */
   --grad-shimmer:
-    radial-gradient(46% 95% at 50% 50%, rgba(167, 118, 255, 0.72) 0%, rgba(167, 118, 255, 0) 72%),
-    radial-gradient(42% 88% at 50% 50%, rgba(206, 184, 255, 0.68) 0%, rgba(206, 184, 255, 0) 70%),
-    radial-gradient(50% 105% at 50% 50%, rgba(126, 62, 255, 0.56) 0%, rgba(126, 62, 255, 0) 74%),
-    radial-gradient(38% 82% at 50% 50%, rgba(226, 212, 255, 0.74) 0%, rgba(226, 212, 255, 0) 68%),
-    linear-gradient(180deg, #FFFFFF 0%, #F5F1FF 100%);
+    radial-gradient(46% 95% at 50% 50%, rgba(177, 130, 255, 0.72) 0%, rgba(177, 130, 255, 0) 72%),
+    radial-gradient(42% 88% at 50% 50%, rgba(205, 185, 255, 0.68) 0%, rgba(205, 185, 255, 0) 70%),
+    radial-gradient(50% 105% at 50% 50%, rgba(126, 38, 255, 0.56) 0%, rgba(126, 38, 255, 0) 74%),
+    radial-gradient(38% 82% at 50% 50%, rgba(215, 200, 255, 0.74) 0%, rgba(215, 200, 255, 0) 68%),
+    linear-gradient(180deg, #FFFFFF 0%, #F0EDF7 100%);
   --grad-num:
-    radial-gradient(50% 95% at 50% 50%, rgba(154, 98, 255, 0.78) 0%, rgba(154, 98, 255, 0) 72%),
-    radial-gradient(44% 88% at 50% 50%, rgba(203, 178, 255, 0.72) 0%, rgba(203, 178, 255, 0) 70%),
+    radial-gradient(50% 95% at 50% 50%, rgba(160, 104, 255, 0.78) 0%, rgba(160, 104, 255, 0) 72%),
+    radial-gradient(44% 88% at 50% 50%, rgba(205, 185, 255, 0.72) 0%, rgba(205, 185, 255, 0) 70%),
     radial-gradient(52% 100% at 50% 50%, rgba(103, 0, 255, 0.52) 0%, rgba(103, 0, 255, 0) 74%),
-    radial-gradient(40% 80% at 50% 50%, rgba(228, 214, 255, 0.74) 0%, rgba(228, 214, 255, 0) 68%),
-    linear-gradient(180deg, #FFFFFF 0%, #F2ECFF 100%);
+    radial-gradient(40% 80% at 50% 50%, rgba(215, 200, 255, 0.74) 0%, rgba(215, 200, 255, 0) 68%),
+    linear-gradient(180deg, #FFFFFF 0%, #F0EDF7 100%);
   --blob-bg-size: 62% 170%, 54% 160%, 66% 180%, 48% 150%, 100% 100%;
 
   /* Liquid glow accents */
   --shadow-card: var(--glass-rim);
   --shadow-violet:
     inset 0 1.5px 0 rgba(255, 255, 255, 0.34),
-    inset 0 -1px 0 rgba(35, 0, 95, 0.4),
+    inset 0 -1px 0 rgba(13, 8, 20, 0.4),
     0 6px 22px -4px rgba(103, 0, 255, 0.48),
     0 18px 38px -10px rgba(103, 0, 255, 0.36);
   --shadow-dark-pill:
