@@ -2,7 +2,6 @@
 import { spawntelFunnelUrl } from '../../shared/funnel';
 import { SOCIAL_LINKS } from '../../shared/socials';
 import { FOOTER_COPY, HERO_COPY, SITE_IDENTITY } from '../data/site';
-import SkyScene from './SkyScene.astro';
 
 const buildIcons = [
   // Meta DM Qualifier: chat bubble with check
@@ -15,7 +14,17 @@ const buildIcons = [
 ---
 
 <section class="hero theme-dark" id="hero" aria-labelledby="hero-title" data-hero>
-  <SkyScene id="hero-sky" variant="dawn" />
+  <img
+    class="hero-photo"
+    src="/images/clouds/hero-clouds.webp"
+    alt=""
+    width="1376"
+    height="768"
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+    data-hero-photo
+  />
   <div class="hero-scrim" aria-hidden="true"></div>
 
   <div class="site-wrap hero-inner">
@@ -90,16 +99,13 @@ const buildIcons = [
 <script>
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const layers = Array.from(hero.querySelectorAll<SVGGElement>('.sky-scene g[data-depth]'));
+    const photo = hero.querySelector<HTMLElement>('[data-hero-photo]');
     const top = hero.querySelector<HTMLElement>('[data-hero-top]');
     let raf = 0;
     const paint = () => {
       raf = 0;
       const y = Math.min(window.scrollY, hero.offsetHeight);
-      layers.forEach((g) => {
-        const d = Number(g.dataset.depth || 0);
-        g.style.transform = `translate3d(0, ${(y * d).toFixed(1)}px, 0)`;
-      });
+      if (photo) photo.style.transform = `translate3d(0, ${(y * 0.22).toFixed(1)}px, 0) scale(1.06)`;
       if (top) {
         const k = window.innerWidth <= 760 ? 0 : 0.32;
         top.style.transform = `translate3d(0, ${(y * k).toFixed(1)}px, 0)`;
@@ -121,8 +127,17 @@ const buildIcons = [
     background: #0D0814;
   }
 
-  .hero :global(.sky-scene) {
+  .hero-photo {
+    position: absolute;
+    inset: 0;
     z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 70%;
+    transform: scale(1.06);
+    transform-origin: center bottom;
+    will-change: transform;
   }
 
   /* Darkens the lower band so white copy stays readable over the ridges, then melts into cream */
