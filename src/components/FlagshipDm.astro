@@ -22,16 +22,6 @@ const inboxRows = [
       <h2 class="fs-title" id="fs-title">{FLAGSHIP_COPY.heading}</h2>
       <p class="fs-lead">{FLAGSHIP_COPY.lead}</p>
 
-      <ul class="fs-facts">
-        {FLAGSHIP_COPY.facts.map((fact) => (
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M6 12.5l4 4 8-9" />
-            </svg>
-            <span>{fact}</span>
-          </li>
-        ))}
-      </ul>
 
       <div class="fs-foot">
         <span class="fs-status"><span class="fs-status__dot" aria-hidden="true"></span>{FLAGSHIP_COPY.status}</span>
@@ -100,10 +90,6 @@ const inboxRows = [
         />
       </div>
 
-      <figcaption class="fs-cap">
-        <span><strong>{FLAGSHIP_COPY.beforeLabel}:</strong> {FLAGSHIP_COPY.beforeNote}</span>
-        <span><strong>{FLAGSHIP_COPY.afterLabel}:</strong> {FLAGSHIP_COPY.afterNote}</span>
-      </figcaption>
     </figure>
   </div>
 </section>
@@ -190,35 +176,6 @@ const inboxRows = [
     font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.92);
-  }
-
-  .fs-facts {
-    list-style: none;
-    margin: 26px 0 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px 22px;
-  }
-
-  .fs-facts li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 15px;
-    line-height: 1.45;
-    color: #FFFFFF;
-  }
-
-  .fs-facts svg {
-    flex: 0 0 22px;
-    width: 22px;
-    height: 22px;
-    padding: 4px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: #FFFFFF;
   }
 
   .fs-foot {
@@ -471,21 +428,6 @@ const inboxRows = [
 
   .ba:has(.ba-range:active) .ba-knob {
     transform: scale(0.94);
-  }
-
-  .fs-cap {
-    margin-top: 14px;
-    color: rgba(255, 255, 255, 0.82);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 6px 18px;
-    font-size: 12.5px;
-  }
-
-  .fs-cap strong {
-    color: #FFFFFF;
-    font-weight: 600;
   }
 
   @media (max-width: 560px) {

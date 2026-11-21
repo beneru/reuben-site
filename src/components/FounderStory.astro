@@ -10,9 +10,12 @@ const photo = FOUNDER_COPY.photos[0];
       <article class="bento-card bento-story theme-dark" data-reveal>
         <h2 class="bento-eyebrow" id="about-heading">Who's behind Beneru</h2>
         <p class="bento-lead">{FOUNDER_COPY.lead}</p>
-        {FOUNDER_COPY.paragraphs.map((para) => (
-          <p class="story-para">{para}</p>
-        ))}
+        <details class="story-more">
+          <summary>Read the full story</summary>
+          {FOUNDER_COPY.paragraphs.map((para) => (
+            <p class="story-para">{para}</p>
+          ))}
+        </details>
       </article>
 
       <figure class="bento-card bento-photo theme-dark" data-reveal style="--i: 1">
@@ -108,6 +111,26 @@ const photo = FOUNDER_COPY.photos[0];
     font-size: 15.5px;
     line-height: 1.7;
     color: #C2BCD4;
+  }
+
+  .story-more summary {
+    width: fit-content;
+    cursor: pointer;
+    list-style: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #C2AAFF;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(194, 170, 255, 0.4);
+  }
+
+  .story-more summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .story-more[open] summary {
+    margin-bottom: 16px;
   }
 
   .story-para + .story-para {

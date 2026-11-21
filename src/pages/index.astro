@@ -2,13 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import ProofCloud from '../components/ProofCloud.astro';
-import FounderStory from '../components/FounderStory.astro';
 import FlagshipDm from '../components/FlagshipDm.astro';
 import WorkShowcase from '../components/WorkShowcase.astro';
 import PillarsSection from '../components/PillarsSection.astro';
-import ProblemCarousel from '../components/ProblemCarousel.astro';
 import SystemsCards from '../components/SystemsCards.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
+import FounderStory from '../components/FounderStory.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import { SEO_DEFAULTS } from '../data/site';
 ---
@@ -17,17 +16,14 @@ import { SEO_DEFAULTS } from '../data/site';
   <Hero />
   <div class="theme-light">
     <ProofCloud />
-    <FounderStory />
   </div>
   <FlagshipDm />
   <div class="theme-light">
     <WorkShowcase />
     <PillarsSection />
-  </div>
-  <ProblemCarousel />
-  <div class="theme-light">
     <SystemsCards />
     <ProcessSteps />
+    <FounderStory />
   </div>
   <CtaBanner />
 </BaseLayout>

@@ -6,7 +6,6 @@ import { SYSTEMS_SECTION_COPY, SYSTEM_TIER_CARDS } from '../data/site';
 <section class="section-block" id="systems" aria-labelledby="systems-heading">
   <div class="site-wrap">
     <div class="section-head" data-reveal>
-      <span class="pill-tag">{SYSTEMS_SECTION_COPY.pill}</span>
       <h2 class="grad-title" id="systems-heading">{SYSTEMS_SECTION_COPY.heading}</h2>
       {SYSTEMS_SECTION_COPY.lead && <p class="section-sub">{SYSTEMS_SECTION_COPY.lead}</p>}
     </div>
@@ -19,24 +18,11 @@ import { SYSTEMS_SECTION_COPY, SYSTEM_TIER_CARDS } from '../data/site';
           style={`--i: ${idx}`}
         >
           <div class="pc-top">
-            <span class="pill-tag pc-badge">{card.badge}</span>
+            {card.featured && <span class="pc-badge">{card.badge}</span>}
             <div class="pc-copy">
               <h3>{card.title}</h3>
               <p>{card.subtitle}</p>
             </div>
-            <a
-              href={spawntelFunnelUrl(card.ctaPlacement)}
-              class={card.featured ? 'cta-btn pc-cta' : 'cta-btn-dark pc-cta'}
-              data-spawntel-cta={card.ctaPlacement}
-            >
-              <span>Book a free call</span>
-              <span class="cta-btn__circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </span>
-            </a>
           </div>
 
           <ul class="pc-list">
@@ -56,8 +42,8 @@ import { SYSTEMS_SECTION_COPY, SYSTEM_TIER_CARDS } from '../data/site';
     </div>
 
     <div class="cta-row pc-more">
-      <a href="/#work" class="cta-btn-dark">
-        <span>See documented systems</span>
+      <a href={spawntelFunnelUrl('systems-dm')} class="cta-btn" data-spawntel-cta="systems-dm">
+        <span>Book a free call</span>
         <span class="cta-btn__circle" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14" />
@@ -109,8 +95,12 @@ import { SYSTEMS_SECTION_COPY, SYSTEM_TIER_CARDS } from '../data/site';
 
   .pc-badge {
     width: fit-content;
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #FFFFFF;
     font-size: 12px;
-    padding: 5px 12px;
+    font-weight: 600;
   }
 
   .pc-copy h3 {
@@ -126,11 +116,6 @@ import { SYSTEMS_SECTION_COPY, SYSTEM_TIER_CARDS } from '../data/site';
     color: var(--ink-2);
     font-size: 15px;
     line-height: 1.5;
-  }
-
-  .pc-cta {
-    width: 100%;
-    justify-content: space-between;
   }
 
   .pc-list {

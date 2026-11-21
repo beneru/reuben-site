@@ -1,20 +1,12 @@
 ---
 import { spawntelFunnelUrl } from '../../shared/funnel';
-import { FOOTER_COPY, PROOF_NUMBERS_COPY } from '../data/site';
+import { HERO_COPY, PROOF_NUMBERS_COPY } from '../data/site';
 ---
 
 <section class="pn" id="proof" aria-labelledby="pn-title">
   <div class="site-wrap pn-wrap">
-    <nav class="pn-builds" aria-label={PROOF_NUMBERS_COPY.buildsLabel} data-reveal>
-      <span class="pn-builds__label">{PROOF_NUMBERS_COPY.buildsLabel}</span>
-      <ul>
-        {FOOTER_COPY.buildLinks.map((link) => (
-          <li><a href={link.href}>{link.label}</a></li>
-        ))}
-      </ul>
-    </nav>
-
-    <h2 class="pn-title" id="pn-title" data-reveal>{PROOF_NUMBERS_COPY.heading}</h2>
+    <h2 class="pn-title" id="pn-title" data-reveal>{HERO_COPY.headline}.</h2>
+    <p class="pn-lead" data-reveal>{HERO_COPY.subtitle}</p>
 
     <ul class="pn-stats">
       {PROOF_NUMBERS_COPY.stats.map((stat, idx) => (
@@ -30,11 +22,6 @@ import { FOOTER_COPY, PROOF_NUMBERS_COPY } from '../data/site';
         </li>
       ))}
     </ul>
-
-    <p class="pn-manifesto" data-reveal>
-      <span>{PROOF_NUMBERS_COPY.manifestoLead}</span>
-      <strong>{PROOF_NUMBERS_COPY.manifestoPayoff}</strong>
-    </p>
 
     <div class="pn-cta" data-reveal>
       <a href={spawntelFunnelUrl('proof-cloud')} class="cta-btn" data-spawntel-cta="proof-cloud">
@@ -73,60 +60,27 @@ import { FOOTER_COPY, PROOF_NUMBERS_COPY } from '../data/site';
     text-align: center;
   }
 
-  /* The three builds, named right under the hero */
-  .pn-builds {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 10px 18px;
-    margin-bottom: clamp(40px, 5vw, 64px);
-  }
-
-  .pn-builds__label {
-    font-size: 13px;
-    color: var(--ink-muted);
-  }
-
-  .pn-builds ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .pn-builds a {
-    display: inline-flex;
-    padding: 7px 14px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--ink);
-    font-size: 13.5px;
-    font-weight: 500;
-    transition: border-color 0.15s ease, background-color 0.15s ease;
-  }
-
-  .pn-builds a:hover {
-    border-color: var(--border-violet);
-    background: rgba(103, 0, 255, 0.1);
-  }
-
   .pn-title {
     margin: 0;
+    max-width: 18ch;
     font-size: clamp(2.3rem, 1.4rem + 3.4vw, 4.2rem);
     font-weight: 800;
     letter-spacing: -0.045em;
     color: var(--ink);
   }
 
+  .pn-lead {
+    margin: 20px 0 0;
+    max-width: 52ch;
+    font-size: clamp(1.05rem, 0.98rem + 0.3vw, 1.2rem);
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
   /* Bare numbers, each with a receipt */
   .pn-stats {
     list-style: none;
-    margin: clamp(36px, 4.5vw, 60px) 0 0;
+    margin: clamp(48px, 6vw, 80px) 0 0;
     padding: 0;
     width: 100%;
     max-width: 1080px;
@@ -189,27 +143,8 @@ import { FOOTER_COPY, PROOF_NUMBERS_COPY } from '../data/site';
     text-decoration-color: currentColor;
   }
 
-  .pn-manifesto {
-    margin: clamp(56px, 7vw, 96px) 0 0;
-    max-width: 34ch;
-    text-wrap: balance;
-    font-family: var(--font-heading);
-    font-size: clamp(1.4rem, 1rem + 1.6vw, 2.3rem);
-    font-weight: 600;
-    line-height: 1.22;
-    letter-spacing: -0.025em;
-    color: var(--ink-muted);
-  }
-
-  .pn-manifesto strong {
-    display: block;
-    margin-top: 6px;
-    font-weight: 700;
-    color: var(--ink);
-  }
-
   .pn-cta {
-    margin-top: clamp(28px, 3.5vw, 40px);
+    margin-top: clamp(40px, 5vw, 64px);
   }
 
   @media (max-width: 760px) {

@@ -1,16 +1,5 @@
 ---
-import { spawntelFunnelUrl } from '../../shared/funnel';
-import { SOCIAL_LINKS } from '../../shared/socials';
-import { FOOTER_COPY, HERO_COPY, SITE_IDENTITY } from '../data/site';
-
-const buildIcons = [
-  // Meta DM Qualifier: chat bubble with check
-  '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="m9 12 2 2 4-4"/>',
-  // Brand DNA Pipeline: sparkle
-  '<path d="M12 3c.6 4.4 2.6 6.4 7 7-4.4.6-6.4 2.6-7 7-.6-4.4-2.6-6.4-7-7 4.4-.6 6.4-2.6 7-7Z"/><path d="M19 3v4M17 5h4"/>',
-  // Marketing Brain: stacked layers
-  '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
-];
+import { SITE_IDENTITY } from '../data/site';
 ---
 
 <section class="hero theme-dark" id="hero" aria-labelledby="hero-title" data-hero>
@@ -25,6 +14,7 @@ const buildIcons = [
     <div class="hero-layer layer-hills" data-depth="0">
       <img src="/images/clouds/layer-hills.webp" alt="" width="1376" height="768" decoding="async" />
     </div>
+    <div class="hero-tint"></div>
     <div class="hero-layer layer-mist" data-depth="-0.12">
       <img src="/images/clouds/layer-mist.webp" alt="" width="1376" height="768" decoding="async" />
     </div>
@@ -43,60 +33,6 @@ const buildIcons = [
     </div>
     <p class="hero-tag">{SITE_IDENTITY.niche}, built so business owners stop doing marketing by hand.</p>
 
-    <ul class="hero-builds" aria-label="Documented builds">
-      {FOOTER_COPY.buildLinks.map((link, i) => (
-        <li>
-          <a href={link.href}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={buildIcons[i]} />
-            <span>{link.label}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-
-    <div class="hero-bottom">
-      <div class="hero-copy">
-        <p class="hero-statement">{HERO_COPY.headline}.</p>
-        <p class="hero-sub">{HERO_COPY.subtitle}</p>
-        <div class="cta-row hero-actions">
-          <a href={spawntelFunnelUrl('hero')} class="cta-btn" data-spawntel-cta="hero">
-            <span>{HERO_COPY.primaryCtaLabel}</span>
-            <span class="cta-btn__circle" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </span>
-          </a>
-          <a href={HERO_COPY.secondaryCtaHref} class="cta-btn-dark">
-            <span>{HERO_COPY.secondaryCtaLabel}</span>
-            <span class="cta-btn__circle" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </span>
-          </a>
-        </div>
-      </div>
-
-      <div class="hero-person">
-        <img src="/images/founder/reuben-studio.webp" alt={HERO_COPY.portraitAlt} width="56" height="56" decoding="async" />
-        <div>
-          <strong>{SITE_IDENTITY.personName} ({SITE_IDENTITY.shortName})</strong>
-          <span>{SITE_IDENTITY.role}, {SITE_IDENTITY.companyName}</span>
-          <ul class="hero-socials" aria-label="Beneru social profiles">
-            {SOCIAL_LINKS.map((s) => (
-              <li>
-                <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={`${s.label} (${s.handle})`} title={`${s.label} (${s.handle})`}>
-                  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" set:html={s.iconSvg} />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -204,6 +140,7 @@ const buildIcons = [
 
   .layer-mist {
     z-index: 5;
+    isolation: auto;
     bottom: -16%;
     mix-blend-mode: screen;
     opacity: 0.85;
@@ -211,6 +148,15 @@ const buildIcons = [
 
   .layer-mist img {
     animation: hero-drift-b 26s ease-in-out infinite alternate;
+  }
+
+  /* Re-hues the grey haze (lavender mist over near-black hills) back to brand violet */
+  .hero-tint {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    mix-blend-mode: color;
+    background: linear-gradient(180deg, transparent 35%, rgba(103, 0, 255, 0.55) 70%, rgba(143, 77, 255, 0.5) 100%);
   }
 
   @keyframes hero-drift-a {
@@ -231,15 +177,15 @@ const buildIcons = [
     pointer-events: none;
     background:
       linear-gradient(180deg, rgba(13, 8, 20, 0.18) 0%, transparent 16%),
-      linear-gradient(180deg, transparent 62%, rgba(13, 8, 20, 0.35) 84%, rgba(13, 8, 20, 0.2) 93%, #F0EDF7 100%);
+      linear-gradient(180deg, transparent 80%, rgba(240, 237, 247, 0.6) 94%, #F0EDF7 100%);
   }
 
   .hero-inner {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 32px;
+    justify-content: flex-start;
+    gap: 0;
     padding-top: calc(var(--nav-h) + clamp(28px, 6vh, 72px));
     padding-bottom: clamp(88px, 12vh, 140px);
   }
@@ -250,9 +196,7 @@ const buildIcons = [
     will-change: transform, opacity;
   }
 
-  .hero-tag,
-  .hero-builds,
-  .hero-bottom {
+  .hero-tag {
     position: relative;
     z-index: 7;
   }
@@ -299,133 +243,6 @@ const buildIcons = [
     text-shadow: 0 2px 20px rgba(13, 8, 20, 0.45);
   }
 
-  .hero-builds {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px clamp(14px, 3vw, 44px);
-  }
-
-  .hero-builds a {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 16px 10px 12px;
-    border-radius: 999px;
-    color: #FFFFFF;
-    font-weight: 600;
-    font-size: clamp(14px, 0.8rem + 0.3vw, 16px);
-    background: rgba(13, 8, 20, 0.38);
-    border: 1px solid rgba(255, 255, 255, 0.26);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    transition: background-color 0.18s ease, transform 0.2s var(--ease-out);
-  }
-
-  .hero-builds a:hover {
-    background: rgba(255, 255, 255, 0.24);
-    transform: translateY(-2px);
-  }
-
-  .hero-builds svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .hero-bottom {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 28px 48px;
-    flex-wrap: wrap;
-  }
-
-  .hero-copy {
-    max-width: 640px;
-  }
-
-  .hero-statement {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem);
-    font-weight: 700;
-    line-height: 1.04;
-    letter-spacing: -0.035em;
-    color: #FFFFFF;
-    text-wrap: balance;
-  }
-
-  .hero-sub {
-    margin: 16px 0 0;
-    max-width: 52ch;
-    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  .hero-actions {
-    margin-top: 26px;
-    justify-content: flex-start;
-  }
-
-  .hero-person {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 18px 12px 12px;
-    border-radius: 22px;
-    background: rgba(13, 8, 20, 0.42);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-  }
-
-  .hero-person img {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
-    object-fit: cover;
-    object-position: center 15%;
-  }
-
-  .hero-person strong {
-    display: block;
-    font-size: 15px;
-    color: #FFFFFF;
-  }
-
-  .hero-person span {
-    display: block;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  .hero-socials {
-    list-style: none;
-    margin: 8px 0 0;
-    padding: 0;
-    display: flex;
-    gap: 6px;
-  }
-
-  .hero-socials a {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    color: #FFFFFF;
-    background: rgba(255, 255, 255, 0.12);
-    transition: background-color 0.16s ease;
-  }
-
-  .hero-socials a:hover {
-    background: var(--primary);
-  }
-
   @media (max-width: 760px) {
     .hero {
       min-height: max(100svh, 720px);
@@ -434,27 +251,15 @@ const buildIcons = [
     .hero-scrim {
       background:
         linear-gradient(180deg, rgba(13, 8, 20, 0.18) 0%, transparent 16%),
-        linear-gradient(180deg, transparent 48%, rgba(13, 8, 20, 0.5) 66%, rgba(13, 8, 20, 0.55) 90%, #F0EDF7 100%);
+        linear-gradient(180deg, transparent 80%, rgba(240, 237, 247, 0.6) 94%, #F0EDF7 100%);
     }
 
     .hero-tag {
       margin-left: 0;
       text-align: left;
       font-size: 1.15rem;
+      text-shadow: 0 1px 2px rgba(13, 8, 20, 0.55), 0 4px 24px rgba(13, 8, 20, 0.6);
     }
 
-    .hero-builds {
-      justify-content: flex-start;
-    }
-
-    .hero-builds a {
-      padding: 8px 13px 8px 10px;
-      font-size: 13.5px;
-    }
-
-    .hero-builds svg {
-      width: 18px;
-      height: 18px;
-    }
   }
 </style>

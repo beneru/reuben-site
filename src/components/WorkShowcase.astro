@@ -28,7 +28,6 @@ const tones: Record<string, string> = {
         <li class={`wk-card wk-card--${tones[build.slug] ?? 'violet'} ${idx === 0 ? 'wk-card--wide' : ''} theme-dark`} data-reveal style={`--i: ${idx}`}>
           <a href={`/work/${build.slug}/`} class="wk-link">
             <div class="wk-copy">
-              <span class="wk-cat">{build.category}</span>
               <h3>{build.title}</h3>
               {metrics[build.slug] && (
                 <p class="wk-metric">
@@ -146,16 +145,8 @@ const tones: Record<string, string> = {
     padding-bottom: clamp(24px, 3vw, 40px);
   }
 
-  .wk-cat {
-    font-size: 12.5px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.78);
-  }
-
   .wk-copy h3 {
-    margin: 12px 0 0;
+    margin: 0;
     max-width: 22ch;
     font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.85rem);
     font-weight: 700;

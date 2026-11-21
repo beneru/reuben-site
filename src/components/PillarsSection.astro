@@ -25,16 +25,6 @@ const ICONS: Record<PillarIcon, string> = {
           <div class="pl-copy" data-reveal>
             <h3>{pillar.title}</h3>
             <p class="pl-text">{pillar.text}</p>
-            <ul class="pl-bullets">
-              {pillar.bullets.map((b) => (
-                <li>
-                  <span class="pl-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[b.icon]} />
-                  </span>
-                  <span>{b.text}</span>
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div class={`pl-media pl-media--${pillar.image.fit}`} data-reveal style="--i: 1">
@@ -111,40 +101,6 @@ const ICONS: Record<PillarIcon, string> = {
     font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
     line-height: 1.6;
     color: var(--ink-2);
-  }
-
-  .pl-bullets {
-    list-style: none;
-    margin: 26px 0 0;
-    padding: 0;
-    display: grid;
-    gap: 14px;
-  }
-
-  .pl-bullets li {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-size: 15px;
-    line-height: 1.45;
-    color: var(--ink-body);
-  }
-
-  .pl-icon {
-    flex: 0 0 42px;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: rgba(103, 0, 255, 0.14);
-    border: 1px solid rgba(183, 155, 255, 0.22);
-    color: var(--violet-soft);
-  }
-
-  .pl-icon svg {
-    width: 19px;
-    height: 19px;
   }
 
   .pl-media {
