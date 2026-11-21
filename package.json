@@ -11,9 +11,10 @@
     "preview": "astro preview",
     "astro": "astro",
     "worker:dev": "npm run build && wrangler dev",
-    "worker:deploy": "npm run build && wrangler deploy",
+    "worker:deploy": "npm run credentials:sync && npm run build && wrangler deploy",
     "db:migrate:local": "wrangler d1 execute beneru-bookings --local --file=migrations/0001_bookings.sql",
-    "db:migrate:remote": "wrangler d1 execute beneru-bookings --remote --file=migrations/0001_bookings.sql --yes"
+    "db:migrate:remote": "wrangler d1 execute beneru-bookings --remote --file=migrations/0001_bookings.sql --yes",
+    "credentials:sync": "node scripts/sync-credentials.mjs"
   },
   "dependencies": {
     "astro": "^7.3.5"

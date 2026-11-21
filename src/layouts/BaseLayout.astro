@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { spawntelFunnelUrl } from '../../shared/funnel';
 import { SOCIAL_LINKS } from '../../shared/socials';
 import { FOOTER_COPY, NAV_ITEMS, SEO_DEFAULTS, SITE_IDENTITY } from '../data/site';
+import credentialData from '../data/credentials.json';
 
 interface Props {
   title?: string;
@@ -45,6 +46,14 @@ const structuredData = {
         url: SITE_IDENTITY.companyUrl,
       },
       knowsAbout: [...SEO_DEFAULTS.knowsAbout],
+      hasCredential: credentialData.credentials.map((c) => ({
+        '@type': 'EducationalOccupationalCredential',
+        name: c.title,
+        credentialCategory: c.kind,
+        dateCreated: c.date,
+        url: c.verifyUrl,
+        recognizedBy: { '@type': 'Organization', name: c.issuer },
+      })),
       sameAs: SOCIAL_LINKS.map((s) => s.url),
       description: SEO_DEFAULTS.personDescription,
     },

@@ -449,6 +449,7 @@ export const FOOTER_COPY: FooterCopy = {
     { label: 'Process', href: '/#process' },
     { label: 'Work', href: '/#work' },
     { label: 'About', href: '/#about' },
+    { label: 'Credentials', href: '/#credentials' },
   ],
   buildLinks: [
     { label: 'Meta DM Qualifier', href: '/work/meta-dm-qualifier/' },
