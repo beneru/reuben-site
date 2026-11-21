@@ -1,5 +1,6 @@
 ---
-import { SITE_IDENTITY } from '../data/site';
+import { spawntelFunnelUrl } from '../../shared/funnel';
+import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 ---
 
 <section class="hero theme-dark" id="hero" aria-labelledby="hero-title" data-hero>
@@ -29,16 +30,19 @@ import { SITE_IDENTITY } from '../data/site';
 
   <div class="site-wrap hero-inner">
     <div class="hero-top" data-hero-top>
-      <p class="hero-welcome">Welcome to</p>
-      <h1 class="hero-mark" id="hero-title">
-        <span class="sr-only">Beneru, AI Direction and Marketing Systems by {SITE_IDENTITY.personName}</span>
-        <svg viewBox="0 0 820 168" aria-hidden="true" focusable="false">
-          <text x="0" y="158" textLength="816" lengthAdjust="spacingAndGlyphs">BENERU</text>
-        </svg>
-      </h1>
+      <p class="hero-kicker">{SITE_IDENTITY.niche}</p>
+      <h1 class="hero-title" id="hero-title">Marketing shouldn't run on manual hustle.</h1>
+      <p class="hero-sub">{HERO_COPY.subtitle}</p>
+      <a href={spawntelFunnelUrl('hero')} class="cta-btn hero-cta" data-spawntel-cta="hero">
+        <span>{HERO_COPY.primaryCtaLabel}</span>
+        <span class="cta-btn__circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </span>
+      </a>
     </div>
-    <p class="hero-tag">{SITE_IDENTITY.niche}, built so business owners stop doing marketing by hand.</p>
-
   </div>
 </section>
 
@@ -52,7 +56,6 @@ import { SITE_IDENTITY } from '../data/site';
   if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const layers = Array.from(hero.querySelectorAll<HTMLElement>('.hero-layer[data-depth]'));
     const top = hero.querySelector<HTMLElement>('[data-hero-top]');
-    const tag = hero.querySelector<HTMLElement>('.hero-tag');
     let raf = 0;
     const paint = () => {
       raf = 0;
@@ -63,11 +66,8 @@ import { SITE_IDENTITY } from '../data/site';
         el.style.transform = `translate3d(${(y * sx).toFixed(1)}px, ${(y * d).toFixed(1)}px, 0)`;
       });
       if (top) {
-        top.style.transform = `translate3d(0, ${(y * 0.4).toFixed(1)}px, 0)`;
-        top.style.opacity = String(Math.max(0, 1 - y / (hero.offsetHeight * 0.75)));
-      }
-      if (tag) {
-        tag.style.opacity = String(Math.max(0, 1 - y / (hero.offsetHeight * 0.4)));
+        top.style.transform = `translate3d(0, ${(y * 0.35).toFixed(1)}px, 0)`;
+        top.style.opacity = String(Math.max(0, 1 - y / (hero.offsetHeight * 0.6)));
       }
     };
     window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(paint); }, { passive: true });
@@ -81,7 +81,7 @@ import { SITE_IDENTITY } from '../data/site';
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    min-height: max(100svh, 780px);
+    min-height: max(116svh, 960px);
     display: flex;
     background: #0D0814;
   }
@@ -98,7 +98,8 @@ import { SITE_IDENTITY } from '../data/site';
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(38% 34% at 50% 50%, rgba(240, 237, 247, 0.62), rgba(215, 200, 255, 0.18) 55%, transparent 75%),
+      radial-gradient(46% 30% at 50% 30%, rgba(103, 0, 255, 0.45), transparent 72%),
+      radial-gradient(38% 34% at 50% 62%, rgba(240, 237, 247, 0.55), rgba(215, 200, 255, 0.16) 55%, transparent 75%),
       linear-gradient(180deg, #6700FF 0%, #7E26FF 26%, #A068FF 52%, #C2AAFF 74%, #D7C8FF 100%);
   }
 
@@ -119,7 +120,7 @@ import { SITE_IDENTITY } from '../data/site';
   /* Back to front: bank (blended), peak, hills, near mist (blended) */
   .layer-bank {
     z-index: 2;
-    bottom: 4%;
+    bottom: -18%;
     mix-blend-mode: screen;
     opacity: 0.95;
   }
@@ -137,18 +138,18 @@ import { SITE_IDENTITY } from '../data/site';
 
   .layer-peak {
     z-index: 3;
-    bottom: 6%;
+    bottom: -6%;
   }
 
   .layer-hills {
     z-index: 4;
-    bottom: -2%;
+    bottom: -10%;
   }
 
   .layer-mist {
     z-index: 5;
     isolation: auto;
-    bottom: -16%;
+    bottom: -22%;
     mix-blend-mode: screen;
     opacity: 0.85;
   }
@@ -160,14 +161,14 @@ import { SITE_IDENTITY } from '../data/site';
   /* Closest layer: forest slopes framing both edges, open in the middle */
   .layer-forest {
     z-index: 6;
-    bottom: -3%;
+    bottom: -8%;
     margin-left: 0;
   }
 
   /* Base fades out so the rising slopes never show a hard bottom edge */
   .layer-forest img {
-    -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 62%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 62%, transparent 100%);
   }
 
   .layer-forest-left {
@@ -208,7 +209,7 @@ import { SITE_IDENTITY } from '../data/site';
     pointer-events: none;
     background:
       linear-gradient(180deg, rgba(13, 8, 20, 0.18) 0%, transparent 16%),
-      linear-gradient(180deg, transparent 80%, rgba(240, 237, 247, 0.6) 94%, #F0EDF7 100%);
+      linear-gradient(180deg, rgba(240, 237, 247, 0.000) 52.0%, rgba(240, 237, 247, 0.034) 57.3%, rgba(240, 237, 247, 0.126) 62.7%, rgba(240, 237, 247, 0.259) 68.0%, rgba(240, 237, 247, 0.417) 73.3%, rgba(240, 237, 247, 0.583) 78.7%, rgba(240, 237, 247, 0.741) 84.0%, rgba(240, 237, 247, 0.874) 89.3%, rgba(240, 237, 247, 0.966) 94.7%, rgba(240, 237, 247, 1.000) 100.0%);
   }
 
   .hero-inner {
@@ -221,68 +222,69 @@ import { SITE_IDENTITY } from '../data/site';
     padding-bottom: clamp(88px, 12vh, 140px);
   }
 
+  /* Headline sits in front of the landscape and lags slightly on scroll */
   .hero-top {
     position: relative;
-    z-index: 1;
+    z-index: 8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     will-change: transform, opacity;
   }
 
-  .hero-tag {
-    position: relative;
-    z-index: 8;
-  }
-
-  .hero-welcome {
-    margin: 0 0 0.4vw 0.6%;
-    font-family: var(--font-heading);
-    font-size: clamp(1.1rem, 0.8rem + 1.4vw, 2rem);
-    font-weight: 600;
-    color: #FFFFFF;
-    text-shadow: 0 2px 18px rgba(13, 8, 20, 0.35);
-  }
-
-  .hero-mark {
+  .hero-kicker {
     margin: 0;
-    line-height: 0;
+    font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.1rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88);
   }
 
-  .hero-mark svg {
-    width: 100%;
-    height: auto;
-    overflow: visible;
-    filter: drop-shadow(0 18px 40px rgba(13, 8, 20, 0.28));
-  }
-
-  .hero-mark text {
-    font-family: 'Poppins', var(--font-heading);
-    font-size: 200px;
+  .hero-title {
+    margin: 18px 0 0;
+    max-width: 15ch;
+    font-size: clamp(2.6rem, 1.3rem + 5vw, 6rem);
     font-weight: 800;
-    letter-spacing: -6px;
-    fill: #FFFFFF;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    text-wrap: balance;
+    text-shadow: 0 8px 48px rgba(13, 8, 20, 0.28);
   }
 
-  .hero-tag {
-    margin: clamp(14px, 1.6vw, 24px) 0 0 auto;
-    max-width: 30ch;
-    text-align: right;
-    font-family: var(--font-heading);
-    font-size: clamp(1.1rem, 0.85rem + 1vw, 1.75rem);
-    font-weight: 600;
-    line-height: 1.25;
-    letter-spacing: -0.015em;
+  .hero-sub {
+    margin: 24px 0 0;
+    max-width: 50ch;
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.18rem);
+    line-height: 1.6;
     color: #FFFFFF;
-    text-shadow: 0 2px 20px rgba(13, 8, 20, 0.45);
+    text-shadow: 0 1px 2px rgba(13, 8, 20, 0.45), 0 4px 28px rgba(13, 8, 20, 0.55);
+  }
+
+  .hero-cta {
+    margin-top: 32px;
+  }
+
+  /* White pill reads cleanly against the violet sky */
+  .hero-cta.cta-btn {
+    background: #FFFFFF;
+    color: #0D0814;
+    box-shadow: 0 16px 40px -18px rgba(13, 8, 20, 0.55);
+  }
+
+  .hero-cta.cta-btn:hover {
+    color: #0D0814;
   }
 
   @media (max-width: 760px) {
     .hero {
-      min-height: max(100svh, 720px);
+      min-height: max(112svh, 860px);
     }
 
     .hero-scrim {
       background:
         linear-gradient(180deg, rgba(13, 8, 20, 0.18) 0%, transparent 16%),
-        linear-gradient(180deg, transparent 80%, rgba(240, 237, 247, 0.6) 94%, #F0EDF7 100%);
+        linear-gradient(180deg, rgba(240, 237, 247, 0.000) 58.0%, rgba(240, 237, 247, 0.034) 62.7%, rgba(240, 237, 247, 0.126) 67.3%, rgba(240, 237, 247, 0.259) 72.0%, rgba(240, 237, 247, 0.417) 76.7%, rgba(240, 237, 247, 0.583) 81.3%, rgba(240, 237, 247, 0.741) 86.0%, rgba(240, 237, 247, 0.874) 90.7%, rgba(240, 237, 247, 0.966) 95.3%, rgba(240, 237, 247, 1.000) 100.0%);
     }
 
     .layer-forest-left {
@@ -297,12 +299,10 @@ import { SITE_IDENTITY } from '../data/site';
       bottom: 5%;
     }
 
-    .hero-tag {
-      margin-left: 0;
-      text-align: left;
-      font-size: 1.15rem;
-      text-shadow: 0 1px 2px rgba(13, 8, 20, 0.55), 0 4px 24px rgba(13, 8, 20, 0.6);
+    .hero-title {
+      max-width: 12ch;
     }
+
 
   }
 </style>

@@ -109,7 +109,7 @@ const inboxRows = [
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    padding-block: clamp(96px, 11vw, 168px);
+    padding-block: clamp(120px, 13vw, 200px) clamp(140px, 15vw, 240px);
     background: #0D0814;
   }
 
@@ -129,8 +129,9 @@ const inboxRows = [
     z-index: -1;
     pointer-events: none;
     background:
-      linear-gradient(180deg, #F0EDF7 0%, rgba(240, 237, 247, 0) 10%),
-      linear-gradient(180deg, rgba(13, 8, 20, 0.35) 10%, rgba(13, 8, 20, 0.15) 50%, rgba(13, 8, 20, 0.55) 100%);
+      linear-gradient(180deg, rgba(240, 237, 247, 1.000) 0.0%, rgba(240, 237, 247, 0.966) 2.7%, rgba(240, 237, 247, 0.874) 5.3%, rgba(240, 237, 247, 0.741) 8.0%, rgba(240, 237, 247, 0.583) 10.7%, rgba(240, 237, 247, 0.417) 13.3%, rgba(240, 237, 247, 0.259) 16.0%, rgba(240, 237, 247, 0.126) 18.7%, rgba(240, 237, 247, 0.034) 21.3%, rgba(240, 237, 247, 0.000) 24.0%),
+      linear-gradient(180deg, rgba(240, 237, 247, 0.000) 80.0%, rgba(240, 237, 247, 0.034) 82.2%, rgba(240, 237, 247, 0.126) 84.4%, rgba(240, 237, 247, 0.259) 86.7%, rgba(240, 237, 247, 0.417) 88.9%, rgba(240, 237, 247, 0.583) 91.1%, rgba(240, 237, 247, 0.741) 93.3%, rgba(240, 237, 247, 0.874) 95.6%, rgba(240, 237, 247, 0.966) 97.8%, rgba(240, 237, 247, 1.000) 100.0%),
+      linear-gradient(180deg, rgba(13, 8, 20, 0.12) 18%, rgba(13, 8, 20, 0.3) 45%, rgba(13, 8, 20, 0.3) 62%, rgba(13, 8, 20, 0.08) 84%);
   }
 
   .fs-grid {

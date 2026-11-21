@@ -125,7 +125,7 @@ const structuredData = {
     <header class:list={['site-header', { 'header-overlay': isLight }]} data-site-header>
       <div class="header-inner">
         <a href="/" class="wordmark" aria-label="Beneru home">
-          {SITE_IDENTITY.wordmark}<span class="wordmark-dot" aria-hidden="true">.</span>
+          {SITE_IDENTITY.wordmark}
         </a>
 
         <nav aria-label="Primary" class="nav-links" data-primary-nav>
@@ -483,13 +483,6 @@ const structuredData = {
     align-items: baseline;
   }
 
-  .wordmark-dot {
-    color: var(--violet-bright);
-    font-size: 1.45em;
-    line-height: 0;
-    margin-left: 0.02em;
-  }
-
   .nav-links {
     display: flex;
     align-items: center;
@@ -640,8 +633,6 @@ const structuredData = {
     color: var(--ink);
     padding-top: clamp(52px, 6.5vw, 84px);
     overflow: hidden;
-    border-top: 1px solid rgba(103, 0, 255, 0.24);
-    box-shadow: 0 -24px 80px -40px rgba(103, 0, 255, 0.35);
   }
 
   .ft-wrap {

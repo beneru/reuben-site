@@ -1,12 +1,11 @@
 ---
 import { spawntelFunnelUrl } from '../../shared/funnel';
-import { HERO_COPY, PROOF_NUMBERS_COPY } from '../data/site';
+import { PROOF_NUMBERS_COPY } from '../data/site';
 ---
 
 <section class="pn" id="proof" aria-labelledby="pn-title">
   <div class="site-wrap pn-wrap">
-    <h2 class="pn-title" id="pn-title" data-reveal>{HERO_COPY.headline}.</h2>
-    <p class="pn-lead" data-reveal>{HERO_COPY.subtitle}</p>
+    <h2 class="pn-title" id="pn-title" data-reveal>{PROOF_NUMBERS_COPY.heading}</h2>
 
     <ul class="pn-stats">
       {PROOF_NUMBERS_COPY.stats.map((stat, idx) => (
@@ -67,14 +66,6 @@ import { HERO_COPY, PROOF_NUMBERS_COPY } from '../data/site';
     font-weight: 800;
     letter-spacing: -0.045em;
     color: var(--ink);
-  }
-
-  .pn-lead {
-    margin: 20px 0 0;
-    max-width: 52ch;
-    font-size: clamp(1.05rem, 0.98rem + 0.3vw, 1.2rem);
-    line-height: 1.6;
-    color: var(--ink-2);
   }
 
   /* Bare numbers, each with a receipt */
