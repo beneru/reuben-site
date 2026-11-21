@@ -5,24 +5,21 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 
 <section class="hero theme-dark" id="hero" aria-labelledby="hero-title" data-hero>
   <div class="hero-scene" aria-hidden="true">
-    <div class="hero-sky"></div>
     <div class="hero-layer layer-bank" data-depth="0.30">
-      <img src="/images/clouds/layer-bank.webp" alt="" width="1024" height="572" decoding="async" fetchpriority="high" />
+      <img src="/images/clouds/layer-bank.webp" alt="" width="1024" height="372" decoding="async" fetchpriority="high" />
     </div>
     <div class="hero-layer layer-peak" data-depth="0.18">
-      <img src="/images/clouds/layer-peak.webp" alt="" width="1376" height="768" decoding="async" fetchpriority="high" />
-    </div>
-    <div class="hero-layer layer-glow" data-depth="0">
-      <img src="/images/clouds/layer-glow.webp" alt="" width="688" height="384" decoding="async" />
+      <img src="/images/clouds/layer-peak.webp" alt="" width="1376" height="534" decoding="async" fetchpriority="high" />
     </div>
     <div class="hero-layer layer-hills" data-depth="0">
-      <img src="/images/clouds/layer-mountains.webp" alt="" width="1376" height="768" decoding="async" />
+      <img class="layer-glow-img" src="/images/clouds/layer-glow.webp" alt="" width="688" height="290" decoding="async" />
+      <img class="layer-mtn-img" src="/images/clouds/layer-mountains.webp" alt="" width="1376" height="580" decoding="async" />
     </div>
     <div class="hero-layer layer-mist" data-depth="-0.12">
-      <img src="/images/clouds/layer-mist.webp" alt="" width="1024" height="572" decoding="async" />
+      <img src="/images/clouds/layer-mist.webp" alt="" width="1024" height="386" decoding="async" />
     </div>
     <div class="hero-layer layer-forest layer-forest-left" data-depth="-0.26" data-spread="-0.14">
-      <img src="/images/clouds/layer-forest-left.webp" alt="" width="646" height="653" decoding="async" />
+      <img src="/images/clouds/layer-forest-left.webp" alt="" width="646" height="599" decoding="async" />
     </div>
     <div class="hero-layer layer-forest layer-forest-right" data-depth="-0.22" data-spread="0.14">
       <img src="/images/clouds/layer-forest-right.webp" alt="" width="850" height="653" decoding="async" />
@@ -119,7 +116,10 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     overflow: hidden;
     min-height: max(100svh, 700px);
     display: flex;
-    background: #0D0814;
+    background:
+      radial-gradient(46% 30% at 50% 30%, rgba(103, 0, 255, 0.45), transparent 72%),
+      radial-gradient(38% 34% at 50% 62%, rgba(240, 237, 247, 0.55), rgba(215, 200, 255, 0.16) 55%, transparent 75%),
+      linear-gradient(180deg, #6700FF 0%, #7E26FF 26%, #A068FF 52%, #C2AAFF 74%, #D7C8FF 100%);
   }
 
   .hero-scene {
@@ -130,15 +130,6 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     --lw: max(100vw, 1180px);
     --lwh: calc(var(--lw) * 0.5581);
     --horizon: 64svh;
-  }
-
-  .hero-sky {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(46% 30% at 50% 30%, rgba(103, 0, 255, 0.45), transparent 72%),
-      radial-gradient(38% 34% at 50% 62%, rgba(240, 237, 247, 0.55), rgba(215, 200, 255, 0.16) 55%, transparent 75%),
-      linear-gradient(180deg, #6700FF 0%, #7E26FF 26%, #A068FF 52%, #C2AAFF 74%, #D7C8FF 100%);
   }
 
   .hero-layer {
@@ -155,10 +146,19 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     height: auto;
   }
 
+  .layer-glow-img {
+    position: absolute;
+    inset: 0 0 auto 0;
+  }
+
+  .layer-mtn-img {
+    position: relative;
+  }
+
   /* Back to front: bank (blended), peak, hills, near mist (blended) */
   .layer-bank {
     z-index: 2;
-    top: calc(var(--horizon) + 1svh - var(--lwh) * 0.26);
+    top: calc(var(--horizon) + 1svh - var(--lwh) * 0.0292);
   }
 
   .layer-bank img,
@@ -174,19 +174,18 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 
   .layer-peak {
     z-index: 3;
-    top: calc(var(--horizon) - var(--lwh) * 0.32);
+    top: calc(var(--horizon) - var(--lwh) * 0.0153);
   }
 
   /* Small tree-covered mountains; the glow is a soft blur that follows the ridgeline (no hard rim line) */
-  .layer-glow,
   .layer-hills {
     z-index: 4;
-    top: calc(var(--horizon) + 14svh - var(--lwh) * 0.47);
+    top: calc(var(--horizon) + 14svh - var(--lwh) * 0.2252);
   }
 
   .layer-mist {
     z-index: 5;
-    top: calc(var(--horizon) + 30svh - var(--lwh) * 0.65);
+    top: calc(var(--horizon) + 30svh - var(--lwh) * 0.3248);
   }
 
   .layer-mist img {
