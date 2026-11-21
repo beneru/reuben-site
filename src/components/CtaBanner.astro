@@ -44,32 +44,77 @@ const instagram = SOCIAL_LINKS.find((s) => s.id === 'instagram');
 
 <script>
   /*
-   * Clouds enter from the sides: each half of the cloud photo starts pushed out past
-   * its edge and slides home as the section scrolls into view (smoothstep eased).
+   * Clouds enter from the sides and close behind the headline.
+   * Scroll sets a target; the clouds glide toward it with frame-rate-independent
+   * exponential damping (~0.25s), so the close feels delayed and smooth instead of
+   * snapping with every wheel notch. Only transform + opacity change (GPU composited),
+   * the section position is measured on load/resize (no layout reads per frame),
+   * and the loop sleeps as soon as the clouds settle.
    */
   const cx = document.querySelector<HTMLElement>('[data-cx]');
   if (cx) {
     const clouds = Array.from(cx.querySelectorAll<HTMLElement>('[data-cx-cloud]'));
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const TAU = 260; // ms: how long the clouds trail behind the scroll
+    let start = 0;
+    let span = 1;
+    let target = 0;
+    let current = 0;
     let raf = 0;
-    const paint = () => {
-      raf = 0;
+    let last = 0;
+
+    const measure = () => {
       const vh = window.innerHeight || 800;
-      const top = cx.getBoundingClientRect().top;
-      const raw = still ? 1 : Math.min(1, Math.max(0, (vh - top) / (vh * 0.85)));
-      const p = raw * raw * (3 - 2 * raw);
-      clouds.forEach((el) => {
-        const dir = Number(el.dataset.cxCloud || 0);
-        const shift = (1 - p) * 48 * dir;
-        el.style.transform = `translate3d(${shift.toFixed(2)}%, 0, 0) scale(${(1.08 - 0.08 * p).toFixed(4)})`;
-        el.style.opacity = (0.35 + 0.65 * p).toFixed(3);
-      });
+      start = cx.getBoundingClientRect().top + window.scrollY - vh;
+      span = vh * 0.85;
     };
+    const targetNow = () => Math.min(1, Math.max(0, (window.scrollY - start) / span));
+
+    const apply = (v: number) => {
+      const p = v * v * (3 - 2 * v);
+      const scale = (1.08 - 0.08 * p).toFixed(4);
+      const op = (0.35 + 0.65 * p).toFixed(3);
+      for (const el of clouds) {
+        const dir = Number(el.dataset.cxCloud || 0);
+        el.style.transform = `translate3d(${((1 - p) * 48 * dir).toFixed(2)}%, 0, 0) scale(${scale})`;
+        el.style.opacity = op;
+      }
+    };
+
+    const step = (now: number) => {
+      const dt = last ? Math.min(64, now - last) : 16.7;
+      last = now;
+      current += (target - current) * (1 - Math.exp(-dt / TAU));
+      if (Math.abs(target - current) < 0.0004) {
+        current = target;
+        apply(current);
+        raf = 0;
+        last = 0;
+        return;
+      }
+      apply(current);
+      raf = requestAnimationFrame(step);
+    };
+
+    const kick = () => {
+      target = targetNow();
+      if (!raf) {
+        last = 0;
+        raf = requestAnimationFrame(step);
+      }
+    };
+
+    measure();
+    target = current = still ? 1 : targetNow();
+    apply(current);
+
     if (!still) {
-      window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(paint); }, { passive: true });
-      window.addEventListener('resize', paint, { passive: true });
+      window.addEventListener('scroll', kick, { passive: true });
+      const remeasure = () => { measure(); kick(); };
+      window.addEventListener('resize', remeasure, { passive: true });
+      window.addEventListener('load', remeasure, { once: true });
+      if ('ResizeObserver' in window) new ResizeObserver(remeasure).observe(document.body);
     }
-    paint();
   }
 </script>
 
@@ -95,12 +140,15 @@ const instagram = SOCIAL_LINKS.find((s) => s.id === 'instagram');
     inset: 0;
     z-index: -2;
     pointer-events: none;
+    contain: strict;
   }
 
   .cx-cloud {
     position: absolute;
     inset: 0;
     will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   .cx-cloud img {
