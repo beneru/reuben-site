@@ -14,17 +14,21 @@ const buildIcons = [
 ---
 
 <section class="hero theme-dark" id="hero" aria-labelledby="hero-title" data-hero>
-  <img
-    class="hero-photo"
-    src="/images/clouds/hero-clouds.webp"
-    alt=""
-    width="1376"
-    height="768"
-    loading="eager"
-    fetchpriority="high"
-    decoding="async"
-    data-hero-photo
-  />
+  <div class="hero-scene" aria-hidden="true">
+    <div class="hero-sky"></div>
+    <div class="hero-layer layer-bank" data-depth="0.30">
+      <img src="/images/clouds/layer-bank.webp" alt="" width="1376" height="768" decoding="async" fetchpriority="high" />
+    </div>
+    <div class="hero-layer layer-peak" data-depth="0.18">
+      <img src="/images/clouds/layer-peak.webp" alt="" width="1376" height="768" decoding="async" fetchpriority="high" />
+    </div>
+    <div class="hero-layer layer-hills" data-depth="0">
+      <img src="/images/clouds/layer-hills.webp" alt="" width="1376" height="768" decoding="async" />
+    </div>
+    <div class="hero-layer layer-mist" data-depth="-0.12">
+      <img src="/images/clouds/layer-mist.webp" alt="" width="1376" height="768" decoding="async" />
+    </div>
+  </div>
   <div class="hero-scrim" aria-hidden="true"></div>
 
   <div class="site-wrap hero-inner">
@@ -36,8 +40,8 @@ const buildIcons = [
           <text x="0" y="158" textLength="816" lengthAdjust="spacingAndGlyphs">BENERU</text>
         </svg>
       </h1>
-      <p class="hero-tag">{SITE_IDENTITY.niche}, built so business owners stop doing marketing by hand.</p>
     </div>
+    <p class="hero-tag">{SITE_IDENTITY.niche}, built so business owners stop doing marketing by hand.</p>
 
     <ul class="hero-builds" aria-label="Documented builds">
       {FOOTER_COPY.buildLinks.map((link, i) => (
@@ -97,22 +101,34 @@ const buildIcons = [
 </section>
 
 <script>
+  /*
+   * Depth on scroll, same mechanics as the reference: every layer slides at its own
+   * rate. Positive depth = lags behind the page (far), negative = outruns it (near).
+   * Transforms go on the wrappers; the inner images keep their own CSS drift loop.
+   */
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const photo = hero.querySelector<HTMLElement>('[data-hero-photo]');
+    const layers = Array.from(hero.querySelectorAll<HTMLElement>('.hero-layer[data-depth]'));
     const top = hero.querySelector<HTMLElement>('[data-hero-top]');
+    const tag = hero.querySelector<HTMLElement>('.hero-tag');
     let raf = 0;
     const paint = () => {
       raf = 0;
       const y = Math.min(window.scrollY, hero.offsetHeight);
-      if (photo) photo.style.transform = `translate3d(0, ${(y * 0.22).toFixed(1)}px, 0) scale(1.06)`;
+      layers.forEach((el) => {
+        const d = Number(el.dataset.depth || 0);
+        el.style.transform = `translate3d(0, ${(y * d).toFixed(1)}px, 0)`;
+      });
       if (top) {
-        const k = window.innerWidth <= 760 ? 0 : 0.32;
-        top.style.transform = `translate3d(0, ${(y * k).toFixed(1)}px, 0)`;
-        top.style.opacity = String(Math.max(0, 1 - y / (hero.offsetHeight * 0.7)));
+        top.style.transform = `translate3d(0, ${(y * 0.4).toFixed(1)}px, 0)`;
+        top.style.opacity = String(Math.max(0, 1 - y / (hero.offsetHeight * 0.75)));
+      }
+      if (tag) {
+        tag.style.opacity = String(Math.max(0, 1 - y / (hero.offsetHeight * 0.4)));
       }
     };
     window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(paint); }, { passive: true });
+    window.addEventListener('resize', paint, { passive: true });
     paint();
   }
 </script>
@@ -127,28 +143,95 @@ const buildIcons = [
     background: #0D0814;
   }
 
-  .hero-photo {
+  .hero-scene {
     position: absolute;
     inset: 0;
-    z-index: -2;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 70%;
-    transform: scale(1.06);
-    transform-origin: center bottom;
+    z-index: 0;
+    pointer-events: none;
+    --lw: max(100%, 1180px);
+  }
+
+  .hero-sky {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(38% 34% at 50% 50%, rgba(240, 237, 247, 0.62), rgba(215, 200, 255, 0.18) 55%, transparent 75%),
+      linear-gradient(180deg, #6700FF 0%, #7E26FF 26%, #A068FF 52%, #C2AAFF 74%, #D7C8FF 100%);
+  }
+
+  .hero-layer {
+    position: absolute;
+    left: 50%;
+    width: var(--lw);
+    margin-left: calc(var(--lw) / -2);
     will-change: transform;
+  }
+
+  .hero-layer img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Back to front: bank (blended), peak, hills, near mist (blended) */
+  .layer-bank {
+    z-index: 2;
+    bottom: 4%;
+    mix-blend-mode: screen;
+    opacity: 0.95;
+  }
+
+  .layer-bank img,
+  .layer-mist img {
+    width: 108%;
+    max-width: none;
+    margin-left: -4%;
+  }
+
+  .layer-bank img {
+    animation: hero-drift-a 38s ease-in-out infinite alternate;
+  }
+
+  .layer-peak {
+    z-index: 3;
+    bottom: 6%;
+  }
+
+  .layer-hills {
+    z-index: 4;
+    bottom: -2%;
+  }
+
+  .layer-mist {
+    z-index: 5;
+    bottom: -16%;
+    mix-blend-mode: screen;
+    opacity: 0.85;
+  }
+
+  .layer-mist img {
+    animation: hero-drift-b 26s ease-in-out infinite alternate;
+  }
+
+  @keyframes hero-drift-a {
+    from { transform: translate3d(-2.5%, 0, 0); }
+    to { transform: translate3d(2.5%, 0, 0); }
+  }
+
+  @keyframes hero-drift-b {
+    from { transform: translate3d(3%, 0, 0); }
+    to { transform: translate3d(-3%, 0, 0); }
   }
 
   /* Darkens the lower band so white copy stays readable over the ridges, then melts into cream */
   .hero-scrim {
     position: absolute;
     inset: 0;
-    z-index: -1;
+    z-index: 6;
     pointer-events: none;
     background:
-      linear-gradient(180deg, rgba(13, 8, 20, 0.22) 0%, transparent 22%),
-      linear-gradient(180deg, transparent 52%, rgba(13, 8, 20, 0.5) 74%, rgba(13, 8, 20, 0.55) 90%, #F0EDF7 100%);
+      linear-gradient(180deg, rgba(13, 8, 20, 0.18) 0%, transparent 16%),
+      linear-gradient(180deg, transparent 62%, rgba(13, 8, 20, 0.35) 84%, rgba(13, 8, 20, 0.2) 93%, #F0EDF7 100%);
   }
 
   .hero-inner {
@@ -162,7 +245,16 @@ const buildIcons = [
   }
 
   .hero-top {
+    position: relative;
+    z-index: 1;
     will-change: transform, opacity;
+  }
+
+  .hero-tag,
+  .hero-builds,
+  .hero-bottom {
+    position: relative;
+    z-index: 7;
   }
 
   .hero-welcome {
@@ -226,8 +318,8 @@ const buildIcons = [
     color: #FFFFFF;
     font-weight: 600;
     font-size: clamp(14px, 0.8rem + 0.3vw, 16px);
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(13, 8, 20, 0.38);
+    border: 1px solid rgba(255, 255, 255, 0.26);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     transition: background-color 0.18s ease, transform 0.2s var(--ease-out);
@@ -341,8 +433,8 @@ const buildIcons = [
 
     .hero-scrim {
       background:
-        linear-gradient(180deg, rgba(13, 8, 20, 0.22) 0%, transparent 20%),
-        linear-gradient(180deg, transparent 38%, rgba(13, 8, 20, 0.62) 58%, rgba(13, 8, 20, 0.7) 90%, #F0EDF7 100%);
+        linear-gradient(180deg, rgba(13, 8, 20, 0.18) 0%, transparent 16%),
+        linear-gradient(180deg, transparent 48%, rgba(13, 8, 20, 0.5) 66%, rgba(13, 8, 20, 0.55) 90%, #F0EDF7 100%);
     }
 
     .hero-tag {
