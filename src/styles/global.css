@@ -397,6 +397,16 @@ html.page-light body {
   color: #FFFFFF;
 }
 
+/* Flat gradient backdrops for images: no outlines, colour follows the section */
+:root,
+.theme-dark {
+  --frame-bg: linear-gradient(155deg, #6700FF 0%, #15111E 64%, #0D0814 100%);
+}
+
+.theme-light {
+  --frame-bg: linear-gradient(155deg, #D7C8FF 0%, #B79BFF 100%);
+}
+
 /* Deep plum band for dark interludes on the light page */
 .band-plum {
   background: #0D0814;

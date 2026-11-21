@@ -133,10 +133,9 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
 <style>
   .doc-figure {
     margin: 0;
-    padding: 14px;
-    border-radius: 26px;
-    background: linear-gradient(170deg, rgba(26, 27, 34, 0.92), rgba(13, 8, 20, 0.96));
-    border: 1px solid var(--border);
+    padding: clamp(16px, 2.6vw, 32px);
+    border-radius: 28px;
+    background: var(--frame-bg);
   }
 
   .diagram-figure {
@@ -147,8 +146,6 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
   .figure-frame {
     border-radius: 16px;
     overflow: hidden;
-    background: #0D0814;
-    border: 1px solid var(--border);
   }
 
   .figure-frame img {
@@ -158,9 +155,9 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
   }
 
   figcaption {
-    padding: 10px 6px 2px;
+    padding: 12px 6px 0;
     font-size: 13px;
-    color: var(--ink-muted);
+    color: rgba(240, 237, 247, 0.78);
   }
 
   .doc-grid {
