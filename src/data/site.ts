@@ -413,10 +413,10 @@ export const FOUNDER_COPY: FounderCopy = {
   ],
   photos: [
     {
-      src: '/images/founder/reuben-studio.webp',
+      src: '/images/founder/reuben-portrait.webp',
       width: 900,
       height: 900,
-      alt: 'Studio portrait of Reuben Magallanes in a black blazer and glasses against a deep violet backdrop',
+      alt: 'Portrait of Reuben Magallanes in a black blazer, white shirt and glasses against a Spawntel violet backdrop',
       caption: 'Reuben Magallanes (Ben), Marketing Head & Co-Founder of Spawntel',
     },
     {
