@@ -144,12 +144,8 @@ main {
   gap: 8px;
   padding: 6px 14px;
   border-radius: var(--radius-full);
-  border: 1px solid var(--glass-border);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03));
-  -webkit-backdrop-filter: var(--blur-sm);
-  backdrop-filter: var(--blur-sm);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 6px 18px -8px rgba(0, 0, 0, 0.6);
-  color: #F0EDF7;
+  background: #FFFFFF;
+  color: #0D0814;
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 500;
@@ -205,26 +201,9 @@ main {
   transition: transform 0.22s var(--ease-expo), filter 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.24s var(--ease-expo);
 }
 
-.cta-btn::before,
-.cta-btn-dark::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(110deg, transparent 22%, rgba(255, 255, 255, 0.22) 50%, transparent 78%);
-  transform: translate3d(-125%, 0, 0);
-  transition: transform 0.65s var(--ease-expo);
-  pointer-events: none;
-}
-
-.cta-btn:hover::before,
-.cta-btn-dark:hover::before {
-  transform: translate3d(125%, 0, 0);
-}
-
 .cta-btn {
   background: linear-gradient(180deg, rgba(143, 77, 255, 0.95) 0%, rgba(103, 0, 255, 0.92) 100%);
   color: var(--on-primary);
-  border: 1px solid rgba(215, 200, 255, 0.36);
   box-shadow: var(--shadow-violet);
 }
 
@@ -240,17 +219,13 @@ main {
 }
 
 .cta-btn-dark {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(21, 17, 30, 0.56));
+  background: #15111E;
   color: var(--ink);
-  border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-dark-pill);
-  -webkit-backdrop-filter: var(--blur-sm);
-  backdrop-filter: var(--blur-sm);
 }
 
 .cta-btn-dark:hover {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(31, 26, 44, 0.66));
-  border-color: var(--glass-border-strong);
+  background: #1F1A2C;
   transform: translate3d(0, -2px, 0);
   color: var(--ink);
 }
@@ -268,13 +243,12 @@ main {
 .cta-btn .cta-btn__circle {
   background: rgba(13, 8, 20, 0.85);
   color: #F0EDF7;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .cta-btn-dark .cta-btn__circle {
   background: linear-gradient(180deg, #8F4DFF, #6700FF);
   color: #FFFFFF;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 18px rgba(103, 0, 255, 0.6);
+  box-shadow: 0 0 18px rgba(103, 0, 255, 0.6);
 }
 
 .cta-btn:hover .cta-btn__circle,
@@ -338,14 +312,14 @@ main {
   --glass-bg-hover: #FFFFFF;
   --glass-bg-violet: linear-gradient(160deg, #D7C8FF 0%, #FFFFFF 72%);
   --glass-bg-inset: #FFFFFF;
-  --glass-border: rgba(13, 8, 20, 0.1);
-  --glass-border-strong: rgba(13, 8, 20, 0.2);
-  --glass-border-violet: rgba(103, 0, 255, 0.35);
-  --glass-rim: 0 1px 2px rgba(13, 8, 20, 0.04), 0 22px 44px -28px rgba(103, 0, 255, 0.3);
+  --glass-border: transparent;
+  --glass-border-strong: transparent;
+  --glass-border-violet: transparent;
+  --glass-rim: 0 22px 44px -28px rgba(103, 0, 255, 0.3);
   --glass-rim-violet: 0 26px 60px -30px rgba(103, 0, 255, 0.45);
-  --border: rgba(13, 8, 20, 0.1);
-  --border-strong: rgba(13, 8, 20, 0.2);
-  --border-violet: rgba(103, 0, 255, 0.4);
+  --border: transparent;
+  --border-strong: transparent;
+  --border-violet: transparent;
   --ink: #0D0814;
   --ink-body: rgba(13, 8, 20, 0.88);
   --ink-2: rgba(13, 8, 20, 0.76);
@@ -376,20 +350,13 @@ html.page-light body {
 }
 
 .theme-light .pill-tag {
-  background: #FFFFFF;
-  color: var(--ink-2);
-  border-color: var(--border);
-  box-shadow: none;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+  background: #15111E;
+  color: #FFFFFF;
 }
 
 .theme-light .cta-btn-dark {
   background: #0D0814;
   color: #FFFFFF;
-  border-color: transparent;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
 }
 
 .theme-light .cta-btn-dark:hover {

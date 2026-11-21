@@ -170,14 +170,10 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     padding: clamp(22px, 3vw, 34px);
     border-radius: 26px;
     background: var(--glass-bg);
-    -webkit-backdrop-filter: var(--blur-glass);
-    backdrop-filter: var(--blur-glass);
-    border: 1px solid var(--glass-border);
     box-shadow: var(--glass-rim);
   }
 
   .doc-card-tint {
-    border-color: var(--glass-border-violet);
     background: var(--glass-bg-violet);
     box-shadow: var(--glass-rim-violet);
   }
@@ -231,7 +227,6 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
   .stack-row {
     margin-top: 20px;
     padding-top: 16px;
-    border-top: 1px solid var(--border);
   }
 
   .stack-label {
@@ -257,7 +252,6 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     padding: 5px 12px;
     border-radius: var(--radius-full);
     background: rgba(255, 255, 255, 0.045);
-    border: 1px solid var(--border);
     font-size: 12.5px;
     font-weight: 500;
     color: var(--ink);
@@ -276,7 +270,6 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     padding: 20px;
     border-radius: 18px;
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
   }
 
   .step-num {
@@ -310,7 +303,6 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     padding: 20px;
     border-radius: 18px;
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
   }
 
   .impl-box h3 {
@@ -339,7 +331,6 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     padding: 22px 24px;
     border-radius: 22px;
     background: linear-gradient(170deg, rgba(21, 17, 30, 0.9), rgba(13, 8, 20, 0.96));
-    border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -347,7 +338,6 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
   }
 
   .more-card:hover {
-    border-color: var(--border-violet);
     transform: translateY(-2px);
   }
 

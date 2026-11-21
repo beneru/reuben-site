@@ -166,7 +166,6 @@ const structuredData = {
           </details>
         </div>
       </div>
-      <div class="header-progress" data-scroll-progress aria-hidden="true"></div>
     </header>
 
     <main id="main">
@@ -340,24 +339,6 @@ const structuredData = {
         });
       });
 
-      // Lightweight GPU scroll-progress hairline in the header.
-      const progressBar = document.querySelector<HTMLElement>('[data-scroll-progress]');
-      if (progressBar) {
-        let pRaf = 0;
-        const paintProgress = () => {
-          pRaf = 0;
-          const docH = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-          const ratio = Math.min(1, Math.max(0, window.scrollY / docH));
-          progressBar.style.transform = `scaleX(${ratio.toFixed(4)})`;
-        };
-        const onPageScroll = () => {
-          if (!pRaf) pRaf = requestAnimationFrame(paintProgress);
-        };
-        paintProgress();
-        window.addEventListener('scroll', onPageScroll, { passive: true });
-        window.addEventListener('resize', paintProgress, { passive: true });
-      }
-
       // Light homepage: header floats transparent over the hero, then turns solid cream.
       const siteHeader = document.querySelector<HTMLElement>('[data-site-header].header-overlay');
       const heroEl = document.getElementById('hero');
@@ -410,11 +391,7 @@ const structuredData = {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: linear-gradient(180deg, rgba(21, 17, 30, 0.66) 0%, rgba(13, 8, 20, 0.56) 100%);
-    -webkit-backdrop-filter: var(--blur-nav);
-    backdrop-filter: var(--blur-nav);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: inset 0 -1px 0 rgba(103, 0, 255, 0.12);
+    background: rgba(13, 8, 20, 0.96);
   }
 
   .header-overlay {
@@ -422,18 +399,13 @@ const structuredData = {
     left: 0;
     right: 0;
     background: transparent;
-    border-bottom-color: transparent;
     box-shadow: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
     transition: background-color 0.25s ease, border-color 0.25s ease;
   }
 
   .header-overlay.is-solid {
-    background: rgba(240, 237, 247, 0.86);
-    border-bottom-color: rgba(13, 8, 20, 0.08);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
-    backdrop-filter: blur(14px) saturate(160%);
+    background: rgba(240, 237, 247, 0.97);
+    box-shadow: 0 10px 30px -22px rgba(13, 8, 20, 0.45);
   }
 
   .header-overlay:not(.is-solid) .nav-links a {
@@ -442,23 +414,6 @@ const structuredData = {
 
   .header-overlay:not(.is-solid) .nav-links a:hover {
     color: #FFFFFF;
-  }
-
-  .header-overlay:not(.is-solid) .header-progress {
-    opacity: 0;
-  }
-
-  .header-progress {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 2px;
-    background: linear-gradient(90deg, #6700FF 0%, #954DFF 60%, #D7C8FF 100%);
-    transform-origin: left center;
-    transform: scaleX(0);
-    will-change: transform;
-    pointer-events: none;
   }
 
   .header-inner {
@@ -568,11 +523,8 @@ const structuredData = {
     gap: 4px;
     padding: 8px;
     border-radius: 22px;
-    background: linear-gradient(145deg, rgba(31, 26, 44, 0.84), rgba(13, 8, 20, 0.88));
-    -webkit-backdrop-filter: var(--blur-nav);
-    backdrop-filter: var(--blur-nav);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-rim);
+    background: #15111E;
+    box-shadow: 0 24px 50px -20px rgba(13, 8, 20, 0.7);
   }
 
   .mobile-panel a {
@@ -593,7 +545,6 @@ const structuredData = {
   .mobile-panel .mobile-email {
     margin-top: 4px;
     padding-top: 12px;
-    border-top: 1px solid var(--border);
     border-radius: 0 0 12px 12px;
     font-size: 13px;
     color: var(--ink-2);
