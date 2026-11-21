@@ -7,17 +7,19 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   <div class="hero-scene" aria-hidden="true">
     <div class="hero-sky"></div>
     <div class="hero-layer layer-bank" data-depth="0.30">
-      <img src="/images/clouds/layer-bank.webp" alt="" width="1376" height="768" decoding="async" fetchpriority="high" />
+      <img src="/images/clouds/layer-bank.webp" alt="" width="1024" height="572" decoding="async" fetchpriority="high" />
     </div>
     <div class="hero-layer layer-peak" data-depth="0.18">
       <img src="/images/clouds/layer-peak.webp" alt="" width="1376" height="768" decoding="async" fetchpriority="high" />
     </div>
+    <div class="hero-layer layer-glow" data-depth="0">
+      <img src="/images/clouds/layer-glow.webp" alt="" width="688" height="384" decoding="async" />
+    </div>
     <div class="hero-layer layer-hills" data-depth="0">
       <img src="/images/clouds/layer-mountains.webp" alt="" width="1376" height="768" decoding="async" />
     </div>
-    <div class="hero-tint"></div>
     <div class="hero-layer layer-mist" data-depth="-0.12">
-      <img src="/images/clouds/layer-mist.webp" alt="" width="1376" height="768" decoding="async" />
+      <img src="/images/clouds/layer-mist.webp" alt="" width="1024" height="572" decoding="async" />
     </div>
     <div class="hero-layer layer-forest layer-forest-left" data-depth="-0.26" data-spread="-0.14">
       <img src="/images/clouds/layer-forest-left.webp" alt="" width="646" height="653" decoding="async" />
@@ -48,31 +50,65 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 
 <script>
   /*
-   * Depth on scroll, same mechanics as the reference: every layer slides at its own
-   * rate. Positive depth = lags behind the page (far), negative = outruns it (near).
-   * Transforms go on the wrappers; the inner images keep their own CSS drift loop.
+   * Depth on scroll: every layer slides at its own rate (positive depth = lags, far;
+   * negative = outruns the page, near). Scroll only sets a target; one shared value
+   * glides toward it with frame-rate-independent exponential damping (~0.22s), so all
+   * objects move together, smoothly and slightly delayed. Only transform + opacity are
+   * written (GPU composited), the hero height is cached on resize, and the loop sleeps
+   * as soon as the motion settles.
    */
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const layers = Array.from(hero.querySelectorAll<HTMLElement>('.hero-layer[data-depth]'));
+    const layers = Array.from(hero.querySelectorAll<HTMLElement>('.hero-layer[data-depth]')).map((el) => ({
+      el,
+      d: Number(el.dataset.depth || 0),
+      sx: Number(el.dataset.spread || 0),
+    }));
     const top = hero.querySelector<HTMLElement>('[data-hero-top]');
+    const TAU = 220;
+    let heroH = hero.offsetHeight;
+    let target = 0;
+    let current = 0;
     let raf = 0;
-    const paint = () => {
-      raf = 0;
-      const y = Math.min(window.scrollY, hero.offsetHeight);
-      layers.forEach((el) => {
-        const d = Number(el.dataset.depth || 0);
-        const sx = Number(el.dataset.spread || 0);
-        el.style.transform = `translate3d(${(y * sx).toFixed(1)}px, ${(y * d).toFixed(1)}px, 0)`;
-      });
+    let last = 0;
+
+    const apply = (y: number) => {
+      for (const { el, d, sx } of layers) {
+        el.style.transform = `translate3d(${(y * sx).toFixed(2)}px, ${(y * d).toFixed(2)}px, 0)`;
+      }
       if (top) {
-        top.style.transform = `translate3d(0, ${(y * 0.35).toFixed(1)}px, 0)`;
-        top.style.opacity = String(Math.max(0, 1 - y / (hero.offsetHeight * 0.6)));
+        top.style.transform = `translate3d(0, ${(y * 0.35).toFixed(2)}px, 0)`;
+        top.style.opacity = Math.max(0, 1 - y / (heroH * 0.6)).toFixed(3);
       }
     };
-    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(paint); }, { passive: true });
-    window.addEventListener('resize', paint, { passive: true });
-    paint();
+
+    const step = (now: number) => {
+      const dt = last ? Math.min(64, now - last) : 16.7;
+      last = now;
+      current += (target - current) * (1 - Math.exp(-dt / TAU));
+      if (Math.abs(target - current) < 0.05) {
+        current = target;
+        apply(current);
+        raf = 0;
+        last = 0;
+        return;
+      }
+      apply(current);
+      raf = requestAnimationFrame(step);
+    };
+
+    const kick = () => {
+      target = Math.min(window.scrollY, heroH);
+      if (!raf) {
+        last = 0;
+        raf = requestAnimationFrame(step);
+      }
+    };
+
+    target = current = Math.min(window.scrollY, heroH);
+    apply(current);
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', () => { heroH = hero.offsetHeight; kick(); }, { passive: true });
   }
 </script>
 
@@ -123,10 +159,6 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   .layer-bank {
     z-index: 2;
     top: calc(var(--horizon) + 1svh - var(--lwh) * 0.26);
-    mix-blend-mode: screen;
-    opacity: 0.95;
-    -webkit-mask-image: linear-gradient(180deg, transparent 22%, rgba(0, 0, 0, 0.35) 34%, #000 52%);
-    mask-image: linear-gradient(180deg, transparent 22%, rgba(0, 0, 0, 0.35) 34%, #000 52%);
   }
 
   .layer-bank img,
@@ -146,23 +178,15 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
   }
 
   /* Small tree-covered mountains; the glow is a soft blur that follows the ridgeline (no hard rim line) */
+  .layer-glow,
   .layer-hills {
     z-index: 4;
     top: calc(var(--horizon) + 14svh - var(--lwh) * 0.47);
   }
 
-  .layer-hills img {
-    filter:
-      drop-shadow(0 -6px 22px rgba(215, 200, 255, 0.45))
-      drop-shadow(0 -18px 70px rgba(143, 77, 255, 0.5));
-  }
-
   .layer-mist {
     z-index: 5;
-    isolation: auto;
     top: calc(var(--horizon) + 30svh - var(--lwh) * 0.65);
-    mix-blend-mode: screen;
-    opacity: 0.85;
   }
 
   .layer-mist img {
@@ -176,12 +200,6 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     margin-left: 0;
   }
 
-  /* Base fades out so the rising slopes never show a hard bottom edge */
-  .layer-forest img {
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 62%, transparent 100%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 62%, transparent 100%);
-  }
-
   .layer-forest-left {
     left: 0;
     width: clamp(260px, 32vw, 560px);
@@ -191,15 +209,6 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     left: auto;
     right: 0;
     width: clamp(320px, 40vw, 720px);
-  }
-
-  /* Re-hues the grey haze (lavender mist over near-black hills) back to brand violet */
-  .hero-tint {
-    position: absolute;
-    inset: 0;
-    z-index: 5;
-    mix-blend-mode: color;
-    background: linear-gradient(180deg, transparent 35%, rgba(103, 0, 255, 0.55) 70%, rgba(143, 77, 255, 0.5) 100%);
   }
 
   @keyframes hero-drift-a {
