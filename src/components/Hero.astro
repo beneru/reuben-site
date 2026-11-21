@@ -18,6 +18,12 @@ import { SITE_IDENTITY } from '../data/site';
     <div class="hero-layer layer-mist" data-depth="-0.12">
       <img src="/images/clouds/layer-mist.webp" alt="" width="1376" height="768" decoding="async" />
     </div>
+    <div class="hero-layer layer-forest layer-forest-left" data-depth="-0.26" data-spread="-0.14">
+      <img src="/images/clouds/layer-forest-left.webp" alt="" width="646" height="653" decoding="async" />
+    </div>
+    <div class="hero-layer layer-forest layer-forest-right" data-depth="-0.22" data-spread="0.14">
+      <img src="/images/clouds/layer-forest-right.webp" alt="" width="850" height="653" decoding="async" />
+    </div>
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
 
@@ -53,7 +59,8 @@ import { SITE_IDENTITY } from '../data/site';
       const y = Math.min(window.scrollY, hero.offsetHeight);
       layers.forEach((el) => {
         const d = Number(el.dataset.depth || 0);
-        el.style.transform = `translate3d(0, ${(y * d).toFixed(1)}px, 0)`;
+        const sx = Number(el.dataset.spread || 0);
+        el.style.transform = `translate3d(${(y * sx).toFixed(1)}px, ${(y * d).toFixed(1)}px, 0)`;
       });
       if (top) {
         top.style.transform = `translate3d(0, ${(y * 0.4).toFixed(1)}px, 0)`;
@@ -150,6 +157,30 @@ import { SITE_IDENTITY } from '../data/site';
     animation: hero-drift-b 26s ease-in-out infinite alternate;
   }
 
+  /* Closest layer: forest slopes framing both edges, open in the middle */
+  .layer-forest {
+    z-index: 6;
+    bottom: -3%;
+    margin-left: 0;
+  }
+
+  /* Base fades out so the rising slopes never show a hard bottom edge */
+  .layer-forest img {
+    -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+  }
+
+  .layer-forest-left {
+    left: 0;
+    width: clamp(260px, 32vw, 560px);
+  }
+
+  .layer-forest-right {
+    left: auto;
+    right: 0;
+    width: clamp(320px, 40vw, 720px);
+  }
+
   /* Re-hues the grey haze (lavender mist over near-black hills) back to brand violet */
   .hero-tint {
     position: absolute;
@@ -173,7 +204,7 @@ import { SITE_IDENTITY } from '../data/site';
   .hero-scrim {
     position: absolute;
     inset: 0;
-    z-index: 6;
+    z-index: 7;
     pointer-events: none;
     background:
       linear-gradient(180deg, rgba(13, 8, 20, 0.18) 0%, transparent 16%),
@@ -198,7 +229,7 @@ import { SITE_IDENTITY } from '../data/site';
 
   .hero-tag {
     position: relative;
-    z-index: 7;
+    z-index: 8;
   }
 
   .hero-welcome {
@@ -252,6 +283,18 @@ import { SITE_IDENTITY } from '../data/site';
       background:
         linear-gradient(180deg, rgba(13, 8, 20, 0.18) 0%, transparent 16%),
         linear-gradient(180deg, transparent 80%, rgba(240, 237, 247, 0.6) 94%, #F0EDF7 100%);
+    }
+
+    .layer-forest-left {
+      width: 80vw;
+      left: -22vw;
+      bottom: 7%;
+    }
+
+    .layer-forest-right {
+      width: 92vw;
+      right: -30vw;
+      bottom: 5%;
     }
 
     .hero-tag {
