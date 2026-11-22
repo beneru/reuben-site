@@ -4,10 +4,21 @@ import { FOUNDER_COPY, SITE_IDENTITY } from '../data/site';
 const photo = FOUNDER_COPY.photos[0];
 ---
 
-<section class="section-block about-section" id="about" aria-labelledby="about-heading">
+<section class="section-block about-section has-float" id="about" aria-labelledby="about-heading" data-stage-section>
+  <div class="float-scene" aria-hidden="true">
+    <span
+      class="float-pill float-pill--dark"
+      data-pill-side="right"
+      style="right: clamp(22px, 3vw, 64px); bottom: 52px;"
+    >
+      <span class="float-pill__dot"></span>
+      Zero Fake Prices
+    </span>
+  </div>
+
   <div class="site-wrap">
-    <div class="bento">
-      <article class="bento-card bento-story theme-dark" data-reveal>
+    <div class="bento" data-stage-frames>
+      <article class="bento-card bento-story theme-dark" data-frame-slide="left" data-shine="dark" style="--fi: 0">
         <h2 class="bento-eyebrow" id="about-heading">Who's behind Beneru</h2>
         <p class="bento-lead">{FOUNDER_COPY.lead}</p>
         <details class="story-more">
@@ -18,7 +29,7 @@ const photo = FOUNDER_COPY.photos[0];
         </details>
       </article>
 
-      <figure class="bento-card bento-photo theme-dark" data-reveal style="--i: 1">
+      <figure class="bento-card bento-photo theme-dark" data-frame-slide="right" data-shine="dark" style="--fi: 1">
         <p class="bento-photo__line">Understand it.<br />Then build it.</p>
         <div class="bento-photo__frame">
           <img
@@ -36,7 +47,7 @@ const photo = FOUNDER_COPY.photos[0];
         </figcaption>
       </figure>
 
-      <article class="bento-card bento-team theme-dark" data-reveal style="--i: 2">
+      <article class="bento-card bento-team theme-dark" data-frame-slide="left" data-shine="dark" style="--fi: 1.5">
         <p class="bento-eyebrow">The team</p>
         <h3>Built together with the <strong>Spawntel</strong> team.</h3>
         <ul class="team-chips">
@@ -46,7 +57,7 @@ const photo = FOUNDER_COPY.photos[0];
         </ul>
       </article>
 
-      <article class="bento-card bento-rules theme-dark" data-reveal style="--i: 3">
+      <article class="bento-card bento-rules theme-dark" data-frame-slide="right" data-shine="dark" style="--fi: 2">
         <p class="bento-eyebrow">{FOUNDER_COPY.principlesHeading}</p>
         <ul class="principles-list">
           {FOUNDER_COPY.principles.map((rule) => (
@@ -78,6 +89,7 @@ const photo = FOUNDER_COPY.photos[0];
     border-radius: 28px;
     background: #15111E;
     padding: clamp(24px, 2.8vw, 36px);
+    box-shadow: 0 16px 34px -22px rgba(13, 8, 20, 0.42);
   }
 
   .bento-eyebrow {
@@ -93,6 +105,9 @@ const photo = FOUNDER_COPY.photos[0];
 
   .bento-story {
     grid-area: story;
+    background:
+      radial-gradient(65% 85% at 0% 0%, rgba(103, 0, 255, 0.22), transparent 62%),
+      #0D0814;
   }
 
   .bento-lead {
@@ -142,6 +157,10 @@ const photo = FOUNDER_COPY.photos[0];
     display: flex;
     flex-direction: column;
     gap: 18px;
+    background:
+      radial-gradient(95% 90% at 100% 0%, rgba(183, 155, 255, 0.34), transparent 58%),
+      linear-gradient(160deg, #6700FF 0%, #240D54 62%, #15111E 100%);
+    box-shadow: 0 18px 38px -22px rgba(103, 0, 255, 0.46);
   }
 
   .bento-photo__line {
@@ -151,14 +170,15 @@ const photo = FOUNDER_COPY.photos[0];
     font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.03em;
-    color: #B79BFF;
+    color: #FFFFFF;
   }
 
   .bento-photo__frame {
     aspect-ratio: 1 / 1;
     border-radius: 22px;
     overflow: hidden;
-    background: #6700FF;
+    background: #0D0814;
+    box-shadow: 0 22px 44px -24px rgba(13, 8, 20, 0.65);
   }
 
   .bento-photo__frame img {

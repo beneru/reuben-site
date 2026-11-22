@@ -4,6 +4,7 @@ import { spawntelFunnelUrl } from '../../shared/funnel';
 import { SOCIAL_LINKS } from '../../shared/socials';
 import { FOOTER_COPY, NAV_ITEMS, SEO_DEFAULTS, SITE_IDENTITY } from '../data/site';
 import credentialData from '../data/credentials.json';
+import ScrollFloatController from '../components/ScrollFloatController.astro';
 
 interface Props {
   title?: string;
@@ -180,6 +181,8 @@ const structuredData = {
     <main id="main">
       <slot />
     </main>
+
+    <ScrollFloatController />
 
     <footer class="ft">
       <div class="ft-wrap">
@@ -373,6 +376,8 @@ const structuredData = {
         paintHeader();
         window.addEventListener('scroll', () => { if (!hRaf) hRaf = requestAnimationFrame(paintHeader); }, { passive: true });
         window.addEventListener('resize', paintHeader, { passive: true });
+      } else if (siteHeader) {
+        siteHeader.classList.add('is-solid', 'theme-light');
       }
 
       // Notify Reuben once per visitor session when someone clicks through to spawntel.com.

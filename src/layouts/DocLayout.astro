@@ -25,36 +25,87 @@ const {
 } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
-  <article class="doc-shell">
-    <div class="doc-wrap">
-      <div class="doc-back-row">
-        <a href={backHref} class="doc-back">
-          <span aria-hidden="true">&larr;</span> {backLabel}
-        </a>
+<BaseLayout title={title} description={description} theme="light">
+  <div class="theme-light">
+    <article class="doc-shell has-float" data-stage-section>
+      <div class="float-scene" aria-hidden="true">
+        <img
+          class="side-cloud side-cloud--right"
+          src="/images/clouds/side-cloud-right-v1.webp"
+          alt=""
+          width="540"
+          height="420"
+          loading="lazy"
+          decoding="async"
+          style="top: 3%;"
+        />
+        <img
+          class="side-cloud side-cloud--left"
+          src="/images/clouds/side-cloud-left-v1.webp"
+          alt=""
+          width="540"
+          height="420"
+          loading="lazy"
+          decoding="async"
+          style="top: 34%;"
+        />
+        <img
+          class="side-cloud side-cloud--right"
+          src="/images/clouds/side-cloud-right-v1.webp"
+          alt=""
+          width="540"
+          height="420"
+          loading="lazy"
+          decoding="async"
+          style="bottom: 8%;"
+        />
+        <span
+          class="float-pill"
+          data-pill-side="right"
+          style="right: clamp(24px, 4.5vw, 96px); top: 118px;"
+        >
+          <span class="float-pill__dot"></span>
+          Verified Architecture
+        </span>
+        <span
+          class="float-pill"
+          data-pill-side="left"
+          style="left: clamp(24px, 4.5vw, 96px); top: 44%;"
+        >
+          <span class="float-pill__dot"></span>
+          Production Guardrails
+        </span>
       </div>
 
-      <header class="doc-header">
-        <div class="doc-meta">
-          <span class="pill-tag doc-eyebrow">{eyebrow}</span>
-          {statusLabel && <span class="doc-status">{statusLabel}</span>}
+      <div class="site-wrap doc-wrap">
+        <div class="doc-back-row">
+          <a href={backHref} class="doc-back">
+            <span aria-hidden="true">&larr;</span> {backLabel}
+          </a>
         </div>
-        <h1 class="doc-h1">{heading}</h1>
-        {subtitle && <p class="doc-lead">{subtitle}</p>}
-      </header>
 
-      <div class="doc-content">
-        <slot />
+        <header class="doc-header">
+          <div class="doc-meta">
+            <span class="pill-tag doc-eyebrow">{eyebrow}</span>
+            {statusLabel && <span class="doc-status"><span class="doc-status__dot" aria-hidden="true"></span>{statusLabel}</span>}
+          </div>
+          <h1 class="doc-h1">{heading}</h1>
+          {subtitle && <p class="doc-lead">{subtitle}</p>}
+        </header>
+
+        <div class="doc-content">
+          <slot />
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
+  </div>
 
   <CtaBanner />
 </BaseLayout>
 
 <style>
   .doc-shell {
-    padding: clamp(36px, 5vw, 68px) 0 16px;
+    padding: calc(var(--nav-h) + clamp(28px, 4vw, 52px)) 0 clamp(48px, 6vw, 88px);
   }
 
   .doc-wrap {
@@ -70,24 +121,25 @@ const {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
+    padding: 9px 18px;
     border-radius: var(--radius-full);
-    background: #15111E;
+    background: #FFFFFF;
     font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-2);
-    transition: color 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+    font-weight: 600;
+    color: #0D0814;
+    box-shadow: 0 12px 26px -16px rgba(103, 0, 255, 0.28);
+    transition: transform 0.2s var(--ease-expo), background-color 0.16s ease;
   }
 
   .doc-back:hover {
-    color: var(--ink);
-    background: #1F1A2C;
+    background: #D7C8FF;
+    color: #0D0814;
+    transform: translate3d(-3px, 0, 0);
   }
 
   .doc-header {
     max-width: 78ch;
     margin-bottom: clamp(28px, 4vw, 48px);
-    padding-bottom: 28px;
   }
 
   .doc-meta {
@@ -99,37 +151,45 @@ const {
   }
 
   .doc-eyebrow {
-    color: var(--violet-soft);
-    background: rgba(103, 0, 255, 0.12);
+    color: #FFFFFF;
+    background: #0D0814;
+    font-weight: 600;
   }
 
   .doc-status {
-    font-size: 13.5px;
-    color: var(--ink-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0D0814;
+    box-shadow: 0 10px 22px -14px rgba(103, 0, 255, 0.22);
+  }
+
+  .doc-status__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #6700FF;
   }
 
   .doc-h1 {
     margin: 0 0 16px;
     font-family: var(--font-heading);
-    font-size: clamp(2rem, 1.35rem + 2.3vw, 3.15rem);
+    font-size: clamp(2.15rem, 1.45rem + 2.6vw, 3.6rem);
     font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.028em;
-    padding-bottom: 0.06em;
-    background-image: var(--grad-shimmer);
-    background-size: var(--blob-bg-size);
-    background-repeat: no-repeat;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    animation: text-blob-drift 14s ease-in-out -4s infinite alternate;
+    line-height: 1.05;
+    letter-spacing: -0.038em;
+    color: #0D0814;
   }
 
   .doc-lead {
     margin: 0;
-    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-    color: #C2BCD4;
+    font-size: clamp(1.02rem, 0.96rem + 0.28vw, 1.18rem);
+    color: var(--ink-2);
     line-height: 1.62;
   }
 

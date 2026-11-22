@@ -3,26 +3,80 @@ import { spawntelFunnelUrl } from '../../shared/funnel';
 import { PROOF_NUMBERS_COPY } from '../data/site';
 ---
 
-<section class="pn" id="proof" aria-labelledby="pn-title">
+<section class="pn has-float" id="proof" aria-labelledby="pn-title" data-proof data-stage-section>
+  <div class="float-scene" aria-hidden="true">
+    <img
+      class="side-cloud side-cloud--left"
+      src="/images/clouds/side-cloud-left-v1.webp"
+      alt=""
+      width="540"
+      height="420"
+      loading="lazy"
+      decoding="async"
+      style="bottom: 6%;"
+    />
+    <img
+      class="side-cloud side-cloud--right"
+      src="/images/clouds/side-cloud-right-v1.webp"
+      alt=""
+      width="540"
+      height="420"
+      loading="lazy"
+      decoding="async"
+      style="top: 10%;"
+    />
+    <span
+      class="float-pill"
+      data-pill-side="left"
+      style="left: clamp(28px, 5.5vw, 110px); top: 15%;"
+    >
+      <span class="float-pill__dot"></span>
+      HMAC Verified
+    </span>
+  </div>
+
   <div class="site-wrap pn-wrap">
     <h2 class="pn-title" id="pn-title" data-reveal>{PROOF_NUMBERS_COPY.heading}</h2>
 
-    <ul class="pn-stats">
-      {PROOF_NUMBERS_COPY.stats.map((stat, idx) => (
-        <li class="pn-stat" data-reveal style={`--i: ${idx}`}>
-          <span class="pn-stat__value">{stat.value}</span>
-          <div class="pn-stat__body">
+    <ul class="pn-stats" data-stage-frames>
+      {PROOF_NUMBERS_COPY.stats.map((stat, idx) => {
+        const featured = idx === 1;
+        const numMatch = /^\d+/.exec(stat.value);
+        const slideDir = idx === 2 ? 'right' : 'left';
+        const frameOrder = idx === 0 ? 0 : idx === 2 ? 0.8 : 1.6;
+        return (
+          <li
+            class={`pn-stat ${featured ? 'pn-stat--featured theme-dark' : ''}`}
+            data-frame-slide={slideDir}
+            data-shine={featured ? 'dark' : 'light'}
+            style={`--fi: ${frameOrder}`}
+          >
+            <div class="pn-stat__top">
+              <span
+                class="pn-stat__value"
+                data-count={numMatch ? numMatch[0] : undefined}
+              >
+                {stat.value}
+              </span>
+              <span class="pn-stat__dot" aria-hidden="true"></span>
+            </div>
             <p class="pn-stat__label">{stat.label}</p>
             <a class="pn-stat__src" href={stat.href}>
-              <span class="sr-only">Source: </span>{stat.sourceLabel}
-              <span aria-hidden="true">&rarr;</span>
+              <span class="sr-only">Source: </span>
+              <span>{stat.sourceLabel}</span>
+              <span class="pn-stat__arrow" aria-hidden="true">&rarr;</span>
             </a>
-          </div>
-        </li>
-      ))}
+          </li>
+        );
+      })}
     </ul>
 
-    <div class="pn-cta" data-reveal>
+    <p class="pn-manifesto" data-reveal style="--i: 2">
+      {PROOF_NUMBERS_COPY.manifestoLead}{' '}
+      <strong class="pn-manifesto__payoff">{PROOF_NUMBERS_COPY.manifestoPayoff}</strong>
+    </p>
+
+    <div class="pn-cta" data-reveal style="--i: 3">
       <a href={spawntelFunnelUrl('proof-cloud')} class="cta-btn" data-spawntel-cta="proof-cloud">
         <span>{PROOF_NUMBERS_COPY.ctaLabel}</span>
         <span class="cta-btn__circle" aria-hidden="true">
@@ -36,11 +90,47 @@ import { PROOF_NUMBERS_COPY } from '../data/site';
   </div>
 </section>
 
+<script>
+  const proof = document.querySelector<HTMLElement>('[data-proof]');
+  if (proof && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const els = Array.from(proof.querySelectorAll<HTMLElement>('[data-count]'));
+    if (els.length && 'IntersectionObserver' in window) {
+      let ran = false;
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (ran || !entries.some((e) => e.isIntersecting)) return;
+          ran = true;
+          io.disconnect();
+          const duration = 840;
+          const items = els.map((el) => ({
+            el,
+            target: Number(el.dataset.count || 0),
+          }));
+          setTimeout(() => {
+            const start = performance.now();
+            const tick = (now: number) => {
+              const t = Math.min(1, (now - start) / duration);
+              const eased = 1 - Math.pow(1 - t, 4);
+              for (const item of items) {
+                item.el.textContent = String(Math.round(item.target * eased));
+              }
+              if (t < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          }, 260);
+        },
+        { threshold: 0.25 }
+      );
+      io.observe(proof);
+    }
+  }
+</script>
+
 <style>
   .pn {
     position: relative;
     isolation: isolate;
-    padding-block: clamp(72px, 9vw, 132px);
+    padding-block: clamp(72px, 9vw, 128px);
   }
 
   .pn::before {
@@ -49,7 +139,7 @@ import { PROOF_NUMBERS_COPY } from '../data/site';
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(42% 60% at 50% 44%, rgba(103, 0, 255, 0.06), transparent 72%);
+    background: radial-gradient(48% 58% at 50% 42%, rgba(103, 0, 255, 0.08), transparent 72%);
   }
 
   .pn-wrap {
@@ -68,93 +158,168 @@ import { PROOF_NUMBERS_COPY } from '../data/site';
     color: var(--ink);
   }
 
-  /* Bare numbers, each with a receipt */
+  /* Sculpted 3-tile contrast strip: center flagship lifted in Void Black */
   .pn-stats {
     list-style: none;
-    margin: clamp(48px, 6vw, 80px) 0 0;
+    margin: clamp(44px, 5.5vw, 72px) 0 0;
     padding: 0;
     width: 100%;
     max-width: 1080px;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
   }
 
   .pn-stat {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    text-align: left;
     gap: 14px;
-    padding: 8px clamp(16px, 2.6vw, 40px);
+    padding: clamp(26px, 3vw, 36px);
+    border-radius: 28px;
+    background: #FFFFFF;
+    box-shadow: 0 14px 32px -20px rgba(103, 0, 255, 0.24);
+    transition: transform 0.24s var(--ease-expo);
+  }
+
+  .pn-stat:hover {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  .pn-stat--featured {
+    z-index: 2;
+    background:
+      radial-gradient(88% 96% at 100% 0%, rgba(103, 0, 255, 0.44), transparent 62%),
+      #0D0814;
+    box-shadow: 0 18px 36px -20px rgba(103, 0, 255, 0.44);
+    transform: translate3d(0, -10px, 0);
+  }
+
+  .pn-stat--featured:hover {
+    transform: translate3d(0, -14px, 0);
+  }
+
+  .pn-stat__top {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
   }
 
   .pn-stat__value {
     font-family: var(--font-heading);
-    font-size: clamp(3.4rem, 2.2rem + 4.4vw, 6.2rem);
+    font-size: clamp(3.3rem, 2.2rem + 3.8vw, 5.4rem);
     font-weight: 800;
-    line-height: 0.95;
+    line-height: 0.92;
     letter-spacing: -0.045em;
-    color: var(--ink);
+    color: #0D0814;
     font-variant-numeric: tabular-nums;
   }
 
-  .pn-stat__body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+  .pn-stat--featured .pn-stat__value {
+    color: #FFFFFF;
+  }
+
+  .pn-stat__dot {
+    width: 10px;
+    height: 10px;
+    margin-top: 8px;
+    border-radius: 50%;
+    background: #6700FF;
+    flex-shrink: 0;
+  }
+
+  .pn-stat--featured .pn-stat__dot {
+    background: #B79BFF;
   }
 
   .pn-stat__label {
-    margin: 0;
-    max-width: 26ch;
+    margin: 2px 0 0;
+    max-width: 28ch;
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.52;
     color: var(--ink-2);
   }
 
+  .pn-stat--featured .pn-stat__label {
+    color: #D7C8FF;
+  }
+
   .pn-stat__src {
+    margin-top: auto;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #F0EDF7;
+    color: #0D0814;
     display: inline-flex;
     align-items: center;
     gap: 6px;
     font-size: 13.5px;
-    font-weight: 500;
-    color: var(--violet-soft);
-    text-decoration: underline;
-    text-decoration-color: rgba(103, 0, 255, 0.35);
-    text-underline-offset: 4px;
-    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+    font-weight: 600;
+    transition: background-color 0.16s ease, color 0.16s ease;
   }
 
   .pn-stat__src:hover {
-    color: var(--ink);
-    text-decoration-color: currentColor;
+    background: #D7C8FF;
+    color: #0D0814;
+  }
+
+  .pn-stat--featured .pn-stat__src {
+    background: #FFFFFF;
+    color: #0D0814;
+  }
+
+  .pn-stat--featured .pn-stat__src:hover {
+    background: #D7C8FF;
+    color: #0D0814;
+  }
+
+  .pn-stat__arrow {
+    display: inline-block;
+    transition: transform 0.2s var(--ease-expo);
+  }
+
+  .pn-stat__src:hover .pn-stat__arrow {
+    transform: translate3d(3px, 0, 0);
+  }
+
+  .pn-manifesto {
+    margin: clamp(44px, 5.5vw, 68px) 0 0;
+    max-width: 34ch;
+    font-family: var(--font-heading);
+    font-size: clamp(1.3rem, 1rem + 1.15vw, 2rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: #0D0814;
+    text-wrap: balance;
+  }
+
+  .pn-manifesto__payoff {
+    font-weight: 800;
+    color: #6700FF;
   }
 
   .pn-cta {
-    margin-top: clamp(40px, 5vw, 64px);
+    margin-top: clamp(28px, 3.5vw, 40px);
   }
 
-  @media (max-width: 760px) {
+  @media (max-width: 860px) {
     .pn-stats {
       grid-template-columns: minmax(0, 1fr);
+      max-width: 520px;
     }
 
-    .pn-stat {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 18px;
-      padding: 20px 0;
-      text-align: left;
+    .pn-stat--featured,
+    .pn-stat--featured:hover {
+      transform: none;
     }
 
     .pn-stat__value {
-      flex: 0 0 1.45em;
-      font-size: 3rem;
-    }
-
-    .pn-stat__body {
-      align-items: flex-start;
-      padding-top: 6px;
+      font-size: 3.4rem;
     }
   }
 </style>

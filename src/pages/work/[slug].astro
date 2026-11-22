@@ -25,7 +25,7 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
   subtitle={build.summary}
   statusLabel={build.statusLabel}
 >
-  <figure class="doc-figure">
+  <figure class="doc-figure theme-dark" data-stage-frames data-frame-slide="right" data-shine="dark" style="--fi: 0">
     <div class="figure-frame">
       <img
         src={build.cardImage.src}
@@ -39,16 +39,16 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     <figcaption>{build.cardImage.caption}</figcaption>
   </figure>
 
-  <div class="doc-grid">
-    <section class="doc-card" aria-labelledby="problem-heading">
+  <div class="doc-grid" data-stage-frames>
+    <section class="doc-card" aria-labelledby="problem-heading" data-frame-slide="left" data-shine="light" style="--fi: 0">
       <h2 id="problem-heading">The Problem</h2>
       <p>{build.problem}</p>
     </section>
 
-    <section class="doc-card doc-card-tint" aria-labelledby="verified-heading">
+    <section class="doc-card doc-card-tint theme-dark" aria-labelledby="verified-heading" data-frame-slide="right" data-shine="dark" style="--fi: 0.55">
       <h2 id="verified-heading">What Is Verified</h2>
       <ul class="check-list">
-        {build.verifiedFacts.map((fact) => <li>{fact}</li>)}
+        {build.verifiedFacts.map((fact) => <li><span>{fact}</span></li>)}
       </ul>
       <div class="stack-row">
         <span class="stack-label">Stack</span>
@@ -64,7 +64,7 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     <p class="arch-summary">{build.architectureSummary}</p>
 
     {build.diagramImage && (
-      <figure class="doc-figure diagram-figure">
+      <figure class="doc-figure diagram-figure theme-dark" data-stage-frames data-frame-slide="right" data-shine="dark" style="--fi: 0">
         <div class="figure-frame">
           <img
             src={build.diagramImage.src}
@@ -79,27 +79,43 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
       </figure>
     )}
 
-    <ol class="step-grid">
-      {build.architectureSteps.map((s) => (
-        <li class="step-item">
-          <span class="step-num">{s.step}</span>
-          <h3>{s.title}</h3>
-          <p>{s.detail}</p>
-        </li>
-      ))}
+    <ol class="step-grid" data-stage-frames>
+      {build.architectureSteps.map((s, idx) => {
+        const isLast = idx === build.architectureSteps.length - 1;
+        return (
+          <li
+            class={`step-item ${isLast ? 'step-item--final theme-dark' : ''}`}
+            data-frame-slide={idx % 2 === 0 ? 'left' : 'right'}
+            data-shine={isLast ? 'dark' : 'light'}
+            style={`--fi: ${(idx * 0.42).toFixed(2)}`}
+          >
+            <div class="step-top">
+              <span class="step-num">{s.step}</span>
+              {isLast && <span class="step-badge">Verified flow</span>}
+            </div>
+            <h3>{s.title}</h3>
+            <p>{s.detail}</p>
+          </li>
+        );
+      })}
     </ol>
   </section>
 
   {build.implementations && build.implementations.length > 0 && (
     <section class="doc-card" aria-labelledby="impl-heading">
       <h2 id="impl-heading">Codebase Implementations</h2>
-      <div class="impl-grid">
-        {build.implementations.map((track) => (
-          <div class="impl-box">
+      <div class="impl-grid" data-stage-frames>
+        {build.implementations.map((track, idx) => (
+          <div
+            class="impl-box theme-dark"
+            data-frame-slide={idx % 2 === 0 ? 'left' : 'right'}
+            data-shine="dark"
+            style={`--fi: ${(idx * 0.48).toFixed(2)}`}
+          >
             <h3>{track.name}</h3>
             <p class="impl-scope">{track.scope}</p>
             <ul class="check-list">
-              {track.highlights.map((h) => <li>{h}</li>)}
+              {track.highlights.map((h) => <li><span>{h}</span></li>)}
             </ul>
           </div>
         ))}
@@ -107,19 +123,25 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     </section>
   )}
 
-  <section class="doc-card" aria-labelledby="guardrails-heading">
+  <section class="doc-card doc-card--dark theme-dark" aria-labelledby="guardrails-heading" data-stage-frames data-frame-slide="left" data-shine="dark" style="--fi: 0">
     <h2 id="guardrails-heading">Safety &amp; Operational Guardrails</h2>
     <ul class="check-list">
-      {build.guardrails.map((g) => <li>{g}</li>)}
+      {build.guardrails.map((g) => <li><span>{g}</span></li>)}
     </ul>
   </section>
 
   {otherBuilds.length > 0 && (
     <nav class="more-builds" aria-label="Other documented systems">
       <h2>Other Documented Systems</h2>
-      <div class="more-grid">
-        {otherBuilds.map((item) => (
-          <a href={`/work/${item.slug}/`} class="more-card">
+      <div class="more-grid" data-stage-frames>
+        {otherBuilds.map((item, idx) => (
+          <a
+            href={`/work/${item.slug}/`}
+            class={`more-card ${idx % 2 === 1 ? 'more-card--alt' : ''} theme-dark`}
+            data-frame-slide={idx % 2 === 0 ? 'left' : 'right'}
+            data-shine="dark"
+            style={`--fi: ${(idx * 0.55).toFixed(2)}`}
+          >
             <span class="more-cat">{item.category}</span>
             <strong>{item.title}</strong>
             <span class="more-link">Read documentation &rarr;</span>
@@ -133,14 +155,15 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
 <style>
   .doc-figure {
     margin: 0;
-    padding: clamp(16px, 2.6vw, 32px);
+    padding: clamp(18px, 2.6vw, 32px);
     border-radius: 28px;
-    background: var(--frame-bg);
+    background: linear-gradient(155deg, #6700FF 0%, #15111E 64%, #0D0814 100%);
+    box-shadow: 0 20px 42px -22px rgba(103, 0, 255, 0.44);
   }
 
   .diagram-figure {
     margin: 24px 0;
-    padding: 12px;
+    padding: clamp(14px, 2vw, 24px);
   }
 
   .figure-frame {
@@ -157,7 +180,7 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
   figcaption {
     padding: 12px 6px 0;
     font-size: 13px;
-    color: rgba(240, 237, 247, 0.78);
+    color: #D7C8FF;
   }
 
   .doc-grid {
@@ -167,29 +190,48 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
   }
 
   .doc-card {
-    padding: clamp(22px, 3vw, 34px);
-    border-radius: 26px;
-    background: var(--glass-bg);
-    box-shadow: var(--glass-rim);
+    padding: clamp(24px, 3vw, 36px);
+    border-radius: 28px;
+    background: #FFFFFF;
+    box-shadow: 0 16px 34px -20px rgba(103, 0, 255, 0.24);
   }
 
   .doc-card-tint {
-    background: var(--glass-bg-violet);
-    box-shadow: var(--glass-rim-violet);
+    background:
+      radial-gradient(95% 110% at 100% 0%, rgba(183, 155, 255, 0.34), transparent 58%),
+      linear-gradient(155deg, #6700FF 0%, #1F0D4A 62%, #0D0814 100%);
+    box-shadow: 0 20px 40px -20px rgba(103, 0, 255, 0.46);
+  }
+
+  .doc-card--dark {
+    background:
+      radial-gradient(80% 90% at 100% 0%, rgba(103, 0, 255, 0.32), transparent 62%),
+      #0D0814;
+    box-shadow: 0 18px 38px -20px rgba(13, 8, 20, 0.48);
   }
 
   h2 {
-    font-size: clamp(1.3rem, 1.05rem + 0.8vw, 1.65rem);
+    font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.75rem);
     margin: 0 0 14px;
-    letter-spacing: -0.025em;
-    color: var(--ink);
+    letter-spacing: -0.028em;
+    color: #0D0814;
+  }
+
+  .doc-card-tint h2,
+  .doc-card--dark h2 {
+    color: #FFFFFF;
   }
 
   p {
     margin: 0;
-    color: #C2BCD4;
+    color: var(--ink-2);
     line-height: 1.65;
     max-width: 72ch;
+  }
+
+  .doc-card-tint p,
+  .doc-card--dark p {
+    color: #D7C8FF;
   }
 
   .arch-summary {
@@ -216,26 +258,25 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     content: '';
     position: absolute;
     left: 0;
-    top: 9px;
+    top: 8px;
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 12px rgba(103, 0, 255, 0.9);
+    background: #B79BFF;
   }
 
   .stack-row {
-    margin-top: 20px;
+    margin-top: 22px;
     padding-top: 16px;
   }
 
   .stack-label {
     display: block;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ink-muted);
+    letter-spacing: 0.12em;
+    color: #D7C8FF;
     margin-bottom: 10px;
   }
 
@@ -249,12 +290,12 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
   }
 
   .stack-tags li {
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: var(--radius-full);
-    background: rgba(255, 255, 255, 0.045);
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--ink);
+    background: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0D0814;
   }
 
   .step-grid {
@@ -263,102 +304,172 @@ const otherBuilds = WORK_BUILDS.filter((b) => b.slug !== build.slug);
     padding: 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 18px;
   }
 
   .step-item {
-    padding: 20px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.03);
+    padding: clamp(22px, 2.5vw, 28px);
+    border-radius: 24px;
+    background: #F0EDF7;
+    box-shadow: 0 12px 26px -18px rgba(103, 0, 255, 0.22);
+    transition: transform 0.24s var(--ease-expo);
+  }
+
+  .step-item:hover {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  .step-item--final {
+    background:
+      radial-gradient(92% 105% at 100% 0%, rgba(183, 155, 255, 0.36), transparent 60%),
+      linear-gradient(155deg, #6700FF 0%, #1F0D4A 64%, #0D0814 100%);
+    box-shadow: 0 18px 36px -20px rgba(103, 0, 255, 0.44);
+  }
+
+  .step-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
   }
 
   .step-num {
     display: inline-block;
     font-family: var(--font-heading);
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--violet-soft);
-    margin-bottom: 6px;
+    font-size: clamp(2rem, 1.5rem + 1.2vw, 2.75rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    color: #6700FF;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-item--final .step-num {
+    color: #FFFFFF;
+  }
+
+  .step-badge {
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: #FFFFFF;
+    color: #0D0814;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
   }
 
   .step-item h3 {
-    font-size: 17px;
+    font-size: 18px;
     margin: 0 0 8px;
-    color: var(--ink);
+    color: #0D0814;
+  }
+
+  .step-item--final h3 {
+    color: #FFFFFF;
   }
 
   .step-item p {
     font-size: 14.5px;
-    line-height: 1.55;
+    line-height: 1.58;
     color: var(--ink-2);
+  }
+
+  .step-item--final p {
+    color: #D7C8FF;
   }
 
   .impl-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 18px;
   }
 
   .impl-box {
-    padding: 20px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.03);
+    padding: clamp(22px, 2.5vw, 28px);
+    border-radius: 24px;
+    background:
+      radial-gradient(85% 95% at 100% 0%, rgba(143, 77, 255, 0.28), transparent 62%),
+      #0D0814;
+    box-shadow: 0 16px 34px -22px rgba(13, 8, 20, 0.46);
+    transition: transform 0.24s var(--ease-expo);
+  }
+
+  .impl-box:hover {
+    transform: translate3d(0, -4px, 0);
   }
 
   .impl-box h3 {
-    font-size: 17px;
+    font-size: 18px;
     margin: 0 0 6px;
-    color: var(--ink);
+    color: #FFFFFF;
   }
 
   .impl-scope {
     font-size: 14px;
-    color: var(--ink-2);
+    color: #D7C8FF;
     margin-bottom: 14px;
   }
 
   .more-builds {
-    padding-top: 12px;
+    padding-top: 16px;
   }
 
   .more-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 18px;
   }
 
   .more-card {
-    padding: 22px 24px;
-    border-radius: 22px;
-    background: linear-gradient(170deg, rgba(21, 17, 30, 0.9), rgba(13, 8, 20, 0.96));
+    padding: clamp(24px, 2.8vw, 32px);
+    border-radius: 26px;
+    background:
+      radial-gradient(90% 115% at 100% 0%, rgba(143, 77, 255, 0.42), transparent 60%),
+      linear-gradient(150deg, #6700FF 0%, #0D0814 100%);
+    box-shadow: 0 18px 36px -22px rgba(103, 0, 255, 0.42);
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    transition: border-color 0.18s ease, transform 0.2s var(--ease-out);
+    align-items: flex-start;
+    gap: 10px;
+    transition: transform 0.24s var(--ease-expo);
+  }
+
+  .more-card--alt {
+    background:
+      radial-gradient(90% 115% at 100% 0%, rgba(183, 155, 255, 0.38), transparent 60%),
+      linear-gradient(150deg, #8F4DFF 0%, #15111E 100%);
   }
 
   .more-card:hover {
-    transform: translateY(-2px);
+    transform: translate3d(0, -4px, 0);
   }
 
   .more-cat {
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--violet-soft);
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: #FFFFFF;
+    font-size: 12px;
+    font-weight: 600;
+    color: #0D0814;
   }
 
   .more-card strong {
     font-family: var(--font-heading);
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--ink);
+    font-size: clamp(1.15rem, 1rem + 0.45vw, 1.4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #FFFFFF;
   }
 
   .more-link {
     margin-top: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--violet-soft);
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #FFFFFF;
   }
 
   @media (max-width: 860px) {

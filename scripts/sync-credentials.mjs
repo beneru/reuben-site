@@ -12,10 +12,31 @@
  * - The drop folder is never modified: files are copied, never moved or deleted.
  * - A missing drop folder is not an error (e.g. building on another machine).
  */
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { homedir } from 'node:os';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { homedir, tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+function renderPreview(pdfPath, webpPath) {
+  const pngPath = join(tmpdir(), `beneru-cert-${Date.now()}-${Math.random().toString(36).slice(2)}.png`);
+  try {
+    const gs = spawnSync('gs', [
+      '-q', '-dNOPAUSE', '-dBATCH', '-sDEVICE=png16m',
+      '-r180', '-dFirstPage=1', '-dLastPage=1',
+      `-sOutputFile=${pngPath}`, pdfPath,
+    ]);
+    if (gs.status !== 0 || !existsSync(pngPath)) return false;
+    const ff = spawnSync('ffmpeg', [
+      '-y', '-loglevel', 'error', '-i', pngPath,
+      '-vf', 'scale=960:-2:flags=lanczos',
+      '-c:v', 'libwebp', '-quality', '88', webpPath,
+    ]);
+    return ff.status === 0 && existsSync(webpPath);
+  } finally {
+    if (existsSync(pngPath)) rmSync(pngPath, { force: true });
+  }
+}
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dropDir = process.env.CREDENTIALS_DIR || join(homedir(), 'Downloads', 'COURSERA CREDENTIALS');
@@ -41,10 +62,14 @@ for (const file of pdfs) {
   }
   const src = join(dropDir, file);
   const dest = join(outDir, `${entry.slug}.pdf`);
+  const preview = join(outDir, `${entry.slug}.webp`);
   const changed = !existsSync(dest) || statSync(dest).size !== statSync(src).size || statSync(src).mtimeMs > statSync(dest).mtimeMs;
   if (changed) {
     copyFileSync(src, dest);
     copied += 1;
+  }
+  if (changed || !existsSync(preview)) {
+    renderPreview(dest, preview);
   }
 }
 

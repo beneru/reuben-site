@@ -8,20 +8,20 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     <div class="hero-layer layer-bank" data-depth="0.28">
       <img src="/images/clouds/hero-bank-v2.webp" alt="" width="1024" height="372" loading="eager" decoding="async" fetchpriority="high" />
     </div>
-    <div class="hero-layer layer-peak" data-depth="0.16">
-      <img src="/images/clouds/hero-peak-v2.webp" alt="" width="1376" height="534" loading="eager" decoding="async" fetchpriority="high" />
+    <div class="hero-layer layer-skyline-far" data-depth="0.16">
+      <img src="/images/clouds/hero-skyline-far-v3.webp" alt="" width="1376" height="540" loading="eager" decoding="async" fetchpriority="high" />
     </div>
-    <div class="hero-layer layer-hills" data-depth="0">
-      <img src="/images/clouds/hero-hills-v2.webp" alt="" width="1376" height="580" loading="eager" decoding="async" fetchpriority="high" />
+    <div class="hero-layer layer-skyline-mid" data-depth="0">
+      <img src="/images/clouds/hero-skyline-mid-v3.webp" alt="" width="1376" height="588" loading="eager" decoding="async" fetchpriority="high" />
     </div>
     <div class="hero-layer layer-mist" data-depth="-0.10">
       <img src="/images/clouds/hero-mist-v2.webp" alt="" width="1024" height="386" loading="eager" decoding="async" />
     </div>
-    <div class="hero-layer layer-forest layer-forest-left" data-depth="-0.22" data-spread="-0.14">
-      <img src="/images/clouds/hero-forest-left-v2.webp" alt="" width="646" height="599" loading="eager" decoding="async" />
+    <div class="hero-layer layer-rooftop layer-rooftop-left" data-depth="-0.22" data-spread="-0.14">
+      <img src="/images/clouds/hero-rooftop-left-v3.webp" alt="" width="680" height="751" loading="eager" decoding="async" />
     </div>
-    <div class="hero-layer layer-forest layer-forest-right" data-depth="-0.19" data-spread="0.14">
-      <img src="/images/clouds/hero-forest-right-v2.webp" alt="" width="744" height="653" loading="eager" decoding="async" />
+    <div class="hero-layer layer-rooftop layer-rooftop-right" data-depth="-0.19" data-spread="0.14">
+      <img src="/images/clouds/hero-rooftop-right-v3.webp" alt="" width="740" height="862" loading="eager" decoding="async" />
     </div>
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
@@ -45,69 +45,77 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
 </section>
 
 <script>
-  /*
-   * Depth on scroll: every layer slides at its own rate (positive depth = lags, far;
-   * negative = outruns the page, near). Scroll only sets a target; one shared value
-   * glides toward it with frame-rate-independent exponential damping (~0.22s), so all
-   * objects move together, smoothly and slightly delayed. Only transform + opacity are
-   * written (GPU composited), the hero height is cached on resize, and the loop sleeps
-   * as soon as the motion settles.
-   */
   const hero = document.querySelector<HTMLElement>('[data-hero]');
-  if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const layers = Array.from(hero.querySelectorAll<HTMLElement>('.hero-layer[data-depth]'))
-      .map((el) => ({
-        el,
-        d: Number(el.dataset.depth || 0),
-        sx: Number(el.dataset.spread || 0),
-      }))
-      .filter(({ d, sx }) => d !== 0 || sx !== 0);
-    const top = hero.querySelector<HTMLElement>('[data-hero-top]');
-    const TAU = 220;
-    let heroH = hero.offsetHeight;
-    let target = 0;
-    let current = 0;
-    let raf = 0;
-    let last = 0;
+  if (hero) {
+    // Pause infinite hero cloud drift whenever hero is scrolled offscreen (0% offscreen GPU drain)
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(
+        (entries) => {
+          hero.classList.toggle('is-offscreen', !entries[0]?.isIntersecting);
+        },
+        { rootMargin: '120px 0px' }
+      ).observe(hero);
+    }
 
-    const apply = (y: number) => {
-      for (const { el, d, sx } of layers) {
-        el.style.translate = `${(y * sx).toFixed(2)}px ${(y * d).toFixed(2)}px 0`;
-      }
-      if (top) {
-        const fadeRange = Math.max(135, heroH * 0.21);
-        top.style.transform = `translate3d(0, ${(y * 0.06).toFixed(2)}px, 0)`;
-        top.style.opacity = Math.max(0, 1 - y / fadeRange).toFixed(3);
-      }
-    };
+    // Native CSS `animation-timeline: view()` drives Hero parallax 100% on the GPU compositor
+    // thread in Chrome/Brave/Edge (zero JS during scroll). Fallback JS runs ONLY on browsers
+    // without native scroll-driven animations.
+    const nativeScrollAnim = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()');
+    if (!nativeScrollAnim && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const layers = Array.from(hero.querySelectorAll<HTMLElement>('.hero-layer[data-depth]'))
+        .map((el) => ({
+          el,
+          d: Number(el.dataset.depth || 0),
+          sx: Number(el.dataset.spread || 0),
+        }))
+        .filter(({ d, sx }) => d !== 0 || sx !== 0);
+      const top = hero.querySelector<HTMLElement>('[data-hero-top]');
+      const TAU = 220;
+      let heroH = hero.offsetHeight;
+      let target = 0;
+      let current = 0;
+      let raf = 0;
+      let last = 0;
 
-    const step = (now: number) => {
-      const dt = last ? Math.min(64, now - last) : 16.7;
-      last = now;
-      current += (target - current) * (1 - Math.exp(-dt / TAU));
-      if (Math.abs(target - current) < 0.05) {
-        current = target;
+      const apply = (y: number) => {
+        for (const { el, d, sx } of layers) {
+          el.style.translate = `${(y * sx).toFixed(2)}px ${(y * d).toFixed(2)}px 0`;
+        }
+        if (top) {
+          const fadeRange = Math.max(135, heroH * 0.21);
+          top.style.transform = `translate3d(0, ${(y * 0.06).toFixed(2)}px, 0)`;
+          top.style.opacity = Math.max(0, 1 - y / fadeRange).toFixed(3);
+        }
+      };
+
+      const step = (now: number) => {
+        const dt = last ? Math.min(64, now - last) : 16.7;
+        last = now;
+        current += (target - current) * (1 - Math.exp(-dt / TAU));
+        if (Math.abs(target - current) < 0.05) {
+          current = target;
+          apply(current);
+          raf = 0;
+          last = 0;
+          return;
+        }
         apply(current);
-        raf = 0;
-        last = 0;
-        return;
-      }
-      apply(current);
-      raf = requestAnimationFrame(step);
-    };
-
-    const kick = () => {
-      target = Math.min(window.scrollY, heroH);
-      if (!raf) {
-        last = 0;
         raf = requestAnimationFrame(step);
-      }
-    };
+      };
 
-    target = current = Math.min(window.scrollY, heroH);
-    apply(current);
-    window.addEventListener('scroll', kick, { passive: true });
-    window.addEventListener('resize', () => { heroH = hero.offsetHeight; kick(); }, { passive: true });
+      const kick = () => {
+        target = Math.min(window.scrollY, heroH);
+        if (!raf) {
+          last = 0;
+          raf = requestAnimationFrame(step);
+        }
+      };
+
+      target = current = Math.min(window.scrollY, heroH);
+      apply(current);
+      window.addEventListener('scroll', kick, { passive: true });
+      window.addEventListener('resize', () => { heroH = hero.offsetHeight; kick(); }, { passive: true });
+    }
   }
 </script>
 
@@ -141,17 +149,13 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     margin-left: calc(var(--lw) / -2);
   }
 
-  .hero-layer[data-depth]:not([data-depth="0"]) {
-    will-change: transform, translate;
-  }
-
   .hero-layer img {
     display: block;
     width: 100%;
     height: auto;
   }
 
-  /* Back to front: bank, peak, hills (glow merged in), near mist */
+  /* Back to front: cloud bank, far central skyline, mid skyline (glow baked in), near mist */
   .layer-bank {
     z-index: 2;
     width: calc(var(--lw) * 1.08);
@@ -160,15 +164,14 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     animation: hero-drift-a 38s ease-in-out infinite alternate;
   }
 
-  .layer-peak {
+  .layer-skyline-far {
     z-index: 3;
-    top: calc(var(--horizon) - var(--lwh) * 0.0153);
+    top: calc(var(--horizon) - var(--lwh) * 0.075);
   }
 
-  /* Small tree-covered mountains with soft ridgeline glow baked into one image */
-  .layer-hills {
+  .layer-skyline-mid {
     z-index: 4;
-    top: calc(var(--horizon) + 14svh - var(--lwh) * 0.2252);
+    top: calc(var(--horizon) + 12svh - var(--lwh) * 0.08);
   }
 
   .layer-mist {
@@ -179,22 +182,28 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     animation: hero-drift-b 26s ease-in-out infinite alternate;
   }
 
-  /* Closest layer: forest slopes framing both edges, open in the middle */
-  .layer-forest {
+  .hero.is-offscreen .layer-bank,
+  .hero.is-offscreen .layer-mist {
+    animation-play-state: paused;
+  }
+
+  /* Closest layer: foreground studio towers & rooftops framing both edges, open in the middle */
+  .layer-rooftop {
     z-index: 6;
-    bottom: -4%;
+    bottom: -5%;
     margin-left: 0;
   }
 
-  .layer-forest-left {
+  .layer-rooftop-left {
     left: 0;
-    width: clamp(260px, 32vw, 560px);
+    width: clamp(230px, 28vw, 490px);
   }
 
-  .layer-forest-right {
+  .layer-rooftop-right {
     left: auto;
     right: 0;
-    width: clamp(290px, 35vw, 630px);
+    bottom: -6%;
+    width: clamp(240px, 30vw, 520px);
   }
 
   @keyframes hero-drift-a {
@@ -207,7 +216,90 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     to { transform: translate3d(-3%, 0, 0); }
   }
 
-  /* Darkens the lower band so white copy stays readable over the ridges, then melts into cream */
+  /* Native compositor-thread Hero scroll parallax (zero JS on Chrome/Brave/Edge) */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .hero {
+        view-timeline-name: --hero-tl;
+        view-timeline-axis: block;
+      }
+
+      @keyframes hp-bank {
+        from { translate: 0 0 0; }
+        to { translate: 0 24svh 0; }
+      }
+      @keyframes hp-far {
+        from { translate: 0 0 0; }
+        to { translate: 0 14svh 0; }
+      }
+      @keyframes hp-mist {
+        from { translate: 0 0 0; }
+        to { translate: 0 -9svh 0; }
+      }
+      @keyframes hp-left {
+        from { translate: 0 0 0; }
+        to { translate: -12vw -18svh 0; }
+      }
+      @keyframes hp-right {
+        from { translate: 0 0 0; }
+        to { translate: 12vw -16svh 0; }
+      }
+      @keyframes hp-top {
+        from { transform: translate3d(0, 0, 0); opacity: 1; }
+        to { transform: translate3d(0, 36px, 0); opacity: 0; }
+      }
+
+      .layer-bank {
+        animation-name: hero-drift-a, hp-bank;
+        animation-duration: 38s, auto;
+        animation-timing-function: ease-in-out, linear;
+        animation-iteration-count: infinite, 1;
+        animation-direction: alternate, normal;
+        animation-fill-mode: none, both;
+        animation-timeline: auto, --hero-tl;
+        animation-range: normal, exit 0% exit 100%;
+      }
+      .layer-skyline-far {
+        animation-name: hp-far;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --hero-tl;
+        animation-range: exit 0% exit 100%;
+      }
+      .layer-mist {
+        animation-name: hero-drift-b, hp-mist;
+        animation-duration: 26s, auto;
+        animation-timing-function: ease-in-out, linear;
+        animation-iteration-count: infinite, 1;
+        animation-direction: alternate, normal;
+        animation-fill-mode: none, both;
+        animation-timeline: auto, --hero-tl;
+        animation-range: normal, exit 0% exit 100%;
+      }
+      .layer-rooftop-left {
+        animation-name: hp-left;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --hero-tl;
+        animation-range: exit 0% exit 100%;
+      }
+      .layer-rooftop-right {
+        animation-name: hp-right;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --hero-tl;
+        animation-range: exit 0% exit 100%;
+      }
+      .hero-top {
+        animation-name: hp-top;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --hero-tl;
+        animation-range: exit 0% exit 24%;
+      }
+    }
+  }
+
   .hero-scrim {
     position: absolute;
     inset: 0;
@@ -228,7 +320,6 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     padding-bottom: clamp(88px, 12vh, 140px);
   }
 
-  /* Headline sits in front of the landscape and lags slightly on scroll */
   .hero-top {
     position: relative;
     z-index: 8;
@@ -236,7 +327,6 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     flex-direction: column;
     align-items: center;
     text-align: center;
-    will-change: transform, opacity;
   }
 
   .hero-kicker {
@@ -255,7 +345,7 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     letter-spacing: -0.04em;
     color: #FFFFFF;
     text-wrap: balance;
-    text-shadow: 0 8px 48px rgba(13, 8, 20, 0.28);
+    text-shadow: 0 8px 36px rgba(13, 8, 20, 0.24);
   }
 
   .hero-sub {
@@ -264,18 +354,17 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
     font-size: clamp(1rem, 0.95rem + 0.3vw, 1.18rem);
     line-height: 1.6;
     color: #FFFFFF;
-    text-shadow: 0 1px 2px rgba(13, 8, 20, 0.45), 0 4px 28px rgba(13, 8, 20, 0.55);
+    text-shadow: 0 1px 2px rgba(13, 8, 20, 0.4), 0 4px 20px rgba(13, 8, 20, 0.45);
   }
 
   .hero-cta {
     margin-top: 26px;
   }
 
-  /* White pill reads cleanly against the violet sky */
   .hero-cta.cta-btn {
     background: #FFFFFF;
     color: #0D0814;
-    box-shadow: 0 16px 40px -18px rgba(13, 8, 20, 0.55);
+    box-shadow: 0 12px 28px -14px rgba(13, 8, 20, 0.45);
   }
 
   .hero-cta.cta-btn:hover {
@@ -297,22 +386,20 @@ import { HERO_COPY, SITE_IDENTITY } from '../data/site';
         linear-gradient(180deg, rgba(240, 237, 247, 0.000) 84.0%, rgba(240, 237, 247, 0.034) 85.8%, rgba(240, 237, 247, 0.126) 87.6%, rgba(240, 237, 247, 0.259) 89.3%, rgba(240, 237, 247, 0.417) 91.1%, rgba(240, 237, 247, 0.583) 92.9%, rgba(240, 237, 247, 0.741) 94.7%, rgba(240, 237, 247, 0.874) 96.4%, rgba(240, 237, 247, 0.966) 98.2%, rgba(240, 237, 247, 1.000) 100.0%);
     }
 
-    .layer-forest-left {
-      width: 80vw;
-      left: -22vw;
-      bottom: 0;
+    .layer-rooftop-left {
+      width: 58vw;
+      left: -16vw;
+      bottom: -2%;
     }
 
-    .layer-forest-right {
-      width: 84vw;
-      right: -24vw;
-      bottom: -2%;
+    .layer-rooftop-right {
+      width: 60vw;
+      right: -16vw;
+      bottom: -3%;
     }
 
     .hero-title {
       max-width: 12ch;
     }
-
-
   }
 </style>

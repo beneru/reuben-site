@@ -16,7 +16,38 @@ const tones: Record<string, string> = {
 };
 ---
 
-<section class="section-block" id="work" aria-labelledby="work-heading">
+<section class="section-block has-float" id="work" aria-labelledby="work-heading" data-stage-section>
+  <div class="float-scene" aria-hidden="true">
+    <img
+      class="side-cloud side-cloud--left"
+      src="/images/clouds/side-cloud-left-v1.webp"
+      alt=""
+      width="540"
+      height="420"
+      loading="lazy"
+      decoding="async"
+      style="top: 12%;"
+    />
+    <img
+      class="side-cloud side-cloud--right"
+      src="/images/clouds/side-cloud-right-v1.webp"
+      alt=""
+      width="540"
+      height="420"
+      loading="lazy"
+      decoding="async"
+      style="bottom: 12%;"
+    />
+    <span
+      class="float-pill"
+      data-pill-side="right"
+      style="right: clamp(28px, 5.5vw, 110px); top: 8%;"
+    >
+      <span class="float-pill__dot"></span>
+      Dry-Run Safe
+    </span>
+  </div>
+
   <div class="site-wrap">
     <div class="wk-head" data-reveal>
       <h2 class="wk-title" id="work-heading">{WORK_SECTION_COPY.heading}</h2>
@@ -25,7 +56,13 @@ const tones: Record<string, string> = {
 
     <ul class="wk-grid">
       {WORK_BUILDS.map((build, idx) => (
-        <li class={`wk-card wk-card--${tones[build.slug] ?? 'violet'} ${idx === 0 ? 'wk-card--wide' : ''} theme-dark`} data-reveal style={`--i: ${idx}`}>
+        <li
+          class={`wk-card wk-card--${tones[build.slug] ?? 'violet'} ${idx === 0 ? 'wk-card--wide' : ''} theme-dark`}
+          data-stage-frames
+          data-frame-slide={idx === 2 ? 'right' : 'left'}
+          data-shine="dark"
+          style={`--fi: ${idx === 2 ? 0.65 : 0}`}
+        >
           <a href={`/work/${build.slug}/`} class="wk-link">
             <div class="wk-copy">
               <h3>{build.title}</h3>
@@ -95,8 +132,8 @@ const tones: Record<string, string> = {
   .wk-card {
     border-radius: 30px;
     overflow: hidden;
-    transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
-    box-shadow: 0 30px 60px -36px rgba(103, 0, 255, 0.55);
+    transition: transform 0.26s var(--ease-out);
+    box-shadow: 0 18px 36px -22px rgba(103, 0, 255, 0.4);
   }
 
   .wk-card:hover {

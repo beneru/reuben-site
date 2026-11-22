@@ -2,83 +2,274 @@
 import { PROCESS_SECTION_COPY, PROCESS_STEPS } from '../data/site';
 ---
 
-<section class="section-block" id="process" aria-labelledby="hw-title">
+<section class="section-block hw-section has-float" id="process" aria-labelledby="hw-title" data-process data-stage-section>
+  <div class="float-scene" aria-hidden="true">
+    <span
+      class="float-pill"
+      data-pill-side="left"
+      style="left: clamp(28px, 5.5vw, 110px); top: 13%;"
+    >
+      <span class="float-pill__dot"></span>
+      Cloudflare Edge
+    </span>
+  </div>
+
   <div class="site-wrap">
     <div class="section-head" data-reveal>
       <h2 class="grad-title" id="hw-title">{PROCESS_SECTION_COPY.heading}</h2>
     </div>
 
-    <ol class="hw">
-      {PROCESS_STEPS.map((item, idx) => (
-        <li class="hw-step" data-reveal style={`--i: ${idx}`}>
-          <span class="hw-num" aria-hidden="true">{item.step}</span>
-          <h3>{item.title}</h3>
-          <p>{item.text}</p>
-        </li>
-      ))}
-    </ol>
+    <div class="hw-stage">
+      <div class="hw-track" aria-hidden="true">
+        <div class="hw-track__fill" data-process-fill></div>
+      </div>
+
+      <ol class="hw" data-stage-frames>
+        {PROCESS_STEPS.map((item, idx) => {
+          const isFinal = idx === PROCESS_STEPS.length - 1;
+          return (
+            <li
+              class={`hw-step ${isFinal ? 'hw-step--final theme-dark' : ''}`}
+              data-frame-slide={idx < 2 ? 'left' : 'right'}
+              data-shine={isFinal ? 'dark' : 'light'}
+              style={`--fi: ${idx}; --step-rise: ${3 - idx};`}
+            >
+              <div class="hw-top">
+                <span class="hw-num" aria-hidden="true">{item.step}</span>
+                {isFinal && <span class="hw-badge">Running system</span>}
+              </div>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
   </div>
 </section>
 
+<script>
+  const section = document.querySelector<HTMLElement>('[data-process]');
+  const fill = section?.querySelector<HTMLElement>('[data-process-fill]');
+  const nativeScrollAnim = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()');
+  if (section && fill && !nativeScrollAnim) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      fill.style.transform = 'scaleX(1)';
+    } else {
+      let start = 0;
+      let span = 1;
+      let target = 0;
+      let current = 0;
+      let raf = 0;
+      let last = 0;
+      const TAU = 220;
+
+      const measure = () => {
+        const vh = window.innerHeight || 800;
+        const rect = section.getBoundingClientRect();
+        const top = rect.top + window.scrollY;
+        start = top - vh * 0.82;
+        span = Math.max(240, vh * 0.62);
+      };
+
+      const targetNow = () => Math.min(1, Math.max(0.08, (window.scrollY - start) / span));
+
+      const apply = (v: number) => {
+        const p = v * v * (3 - 2 * v);
+        fill.style.transform = `scaleX(${p.toFixed(4)})`;
+      };
+
+      const step = (now: number) => {
+        const dt = last ? Math.min(64, now - last) : 16.7;
+        last = now;
+        current += (target - current) * (1 - Math.exp(-dt / TAU));
+        if (Math.abs(target - current) < 0.001) {
+          current = target;
+          apply(current);
+          raf = 0;
+          last = 0;
+          return;
+        }
+        apply(current);
+        raf = requestAnimationFrame(step);
+      };
+
+      const kick = () => {
+        target = targetNow();
+        if (!raf) {
+          last = 0;
+          raf = requestAnimationFrame(step);
+        }
+      };
+
+      measure();
+      target = current = targetNow();
+      apply(current);
+      window.addEventListener('scroll', kick, { passive: true });
+      window.addEventListener('resize', () => { measure(); kick(); }, { passive: true });
+    }
+  }
+</script>
+
 <style>
+  .hw-stage {
+    position: relative;
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+
+  /* Quiet horizontal violet progress ribbon bridging steps 01 to 04 on desktop */
+  .hw-track {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 52%;
+    height: 4px;
+    border-radius: 999px;
+    background: #D7C8FF;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hw-track__fill {
+    width: 100%;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #6700FF 0%, #8F4DFF 100%);
+    transform-origin: left center;
+    transform: scaleX(0.08);
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes hw-fill {
+        from { transform: scaleX(0.08); }
+        to { transform: scaleX(1); }
+      }
+      .hw-track__fill {
+        animation-name: hw-fill;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 55%;
+      }
+    }
+  }
+
   .hw {
+    position: relative;
+    z-index: 1;
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(24px, 3.2vw, 52px);
+    gap: 18px;
+    align-items: stretch;
+  }
+
+  .hw-step {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(24px, 2.5vw, 30px);
+    border-radius: 26px;
+    background: #FFFFFF;
+    box-shadow: 0 14px 32px -20px rgba(103, 0, 255, 0.24);
+    margin-top: calc(var(--step-rise, 0) * 10px);
+    margin-bottom: calc((3 - var(--step-rise, 0)) * 10px);
+    transition: transform 0.24s var(--ease-expo);
+  }
+
+  .hw-step:hover {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  /* Step 04 flips to solid Void Black to visually mark the finished running system */
+  .hw-step--final {
+    background:
+      radial-gradient(90% 95% at 100% 0%, rgba(143, 77, 255, 0.42), transparent 62%),
+      #0D0814;
+    box-shadow: 0 18px 36px -20px rgba(103, 0, 255, 0.42);
+  }
+
+  .hw-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
   }
 
   .hw-num {
-    display: block;
+    display: inline-block;
     font-family: var(--font-heading);
-    font-size: clamp(3.75rem, 2.5rem + 4vw, 6.75rem);
+    font-size: clamp(2.8rem, 2rem + 2vw, 3.9rem);
     font-weight: 800;
     line-height: 0.92;
-    letter-spacing: -0.055em;
-    background-image: var(--grad-num);
-    background-size: var(--blob-bg-size);
-    background-repeat: no-repeat;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    animation: text-blob-drift 16s ease-in-out infinite alternate;
+    letter-spacing: -0.05em;
+    color: #6700FF;
+    font-variant-numeric: tabular-nums;
   }
 
-  .hw-step:nth-child(2) .hw-num { animation-delay: -3.5s; }
-  .hw-step:nth-child(3) .hw-num { animation-delay: -7.1s; }
-  .hw-step:nth-child(4) .hw-num { animation-delay: -11.4s; }
+  .hw-step--final .hw-num {
+    color: #B79BFF;
+  }
+
+  .hw-badge {
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: #FFFFFF;
+    color: #0D0814;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
 
   .hw-step h3 {
     margin: 22px 0 0;
-    font-size: clamp(1.15rem, 1rem + 0.45vw, 1.4rem);
-    font-weight: 600;
+    font-size: clamp(1.15rem, 1rem + 0.35vw, 1.35rem);
+    font-weight: 700;
     line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--ink);
+    letter-spacing: -0.025em;
+    color: #0D0814;
+  }
+
+  .hw-step--final h3 {
+    color: #FFFFFF;
   }
 
   .hw-step p {
     margin: 10px 0 0;
-    max-width: 29ch;
-    font-size: 15px;
+    font-size: 14.5px;
     line-height: 1.55;
     color: var(--ink-2);
   }
 
-  @media (max-width: 960px) {
+  .hw-step--final p {
+    color: #D7C8FF;
+  }
+
+  @media (max-width: 1020px) {
+    .hw-track {
+      display: none;
+    }
+
     .hw {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 32px 24px;
+      gap: 18px;
+    }
+
+    .hw-step {
+      margin-top: 0;
+      margin-bottom: 0;
     }
   }
 
-  @media (max-width: 540px) {
+  @media (max-width: 560px) {
     .hw {
       grid-template-columns: minmax(0, 1fr);
-      gap: 32px;
     }
   }
 </style>

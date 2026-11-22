@@ -1,0 +1,895 @@
+---
+/*
+ * Unified GPU-composited motion & interactive lighting system across ALL landing page sections:
+ *  1. Delayed section arrival: triggers ONLY when the user scrolls onto that section/row.
+ *  2. Small-ratio side clouds glide in smoothly from left & right margins.
+ *  3. All 28 frames slide in from the sides, then play a focused, soft, non-sharp diffused
+ *     light-ray sweep. Pointing at any frame reliably re-sweeps the soft light ray on demand.
+ *  4. Pointing at any of the 101 readable text blocks across all 10 sections + footer
+ *     triggers a smooth, organic, randomized multi-lobe violet gradient blob starting
+ *     at the exact mouse coordinates (--ox, --oy) and morphing outward across the whole
+ *     paragraph/heading into glowing 3D violet-tinted balloon glass (zero sharp circle).
+ */
+---
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targets = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-stage-section], [data-stage-frames]')
+  );
+
+  const stageElement = (el: HTMLElement) => {
+    if (el.classList.contains('is-staged')) return;
+    el.classList.add('is-staged');
+    const frames = el.matches('[data-frame-slide]')
+      ? [el]
+      : Array.from(el.querySelectorAll<HTMLElement>('[data-frame-slide]'));
+    const now = performance.now();
+    for (const f of frames) {
+      const fi = parseFloat(f.style.getPropertyValue('--fi') || '0') || 0;
+      f.dataset.hoverReadyAt = String(now + 1050 + fi * 130 + 1250);
+    }
+  };
+
+  if (targets.length) {
+    if (reduced || !('IntersectionObserver' in window)) {
+      targets.forEach(stageElement);
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          const vh = window.innerHeight || 800;
+          for (const entry of entries) {
+            if (
+              entry.isIntersecting &&
+              (entry.intersectionRatio >= 0.14 || entry.boundingClientRect.top <= vh * 0.76)
+            ) {
+              stageElement(entry.target as HTMLElement);
+              io.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -18% 0px', threshold: [0.08, 0.16, 0.24] }
+      );
+
+      targets.forEach((el) => io.observe(el));
+
+      const sweepVisible = () => {
+        const triggerY = window.innerHeight * 0.8;
+        for (const el of targets) {
+          if (el.classList.contains('is-staged')) continue;
+          const r = el.getBoundingClientRect();
+          if (r.top <= triggerY && r.bottom > 40) {
+            stageElement(el);
+            io.unobserve(el);
+          }
+        }
+      };
+
+      requestAnimationFrame(() => requestAnimationFrame(sweepVisible));
+      window.addEventListener('hashchange', () => setTimeout(sweepVisible, 160), { passive: true });
+      window.addEventListener(
+        'scroll',
+        () => {
+          sweepVisible();
+          if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40) {
+            targets.forEach(stageElement);
+          }
+        },
+        { passive: true }
+      );
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 1. Frame Hover Diffused Light-Ray Sweep (works on every frame across all sections)
+  // ---------------------------------------------------------------------------
+  if (!reduced) {
+    const frames = Array.from(document.querySelectorAll<HTMLElement>('[data-frame-slide]'));
+    for (const frame of frames) {
+      let sweeping = false;
+      let armedForMove = false;
+
+      const triggerHoverSweep = () => {
+        if (sweeping) return;
+        const readyAt = Number(frame.dataset.hoverReadyAt || 0);
+        if (!readyAt || performance.now() < readyAt) {
+          armedForMove = true;
+          return;
+        }
+        sweeping = true;
+        armedForMove = false;
+        frame.classList.remove('is-hover-shine');
+        frame.classList.add('is-shine-idle');
+        void frame.offsetWidth;
+        frame.classList.remove('is-shine-idle');
+        frame.classList.add('is-hover-shine');
+      };
+
+      frame.addEventListener('animationend', (e: AnimationEvent) => {
+        if (e.animationName === 'frame-ray-sweep' || e.animationName === 'frame-ray-hover') {
+          sweeping = false;
+          frame.classList.remove('is-hover-shine');
+          frame.classList.add('is-shine-idle');
+          frame.dataset.hoverReadyAt = String(performance.now() - 10);
+        }
+      });
+
+      frame.addEventListener(
+        'pointerenter',
+        () => {
+          triggerHoverSweep();
+        },
+        { passive: true }
+      );
+
+      frame.addEventListener(
+        'pointermove',
+        () => {
+          if (armedForMove) {
+            triggerHoverSweep();
+          }
+        },
+        { passive: true }
+      );
+
+      frame.addEventListener(
+        'pointerleave',
+        () => {
+          armedForMove = false;
+        },
+        { passive: true }
+      );
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 2. Smooth Random Gradient Blob Text Corruption -> Violet Balloon-Glass Glow
+  // ---------------------------------------------------------------------------
+  if (!reduced) {
+    const TEXT_SELECTOR = [
+      /* 1. Hero */
+      '.hero-kicker',
+      '.hero-title',
+      '.hero-sub',
+      /* 2. Proof */
+      '.pn-title',
+      '.pn-stat__value',
+      '.pn-stat__label',
+      '.pn-manifesto',
+      /* 3. Flagship */
+      '.fs-title',
+      '.fs-lead',
+      '.inbox-msg',
+      '.inbox-note',
+      /* 4. Work */
+      '.wk-title',
+      '.wk-sub',
+      '.wk-copy h3',
+      '.wk-metric__value',
+      '.wk-metric__label',
+      /* 5. Approach / Pillars */
+      '.pl-title',
+      '.pl-lead',
+      '.pl-copy h3',
+      '.pl-text',
+      '.pl-bullets li > span:last-child',
+      /* 6. Systems */
+      '#systems .grad-title',
+      '.section-sub',
+      '.pc-copy h3',
+      '.pc-copy p',
+      '.pc-list li > span:last-child',
+      /* 7. Process */
+      '#process .grad-title',
+      '.hw-num',
+      '.hw-step h3',
+      '.hw-step p',
+      /* 8. About / Founder Story */
+      '.bento-eyebrow',
+      '.bento-lead',
+      '.story-para',
+      '.bento-team h3',
+      '.bento-photo__line',
+      '.bento-photo figcaption strong',
+      '.bento-photo figcaption span',
+      '.principles-list li > span:last-child',
+      /* 9. Credentials */
+      '.cr-title',
+      '.cr-sub',
+      '.cr-body h3',
+      '.cr-detail',
+      /* 10. Closing CTA ("the last part") + Footer */
+      '.cx-title',
+      '.cx-sub',
+      '.cx-mail',
+      '.ft-col h3',
+      '.ft-col a',
+      '.ft-bottom span',
+      '.ft-bottom a',
+      /* 11. Work Breakdown Detail Pages (/work/[slug]/) + Privacy + 404 */
+      '.doc-h1',
+      '.doc-lead',
+      '.doc-status',
+      '.doc-figure figcaption',
+      '.doc-card h2',
+      '.doc-card p',
+      '.check-list li > span',
+      '.step-num',
+      '.step-item h3',
+      '.step-item p',
+      '.impl-box h3',
+      '.more-builds h2',
+      '.more-cat',
+      '.more-card strong',
+      '.more-link',
+      '.privacy-card h2',
+      '.privacy-card p',
+      '.privacy-card li',
+      '.nf-box h1',
+      '.nf-box p',
+    ].join(', ');
+
+    const textNodes = Array.from(document.querySelectorAll<HTMLElement>(TEXT_SELECTOR));
+    const pageIsDark = !document.documentElement.classList.contains('page-light');
+
+    for (const el of textNodes) {
+      el.classList.add('corrupt-text');
+      const isHeroSky = Boolean(el.closest('.hero'));
+      const isDarkSurface = pageIsDark || Boolean(el.closest('.theme-dark, .ft'));
+      el.dataset.corruptTheme = isHeroSky ? 'hero' : isDarkSurface ? 'dark' : 'light';
+      const inlineChildren = Array.from(el.querySelectorAll<HTMLElement>('span, strong, em'));
+
+      let progress = 0; // 0 = normal text, 1 = full violet balloon-glass corruption
+      let dir: 1 | -1 = -1;
+      let rafId = 0;
+      let lastTs = 0;
+      let moveRaf = 0;
+      let baseSampled = false;
+
+      // Per-hover randomized multi-lobe blob state
+      let ox = 0;
+      let oy = 0;
+      let maxD = 320;
+      let a1 = 0.4;
+      let a2 = 2.3;
+      let a3 = 4.4;
+      let sx1 = 1.48;
+      let sy1 = 0.74;
+      let sx2 = 0.72;
+      let sy2 = 1.42;
+      let sx3 = 1.32;
+      let sy3 = 0.82;
+      let d1 = 48;
+      let d2 = 110;
+      let d3 = 95;
+
+      const sampleBaseColor = () => {
+        if (baseSampled) return;
+        const c = getComputedStyle(el).color;
+        if (c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') {
+          el.style.setProperty('--corrupt-base', c);
+          baseSampled = true;
+        }
+      };
+
+      const randomizeBlobShape = (r: DOMRect) => {
+        maxD = Math.max(150, Math.hypot(r.width, r.height));
+        a1 = Math.random() * Math.PI * 2;
+        a2 = a1 + 1.65 + Math.random() * 0.85;
+        a3 = a2 + 1.65 + Math.random() * 0.85;
+
+        const flip = Math.random() > 0.5;
+        sx1 = flip ? 1.34 + Math.random() * 0.48 : 0.68 + Math.random() * 0.24;
+        sy1 = flip ? 0.68 + Math.random() * 0.24 : 1.34 + Math.random() * 0.48;
+
+        sx2 = flip ? 0.66 + Math.random() * 0.26 : 1.36 + Math.random() * 0.46;
+        sy2 = flip ? 1.36 + Math.random() * 0.46 : 0.66 + Math.random() * 0.26;
+
+        sx3 = 1.18 + Math.random() * 0.46;
+        sy3 = 0.74 + Math.random() * 0.32;
+
+        d1 = maxD * (0.14 + Math.random() * 0.14);
+        d2 = maxD * (0.32 + Math.random() * 0.22);
+        d3 = maxD * (0.28 + Math.random() * 0.24);
+      };
+
+      const syncChildCoords = (r: DOMRect) => {
+        if (!inlineChildren.length) return;
+        el.style.setProperty('--pw', `${r.width.toFixed(1)}px`);
+        el.style.setProperty('--ph', `${r.height.toFixed(1)}px`);
+        for (const child of inlineChildren) {
+          const cr = child.getBoundingClientRect();
+          child.style.setProperty('--cdx', `${(r.left - cr.left).toFixed(1)}px`);
+          child.style.setProperty('--cdy', `${(r.top - cr.top).toFixed(1)}px`);
+        }
+      };
+
+      const applyProgress = (p: number) => {
+        // Slow, liquid S-curve so the random organic blob lingers at the cursor and creeps outward slowly
+        const eased = p * p * (3 - 2 * p);
+        const e1 = Math.pow(eased, 1.05);
+        const e2 = Math.pow(eased, 1.28);
+        const e3 = Math.pow(eased, 1.52);
+
+        // Reach expands past farthest corner so all 3 soft-feathered lobes merge into 100% coverage
+        const reach = maxD * 2.55;
+        const rx1 = e1 * reach * sx1;
+        const ry1 = e1 * reach * sy1;
+        const rx2 = e2 * reach * sx2;
+        const ry2 = e2 * reach * sy2;
+        const rx3 = e3 * reach * sx3;
+        const ry3 = e3 * reach * sy3;
+
+        // Lobe centers wander organically outward from the pointer entry coordinate (ox, oy)
+        const drift = Math.sin(eased * Math.PI * 0.85);
+        const bx1 = ox + Math.cos(a1) * d1 * drift;
+        const by1 = oy + Math.sin(a1) * d1 * drift;
+        const bx2 = ox + Math.cos(a2) * d2 * drift;
+        const by2 = oy + Math.sin(a2) * d2 * drift;
+        const bx3 = ox + Math.cos(a3) * d3 * drift;
+        const by3 = oy + Math.sin(a3) * d3 * drift;
+
+        const specR = e1 * Math.min(220, Math.max(115, maxD * 0.44));
+
+        el.style.setProperty('--rx1', `${rx1.toFixed(1)}px`);
+        el.style.setProperty('--ry1', `${ry1.toFixed(1)}px`);
+        el.style.setProperty('--rx2', `${rx2.toFixed(1)}px`);
+        el.style.setProperty('--ry2', `${ry2.toFixed(1)}px`);
+        el.style.setProperty('--rx3', `${rx3.toFixed(1)}px`);
+        el.style.setProperty('--ry3', `${ry3.toFixed(1)}px`);
+        el.style.setProperty('--bx1', `${bx1.toFixed(1)}px`);
+        el.style.setProperty('--by1', `${by1.toFixed(1)}px`);
+        el.style.setProperty('--bx2', `${bx2.toFixed(1)}px`);
+        el.style.setProperty('--by2', `${by2.toFixed(1)}px`);
+        el.style.setProperty('--bx3', `${bx3.toFixed(1)}px`);
+        el.style.setProperty('--by3', `${by3.toFixed(1)}px`);
+        el.style.setProperty('--r0x', `${(specR * 1.25).toFixed(1)}px`);
+        el.style.setProperty('--r0y', `${(specR * 0.86).toFixed(1)}px`);
+        el.style.setProperty('--glass-a', eased.toFixed(3));
+      };
+
+      const step = (now: number) => {
+        const dt = lastTs ? Math.min(48, now - lastTs) : 0;
+        lastTs = now;
+        const duration = dir === 1 ? 2400 : 1350;
+        progress = Math.max(0, Math.min(1, progress + (dir * dt) / duration));
+        applyProgress(progress);
+
+        if ((dir === 1 && progress < 1) || (dir === -1 && progress > 0)) {
+          rafId = requestAnimationFrame(step);
+        } else {
+          rafId = 0;
+          lastTs = 0;
+          if (progress <= 0) {
+            el.classList.remove('is-corrupt-ready');
+          }
+        }
+      };
+
+      el.addEventListener(
+        'pointerenter',
+        (e: PointerEvent) => {
+          sampleBaseColor();
+          const r = el.getBoundingClientRect();
+          ox = Math.max(0, Math.min(r.width, e.clientX - r.left));
+          oy = Math.max(0, Math.min(r.height, e.clientY - r.top));
+          el.style.setProperty('--mx', `${ox.toFixed(1)}px`);
+          el.style.setProperty('--my', `${oy.toFixed(1)}px`);
+          if (progress <= 0.05) {
+            randomizeBlobShape(r);
+          }
+          syncChildCoords(r);
+
+          if (progress <= 0) applyProgress(0);
+          el.classList.add('is-corrupt-ready');
+          dir = 1;
+          if (!rafId) {
+            lastTs = 0;
+            rafId = requestAnimationFrame(step);
+          }
+        },
+        { passive: true }
+      );
+
+      el.addEventListener(
+        'pointermove',
+        (e: PointerEvent) => {
+          if (moveRaf) return;
+          const cx = e.clientX;
+          const cy = e.clientY;
+          moveRaf = requestAnimationFrame(() => {
+            moveRaf = 0;
+            const r = el.getBoundingClientRect();
+            const x = Math.max(0, Math.min(r.width, cx - r.left));
+            const y = Math.max(0, Math.min(r.height, cy - r.top));
+            el.style.setProperty('--mx', `${x.toFixed(1)}px`);
+            el.style.setProperty('--my', `${y.toFixed(1)}px`);
+          });
+        },
+        { passive: true }
+      );
+
+      el.addEventListener(
+        'pointerleave',
+        () => {
+          dir = -1;
+          if (!rafId) {
+            lastTs = 0;
+            rafId = requestAnimationFrame(step);
+          }
+        },
+        { passive: true }
+      );
+    }
+  }
+</script>
+
+<style is:global>
+  .float-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .has-float {
+    position: relative;
+    isolation: isolate;
+    overflow-x: clip;
+  }
+
+  .has-float > .site-wrap {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Compact, small-ratio clouds emerging softly from left & right edges */
+  .side-cloud {
+    position: absolute;
+    width: clamp(220px, 21vw, 350px);
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.78;
+  }
+
+  .side-cloud--left {
+    left: -14px;
+  }
+
+  .side-cloud--right {
+    right: -14px;
+  }
+
+  /* Sparse verified telemetry pills in wide desktop outer margins */
+  .float-pill {
+    position: absolute;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: #FFFFFF;
+    color: #0D0814;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    box-shadow: 0 12px 26px -14px rgba(103, 0, 255, 0.34);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .float-pill--dark {
+    background: #0D0814;
+    color: #FFFFFF;
+    box-shadow: 0 14px 28px -14px rgba(13, 8, 20, 0.48);
+  }
+
+  .float-pill__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #6700FF;
+    flex-shrink: 0;
+  }
+
+  .float-pill--dark .float-pill__dot {
+    background: #B79BFF;
+  }
+
+  /* ===================================================================
+     Delayed Side-Entrance Frames + Post-Landing & Hover Diffused Light Ray
+     =================================================================== */
+  [data-frame-slide] {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Focused yet ultra-soft, non-sharp diffused light ray (9-stop Gaussian bell curve) */
+  [data-frame-slide]::after {
+    content: '';
+    position: absolute;
+    top: -35%;
+    bottom: -35%;
+    left: -82%;
+    width: 76%;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(0%, 0, 0) skewX(-20deg);
+    /* Soft luminous lavender beam for white/light frames */
+    background: linear-gradient(
+      90deg,
+      rgba(143, 77, 255, 0) 0%,
+      rgba(143, 77, 255, 0.03) 16%,
+      rgba(162, 118, 255, 0.13) 32%,
+      rgba(183, 155, 255, 0.28) 44%,
+      rgba(215, 200, 255, 0.4) 50%,
+      rgba(183, 155, 255, 0.28) 56%,
+      rgba(162, 118, 255, 0.13) 68%,
+      rgba(143, 77, 255, 0.03) 84%,
+      rgba(143, 77, 255, 0) 100%
+    );
+  }
+
+  /* Soft pale lavender-white diffused beam for dark / violet frames (including #work cards) */
+  [data-frame-slide][data-shine='dark']::after {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(240, 237, 247, 0.035) 16%,
+      rgba(215, 200, 255, 0.15) 32%,
+      rgba(240, 237, 247, 0.31) 44%,
+      rgba(255, 255, 255, 0.44) 50%,
+      rgba(240, 237, 247, 0.31) 56%,
+      rgba(215, 200, 255, 0.15) 68%,
+      rgba(240, 237, 247, 0.035) 84%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  @keyframes frame-ray-sweep {
+    0% {
+      opacity: 0;
+      transform: translate3d(0%, 0, 0) skewX(-20deg);
+    }
+    18% {
+      opacity: 1;
+    }
+    82% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(345%, 0, 0) skewX(-20deg);
+    }
+  }
+
+  @keyframes frame-ray-hover {
+    0% {
+      opacity: 0;
+      transform: translate3d(0%, 0, 0) skewX(-20deg);
+    }
+    18% {
+      opacity: 1;
+    }
+    82% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(345%, 0, 0) skewX(-20deg);
+    }
+  }
+
+  /* ===================================================================
+     Smooth Random Multi-Lobe Gradient Blob -> Violet Balloon-Glass Glow
+     (3 overlapping randomized soft-feathered ellipses over base ink, zero sharp circle)
+     =================================================================== */
+  .corrupt-text {
+    --mx: 50%;
+    --my: 50%;
+    --bx1: 50%;
+    --by1: 50%;
+    --bx2: 50%;
+    --by2: 50%;
+    --bx3: 50%;
+    --by3: 50%;
+    --rx1: 0px;
+    --ry1: 0px;
+    --rx2: 0px;
+    --ry2: 0px;
+    --rx3: 0px;
+    --ry3: 0px;
+    --r0x: 0px;
+    --r0y: 0px;
+    --glass-a: 0;
+    --corrupt-base: #0D0814;
+  }
+
+  .corrupt-text[data-corrupt-theme='dark'],
+  .corrupt-text[data-corrupt-theme='hero'] {
+    --corrupt-base: #FFFFFF;
+  }
+
+  /* 1. Light-surface smooth random gradient blob (#proof, #work header, #approach, #systems, #process, #credentials) */
+  .js .corrupt-text.is-corrupt-ready {
+    --corrupt-bg:
+      /* Live cursor specular balloon-glass bubble */
+      radial-gradient(
+        ellipse var(--r0x) var(--r0y) at var(--mx) var(--my),
+        rgba(183, 155, 255, 0.92) 0%,
+        rgba(143, 77, 255, 0.55) 45%,
+        rgba(103, 0, 255, 0) 100%
+      ),
+      /* Random organic blob lobe 1 (wide 5-stop Gaussian feather, zero hard edge) */
+      radial-gradient(
+        ellipse var(--rx1) var(--ry1) at var(--bx1) var(--by1),
+        rgba(143, 77, 255, 0.98) 0%,
+        rgba(103, 0, 255, 0.94) 30%,
+        rgba(103, 0, 255, 0.68) 54%,
+        rgba(143, 77, 255, 0.28) 78%,
+        rgba(143, 77, 255, 0) 100%
+      ),
+      /* Random organic blob lobe 2 (angled asymmetric tendril) */
+      radial-gradient(
+        ellipse var(--rx2) var(--ry2) at var(--bx2) var(--by2),
+        rgba(103, 0, 255, 0.98) 0%,
+        rgba(82, 0, 204, 0.92) 32%,
+        rgba(126, 38, 255, 0.64) 56%,
+        rgba(143, 77, 255, 0.25) 80%,
+        rgba(103, 0, 255, 0) 100%
+      ),
+      /* Random organic blob lobe 3 (counter-angled swell) */
+      radial-gradient(
+        ellipse var(--rx3) var(--ry3) at var(--bx3) var(--by3),
+        rgba(158, 102, 255, 0.96) 0%,
+        rgba(103, 0, 255, 0.92) 34%,
+        rgba(103, 0, 255, 0.62) 58%,
+        rgba(143, 77, 255, 0.24) 80%,
+        rgba(103, 0, 255, 0) 100%
+      ),
+      /* Base uncorrupted text color beneath the expanding organic violet blob */
+      linear-gradient(0deg, var(--corrupt-base), var(--corrupt-base));
+    background-image: var(--corrupt-bg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-shadow: none !important;
+    animation: none !important;
+    filter:
+      drop-shadow(0 -1px 0 rgba(255, 255, 255, calc(0.9 * var(--glass-a))))
+      drop-shadow(0 2px 6px rgba(103, 0, 255, calc(0.48 * var(--glass-a))))
+      drop-shadow(0 0 18px rgba(143, 77, 255, calc(0.42 * var(--glass-a))));
+  }
+
+  /* 2. Dark & Violet-Card surfaces (#work cards, #flagship, #about, #contact CTA, featured dark cards, footer) */
+  .js .corrupt-text[data-corrupt-theme='dark'].is-corrupt-ready {
+    --corrupt-bg:
+      radial-gradient(
+        ellipse var(--r0x) var(--r0y) at var(--mx) var(--my),
+        rgba(194, 170, 255, 0.94) 0%,
+        rgba(143, 77, 255, 0.6) 46%,
+        rgba(103, 0, 255, 0) 100%
+      ),
+      radial-gradient(
+        ellipse var(--rx1) var(--ry1) at var(--bx1) var(--by1),
+        rgba(166, 112, 255, 0.98) 0%,
+        rgba(132, 56, 255, 0.94) 30%,
+        rgba(143, 77, 255, 0.68) 54%,
+        rgba(183, 155, 255, 0.28) 78%,
+        rgba(183, 155, 255, 0) 100%
+      ),
+      radial-gradient(
+        ellipse var(--rx2) var(--ry2) at var(--bx2) var(--by2),
+        rgba(132, 56, 255, 0.98) 0%,
+        rgba(103, 0, 255, 0.92) 32%,
+        rgba(143, 77, 255, 0.64) 56%,
+        rgba(183, 155, 255, 0.25) 80%,
+        rgba(143, 77, 255, 0) 100%
+      ),
+      radial-gradient(
+        ellipse var(--rx3) var(--ry3) at var(--bx3) var(--by3),
+        rgba(183, 155, 255, 0.96) 0%,
+        rgba(143, 77, 255, 0.92) 34%,
+        rgba(126, 38, 255, 0.62) 58%,
+        rgba(183, 155, 255, 0.24) 80%,
+        rgba(143, 77, 255, 0) 100%
+      ),
+      linear-gradient(0deg, var(--corrupt-base), var(--corrupt-base));
+    background-image: var(--corrupt-bg);
+    filter:
+      drop-shadow(0 -1px 0 rgba(255, 255, 255, calc(0.9 * var(--glass-a))))
+      drop-shadow(0 2px 5px rgba(13, 8, 20, calc(0.75 * var(--glass-a))))
+      drop-shadow(0 0 14px rgba(183, 155, 255, calc(0.88 * var(--glass-a))))
+      drop-shadow(0 0 26px rgba(103, 0, 255, calc(0.82 * var(--glass-a))));
+  }
+
+  /* 3. Hero Sky surface (#hero): smooth random royal-amethyst gradient blob + bright lavender glass aura */
+  .js .corrupt-text[data-corrupt-theme='hero'].is-corrupt-ready {
+    --corrupt-bg:
+      radial-gradient(
+        ellipse var(--r0x) var(--r0y) at var(--mx) var(--my),
+        rgba(82, 0, 204, 0.94) 0%,
+        rgba(45, 0, 122, 0.62) 48%,
+        rgba(24, 0, 66, 0) 100%
+      ),
+      radial-gradient(
+        ellipse var(--rx1) var(--ry1) at var(--bx1) var(--by1),
+        rgba(64, 0, 170, 0.98) 0%,
+        rgba(42, 0, 114, 0.94) 30%,
+        rgba(59, 0, 158, 0.68) 54%,
+        rgba(82, 0, 204, 0.28) 78%,
+        rgba(82, 0, 204, 0) 100%
+      ),
+      radial-gradient(
+        ellipse var(--rx2) var(--ry2) at var(--bx2) var(--by2),
+        rgba(38, 0, 102, 0.98) 0%,
+        rgba(24, 0, 66, 0.94) 32%,
+        rgba(48, 0, 128, 0.64) 56%,
+        rgba(75, 0, 196, 0.26) 80%,
+        rgba(48, 0, 128, 0) 100%
+      ),
+      radial-gradient(
+        ellipse var(--rx3) var(--ry3) at var(--bx3) var(--by3),
+        rgba(75, 0, 196, 0.96) 0%,
+        rgba(45, 0, 122, 0.92) 34%,
+        rgba(59, 0, 158, 0.62) 58%,
+        rgba(82, 0, 204, 0.24) 80%,
+        rgba(59, 0, 158, 0) 100%
+      ),
+      linear-gradient(0deg, var(--corrupt-base), var(--corrupt-base));
+    background-image: var(--corrupt-bg);
+    filter:
+      drop-shadow(0 -1px 0 rgba(255, 255, 255, calc(0.96 * var(--glass-a))))
+      drop-shadow(0 2px 4px rgba(13, 8, 20, calc(0.78 * var(--glass-a))))
+      drop-shadow(0 0 10px rgba(245, 238, 255, calc(0.96 * var(--glass-a))))
+      drop-shadow(0 0 22px rgba(215, 200, 255, calc(0.92 * var(--glass-a))));
+  }
+
+  /* Inline child spans/strong tags align pixel-for-pixel with parent's random blob canvas */
+  .js .corrupt-text.is-corrupt-ready span,
+  .js .corrupt-text.is-corrupt-ready strong,
+  .js .corrupt-text.is-corrupt-ready em {
+    background-image: var(--corrupt-bg);
+    background-size: var(--pw, 100%) var(--ph, 100%);
+    background-position: var(--cdx, 0px) var(--cdy, 0px);
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-shadow: none !important;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Initial off-side resting states before user arrives on that section */
+    .js [data-stage-section] .side-cloud--left {
+      opacity: 0;
+      translate: -84px 0 0;
+      transition:
+        opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 160ms,
+        translate 1.4s cubic-bezier(0.16, 1, 0.3, 1) 160ms;
+    }
+
+    .js [data-stage-section] .side-cloud--right {
+      opacity: 0;
+      translate: 84px 0 0;
+      transition:
+        opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 220ms,
+        translate 1.4s cubic-bezier(0.16, 1, 0.3, 1) 220ms;
+    }
+
+    .js [data-stage-section].is-staged .side-cloud--left,
+    .js [data-stage-section].is-staged .side-cloud--right {
+      opacity: 0.78;
+      translate: 0 0 0;
+    }
+
+    .js [data-stage-section] .float-pill {
+      opacity: 0;
+      translate: -46px 0 0;
+      transition:
+        opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 260ms,
+        translate 1.1s cubic-bezier(0.16, 1, 0.3, 1) 260ms;
+    }
+
+    .js [data-stage-section] .float-pill[data-pill-side='right'] {
+      translate: 46px 0 0;
+    }
+
+    .js [data-stage-section].is-staged .float-pill {
+      opacity: 1;
+      translate: 0 0 0;
+    }
+
+    /* Frames slide smoothly in from left or right on delayed arrival */
+    .js [data-stage-frames] [data-frame-slide='left'],
+    .js [data-stage-frames][data-frame-slide='left'] {
+      opacity: 0;
+      translate: -118px 0 0;
+      transition:
+        opacity 0.84s cubic-bezier(0.16, 1, 0.3, 1) calc(160ms + var(--fi, 0) * 130ms),
+        translate 1.06s cubic-bezier(0.16, 1, 0.3, 1) calc(160ms + var(--fi, 0) * 130ms),
+        transform 0.24s var(--ease-expo);
+    }
+
+    .js [data-stage-frames] [data-frame-slide='right'],
+    .js [data-stage-frames][data-frame-slide='right'] {
+      opacity: 0;
+      translate: 118px 0 0;
+      transition:
+        opacity 0.84s cubic-bezier(0.16, 1, 0.3, 1) calc(160ms + var(--fi, 0) * 130ms),
+        translate 1.06s cubic-bezier(0.16, 1, 0.3, 1) calc(160ms + var(--fi, 0) * 130ms),
+        transform 0.24s var(--ease-expo);
+    }
+
+    .js [data-stage-frames].is-staged [data-frame-slide],
+    .js [data-stage-frames].is-staged[data-frame-slide] {
+      opacity: 1;
+      translate: 0 0 0;
+    }
+
+    /* Diffused light-ray shine fires AFTER each frame slides in and lands in place */
+    .js [data-stage-frames].is-staged [data-frame-slide]::after,
+    .js [data-stage-frames].is-staged[data-frame-slide]::after {
+      animation-name: frame-ray-sweep;
+      animation-duration: 1.35s;
+      animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+      animation-fill-mode: both;
+      animation-delay: calc(1080ms + var(--fi, 0) * 130ms);
+    }
+
+    /* Idle state after initial sweep completes so hover can cleanly re-run */
+    .js [data-stage-frames].is-staged [data-frame-slide].is-shine-idle::after,
+    .js [data-stage-frames].is-staged[data-frame-slide].is-shine-idle::after {
+      animation-name: none;
+      opacity: 0;
+    }
+
+    /* Hover sweep when the user points at any frame */
+    .js [data-stage-frames].is-staged [data-frame-slide].is-hover-shine::after,
+    .js [data-stage-frames].is-staged[data-frame-slide].is-hover-shine::after {
+      animation-name: frame-ray-hover;
+      animation-duration: 1.15s;
+      animation-timing-function: cubic-bezier(0.22, 0.1, 0.25, 1);
+      animation-fill-mode: both;
+      animation-delay: 0ms;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .js [data-stage-frames] [data-frame-slide='left'],
+    .js [data-stage-frames][data-frame-slide='left'] {
+      translate: -46px 0 0;
+    }
+
+    .js [data-stage-frames] [data-frame-slide='right'],
+    .js [data-stage-frames][data-frame-slide='right'] {
+      translate: 46px 0 0;
+    }
+
+    .side-cloud {
+      width: 42vw;
+      opacity: 0.42;
+    }
+
+    .js [data-stage-section].is-staged .side-cloud--left,
+    .js [data-stage-section].is-staged .side-cloud--right {
+      opacity: 0.42;
+    }
+  }
+
+  @media (max-width: 1240px) {
+    .float-pill {
+      display: none;
+    }
+  }
+</style>
