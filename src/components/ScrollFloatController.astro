@@ -502,11 +502,57 @@
   }
 
   /* ===================================================================
-     Delayed Side-Entrance Frames + Post-Landing & Hover Diffused Light Ray
+     Delayed Side-Entrance Frames + Balloon Bloat Hover + Diffused Light Ray
      =================================================================== */
   [data-frame-slide] {
     position: relative;
     overflow: hidden;
+    scale: 1 1;
+    will-change: transform, scale;
+  }
+
+  /* Balloon inflation + upward buoyancy pull + deep elevated shadow + 3D pneumatic inner dome on hover */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .js [data-stage-frames].is-staged [data-frame-slide]:hover,
+    .js [data-stage-frames].is-staged[data-frame-slide]:hover,
+    .js .doc-card:hover:not(:has([data-frame-slide]:hover)) {
+      z-index: 6;
+      transform: translate3d(0, -12px, 0);
+      scale: 1.042 1.048;
+      box-shadow:
+        0 32px 64px -14px rgba(103, 0, 255, 0.44),
+        0 16px 32px -12px rgba(13, 8, 20, 0.2),
+        inset 0 12px 24px rgba(255, 255, 255, 0.96),
+        inset 0 -18px 34px -6px rgba(143, 77, 255, 0.28),
+        inset 0 0 26px rgba(183, 155, 255, 0.22);
+    }
+
+    /* Pre-lifted featured center cards pull 12px higher than their resting -10px offset */
+    .js [data-stage-frames].is-staged .pn-stat--featured[data-frame-slide]:hover,
+    .js [data-stage-frames].is-staged .pc-featured[data-frame-slide]:hover {
+      transform: translate3d(0, -22px, 0);
+      scale: 1.044 1.05;
+    }
+
+    /* Wide showcase frames bloat proportionally so they never clip outer container margins */
+    .js [data-stage-frames].is-staged .wk-card--wide[data-frame-slide]:hover,
+    .js [data-stage-frames].is-staged .ba[data-frame-slide]:hover,
+    .js [data-stage-frames].is-staged.doc-figure[data-frame-slide]:hover,
+    .js .doc-card:hover:not(:has([data-frame-slide]:hover)) {
+      transform: translate3d(0, -10px, 0);
+      scale: 1.024 1.03;
+    }
+
+    /* Dark & violet frames: deep glowing violet drop-shadow + pressurized lavender-violet inner dome */
+    .js [data-stage-frames].is-staged [data-frame-slide][data-shine='dark']:hover,
+    .js [data-stage-frames].is-staged[data-frame-slide][data-shine='dark']:hover {
+      box-shadow:
+        0 36px 70px -12px rgba(103, 0, 255, 0.66),
+        0 18px 38px -10px rgba(13, 8, 20, 0.78),
+        inset 0 14px 28px -6px rgba(226, 214, 255, 0.44),
+        inset 0 -22px 38px -8px rgba(103, 0, 255, 0.52),
+        inset 0 0 30px rgba(183, 155, 255, 0.25);
+    }
   }
 
   /* Focused yet ultra-soft, non-sharp diffused light ray (9-stop Gaussian bell curve) */
@@ -810,7 +856,7 @@
       translate: 0 0 0;
     }
 
-    /* Frames slide smoothly in from left or right on delayed arrival */
+    /* Frames slide smoothly in from left or right on delayed arrival, plus elastic balloon hover physics */
     .js [data-stage-frames] [data-frame-slide='left'],
     .js [data-stage-frames][data-frame-slide='left'] {
       opacity: 0;
@@ -818,7 +864,9 @@
       transition:
         opacity 0.84s cubic-bezier(0.16, 1, 0.3, 1) calc(160ms + var(--fi, 0) * 130ms),
         translate 1.06s cubic-bezier(0.16, 1, 0.3, 1) calc(160ms + var(--fi, 0) * 130ms),
-        transform 0.24s var(--ease-expo);
+        transform 0.52s cubic-bezier(0.22, 1.4, 0.36, 1),
+        scale 0.58s cubic-bezier(0.22, 1.58, 0.36, 1),
+        box-shadow 0.46s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .js [data-stage-frames] [data-frame-slide='right'],
@@ -828,7 +876,16 @@
       transition:
         opacity 0.84s cubic-bezier(0.16, 1, 0.3, 1) calc(160ms + var(--fi, 0) * 130ms),
         translate 1.06s cubic-bezier(0.16, 1, 0.3, 1) calc(160ms + var(--fi, 0) * 130ms),
-        transform 0.24s var(--ease-expo);
+        transform 0.52s cubic-bezier(0.22, 1.4, 0.36, 1),
+        scale 0.58s cubic-bezier(0.22, 1.58, 0.36, 1),
+        box-shadow 0.46s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .js .doc-card {
+      transition:
+        transform 0.52s cubic-bezier(0.22, 1.4, 0.36, 1),
+        scale 0.58s cubic-bezier(0.22, 1.58, 0.36, 1),
+        box-shadow 0.46s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .js [data-stage-frames].is-staged [data-frame-slide],
