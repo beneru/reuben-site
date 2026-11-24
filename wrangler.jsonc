@@ -3,7 +3,7 @@
   "name": "beneru",
   "main": "worker/index.ts",
   "compatibility_date": "2026-11-01",
-  "workers_dev": true,
+  "workers_dev": false,
   "observability": { "enabled": true },
 
   // Astro builds static pages into ./dist. The Worker only runs for /api/*.
