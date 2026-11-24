@@ -4,9 +4,9 @@ import { WORK_BUILDS } from '../data/work';
 
 /* One metric per build, each traceable to verifiedFacts in work.ts. */
 const metrics: Record<string, { value: string; label: string }> = {
-  'meta-dm-qualifier': { value: '83', label: 'end-to-end checks passing' },
-  'brand-dna-creative-pipeline': { value: '1 URL', label: 'in, 5 compressed Instagram assets out' },
-  'multi-agent-marketing-brain': { value: '5', label: 'channels from one idea, used daily' },
+  'meta-dm-qualifier': { value: '83', label: 'automated tests passed' },
+  'brand-dna-creative-pipeline': { value: '1 link', label: 'in, 5 ready-to-post Instagram visuals out' },
+  'multi-agent-marketing-brain': { value: '5', label: 'social platforms from one idea, used daily' },
 };
 
 const tones: Record<string, string> = {
@@ -44,7 +44,7 @@ const tones: Record<string, string> = {
       style="right: clamp(28px, 5.5vw, 110px); top: 8%;"
     >
       <span class="float-pill__dot"></span>
-      Dry-Run Safe
+      Tested Before Launch
     </span>
   </div>
 
@@ -72,7 +72,7 @@ const tones: Record<string, string> = {
                   <span class="wk-metric__label">{metrics[build.slug].label}</span>
                 </p>
               )}
-              <span class="wk-read">Read the breakdown <span aria-hidden="true">&rarr;</span></span>
+              <span class="wk-read">See how it works <span aria-hidden="true">&rarr;</span></span>
             </div>
             <div class={`wk-media ${idx === 0 ? 'wk-media--shot' : 'wk-media--diagram'}`}>
               <img

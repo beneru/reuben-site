@@ -185,7 +185,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
 export const HERO_COPY: HeroCopy = {
   headline: "Marketing shouldn't run on manual hustle",
   subtitle:
-    'I design and build AI systems for content workflows, inbound DM qualification, and lead routing so business owners stop doing it by hand.',
+    'I build AI systems that turn one idea into posts, reply to your DMs, and send ready buyers straight to you, so you stop doing it all by hand.',
   primaryCtaLabel: 'Book a Call',
   secondaryCtaLabel: 'See the Work',
   secondaryCtaHref: '/#work',
@@ -200,20 +200,20 @@ export const PROOF_NUMBERS_COPY: ProofNumbersCopy = {
   stats: [
     {
       value: '3',
-      label: 'systems built and documented, each with its own proof page',
+      label: 'real systems built and ready to inspect, each with its own walkthrough',
       sourceLabel: 'See all three',
       href: '/#work',
     },
     {
       value: '83',
-      label: 'automated end-to-end checks passing on the Meta DM workers',
-      sourceLabel: 'Meta DM Qualifier',
+      label: 'automated tests passed on our Instagram and Facebook DM system',
+      sourceLabel: 'DM Auto-Reply System',
       href: '/work/meta-dm-qualifier/',
     },
     {
       value: '5',
-      label: 'channels from one approved idea, in daily use',
-      sourceLabel: 'Marketing Brain',
+      label: 'social platforms fed from one idea, used every day',
+      sourceLabel: 'Content Planning System',
       href: '/work/multi-agent-marketing-brain/',
     },
   ],
@@ -251,21 +251,21 @@ export const PROBLEM_CARDS: readonly ProblemCardItem[] = [
 ];
 
 export const FLAGSHIP_COPY: FlagshipCopy = {
-  kicker: 'Flagship build',
-  heading: 'The build that proved the approach',
-  lead: 'Leads ask real questions in Instagram and Facebook DMs. This engine answers from your actual business rules, never invents a price, and steps aside the moment you type.',
+  kicker: 'Featured build',
+  heading: 'The DM system that follows your rules',
+  lead: 'People ask real questions in your Instagram and Facebook DMs. This system answers using your real business info, never makes up prices, and pauses the moment you jump in.',
   facts: [
-    '83 automated end-to-end checks passing',
-    'Pauses itself on any thread you answer by hand',
-    'Every webhook signature-checked before a reply goes out',
+    '83 automated tests passing',
+    'Pauses itself on any chat you answer by hand',
+    'Checks every message so no customer gets a double reply',
   ],
-  status: 'Dry run, pending Meta App Review',
+  status: 'In testing (waiting on Meta approval)',
   beforeLabel: 'Before',
   beforeNote: 'Answering by hand (illustration)',
   afterLabel: 'After',
-  afterNote: 'Private dashboard, dry-run demo data',
+  afterNote: 'Private dashboard, test demo data',
   sliderLabel: 'Compare the manual inbox with the system dashboard',
-  linkLabel: 'Read the technical breakdown',
+  linkLabel: 'See how it works',
   href: '/work/meta-dm-qualifier/',
 };
 
@@ -275,11 +275,11 @@ export const PILLARS_COPY: PillarsCopy = {
   pillars: [
     {
       title: 'I build the systems.',
-      text: 'Cloudflare Workers, Meta Graph API webhooks and Python pipelines, written, tested and documented before anything touches a real customer.',
+      text: 'Every automation is custom-built, tested, and written down in plain English before it ever talks to a real customer.',
       bullets: [
-        { icon: 'shield', text: 'Webhooks verified and deduplicated, so no lead gets two replies' },
-        { icon: 'eye', text: 'Dry-run mode by default, so you read every reply before it goes live' },
-        { icon: 'doc', text: 'Technical write-ups your team can run without me' },
+        { icon: 'shield', text: 'Built-in safety checks so no customer ever gets a double reply' },
+        { icon: 'eye', text: 'Test mode first, so you review replies before going live' },
+        { icon: 'doc', text: 'Simple guides so your team can run it without me' },
       ],
       image: {
         src: '/assets/proof/meta-dm-architecture.svg',
@@ -291,11 +291,11 @@ export const PILLARS_COPY: PillarsCopy = {
     },
     {
       title: 'And I run the marketing.',
-      text: 'As Marketing Head and Co-Founder of Spawntel, I plan the content these systems carry, so the automation says the right thing to the right person.',
+      text: 'As Marketing Head and Co-Founder of Spawntel, I plan the message behind the tech, so your automation says the right thing to the right buyer.',
       bullets: [
-        { icon: 'funnel', text: 'Funnel gaps checked before chasing more reach' },
-        { icon: 'layers', text: 'One idea adapted natively for five channels' },
-        { icon: 'buyer', text: "Every brief critiqued from the buyer's side before production" },
+        { icon: 'funnel', text: 'We fix what turns viewers into buyers before chasing more views' },
+        { icon: 'layers', text: 'One strong idea turned into posts for five social platforms' },
+        { icon: 'buyer', text: "Every post is reviewed from a customer's point of view before it's made" },
       ],
       image: {
         src: '/images/founder/reuben-outdoor.webp',
@@ -310,82 +310,82 @@ export const PILLARS_COPY: PillarsCopy = {
 
 export const SYSTEMS_SECTION_COPY: SectionHeadingCopy = {
   pill: 'Systems',
-  heading: 'Fix one bottleneck, then scale the stack',
-  lead: 'Scope first, then build. Tell us where marketing time is leaking and our team at Spawntel will map the workflow that fits.',
+  heading: 'Fix your biggest time-waster first',
+  lead: 'Tell us where you lose the most time in marketing, and our team at Spawntel will map out the right system before we build a thing.',
 };
 
 export const SYSTEM_TIER_CARDS: readonly SystemTierCard[] = [
   {
     badge: 'Content',
-    title: 'AI Content Workflows',
-    subtitle: 'One brief or live URL turned into 5-channel assets.',
+    title: 'Content Systems',
+    subtitle: 'Turn one idea or website link into posts for 5 platforms.',
     ctaPlacement: 'systems-content',
     bullets: [
-      'Live URL Brand DNA extraction',
-      '5-channel native content cascades',
-      'Compressed WebP visual assets',
-      'Structured brief and asset manifests',
+      'Pulls your brand colors, voice, and style from your site',
+      'Adapts one idea for IG, FB, LinkedIn, X, and Threads',
+      'Fast, lightweight visuals ready to post',
+      'Organized folders with captions, images, and posting notes',
     ],
   },
   {
     badge: 'Most Requested',
-    title: 'Inbound DM Systems',
-    subtitle: 'Official Meta Graph API replies with human takeover.',
+    title: 'DM & Comment Auto-Reply',
+    subtitle: 'Safe Instagram and Facebook replies that pause when you step in.',
     featured: true,
     ctaPlacement: 'systems-dm',
     bullets: [
-      'IG and FB DM and comment webhooks',
-      'Strict pricing and business-rule guardrails',
-      'Automatic pause on manual owner reply',
-      'Private lead dashboard and CSV export',
+      'Handles Instagram and Facebook DMs and comments',
+      'Follows your exact rules and never makes up prices',
+      'Pauses automatically the moment you reply yourself',
+      'Simple lead dashboard with one-click spreadsheet export',
     ],
   },
   {
     badge: 'Full Stack',
-    title: 'Marketing Ops & Funnel',
-    subtitle: 'Multi-agent production and conversion web pages.',
+    title: 'Full Marketing Setup',
+    subtitle: 'Your content system, brand rules, and fast web pages in one place.',
     ctaPlacement: 'systems-ops',
     bullets: [
-      'Shared brand brain and content ledger',
-      'Planning-to-creative handoff workflow',
-      'Fast edge pages on Cloudflare',
-      'UTM and click-placement alerts',
+      'One shared guide for your brand voice and posting history',
+      'Clean handoff from content ideas to finished visuals',
+      'Fast-loading landing pages built to book calls',
+      'Instant alerts when visitors click to book',
     ],
   },
 ];
 
 export const PROCESS_SECTION_COPY: SectionHeadingCopy = {
   pill: 'How it works',
-  heading: 'From messy workflow to running system',
+  heading: 'How we get your system running',
 };
 
 export const PROCESS_STEPS: readonly ProcessStepItem[] = [
   {
     step: '01',
     title: 'Free 30-minute call',
-    text: 'You tell us where content, DMs, or lead follow-up are breaking right now.',
+    text: 'You tell us where content, DMs, or follow-ups are taking up too much of your time.',
   },
   {
     step: '02',
-    title: 'Map the real workflow',
-    text: 'I look at how your marketing actually moves today before automating a single step.',
+    title: 'Map how you work today',
+    text: 'I look at how your marketing actually runs right now before automating anything.',
   },
   {
     step: '03',
-    title: 'Build with guardrails',
-    text: 'Strict brand rules, dry-run checks, and human takeover pauses come built in.',
+    title: 'Build with safety rules',
+    text: 'Brand rules, test mode, and instant human takeover come built in from day one.',
   },
   {
     step: '04',
-    title: 'Document and hand over',
-    text: 'You get working infrastructure, clean docs, and a system your team can actually run.',
+    title: 'Hand over with simple guides',
+    text: 'You get a working system, clear guides, and a setup your team can run on their own.',
   },
 ];
 
 export const WORK_SECTION_COPY: SectionHeadingCopy = {
   pill: 'The Work',
-  heading: "Systems I've actually shipped",
-  lead: 'Three builds, each documented down to its guardrails. Open any of them to see how it works.',
+  heading: "Systems I've built",
+  lead: 'Three real systems with safety rules built in. Click any one to see how it works.',
 };
 
 export const FOUNDER_COPY: FounderCopy = {
@@ -407,9 +407,9 @@ export const FOUNDER_COPY: FounderCopy = {
   ],
   principlesHeading: 'How I work',
   principles: [
-    'Understand the workflow first, then automate it.',
-    'Build guardrails so AI never invents prices or traps buyers in a bot loop.',
-    'Show working systems, not slide-deck promises.',
+    'Understand how you work first, then automate it.',
+    'Add safety rules so AI never makes up prices or traps customers in a bot loop.',
+    'Show real working systems, not empty promises.',
   ],
   photos: [
     {
@@ -432,7 +432,7 @@ export const FOUNDER_COPY: FounderCopy = {
 export const CTA_COPY: CtaCopy = {
   id: 'contact',
   pill: 'Get Started',
-  accessibleTitle: 'Ready to systemize your marketing for good?',
+  accessibleTitle: 'Ready to stop doing marketing by hand?',
   barPrompt: 'Pick a time for a free 30-minute call on Spawntel',
   primaryCtaLabel: 'Book a Call',
   secondaryCtaLabel: 'Message on Instagram',
@@ -452,9 +452,9 @@ export const FOOTER_COPY: FooterCopy = {
     { label: 'Credentials', href: '/#credentials' },
   ],
   buildLinks: [
-    { label: 'Meta DM Qualifier', href: '/work/meta-dm-qualifier/' },
-    { label: 'Brand DNA Pipeline', href: '/work/brand-dna-creative-pipeline/' },
-    { label: 'Marketing Brain', href: '/work/multi-agent-marketing-brain/' },
+    { label: 'DM Auto-Reply System', href: '/work/meta-dm-qualifier/' },
+    { label: 'Post Generator', href: '/work/brand-dna-creative-pipeline/' },
+    { label: 'Content Planning System', href: '/work/multi-agent-marketing-brain/' },
   ],
   copyrightHolder: 'Beneru (Reuben Magallanes)',
 };

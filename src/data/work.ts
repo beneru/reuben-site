@@ -44,7 +44,7 @@ export interface WorkBuild {
 export const WORK_BUILDS: readonly WorkBuild[] = [
   {
     slug: 'meta-dm-qualifier',
-    title: 'Rule-Safe Meta DM & Comment Qualification Engine',
+    title: 'Instagram & Facebook DM Auto-Reply System',
     category: 'Inbound Lead Systems',
     year: 2026,
     statusLabel: 'Test-verified infrastructure (Dry-run pending Meta App Review)',
@@ -139,7 +139,7 @@ export const WORK_BUILDS: readonly WorkBuild[] = [
   },
   {
     slug: 'brand-dna-creative-pipeline',
-    title: 'Brand-DNA-to-Campaign Creative Engine',
+    title: 'Website-to-Social-Post Generator',
     category: 'Content Systems',
     year: 2026,
     statusLabel: 'Verified end-to-end on beneru.spawntel.com',
@@ -203,7 +203,7 @@ export const WORK_BUILDS: readonly WorkBuild[] = [
   },
   {
     slug: 'multi-agent-marketing-brain',
-    title: 'Multi-Agent Marketing Planning & Production System',
+    title: '5-Platform Content Planning System',
     category: 'AI Direction',
     year: 2026,
     statusLabel: 'Active daily system for Beneru and Spawntel',
